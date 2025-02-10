@@ -1,0 +1,293 @@
+
+>>>>> Original Question: 该公司在2019年的半年度报告中未调整的**合并报表**净利润是多少？
+
+
+>>>>> 【user】 Said:
+下面是已知的事实:
+'''
+大唐国际发电股份有限公司关联信息有多组:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是4874;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd.;SecuCode(证券代码)是601991;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7103091;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd. Class H;SecuCode(证券代码)是DIPGF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7088264;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd. Class A;SecuCode(证券代码)是DIPFF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7071231;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd. Sponsored ADR Class H;SecuCode(证券代码)是DIPGY;]
+'''
+下面是顺序的历史问答:
+'''
+Question: 大唐国际发电股份有限公司在什么时候成立的？回复时给我YYYY-MM-DD的格式
+Answer: 1994-12-13
+Question: 该公司在2019年的半年度报告中未调整的**合并报表**营业总成本是多少？
+Answer: 42839424000.0元
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：该公司在2019年的半年度报告中未调整的**合并报表**净利润是多少？
+
+>>>>> Agent【rewrite_question】 Said:
+大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是多少？请以数字形式回答。
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是多少？请以数字形式回答。"
+
+>>>>> Agent【extract_company】 Said:
+```json
+["大唐国际发电股份有限公司", "3848"]
+```
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '大唐国际发电股份有限公司'
+   OR ChiName LIKE '%大唐国际发电股份有限公司%'
+   OR ChiNameAbbr LIKE '%大唐国际发电股份有限公司%'
+   OR EngName LIKE '%大唐国际发电股份有限公司%'
+   OR EngNameAbbr LIKE '%大唐国际发电股份有限公司%'
+   OR SecuAbbr LIKE '%大唐国际发电股份有限公司%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%大唐国际发电股份有限公司%'
+   OR ChiName LIKE '%大唐国际发电股份有限公司%'
+   OR ChiNameAbbr LIKE '%大唐国际发电股份有限公司%'
+   OR EngName LIKE '%大唐国际发电股份有限公司%'
+   OR EngNameAbbr LIKE '%大唐国际发电股份有限公司%'
+   OR SecuAbbr LIKE '%大唐国际发电股份有限公司%'
+   OR FormerName LIKE '%大唐国际发电股份有限公司%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '大唐国际发电股份有限公司'
+   OR ChiName LIKE '%大唐国际发电股份有限公司%'
+   OR EngName LIKE '%大唐国际发电股份有限公司%'
+   OR SecuAbbr LIKE '%大唐国际发电股份有限公司%';
+查询结果:
+[{"TableName": "constantdb.secumain", "InnerCode": 4874, "CompanyCode": 3848, "ChiName": "大唐国际发电股份有限公司", "EngName": "Datang International Power Generation Co., Ltd.", "SecuCode": "601991"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7103091, "CompanyCode": 3848, "ChiName": "大唐国际发电股份有限公司", "EngName": "Datang International Power Generation Co., Ltd. Class H", "SecuCode": "DIPGF"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7088264, "CompanyCode": 3848, "ChiName": "大唐国际发电股份有限公司", "EngName": "Datang International Power Generation Co., Ltd. Class A", "SecuCode": "DIPFF"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7071231, "CompanyCode": 3848, "ChiName": "大唐国际发电股份有限公司", "EngName": "Datang International Power Generation Co., Ltd. Sponsored ADR Class H", "SecuCode": "DIPGY"}]
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '3848'
+   OR ChiName LIKE '%3848%'
+   OR ChiNameAbbr LIKE '%3848%'
+   OR EngName LIKE '%3848%'
+   OR EngNameAbbr LIKE '%3848%'
+   OR SecuAbbr LIKE '%3848%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%3848%'
+   OR ChiName LIKE '%3848%'
+   OR ChiNameAbbr LIKE '%3848%'
+   OR EngName LIKE '%3848%'
+   OR EngNameAbbr LIKE '%3848%'
+   OR SecuAbbr LIKE '%3848%'
+   OR FormerName LIKE '%3848%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '3848'
+   OR ChiName LIKE '%3848%'
+   OR EngName LIKE '%3848%'
+   OR SecuAbbr LIKE '%3848%';
+查询结果:
+[]
+
+>>>>> 已知事实:
+大唐国际发电股份有限公司关联信息有多组:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是4874;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd.;SecuCode(证券代码)是601991;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7103091;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd. Class H;SecuCode(证券代码)是DIPGF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7088264;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd. Class A;SecuCode(证券代码)是DIPFF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7071231;CompanyCode(公司代码)是3848;ChiName(中文名称)是大唐国际发电股份有限公司;EngName(英文名称)是Datang International Power Generation Co., Ltd. Sponsored ADR Class H;SecuCode(证券代码)是DIPGY;]
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户询问的是大唐国际发电股份有限公司（公司代码3848）在2019年半年度报告中的未调整合并报表净利润。这属于财务数据范畴，因此需要查找包含财务报表数据的数据库。
+
+【选中的数据库】
+- astockfinancedb: 这个数据库记录了上市公司的财务指标、财务报表等详细数据，包括利润分配表等信息。
+
+【选中的数据库的清单】
+```json
+["astockfinancedb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockfinancedb.lc_ashareseasonednewissue", "说明": "该数据表主要记录证券发行及相关信息，涵盖以下几大类内容：**基本信息**包括证券内部编码、发行股票类型、发行目的等；**时间信息**如首次信息发布日期、预案发布日期、股东大会决议公告日期、发行日期上下限、承销期上下限、募集资金到帐时间等；**价格信息**包括发行价区间（上限、下限）、实际发行价、承销商指导价格、市盈率（加权平均、全面摊薄等）、价格调整相关字段等；**发行量信息**如发行量上下限、超额配售权、网上网下发行股数、原股东优先配售股数、法人网下配售股数等；**申购及配售信息**包括网上申购代码、申购简称、申购单位、有效申购总量与户数、中签率、配售比例等；**费用信息**如发行费用总额、承销费用、律师费用、资产评估费用、每股发行费用等；**资金信息**如募集资金总额、净额、到帐金额及相关分项（货币、非货币、资产、债权等）；**股东及控股股东信息**如优先配售比例、认购方式、认购数量与比例等；**预测与变动**包括盈利预测、方案变动说明、变动原因、预案价格与基准价格比例等；**公告及审批信息**如证监会批准公告日、方案变动公告日、最新预案公布日期等；**其他信息**如面值、零股处理方法、认购邀请书发送日、是否简易程序等。该表全面涵盖了证券发行的各个环节及相关信息。"}, {"表名": "astockfinancedb.lc_ashareplacement", "说明": "该数据表涉及证券配股的各个方面，涵盖了从初始信息发布到配股完成的整个过程。字段包括基本信息如证券内部编码、首次信息发布日期、配股年度和发行股票类型；时间节点信息如预案发布日期、股东大会决议公告日期、决案公布日、配股说明书刊登日期、配股上市日及相关公告日期；定价和比例信息如定价方式、配股价格确定方式说明、计划和实际配股比例及数量、配股价格上下限和每股配股价格；费用和资金信息如发行费用、承销费用、各类中介机构费用、实际募集资金、募集资金净额及到帐金额；股东和配股对象信息如配股对象、配股对象类别、大股东认配说明及持股5%以上大股东的持股和认配情况；其他重要信息如转配比、转配股、零股处理方法、方案变动说明、承销方式、余股包销数量、公众股东认配情况、计划和实际募集资金总额、配股基准日及配股完成后的每股净资产和收益。该表还记录了各类审批通过日期及事件进程等信息。"}, {"表名": "astockfinancedb.lc_dividend", "说明": "该数据表主要记录证券分红相关信息，涵盖了基本标识信息如证券内部编码和日期；分红方案的详细内容，包括是否分红、每股收益、送股比例、转增股比例、派现金额（含税和税后，人民币和外币）、分红股本基数及送转后总股本等；分红实施的关键时间节点，如预案发布日期、股东大会决议公告日期、股权登记日、除权除息日、红利到账日、分红发放起止日等；分红的对象和金额分布，包括A股和B股的派现金额（人民币和外币），以及公司合计派现金额；方案变更相关信息，如变更前后的分红方案、变更原因及说明；分红执行的其他信息，如利润分配次数、主要分配形式、上下限金额、事件进程及描述等；计算除权价用的调整比例和金额；以及其他辅助信息如方案类型、分红意向公布日、议案编号、最新信息发布日期和备注说明等，全面反映了证券分红的各个方面。"}, {"表名": "astockfinancedb.lc_capitalinvest", "说明": "该数据表包含多方面的信息，涉及公司基础信息如公司代码，以及与募资相关的详细内容，包括募资方式、募资投向项目名称、项目内容、计划和实际投入金额以及截至日期。它还涵盖了项目进展和收益的说明，投向行业和领域等信息。表中记录了改投相关的内容，如是否改投、改投项目及金额。此外，关于收购兼并的细节也被详细描述，包括收购类型、资产的账面价值、评估价值、价格、权益比例，以及项目出让方的相关信息如与出让方的关系、相关股票、企业性质等。收购标的的名称和企业性质也在其中列出。信息的来源和发布时间则通过首次信息发布日期和信息发布日期进行记录。"}, {"表名": "astockfinancedb.lc_balancesheetall", "说明": "该数据表主要涵盖了企业财务及业务信息，分为多个类别：基础信息如信息发布日期、信息来源、公告类别等；时间与调整信息如日期、是否调整、是否合并等；会计与企业属性信息如会计准则、工业企业类型等；资产类信息包括流动资产（如货币资金、应收账款、存货等）、非流动资产（如固定资产、无形资产、长期投资等），以及特殊项目和调整项目；负债类信息包含流动负债（如短期借款、应付账款、预收款项等）、非流动负债（如长期借款、递延所得税负债等），以及负债特殊项目和调整项目；权益类信息包括股东权益（如实收资本、资本公积、盈余公积等）、少数股东权益，以及所有者权益特殊项目和调整项目；金融及投资信息如交易性金融资产、债权投资、权益工具投资等；其他信息包括合同资产与负债、保险合同准备金、租赁资产与负债等；综合类信息如总资产、总负债及股东权益合计等。此外，还包含一些字段的特殊说明、分类汇总及调整字段。"}, {"表名": "astockfinancedb.lc_incomestatementall", "说明": "该数据表涵盖了全面的企业财务和经营信息，主要分为以下几类：基本信息如信息发布日期、信息来源、公司代码等；会计和企业分类信息如会计准则、工业企业类型等；收入和成本信息，包括营业收入、营业总成本、营业利润、非经营性净收益等具体细分项，如利息收入、手续费收入、保费收入、营业税金、管理费用等；利润相关信息，如净利润、归属于母公司和少数股东的净利润、综合收益总额等；资产和负债信息，如资产减值损失、信用减值损失、保险责任准备金等；股东权益类信息，如每股收益、其他综合收益等；特殊项目调整信息，用于反映各类收入、成本、利润和综合收益的特殊或调整项；其他专项收入与支出，如基金管理业务收入、担保业务收入、勘探费用等；此外，还包含一些未分类字段和特殊说明字段，全面支持企业财务分析和信息披露需求。"}, {"表名": "astockfinancedb.lc_cashflowstatementall", "说明": "该数据表主要记录企业财务及运营相关信息，涵盖多个维度的字段。基础信息包括信息发布日期、信息来源、公告类别等；企业属性如公司代码、会计准则、工业企业类型等。财务数据方面，详细记录了现金流相关信息，包括经营活动、投资活动、筹资活动的现金流入、流出及净额，以及特殊项目和调整项目；还包括现金及现金等价物的期初、期末余额及变动情况。收入与支出部分，涉及销售商品、提供劳务、税费返还、利息收入与支出、投资收益、资产处置收益等；成本费用方面，记录了税费支付、职工薪酬、资产折旧与摊销、财务费用等。投资与融资活动中，涵盖了投资支付、借款、债券发行、股利分配等数据。其他补充信息包括净利润及其归属、资产减值准备、递延所得税、存货变化、应收应付款变化、信用减值损失等。此外，还有与金融资产、金融负债、代理业务、回购业务等相关的明细字段，以及一些特殊项目和调整项目，用于对现金流和财务数据进行补充说明，反映企业的全面财务状况。"}, {"表名": "astockfinancedb.lc_intassetsdetail", "说明": "该数据表包含多个字段，涵盖基础信息、研发投入、人员构成及核心技术相关数据。基础信息包括内部编码、公司代码、信息发布日期、信息来源编码及截止日期；状态标识类字段包括是否合并及是否调整；研发投入相关字段包括费用化研发投入、资本化研发投入、研发投入合计及其占营业收入比例，同时还包括资本化研发投入占比；人员构成方面有研发人员数量及占比、核心技术人员数量及占比；核心技术相关数据则包括核心技术营业收入及其占比。这些字段全面记录了企业在研发投入及核心技术方面的资源配置和产出情况。"}, {"表名": "astockfinancedb.lc_mainoperincome", "说明": "该数据表主要用于记录和分析公司在特定日期的经营项目财务信息。字段包括公司标识信息如公司代码；时间信息如日期、日期类型、信息发布日期；数据来源信息如信息来源、信息来源编码；合并与调整状态如合并标志、是否调整；分类与显示信息如分类方式、显示序号、所属层级、上级科目名称；经营项目相关信息如经营项目名称、所属行业、地区与业务性质；财务数据包括主营业务收入、主营业务成本、主营业务利润及其同比变化、毛利率及其同比变化和上年同期数据；其他信息如货币单位。通过这些字段，用户可以分析公司的主营业务表现及其变化趋势。"}, {"表名": "astockfinancedb.lc_operatingstatus", "说明": "该数据表记录了与企业经营相关的关键信息，包含公司代码、日期等基础信息，用于标识企业和时间节点；信息来源与信息发布日期字段记录了数据的出处及发布时间，以确保信息的可靠性和时效性；经营述评字段则提供了对企业经营情况的详细描述，为分析和决策提供支持。"}, {"表名": "astockfinancedb.lc_auditopinion", "说明": "该数据表主要记录与公司审计相关的信息，包含公司标识如公司代码、所属机构等，时间信息如日期、信息发布日期，审计相关内容如会计师事务所、注册会计师、审计意见类型及其全文、审计报告类型，以及信息来源等字段。"}, {"表名": "astockbasicinfodb.lc_stockarchives", "说明": "该数据表主要记录了公司的基本信息、联系方式、经营信息及证券信息等内容。其中，公司基本信息包括公司代码、国别、中文名称、法人代表、总经理、法律顾问、会计师事务所、公司成立日期、首次注册登记地点、企业法人营业执照注册号、所属区县及地区代码；联系方式涵盖联系人电话、传真、电子邮箱，公司注册地址、办公地址、联系地址及其对应的邮编，董秘及证券事务代表的电话、传真、电子邮件，以及公司邮箱和网址；经营信息涉及公司所属证监会行业、主营及兼营范围；证券信息包括A股、B股、H股及CDR证券的简称和代码，扩位简称，以及尚未盈利标识、特殊表决权标识、协议控制架构标识、红筹企业标识；此外，还包括信息披露相关内容如披露网址、披露报纸，以及公司简介等。"}, {"表名": "astockbasicinfodb.lc_namechange", "说明": "该数据表主要记录公司基本信息及相关公告，包括公司代码、中文及英文名称（全称与缩写）、信息来源和发布日期等基本信息；还涵盖重要事件如股东大会决议公告日期、是否否决决议、全称更改日期等关键时间节点，便于追踪企业动态与重要决策信息。"}, {"表名": "astockbasicinfodb.lc_business", "说明": "该数据表主要用于记录公司基本信息及相关业务情况，包括公司代码、信息发布日期和来源等基础信息；股东大会决议公告日期及是否否决的决议结果等决策信息；经营范围及主要业务、产品名称等经营信息；涉及行业的分类信息，如行业代码、行业类别及涉足行业等；此外，还包括简称变更原因等补充说明字段。"}, {"表名": "hkstockdb.hk_employeechange", "说明": "该数据表主要记录证券相关信息，包括证券内部代码、信息发布日期与来源等基本信息；股东大会公告日期及相关生效与失效日期等时间信息；是否有效的状态标识；以及变更前后员工数量的对比等数据。"}, {"表名": "hkstockdb.hk_stockarchives", "说明": "该数据表主要记录公司基本信息及相关属性，涵盖了公司标识信息如公司代码、中文名称、企业类别及描述等；成立及注册信息如公司成立日期、注册地、注册资本及其货币单位等；行业分类信息如所属行业（港交所、恒生）等；管理层信息如主席、公司秘书、合资格会计师等；办公及运营信息如注册办事处、总办事处及主要营业地点、股份过户处（香港）等；联系方式如电话、传真、邮箱、公司网址等；以及其他信息如公司业务、公司简介、审计机构等，全面反映了公司的基本情况和运营特征。"}, {"表名": "hkstockdb.cs_hkstockperformance", "说明": "该数据表主要用于记录证券交易及相关指标的详细信息，涵盖了基础信息如证券内部编码、交易日、货币代码等；价格信息包括昨收盘、今开盘、最高价、最低价、收盘价、均价、复权最高价及最低价等；成交信息如成交量、成交金额、换手率等；涨跌信息包括涨跌金额、涨跌幅、振幅等；市值信息如总市值、流通市值等；周期指标覆盖近一周、本周、近一月、本月、近三个月、近六个月、近一年及今年以来的成交、涨跌、振幅、换手率、均价、市值等详细数据，且提供各周期的日均指标；此外，还包含上市以来的复权价格及其对应日期等。"}, {"表名": "usstockdb.us_companyinfo", "说明": "该数据表主要记录公司的基本信息，包括公司标识信息如公司代码、英文名称及其缩写、中文名称；地址信息如公司地址、城市、省份、邮编、国家及国家代码；联系方式如电话、传真；公司描述信息如公司简介、英文公司简介、英文业务简介；注册地信息如注册地国家、注册地省份/州；其他信息如成立日期及其精度、公司类型、是否公司总部，以及链接地址等。"}, {"表名": "usstockdb.us_dailyquote", "说明": "该数据表记录了证券交易的详细信息，包括交易日和证券内部代码用于标识交易记录，开盘价、最高价、最低价和收盘价用于描述当天的价格波动，成交量和成交额反映市场活跃程度，每股收益TTM和证券总市值提供了盈利能力和规模的财务指标，证券总股本用于计算市场相关比率，昨收盘和日涨跌则用于分析价格变动趋势，涨跌幅百分比和均价提供了额外的市场表现信息。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要查询大唐国际发电股份有限公司（公司代码3848）在2019年半年度报告中的未调整合并报表净利润，我们需要找到包含公司财务报表数据的表。根据表名和说明，`astockfinancedb.lc_incomestatementall` 表涵盖了全面的的企业财务和经营信息，包括净利润等字段，且包含是否调整和是否合并的信息，适合用于查询未调整的合并报表净利润。
+
+【选中的数据表】
+- astockfinancedb.lc_incomestatementall: 该数据表包含企业财务和经营信息，包括净利润、是否调整、是否合并等字段，适合查询未调整的合并报表净利润。
+
+【选中的数据库表的清单】
+```json
+["astockfinancedb.lc_incomestatementall"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockfinancedb.lc_incomestatementall", "表字段": [{"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "BulletinType", "desc": "公告类别；公告类别(BulletinType)与(CT_SystemConst)表中的DM字段关联，令LB = 1311 and DM IN (10,20,30,70)，得到公告类别的具体描述：10-发行上市书，20-定期报告，30-业绩快报，70-临时公告。"}, {"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "EndDate", "desc": "日期"}, {"column": "IfAdjusted", "desc": "是否调整；是否调整(IfAdjusted)与(CT_SystemConst)表中的DM字段关联，令LB = 1188 AND DM IN (1,2,4,5)，得到是否调整的具体描述：1-是，2-否，4-否(7-9月)，5-是(7-9月)。"}, {"column": "IfMerged", "desc": "是否合并；是否合并（IfMerged），该字段固定以下常量：1-合并报表；2-母公司报表"}, {"column": "AccountingStandards", "desc": "会计准则"}, {"column": "EnterpriseType", "desc": "工业企业类型"}, {"column": "TotalOperatingRevenue", "desc": "一、营业总收入"}, {"column": "OperatingRevenue", "desc": "一、营业收入；营业总收入（TotalOperatingRevenue）：对非金融类公司（报表格式类型=99），营业总收入=营业收入＋金融类特殊收入项目＋其他业务收入，注：“金融类特殊收入项目”包括：利息收入、手续费及佣金收入、已赚保费、营业收入特殊项目、调整项目"}, {"column": "NetInterestIncome", "desc": "利息净收入；利息净收入（NetInterestIncome）：一般为金融类企业披露科目；本字段优先展示收入模块披露的“利息净收入”，当原文未披露时，且IfComplete=1时，则通过收入模块披露的“其中:利息收入”、“其中:利息支出”计算得出，计算公式=其中:利息收入-其中:利息支出；"}, {"column": "InterestIncome", "desc": "其中:利息收入(元)；其中:利息收入（InterestIncome）：一般为金融类企业披露科目"}, {"column": "InterestExpense", "desc": "其中:利息支出(元)；其中:利息支出（InterestExpense）：一般为金融类企业披露科目；本字段展示收入模块、成本模块披露的“其中：利息支出”合计值；"}, {"column": "NetCommissionIncome", "desc": "手续费及佣金净收入；手续费及佣金净收入（NetCommissionIncome）：一般为金融类企业披露科目;本字段优先展示收入模块披露的“手续费及佣金净收入”，当原文未披露时，且IfComplete=1时，则通过收入模块披露的“其中:手续费及佣金收入”、“其中:手续费及佣金支出”计算得出，计算公式=其中:手续费及佣金收入-其中:手续费及佣金支出；"}, {"column": "CommissionIncome", "desc": "手续费收入(元)；其中:手续费及佣金收入（CommissionIncome）：一般为金融类企业披露科目"}, {"column": "CommissionExpense", "desc": "手续费支出(元)；其中:手续费及佣金支出（CommissionExpense）：一般为金融类企业披露科目；本字段展示收入模块、成本模块“其中:手续费及佣金支出”合计值；"}, {"column": "NetProxySecuIncome", "desc": "其中:代理买卖证券业务净收入；其中:代理买卖证券业务净收入（NetProxySecuIncome）：一般为金融类:证券公司披露科目"}, {"column": "NetSubIssueSecuIncome", "desc": "其中:证券承销业务净收入"}, {"column": "NetTrustIncome", "desc": "其中:受托客户资产管理业务净收入(元)；其中:受托客户资产管理业务净收入（NetTrustIncome）：一般为金融类:证券公司披露科目"}, {"column": "PremiumsEarned", "desc": "已赚保费(元)；已赚保费（PremiumsEarned）：一般为金融类:保险公司披露科目"}, {"column": "PremiumsIncome", "desc": "保险业务收入(元)；其中:保险业务收入（PremiumsIncome）：一般为金融类:保险公司披露科目"}, {"column": "ReinsuranceIncome", "desc": "其中:分保费收入；其中:保险业务收入:分保费收入（ReinsuranceIncome）：一般为金融类:保险公司披露科目"}, {"column": "Reinsurance", "desc": "减:分出保费(元)；其中:减:分出保费（Reinsurance）：一般为金融类:保险公司披露科目"}, {"column": "UnearnedPremiumReserve", "desc": "未到期责任准备金；其中:减:提取未到期责任准备金（UnearnedPremiumReserve）：一般为金融类:保险公司披露科目"}, {"column": "OtherOperatingRevenue", "desc": "其他营业收入"}, {"column": "SpecialItemsOR", "desc": "##营业收入特殊项目(元)"}, {"column": "AdjustmentItemsOR", "desc": "##营业收入调整项目"}, {"column": "TotalOperatingCost", "desc": "二、营业总成本；营业总成本（TotalOperatingCost）：对非金融类公司（企业性质=99），营业总成本=营业成本＋营业税金及附加＋销售费用＋管理费用合计＋研发费用＋财务费用＋勘探费用＋信用减值损失(成本)＋资产减值损失(成本)＋其他成本＋金融类特殊成本项目（注：“金融类特殊成本项目”：保险手续费及佣金支出、退保金、提取保费准备金、提取期货风险准备金、提取担保业务准备金、提取担保赔偿准备金、赔付支出净额、提取保险责任准备金净额、保单红利支出、分保费用等)＋##营业支出OR营业总成本特殊项目＋##营业支出OR营业总成本调整项目；对金融类公司（企业性质不等于99），营业总成本=营业支出"}, {"column": "OperatingPayout", "desc": "营业支出(元)"}, {"column": "RefundedPremiums", "desc": "退保金；退保金（RefundedPremiums）：一般为金融类:保险公司披露科目"}, {"column": "CompensationExpense", "desc": "赔付支出；其中:赔付支出（CompensationExpense）：一般为金融类:保险公司披露科目"}, {"column": "AmortizationExpense", "desc": "减:摊回赔付支出；其中:减:摊回赔付支出（AmortizationExpense）：一般为金融类:保险公司披露科目"}, {"column": "PremiumReserve", "desc": "提取保险责任准备金(元)；其中:提取保险责任准备金（PremiumReserve）：一般为金融类:保险公司披露科目"}, {"column": "AmortizationPremiumReserve", "desc": "减:摊回保险责任准备金；其中:减:摊回保险责任准备金（AmortizationPremiumReserve）：一般为金融类:保险公司披露科目"}, {"column": "PolicyDividendPayout", "desc": "保单红利支出；保单红利支出（PolicyDividendPayout）：一般为金融类:保险公司披露科目"}, {"column": "ReinsuranceCost", "desc": "分保费用(元)；分保费用（ReinsuranceCost）：一般为金融类:保险公司披露科目"}, {"column": "OperatingAndAdminExpense", "desc": "业务及管理费；其中:业务及管理费（OperatingAndAdminExpense）：一般为金融类企业披露科目"}, {"column": "AmortizationReinsuranceCost", "desc": "减:摊回分保费用；其中:减:摊回分保费用（AmortizationReinsuranceCost）：一般为金融类:保险公司披露科目"}, {"column": "InsuranceCommissionExpense", "desc": "保险手续费及佣金支出；保险手续费及佣金支出（InsuranceCommissionExpense）：一般为金融类:保险公司披露科目"}, {"column": "OtherOperatingCost", "desc": "其他业务成本"}, {"column": "OperatingCost", "desc": "减:营业成本(元)"}, {"column": "OperatingTaxSurcharges", "desc": "营业税金及附加"}, {"column": "OperatingExpense", "desc": "营业费用(元)"}, {"column": "AdministrationExpense", "desc": "管理费用(元)"}, {"column": "FinancialExpense", "desc": "财务费用(元)"}, {"column": "AssetImpairmentLoss", "desc": "资产减值损失；资产减值损失（AssetImpairmentLoss）：根据财政部发布的《关于修订印发2019年度一般企业财务报表格式的通知》格式，“资产减值损失”不隶属于营业总成本部分。因企业披露不一致性，经研究，从2020.07.08披露的2020年半年报开始，字段数值按照原文披露展示，历史报告期维持原有规则。"}, {"column": "SpecialItemsTOC", "desc": "##营业支出特殊项目(元)"}, {"column": "AdjustmentItemsTOC", "desc": "##营业总成本调整项目"}, {"column": "OtherNetRevenue", "desc": "三、非经营性净收益；非经营性净收益（OtherNetRevenue）：聚源计算合计项，仅针对非金融类公司。计算公式=其他收益＋投资净收益＋汇兑收益＋净敞口套期收益+公允价值变动净收益+信用减值损失(利润)+资产减值损失(利润)+资产处置收益+##营业利润特殊项目+##营业利润调整项目 注：对金融类公司，“特别收益/收入”下列示的项目：公允价值变动净收益、净敞口套期收益、其他收益、投资净收益、汇兑收益、资产处置收益属于“营业收入”的子项目"}, {"column": "FairValueChangeIncome", "desc": "公允价值变动净收益"}, {"column": "InvestIncome", "desc": "加:投资净收益(元)"}, {"column": "InvestIncomeAssociates", "desc": "其中:对联营合营企业的投资收益"}, {"column": "ExchangeIncome", "desc": "汇兑收益(元)"}, {"column": "OtherItemsEffectingOP", "desc": "##加:影响营业利润的其他科目"}, {"column": "AdjustedItemsEffectingOP", "desc": "##加:影响营业利润的调整项目"}, {"column": "OperatingProfit", "desc": "二、营业利润(元)"}, {"column": "NonoperatingIncome", "desc": "营业外收入(元)"}, {"column": "NonoperatingExpense", "desc": "减：营业外支出(元)"}, {"column": "NonCurrentAssetssDealLoss", "desc": "其中:非流动资产处置净损失"}, {"column": "OtherItemsEffectingTP", "desc": "##加:影响利润总额的其他科目"}, {"column": "AdjustedItemsEffectingTP", "desc": "##加:影响利润总额的调整项目"}, {"column": "TotalProfit", "desc": "利润总额(元)"}, {"column": "IncomeTaxCost", "desc": "减:所得税(元)"}, {"column": "UncertainedInvestmentLosses", "desc": "加:未确认的投资损失"}, {"column": "OtherItemsEffectingNP", "desc": "##加:影响净利润的其他科目"}, {"column": "AdjustedItemsEffectingNP", "desc": "##加:影响净利润的调整项目"}, {"column": "NetProfit", "desc": "四、净利润(元)"}, {"column": "NPParentCompanyOwners", "desc": "归属于母公司所有者的净利润"}, {"column": "MinorityProfit", "desc": "少数股东损益(元)"}, {"column": "OtherItemsEffectingNPP", "desc": "##加:影响母公司净利润的特殊项目"}, {"column": "AdjustedItemsEffectingNPP", "desc": "##加:影响母公司净利润的调整项目"}, {"column": "OtherCompositeIncome", "desc": "其他综合收益"}, {"column": "AdjustedItemsEffectingCI", "desc": "##加:影响综合收益总额的调整项目"}, {"column": "TotalCompositeIncome", "desc": "七、综合收益总额"}, {"column": "CIParentCompanyOwners", "desc": "归属于母公司所有者的综合收益总额"}, {"column": "CIMinorityOwners", "desc": "归属于少数股东的综合收益总额"}, {"column": "AdjustedItemsEffectingPCI", "desc": "##加:影响母公司综合收益总额的调整项目"}, {"column": "BasicEPS", "desc": "基本每股收益(元/股)"}, {"column": "DilutedEPS", "desc": "稀释每股收益(元/股)"}, {"column": "SpecialFieldRemark", "desc": "特殊字段说明"}, {"column": "IfComplete", "desc": "完整标志；完整标志(IfComplete)与(CT_SystemConst)表中的DM字段关联，令LB = 1444，得到完整标志的具体描述：1-完整报表，2-简表，3-个别字段修正报表。"}, {"column": "OCIParentCompanyOwners", "desc": "归属于母公司所有者的其他综合收益总额"}, {"column": "OCINotInIncomeStatement", "desc": "#以后不能重分类进损益表的其他综合收益"}, {"column": "OCIReMearsure", "desc": "1.1重新计量设定收益计划净负债或净资产的变动(元)"}, {"column": "OCIEquityNotInIS", "desc": "##权益法下在被投资单位不能重分类进损益表的其他综合收益中享有的份额"}, {"column": "OCIInIncomeStatement", "desc": "#以后能重分类进损益表的其他综合收益"}, {"column": "OCIEquityInIS", "desc": "2.1权益法下在被投资单位以后将重分类进损益表的其他综合收益中享有的份额(元)"}, {"column": "OCIFairValue", "desc": "2.2可供出售金融资产公允价值变动损益(元)"}, {"column": "OCIToMaturityFA", "desc": "2.3持有至到期投资重分类为可供出售金融资产损益(元)"}, {"column": "OCICFLoss", "desc": "2.4现金流量套期损益的有效部分(元)"}, {"column": "OCIForeignCurrencyFSA", "desc": "WBCWNCFL"}, {"column": "OCIOthers", "desc": "2.6其他(以后能重分类进损益表的其他综合收益)(元)"}, {"column": "OCIMinorityOwners", "desc": "归属于少数股东的其他综合收益总额"}, {"column": "OtherRevenue", "desc": "其他收益"}, {"column": "AssetDealIncome", "desc": "资产处置收益"}, {"column": "OperSustCateg", "desc": "(一)按经营持续性分类"}, {"column": "OperSustNetP", "desc": "持续经营净利润"}, {"column": "DisconOperNetP", "desc": "终止经营净利润"}, {"column": "OwnershipCateg", "desc": "(二)按所有权归属分类"}, {"column": "PreInsurRSRV", "desc": "提取保费准备金；提取保费准备金（PreInsurRSRV）：一般为金融类:保险公司披露科目"}, {"column": "NetClaimIncurred", "desc": "赔付支出净额；赔付支出净额（NetClaimIncurred）：一般为金融类:保险公司披露科目"}, {"column": "NetPremiumReserve", "desc": "提取保险责任准备金净额；提取保险责任准备金净额（NetPremiumReserve）：一般为金融类:保险公司披露科目"}, {"column": "AmortisedcostIncome", "desc": "以摊余成本计量的金融资产终止确认收益"}, {"column": "InfoSourceCode", "desc": "信息来源编码"}, {"column": "SalesRevenue", "desc": "其中:主营业务收入"}, {"column": "OtherOperatingIncome", "desc": "其中:其他业务收入"}, {"column": "GuaranteeIncome", "desc": "其中:担保业务收入；担保业务收入（GuaranteeIncome）：一般为金融类:担保公司披露科目"}, {"column": "BrokerageIncome", "desc": "其中:手续费及佣金收入:经纪业务手续费收入；其中:手续费及佣金收入:经纪业务手续费收入（BrokerageIncome）：一般为金融类:证券公司披露科目"}, {"column": "InvestBankIncome", "desc": "其中:手续费及佣金收入:投资银行业务手续费收入；手续费及佣金收入：投资银行业务手续费收入 — 一般为金融类：证券公司披露科目。"}, {"column": "AssetManageIncome", "desc": "其中:手续费及佣金收入:资产管理业务手续费收入；手续费及佣金收入：资产管理业务手续费收入 — 一般为金融类：证券公司披露科目。"}, {"column": "FundManageIncome", "desc": "其中:手续费及佣金收入:基金管理业务手续费收入；手续费及佣金收入：基金管理业务手续费收入 — 一般为金融类：证券公司披露科目。"}, {"column": "InvestConsultIncome", "desc": "其中:手续费及佣金收入:投资咨询业务收入；手续费及佣金收入：投资咨询业务收入 — 一般为金融类：证券公司披露科目。"}, {"column": "RiskManageIncome", "desc": "其中:手续费及佣金收入:风险管理业务收入；手续费及佣金收入：风险管理业务收入 — 一般为金融类：证券公司披露科目。"}, {"column": "InvestManageIncome", "desc": "其中:手续费及佣金收入:投资管理业务收入；手续费及佣金收入：投资管理业务收入 — 一般为金融类：证券公司披露科目。"}, {"column": "OtherAgencyIncome", "desc": "其中:手续费及佣金收入:其他代理业务收入；手续费及佣金收入：其他代理业务收入 — 一般为金融类：证券公司披露科目。"}, {"column": "BrokerageExpense", "desc": "其中:手续费及佣金支出:经纪业务手续费支出；其中:手续费及佣金支出:经纪业务手续费支出（BrokerageExpense）：一般为金融类:证券公司披露科目；本字段展示收入模块、成本模块“其中:手续费及佣金支出:经纪业务手续费支出”合计值；"}, {"column": "InvestBankExpense", "desc": "其中:手续费及佣金支出:投资银行业务手续费支出；其中:手续费及佣金支出:投资银行业务手续费支出（InvestBankExpense）：一般为金融类企业披露科目；本字段展示收入模块、成本模块披露的“其中:手续费及佣金支出:投资银行业务手续费”合计值"}, {"column": "AssetManageExpense", "desc": "其中:手续费及佣金支出:资产管理业务手续费支出；其中:手续费及佣金支出:资产管理业务手续费支出（AssetManageExpense）：一般为金融类:证券公司披露科目；本字段展示收入模块、成本模块“其中:手续费及佣金支出:资产管理业务手续费”合计值；"}, {"column": "FundManageExpense", "desc": "其中:手续费及佣金收入:基金管理业务手续费支出；手续费及佣金收入：基金管理业务手续费支出 — 一般为金融类：证券公司披露科目。展示收入模块、成本模块“其中:手续费及佣金支出:基金管理业务手续费”合计值。"}, {"column": "InvestConsultExpense", "desc": "其中:手续费及佣金支出:投资咨询业务支出；手续费及佣金支出：投资咨询业务支出 — 一般为金融类：证券公司披露科目。展示收入模块、成本模块“其中:手续费及佣金支出:投资咨询业务支出”合计值。"}, {"column": "RiskManageExpense", "desc": "其中:手续费及佣金支出:风险管理业务支出；手续费及佣金支出：风险管理业务支出 — 一般为金融类：证券公司披露科目。展示收入模块、成本模块“其中:手续费及佣金支出:风险管理业务支出”合计值。"}, {"column": "InvestManageExpense", "desc": "其中:手续费及佣金支出:投资管理业务支出；手续费及佣金支出：投资管理业务支出 — 一般为金融类：证券公司披露科目。展示收入模块、成本模块“其中:手续费及佣金支出:投资管理业务支出”合计值。"}, {"column": "OtherAgencyExpense", "desc": "其中:手续费及佣金支出:其他代理业务支出；手续费及佣金支出：其他代理业务支出 — 一般为金融类：证券公司披露科目。展示收入模块、成本模块“其中:手续费及佣金支出:其他代理业务支出”合计值。"}, {"column": "NetFundMgtIncome", "desc": "其中:基金管理业务手续费净收入"}, {"column": "ExtractFutureRisk", "desc": "提取期货风险准备金；提取期货风险准备金（ExtractFutureRisk）：一般为金融类:期货公司披露科目"}, {"column": "WithdrawGuaranteeReser", "desc": "提取担保业务准备金；提取担保业务准备金（WithdrawGuaranteeReser）：一般为金融类:担保公司披露科目"}, {"column": "GuarantCompRSRV", "desc": "提取担保赔偿准备金；提取担保赔偿准备金（GuarantCompRSRV）：一般为金融类:担保公司披露科目"}, {"column": "SalesCost", "desc": "其中:主营业务成本"}, {"column": "OtherOperationalCost", "desc": "其中:其他业务成本"}, {"column": "TotalAdminExpense", "desc": "管理费用合计"}, {"column": "ExplorationCost", "desc": "勘探费用"}, {"column": "CreditImpairmentP", "desc": "信用减值损失(利润)"}, {"column": "AssetImpairmentLossP", "desc": "资产减值损失(利润)"}, {"column": "NPCParentCompanyOwners", "desc": "其中:归属于母公司普通股股东的净利润"}, {"column": "NPOtherEqinstruments", "desc": "其中:归属于母公司其他权益工具持有者的净利润"}, {"column": "OtherItemsEffectingCI", "desc": "##综合收益总额特殊项目"}, {"column": "CICParentCompanyOwners", "desc": "其中:归属于母公司普通股股东的综合收益"}, {"column": "CIOtherEqinstruments", "desc": "其中:归属于母公司其他权益工具持有者的综合收益"}, {"column": "OthDebtInvesChange", "desc": "其他权益工具投资合计"}, {"column": "InterestIncomeFin", "desc": "其中:利息收入(财务费用)；其中:利息收入(财务费用)(InterestIncomeFin)： 1、当原文披露的实际数值为收入项，则统一展示为“负值”； 2、当原文披露的实际数值为减项，则统一展示为“正值”；"}, {"column": "CreditImpairmentL", "desc": "信用减值损失(成本)；信用减值损失（CreditImpairmentL）：根据财政部发布的《关于修订印发2019年度一般企业财务报表格式的通知》格式，“信用减值损失”不隶属于营业总成本部分。因企业披露不一致性，经研究，从2020.07.08披露的2020年半年报开始，字段数值按照原文披露展示，历史报告期维持原有规则。"}, {"column": "NetOpenHedgeIncome", "desc": "No description available"}, {"column": "OthEquFVChange", "desc": "No description available"}, {"column": "FinAssetROtherCI", "desc": "No description available"}, {"column": "OtherDebtInvestCIP", "desc": "No description available"}, {"column": "RAndD", "desc": "No description available"}, {"column": "InterestFinExp", "desc": "No description available"}, {"column": "CorporateCRChange", "desc": "No description available"}]}, {"表名": "hkstockdb.hk_stockarchives", "表字段": [{"column": "CompanyCode", "desc": "公司代码"}, {"column": "EstablishmentDate", "desc": "公司成立日期"}, {"column": "RegAbbr", "desc": "注册地；注册地点(RegAbbr)与(CT_SystemConst)表中的DM字段关联，令LB = 1023，得到注册地点的具体描述：3-中国港澳台，4-中东地区，7-国际，100-亚洲，101-阿富汗，102-巴林，103-孟加拉国，104-不丹，105-文莱，106-缅甸，107-柬埔寨，108-塞浦路斯，109-朝鲜，110-中国香港，111-印度，112-印度尼西亚，113-伊朗，114-伊拉克，115-以色列，116-日本，117-约旦，118-科威特，119-老挝，120-黎巴嫩，121-中国澳门，122-马来西亚，123-马尔代夫，124-蒙古，125-尼泊尔，126-阿曼，127-巴基斯坦，128-巴勒斯坦，129-菲律宾，130-卡塔尔，131-沙特阿拉伯，132-新加坡，133-韩国，134-斯里兰卡，135-叙利亚，136-泰国，137-土耳其，138-阿拉伯联合酋长国，139-也门共和国，141-越南，142-中国，143-中国台湾，144-东帝汶，199-亚洲其他，200-非洲，201-阿尔及利亚，202-安哥拉，203-贝宁，204-博茨瓦那，205-布隆迪，206-喀麦隆，207-加那利群岛，208-佛得角，209-中非，210-塞卜泰(休达)，211-乍得，212-科摩罗，213-刚果，214-吉布提，215-埃及，216-赤道几内亚，217-埃塞俄比亚，218-加蓬，219-冈比亚，220-加纳，221-几内亚，222-几内亚(比绍)，223-科特迪瓦，224-肯尼亚，225-利比里亚，226-利比亚，227-马达加斯加，228-马拉维，229-马里，230-毛里塔尼亚，231-毛里求斯，232-摩洛哥，233-莫桑比克，234-纳米比亚，235-尼日尔，236-尼日利亚，237-留尼汪，238-卢旺达，239-圣多美和普林西比，240-塞内加尔，241-塞舌尔，242-塞拉利昂，243-索马里，244-南非，245-西撒哈拉，246-苏丹，247-坦桑尼亚，248-多哥，249-突尼斯，250-乌干达，251-布基纳法索，252-扎伊尔，253-赞比亚，254-津巴布韦，255-莱索托，256-梅利利亚，257-斯威士兰，258-厄立特里亚，259-马约特岛，260-刚果民主共和国，299-非洲其他，300-欧洲，301-比利时，302-丹麦，303-英国，304-德国，305-法国，306-爱尔兰，307-意大利，308-卢森堡，309-荷兰，310-希腊，311-葡萄牙，312-西班牙，313-阿尔巴尼亚，314-安道尔，315-奥地利，316-保加利亚，318-芬兰，320-直布罗陀，321-匈牙利，322-冰岛，323-列支敦士登，324-马耳他，325-摩纳哥，326-挪威，327-波兰，328-罗马尼亚，329-圣马力诺，330-瑞典，331-瑞士，334-爱沙尼亚，335-拉脱维亚，336-立陶宛，337-格鲁吉亚，338-亚美尼亚，339-阿塞拜疆，340-白俄罗斯，341-哈萨克斯坦，342-吉尔吉斯，343-摩尔多瓦，344-俄罗斯，345-塔吉克斯坦，346-土库曼斯坦，347-乌克兰，348-乌兹别克斯坦，349-南斯拉夫联盟共和国，350-斯洛文尼亚共和国，351-克罗地亚共和国，352-捷克共和国，353-斯洛伐克共和国，354-前南斯拉夫马其顿共和国，355-波斯尼亚-黑塞哥维那共和国，356-法罗群岛，357-梵蒂冈城国，358-塞尔维亚和黑山，359-塞尔维亚共和国，360-黑山共和国，361-苏联，399-欧洲其他，400-拉丁美洲，401-安提瓜和巴布达，402-阿根廷，403-阿鲁巴岛，404-巴哈马，405-巴巴多斯，406-伯利兹，408-玻利维亚，409-博内尔，410-巴西，411-开曼群岛，412-智利，413-哥伦比亚，414-多米尼克，415-哥斯达黎加，416-古巴，417-库腊索岛，418-多米尼加共和国，419-厄瓜多尔，420-法属圭亚那，421-格林纳达，422-瓜德罗普，423-危地马拉，424-圭亚那，425-海地，426-洪都拉斯，427-牙买加，428-马提尼克，429-墨西哥，430-蒙特塞拉特，431-尼加拉瓜，432-巴拿马，433-巴拉圭，434-秘鲁，435-波多黎各，436-萨巴，437-圣卢西亚，438-圣马丁岛，439-圣文森特和格林纳丁斯，440-萨尔瓦多，441-苏里南，442-特立尼达和多巴哥，443-特克斯和凯科斯群岛，444-乌拉圭，445-委内瑞拉，446-英属维尔京群岛，447-圣其茨--尼维斯，448-荷属安地列斯群岛，499-拉丁美洲其他，500-北美洲，501-加拿大，502-美国，503-格陵兰，504-百慕大，505-泽西岛，599-北美洲其他，600-大洋洲，601-澳大利亚，602-库克群岛，603-斐济，604-盖比群岛，605-马克萨斯群岛，606-瑙鲁，607-新喀里多尼亚，608-瓦努阿图，609-新西兰，610-诺福克岛，611-巴布亚新几内亚，612-社会群岛，613-所罗门群岛，614-汤加，615-土阿莫土群岛，616-土布艾群岛，617-萨摩亚，618-基里巴斯，619-图瓦卢，620-密克罗尼西亚联邦，621-马绍尔群岛共和国，622-贝劳共和国，623-帕劳共和国，624-瓦利斯和浮图纳，625-法属波利尼西亚，626-圣皮埃尔和密克隆，699-大洋洲其他，701-国(地)别不详的，702-联合国和其他国际组织，703-亚太经济合作组织，704-东南亚国家联盟，705-欧洲联盟，706-独立国家联合体，707-经济合作与发展组织(OECD)，708-经合组织北美，709-经合组织亚洲大洋洲，710-经合组织欧洲，711-欧英EFTA，901-欧元区，903-欧盟15国，905-欧盟25国，906-欧盟27国，907-欧盟其他，909-全球。"}, {"column": "Business", "desc": "公司业务"}, {"column": "InduCHKE", "desc": "所属行业-港交所；所属行业-港交所（InduCHKE）:目前字段在该表已经不维护。"}, {"column": "InduCHS", "desc": "所属行业-恒生；所属行业-恒生（InduCHS）：目前字段在该表已经不维护，可以在 港股公司行业划分表HK_ExgIndustry获取到对应的行业分类。"}, {"column": "Chairman", "desc": "主席"}, {"column": "CompanySecretary", "desc": "公司秘书"}, {"column": "CertifiedAccountant", "desc": "合资格会计师"}, {"column": "RegisteredOffice", "desc": "注册办事处"}, {"column": "GeneralOffice", "desc": "总办事处及主要营业地点"}, {"column": "Registrars", "desc": "股份过户处(香港)"}, {"column": "Tel", "desc": "电话"}, {"column": "Fax", "desc": "传真"}, {"column": "Eail", "desc": "邮箱"}, {"column": "Website", "desc": "公司网址"}, {"column": "BriefIntroduction", "desc": "公司简介"}, {"column": "CompanyType", "desc": "企业类别；公司类别(CompanyType)与(CT_SystemConst)表中的DM字段关联，令LB = 1501，得到公司类别的具体描述：1-境内注册内地国资控制，2-境内注册内地个人控制，5-境外注册内地国资控制，6-境外注册内地个人控制，9-其他。"}, {"column": "CompanyTypeDesc", "desc": "公司类别描述"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "AuditInstitution", "desc": "审计机构"}, {"column": "RegCapital", "desc": "注册资本(元)"}, {"column": "RegCapitalCurrency", "desc": "注册资本货币单位；注册资本货币单位(RegCapitalCurrency)与(CT_SystemConst)表中的DM字段关联，令LB = 1548，得到注册资本货币单位的具体描述：1000-美元，1100-港元，1110-印度卢比，1120-印度尼西亚卢比，1130-伊朗里亚尔，1140-波兰兹罗提，1150-匈牙利福林，1160-日本元，1161-欧洲日元(离岸)，1170-约旦第纳尔，1180-科威特第纳尔，1190-阿联酋迪拉姆，1200-亚美尼亚德拉姆，1210-澳门元，1220-马来西亚林吉特，1230-安第列斯群岛盾，1240-安哥拉宽扎，1250-尼泊尔卢比，1260-哈萨克斯坦坚戈，1270-巴基斯坦卢比，1280-阿鲁巴岛弗罗林，1290-菲律宾比索，1300-阿塞拜疆马纳特，1310-波斯尼亚马克，1320-新加坡元，1330-韩国元，1340-孟加拉塔卡，1350-百慕大元，1360-泰国铢，1370-沙特里亚尔，1380-文莱林吉特，1390-不丹努尔特鲁姆，1400-博茨瓦纳普拉，1410-白俄罗斯卢布，1420-人民币元，1430-台湾元，1440-伯利兹元，1450-南苏丹镑，1460-世界投资报告法郎，1470-佛得角埃斯库多，1480-厄立特里亚纳克法，1490-埃塞俄比亚比尔，1500-福克兰群岛镑，1510-格鲁吉亚拉里，1520-直布罗陀镑，1530-克罗地亚库纳，1540-以色列新谢克尔，1550-吉尔吉斯斯坦索姆，1560-开曼群岛元，1570-莱索托马洛蒂，1580-摩尔多瓦列伊，1590-马其顿第纳尔，1600-蒙古图格里克，1610-马拉维克瓦查，1620-梅蒂卡尔，1630-纳米比亚元，1640-巴布亚新几内亚基那，1650-塞尔维亚第纳尔，1660-圣赫勒拿群岛磅，1670-圣多美和普林西比多布拉，1680-太平洋法郎，1690-非共体法郎，1700-斯威士兰里兰吉尼，1710-塔吉克斯坦索莫尼，1720-土库曼斯坦马纳特，1730-汤加潘加，1740-乌克兰格里夫纳，1750-乌兹别克斯坦苏姆，1760-瓦努阿图瓦图，1770-萨摩亚塔拉，1780-中非金融合作法郎，1790-东加勒比元，1800-哈萨克斯坦腾格(废弃)，1810-人民币(离岸)，2470-坦桑尼亚先令，3000-欧元，3010-比利时法郎，3020-丹麦克朗，3030-英镑，3040-德国马克，3050-法国法郎，3070-意大利里拉，3090-荷兰盾，3120-西班牙比塞塔，3150-奥地利先令，3180-芬兰马克，3260-挪威克朗，3300-瑞典克朗，3310-瑞士法郎，3311-记帐瑞士法郎，3313-清算瑞士法郎，3440-俄罗斯卢布，4100-巴西雷亚尔，4290-墨西哥比索，5010-加拿大元，6010-澳大利亚元，6090-新西兰元，7101-刚果法郎，7103-尼日利亚奈拉，7105-越南盾，7107-肯尼亚先令，7109-卢森堡法郎，7111-摩洛哥迪拉姆，7113-南非兰特，7115-斯里兰卡卢比，7117-新苏丹磅，7119-也门里亚尔(废弃)，7121-爱尔兰镑，8000-阿尔巴尼亚列克，8010-阿尔及利亚第纳尔，8020-阿富汗尼，8030-阿根廷比索，8040-也门里亚尔，8050-阿曼里亚尔，8060-埃及镑，8070-巴巴多斯元，8080-巴哈马元，8090-巴拉圭瓜拉尼，8100-巴林第纳尔，8110-巴拿马巴波亚，8120-保加利亚列弗，8130-冰岛克朗，8140-波兰兹罗提(废弃)，8150-玻利维亚诺，8160-布隆迪法郎，8170-朝鲜圆，8180-赤道几内亚埃奎勒，8190-多米尼加比索，8200-厄瓜多尔苏克雷，8210-斐济元，8220-冈比亚法拉西，8230-哥伦比亚比索，8240-哥斯达黎加科朗，8250-古巴比索，8260-圭亚那元，8270-海地古德，8280-洪都拉斯伦皮拉，8290-吉布提法郎，8300-几内亚法郎，8310-几内亚比索，8320-加纳塞地，8330-柬埔寨瑞尔，8340-捷克克朗，8350-津巴布韦元，8360-卡塔尔里亚尔，8370-科摩罗法郎，8380-老挝基普，8390-黎巴嫩镑，8400-利比里亚元，8410-利比亚第纳尔，8420-卢旺达法郎，8430-罗马尼亚列伊，8440-马达加斯加阿里亚里，8450-马尔代夫卢比，8460-马耳他镑，8470-毛里求斯卢比，8480-毛里塔尼亚乌吉亚，8490-秘鲁新索尔，8500-缅甸元，8510-也门第纳尔，8520-南斯拉夫新第纳尔，8530-尼加拉瓜科多巴，8540-埃斯库多，8550-萨尔瓦多科朗，8560-塞拉里昂利昂，8570-塞浦路斯镑，8580-塞舌尔卢比，8590-沙特阿拉伯亚尔(废弃)，8600-苏里南元，8610-所罗门元，8620-索马里先令，8630-特立尼达多巴哥元，8640-突尼斯第纳尔，8650-土耳其里拉，8660-危地马拉格查尔，8670-委内瑞拉玻利瓦尔，8680-乌干达先令，8690-乌拉圭新比索，8700-希腊德拉马克，8710-匈牙利福林(废弃)，8720-叙利亚镑，8730-牙买加元，8740-伊拉克第纳尔，8750-赞比亚克瓦查，8760-扎伊尔，8770-智利比索，8780-玻利维亚Mvdol基金，8790-智利CUF基金，8800-哥伦比亚实际价值单位，8810-古巴可兑换比索，8820-墨西哥UDI基金，8830-莫桑比克梅蒂卡尔(废弃)，8840-东帝汶埃斯库多，9000-本币(废弃)，9900-其他货币，9901-本地货币，9990-特别提款权，9999-各币种折合美元。"}]}, {"表名": "astockbasicinfodb.lc_stockarchives", "表字段": [{"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "State", "desc": "国别；省份（State）：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到省份具体信息。"}, {"column": "SecretaryBD", "desc": "董事会秘书"}, {"column": "SecuAffairsRepr", "desc": "证券/股证事务代表"}, {"column": "AuthReprSBD", "desc": "董秘授权代表"}, {"column": "ContactTel", "desc": "联系人电话"}, {"column": "ContactFax", "desc": "联系人传真"}, {"column": "ContactEmail", "desc": "联系人电子邮箱"}, {"column": "RegAddr", "desc": "公司注册地址"}, {"column": "RegZipCode", "desc": "公司注册地址邮编"}, {"column": "OfficeAddr", "desc": "公司办公地址"}, {"column": "OfficeZipCode", "desc": "公司办公地址邮编"}, {"column": "ContactAddr", "desc": "公司联系地址"}, {"column": "ConatactZipCode", "desc": "公司联系地址邮编"}, {"column": "Email", "desc": "邮箱"}, {"column": "Website", "desc": "公司网址"}, {"column": "DisclosureWebsites", "desc": "信息披露网址"}, {"column": "DisclosurePapers", "desc": "信息披露报纸"}, {"column": "EstablishmentDate", "desc": "公司成立日期"}, {"column": "IRegPlace", "desc": "首次注册登记地点"}, {"column": "LegalRepr", "desc": "法人代表"}, {"column": "GeneralManager", "desc": "总经理"}, {"column": "LegalConsultant", "desc": "法律顾问"}, {"column": "AccountingFirm", "desc": "会计师事务所"}, {"column": "InduCSRC", "desc": "公司所属证监会行业(聚源)；与(CT_IndustryType)表中的\"行业内部编码(IndustryNum)\"字段关联,当Standard=1时,LB=1；当Standard=22时,LB=22；当Standard=25时,LB=25；当Standard=26时,LB=26。"}, {"column": "BusinessMajor", "desc": "经营范围-主营"}, {"column": "BusinessMinor", "desc": "经营范围-兼营"}, {"column": "AShareAbbr", "desc": "A股证券简称"}, {"column": "AStockCode", "desc": "A股证券代码"}, {"column": "BShareAbbr", "desc": "B股证券简称"}, {"column": "BStockCode", "desc": "B股证券代码"}, {"column": "HShareAbbr", "desc": "H股证券简称"}, {"column": "HStockCode", "desc": "H股证券代码"}, {"column": "BriefIntroText", "desc": "公司简介"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "BusinessRegNumber", "desc": "企业法人营业执照注册号"}, {"column": "SecretaryBDTel", "desc": "董秘电话"}, {"column": "SecretaryBDFax", "desc": "董秘传真"}, {"column": "SecretaryBDEmail", "desc": "董秘电子邮件"}, {"column": "SecuAffairsReprTel", "desc": "证券事务代表电话"}, {"column": "SecuAffairsReprFax", "desc": "证券事务代表传真"}, {"column": "SecuAffairsReprEmail", "desc": "证券事务代表电子邮件"}, {"column": "CityCode", "desc": "地区代码；地区代码(CityCode)：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到城市具体信息。"}, {"column": "CDRShareAbbr", "desc": "CDR证券简称"}, {"column": "CDRStockCode", "desc": "CDR证券代码"}, {"column": "ExtendedAbbr", "desc": "扩位简称"}, {"column": "UnprofitableMark", "desc": "尚未盈利标识；尚未盈利标识（UnprofitableMark）：在上市时发行人尚未盈利的，其股票或存托凭证的特别标识为“U”；发行人首次实现盈利的，该特别标识取消，数据值为空。"}, {"column": "SpecialVoteMark", "desc": "特殊表决权标识；特殊表决权标识（SpecialVoteMark）：在上市时发行人具有表决权差异安排的，其股票或存托凭证的特别标识为“W”；上市后不再具有表决权差异安排的，该特别标识取消，数据值为空。"}, {"column": "VIEMark", "desc": "协议控制架构标识；协议控制架构标识（VIEMark）：在上市时发行人具有协议控制架构或者类似特殊安排的，其股票或存托凭证的特别标识为“V”；上市后不再具有相关安排的，该特别标识取消，数据值为空。"}, {"column": "RedChipMark", "desc": "红筹企业标识；红筹企业标识（RedChipMark）：发行人属于红筹企业，则数据值=”是“；空值则指无此标识。"}, {"column": "RegArea", "desc": "所属区县；所属区县（RegArea）：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到所属区县具体信息。"}]}, {"表名": "usstockdb.us_companyinfo", "表字段": [{"column": "CompanyCode", "desc": "公司代码"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "PEOAddress", "desc": "公司地址"}, {"column": "PEOCity", "desc": "城市"}, {"column": "PEOState", "desc": "省份"}, {"column": "PEOZip", "desc": "邮编"}, {"column": "PEOStatus", "desc": "国家"}, {"column": "PEOTel", "desc": "电话"}, {"column": "BusinessDcrp", "desc": "公司简介"}, {"column": "BriefIntroText", "desc": "公司简介"}, {"column": "EstablishmentDate", "desc": "成立日期"}, {"column": "CompanyType", "desc": "公司类型；公司类型(CompanyType)与(CT_SystemConst)表中的DM字段关联，令LB = 2261，得到公司类型的具体描述：1-美国联邦存款保险公司(FDIC)的银行分支，2-高等院校，3-融资子公司，4-政府，5-控股公司，6-合营企业，7-非盈利性组织，8-上市公司，9-非上市公司，10-子公司，11-已停止经营解散的实体。"}, {"column": "BriefIntroTextEng", "desc": "英文公司简介"}, {"column": "Fax", "desc": "传真"}, {"column": "RegCountry", "desc": "注册地国家；注册地国家（RegCountry）：与“国家城市代码表(LC_AreaCode)”中的“地区内部编码(AreaInnerCode)”关联，得到注册地国家的相关信息。"}, {"column": "RegState", "desc": "注册地省份/州"}, {"column": "BusinessDcrpEng", "desc": "英文业务简介"}, {"column": "IfHeadOffice", "desc": "是否公司总部；是否公司总部(IfHeadOffice)与(CT_SystemConst)表中的DM字段关联，令LB=999 AND DM IN (1,2)，得到是否公司总部的具体描述：1-是，2-否。"}, {"column": "LinkAddress", "desc": "链接地址"}, {"column": "CountryCode", "desc": "国家代码；与“国家城市代码表(LC_AreaCode)”中的“地区内部编码(AreaInnerCode)”关联，得到国家的相关信息。"}, {"column": "EstablishmentDatePreci", "desc": "成立日期精度；成立日期精度(EstablishmentDatePreci)与(CT_SystemConst)表中的DM字段关联，令LB=102 AND DM in (27,28,29)，得到成立日期精度的具体描述：27-年，28-月，29-日。"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是多少。
+
+【信息所在字段】
+- astockfinancedb.lc_incomestatementall.NetProfit: 这个字段包含净利润信息，对应用户提问中的净利润。
+- astockfinancedb.lc_incomestatementall.IfAdjusted: 这个字段包含是否调整的信息，对应用户提问中的未调整。
+- astockfinancedb.lc_incomestatementall.IfMerged: 这个字段包含是否合并的信息，对应用户提问中的合并报表。
+- astockfinancedb.lc_incomestatementall.InfoPublDate: 这个字段包含信息发布日期，用于确认是2019年的半年度报告。
+
+【筛选条件所在字段】
+- astockfinancedb.lc_incomestatementall.CompanyCode: 这个字段包含公司代码，用于筛选出大唐国际发电股份有限公司的报告。
+- astockfinancedb.lc_incomestatementall.BulletinType: 这个字段包含公告类别，用于筛选出半年度报告。
+- astockfinancedb.lc_incomestatementall.EndDate: 这个字段包含日期，用于确认是2019年的报告。
+
+【选中的字段的清单】
+```json
+{"astockfinancedb.lc_incomestatementall": ["NetProfit", "IfAdjusted", "IfMerged", "InfoPublDate", "CompanyCode", "BulletinType", "EndDate"]}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 公司代码为3848的上市公司在astockbasicinfodb.lc_stockarchives表中的成立日期为1994年12月13日12时整（EstablishmentDate: 1994-12-13 12:00:00.000）。
+---
+查询结果表明: 该查询从“astockfinancedb.lc_incomestatementall”表中选取了公司代码为3848、未调整（IfAdjusted=2）、合并报表（IfMerged=1）且信息发布日期在2019年7月1日至2019年12月31日之间的记录，并返回了其中第一条记录的营业总成本（TotalOperatingCost），其值为42839424000.0元。
+
+请问:大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是多少？请以数字形式回答。
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 公司代码：3848
+- 需要查询的年份：2019年
+- 报告类型：半年度报告
+- 是否调整：未调整
+- 报表类型：合并报表
+- 目标字段：净利润（NetProfit）
+
+【当前阶段要获取的信息】
+- 2019年半年度报告中未调整的合并报表净利润
+
+【信息所在字段】
+- `NetProfit`
+
+【筛选条件所在字段】
+- `CompanyCode`
+- `EndDate`
+- `IfAdjusted`
+- `IfMerged`
+- `BulletinType`
+
+【SQL语句的思路】
+- 从`astockfinancedb.lc_incomestatementall`表中选取净利润字段
+- 筛选条件包括公司代码为3848、未调整（IfAdjusted=2）、合并报表（IfMerged=1）
+- 时间范围为2019年半年度（即2019年1月1日至2019年6月30日）
+- 公告类别为定期报告（BulletinType关联后为20）
+
+【执行SQL语句】
+```exec_sql
+SELECT NetProfit 
+FROM astockfinancedb.lc_incomestatementall 
+WHERE CompanyCode = 3848 
+  AND IfAdjusted = 2 
+  AND IfMerged = 1 
+  AND BulletinType = 20 
+  AND EndDate >= '2019-01-01' 
+  AND EndDate <= '2019-06-30' 
+LIMIT 1
+```
+
+【上述SQL语句的含义】
+- 从`astockfinancedb.lc_incomestatementall`表中选择净利润字段
+- 筛选条件包括公司代码为3848、未调整、合并报表、公告类别为定期报告
+- 时间范围为2019年上半年
+- 限制返回结果为1条记录
+
+>>>>> 查询sql:
+SELECT NetProfit 
+FROM astockfinancedb.lc_incomestatementall 
+WHERE CompanyCode = 3848 
+  AND IfAdjusted = 2 
+  AND IfMerged = 1 
+  AND BulletinType = 20 
+  AND EndDate >= '2019-01-01' 
+  AND EndDate <= '2019-06-30' 
+LIMIT 1;
+查询结果:
+[{"NetProfit": 773084000.0}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT NetProfit 
+FROM astockfinancedb.lc_incomestatementall 
+WHERE CompanyCode = 3848 
+  AND IfAdjusted = 2 
+  AND IfMerged = 1 
+  AND BulletinType = 20 
+  AND EndDate >= '2019-01-01' 
+  AND EndDate <= '2019-06-30' 
+LIMIT 1;
+查询结果:
+[{"NetProfit": 773084000.0}]
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 该查询从astockfinancedb.lc_incomestatementall表中选取了公司代码为3848、未调整(IfAdjusted=2)、合并报表(IfMerged=1)、公告类别为定期报告(BulletinType=20)、且日期在2019年1月1日至2019年6月30日之间的记录中的净利润(NetProfit)字段，并返回了第一条记录的净利润值为773084000.0元。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT NetProfit 
+FROM astockfinancedb.lc_incomestatementall 
+WHERE CompanyCode = 3848 
+  AND IfAdjusted = 2 
+  AND IfMerged = 1 
+  AND BulletinType = 20 
+  AND EndDate >= '2019-01-01' 
+  AND EndDate <= '2019-06-30' 
+LIMIT 1;
+查询结果:
+[{"NetProfit": 773084000.0}]
+查询结果表明: 该查询从astockfinancedb.lc_incomestatementall表中选取了公司代码为3848、未调整(IfAdjusted=2)、合并报表(IfMerged=1)、公告类别为定期报告(BulletinType=20)、且日期在2019年1月1日至2019年6月30日之间的记录中的净利润(NetProfit)字段，并返回了第一条记录的净利润值为773084000.0元。
+
+当前掌握的信息是否能够回答"大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是多少？请以数字形式回答。"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 查询结果已返回公司代码为3848的上市公司在2019年半年度报告中未调整的合并报表净利润为773084000.0元。
+
+【当前阶段要获取的信息】
+- 无
+
+【信息所在字段】
+- 无
+
+【筛选条件所在字段】
+- 无
+
+【SQL语句的思路】
+- 无
+
+【执行SQL语句】
+```exec_sql
+无
+```
+
+【上述SQL语句的含义】
+- 无
+
+当前掌握的信息已经能够回答"大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是多少？请以数字形式回答。"，无需继续执行下一阶段SQL查询。
+
+**回答：**
+大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是773084000.0元。
+
+
+>>>>> 【user】 Said:
+请回答问题:"大唐国际发电股份有限公司（公司代码3848）在2019年的半年度报告中未调整的合并报表净利润是多少？请以数字形式回答。"
+
+>>>>> Agent【Sql_query.summary】 Said:
+773084000

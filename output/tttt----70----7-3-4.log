@@ -1,0 +1,238 @@
+
+>>>>> Original Question: 19年的股权变动中涉及股数量最大的一次非专场大宗交易是在哪天正式变动的？（时间回答XXXX-XX-XX）
+
+
+>>>>> 【user】 Said:
+提取下面这段文字中的实体（如公司名、股票代码、拼音缩写等），如果识别结果是空，那么就回复No Entities."19年的股权变动中涉及股数量最大的一次非专场大宗交易是在哪天正式变动的？（时间回答XXXX-XX-XX）"
+
+>>>>> Agent【extract_company】 Said:
+No Entities.
+
+
+>>>>> 【user】 Said:
+下面是顺序的历史问答:
+'''
+Question: 机器人2020年发布的19年年报的大股东是谁
+Answer: 中国科学院沈阳自动化研究所
+Question: 19年一共有多少户股东？
+Answer: 2019年股东总数: 702656户
+Question: 他的流通股本有多少股？
+Answer: 流通股本: 1560239617股
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：19年的股权变动中涉及股数量最大的一次非专场大宗交易是在哪天正式变动的？（时间回答XXXX-XX-XX）
+
+>>>>> Agent【rewrite_question】 Said:
+机器人2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易是在哪天正式变动的？（时间回答格式：XXXX-XX-XX）
+
+>>>>> 已知事实:
+机器人关联信息有多组:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是9363;CompanyCode(公司代码)是77318;ChiName(中文名称)是沈阳新松机器人自动化股份有限公司;EngName(英文名称)是Siasun Robot&Automation Co.,Ltd.;SecuCode(证券代码)是300024;ChiNameAbbr(中文名称缩写)是机器人;EngNameAbbr(英文名称缩写)是SIASUN;SecuAbbr(证券简称)是机器人;ChiSpelling(拼音证券简称)是JQR;],所在数据表是constantdb.secumain;InnerCode(证券内部编码)是112642;CompanyCode(公司代码)是252710;ChiName(中文名称)是科沃斯机器人股份有限公司;EngName(英文名称)是Ecovacs Robotics Co., Ltd.;SecuCode(证券代码)是603486;ChiNameAbbr(中文名称缩写)是科沃斯;EngNameAbbr(英文名称缩写)是ECOVACS;SecuAbbr(证券简称)是科沃斯;ChiSpelling(拼音证券简称)是KWS;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7126761;CompanyCode(公司代码)是108420219;ChiName(中文名称)是小i集团公司;EngName(英文名称)是Xiao-I Corp. ADR;SecuCode(证券代码)是AIXI;ChiNameAbbr是None;EngNameAbbr是None;SecuAbbr(证券简称)是小i机器人;ChiSpelling(拼音证券简称)是XIJQR;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7001481;CompanyCode(公司代码)是7004358;ChiName(中文名称)是None;EngName(英文名称)是Robotool Ltd Com;SecuCode(证券代码)是ROBO;ChiNameAbbr是None;EngNameAbbr是None;SecuAbbr(证券简称)是ROBO全球机器人自动化指数ETF;ChiSpelling(拼音证券简称)是ROBOQQJQRZDHZSETF;]
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询的是2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易的正式变动日期。这涉及到上市公司的股权变动信息，通常这类信息会记录在股东与股本相关的数据库中。
+
+【选中的数据库】
+- astockshareholderdb: 这个数据库记录了上市公司股东、股本及公司治理相关的详细信息，包括股权变动的时间、数量等信息。
+
+【选中的数据库的清单】
+```json
+["astockshareholderdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockshareholderdb.lc_shtypeclassifi", "说明": "该数据表主要用于记录股东及其分类信息，包含股东的唯一标识信息如股东代码和股东编码，股东名称及其所属性质等基本信息，同时提供多级分类结构，涵盖分类标准及一级至四级分类代码，便于对股东进行分层管理和分析。"}, {"表名": "astockshareholderdb.lc_mainshlistnew", "说明": "该数据表主要记录了股东及其持股情况的详细信息，包括公司代码、日期、信息发布日期和来源等基本信息。股东相关信息涵盖股东排名、序号、名称、性质、类别及其编码等。持股信息详细列出了持股总数、持股比例、持股增减情况，以及持有不同类型股票（如A股、B股、H股、普通股及其他类别）的数量和比例。此外，还包括股东性质描述、股权质押和冻结情况及其说明，股东之间的关联关系和一致行动人说明等。证券相关信息有证券代码、简称、所属券商编号及归属机构名称等。备注说明和其他字段提供了进一步的补充信息。"}, {"表名": "astockshareholderdb.lc_shnumber", "说明": "该数据表主要涵盖了公司股东信息的各类数据，包括公司代码、信息发布日期和信息来源等基本信息。股东数据详细记录了股东总户数及各类股东（如A股、B股、H股、CDR股东）的户数和户均持股数，提供了户均持股比例及其相对变化，季度和半年增长率等动态指标。此外，表中还细分了无限售条件股东的数据，包括无限售A股和CDR的户均持股数及比例变化等。通过这些数据，能够分析不同类型股东的持股分布及其变化趋势。"}, {"表名": "astockshareholderdb.lc_mshareholder", "说明": "该数据表主要用于记录公司股东相关信息及公司基本情况，包含以下几类字段信息：公司基本信息如公司代码、信息发布日期、信息来源等；股东相关信息如股东名称、股东地位、持股比例、股东性质、股东ID、国籍描述、永久境外居留权等；公司运营及财务信息如法人代表、注册资本、主要业务、经济性质、背景介绍等；其他信息如股权获取方式、实际控制人结构图、公告类别、报告原文文件格式、日期以及货币单位等，并提供是否存在的标识字段以便于数据筛选和分析。"}, {"表名": "astockshareholderdb.lc_actualcontroller", "说明": "该数据表主要用于记录公司实际控制人的相关信息，包括公司代码、信息发布日期和日期等基本信息；实际控制人的详细信息如代码、姓名、经济性质、国籍代码及描述、永久境外居留权状态，以及实际控制人所属性质等。"}, {"表名": "astockshareholderdb.lc_sharestru", "说明": "该数据表主要记录了公司股本结构及相关信息，包含以下几类字段：公司基本信息如公司代码(CompanyCode)、信息来源(InfoSource)、信息发布日期(InfoPublDate)；时间相关字段如日期(EndDate)；股本总量及变动情况如总股本(股)(TotalShares)、股本变动原因类别(ChangeType)、简称变更原因(ChangeReason)；股权分类及持股情况包括未流通股(NonListedShares)、流通股本(FloatShare)、有限售条件流通股(RestrictedShares)、无限售条件流通股(NonRestrictedShares)、A股(Ashares)、B股(Bshares)、H股(Hshares)、GDR代表基础股票(GDRshares)、外资持股(ForeignHolding)等，进一步细分为发起人股(PromoterShares)、国家股(StateShares)、法人股(DLegalPersonShares、FLegalPersonShares)、自然人股(NaturalPersonHoldLPShares)、职工股(StaffShares)、战略投资者配售持股(StategicInvestorShares)、基金配售持股(MutualFundShares)等；股本流通状态如已上市流通股(AFloatListed)、未上市增发股(AdditionIssueUnlisted)、配股未上市(RightsIssueUnlisted)等；其他股本信息如优先股(PreferredShares)、有限售H股(RestrictedHShares)、无限售H股(NonRestrictedHShares)、其他未流通股(OUnListedShares)；股本面值及货币单位如每股面值(PerValue)、每股面值货币单位(ParValueCurrencyUnit)。通过这些字段，能够全面反映公司股本的构成、流通及变动情况。"}, {"表名": "astockshareholderdb.lc_stockholdingst", "说明": "该数据表主要用于记录各类机构及股东对A股的持股情况及相关统计信息，包含以下几类字段：基础信息如证券内部编码、公司代码、统计日期等；持股数量信息，包括机构、公募基金、券商、私募基金、银行、外资等不同主体持有的无限售流通A股、总A股及其他类型A股的数量；持股比例信息，涵盖上述主体对不同类型A股的持股比例；持股户数信息，记录各类机构及股东的持股户数，包括流通A股户数、无限售流通A股户数等；前十大股东信息，如前十大股东持股数量及比例、无限售股东持股数据等；信息来源及日期字段，用于标注数据出处和时间。"}, {"表名": "astockshareholderdb.lc_sharetransfer", "说明": "该数据表主要记录股权转让的详细信息，涵盖了公司基本信息如公司代码、信息发布日期、信息来源等；股权转让的关键时间点如协议签署日、批准日期、正式变动日期等；转让方和受让方的相关信息，包括名称、经济性质、属性、编码等；股权转让前后的持股情况，如持股数量、持股比例、有限售股数、无限售股数等；交易相关信息如转让方式、涉及股数、交易价格、交易金额等；其他补充信息如生效条件、事项描述与进展、是否终止实施及公告日期等；以及序号、证券内部编码等标识信息。"}, {"表名": "astockshareholderdb.lc_sharefp", "说明": "该数据表记录了公司股权冻结质押的详细信息，包含公司代码、信息发布日期和来源等基本信息，以及涉及的股东和接受方的详细信息，如股东名称和ID、接受方名称和ID、股东和接受方的属性等。表中还包括冻结质押的具体细节，如涉及股数、占持股比例、占总股本比例、起始和结束日期、原因及事项编码和日期。此外，表格记录了无限售股数、有限售股数，以及初始信息发布日期、初始质押股数和预计解除日期等信息。"}, {"表名": "astockshareholderdb.lc_sharefpsta", "说明": "该数据表主要用于记录股权冻结质押的相关信息，包含以下字段：标识信息如冻结质押编号(FPCode)、公司代码(CompanyCode)和股东ID(SHID)；时间信息如截止日期(EndDate)；信息来源(InfoSource)；类别选择(Category)；股东信息如股权被冻结质押股东名称(FPSHName)及其属性(SHAttribute)；冻结质押相关统计数据如累计冻结质押股数(AccuFPShares)、累计占冻结质押方持股数比例(AccuPCTOfPled)、累计占总股本比例(AccuProportion)及其计算值(AccuProportionCalc)；其他辅助字段如AccuFPSharesCalc。"}, {"表名": "astockshareholderdb.lc_buyback", "说明": "该数据表记录了公司股份回购的详细信息，包括公司基本信息如公司代码，以及重要日期信息如首次信息发布日期、预案发布日期、股东大会通过日期、回购协议签署日、回购并注销股份公告书发布日、起始日期、结束日期、全称更改日期、回购资金划出日、工商变更登记日等。股份回购的具体情况涵盖股份类别、股份被回购方、回购股数及占总股本比例、回购定价方式说明、回购价格及回购总金额、回购数量及价格上下限、拟回购资金总额上下限等。支付方式、资金来源及用途说明、回购目的、事件进程及描述、回购方式代码及描述等信息也被详细记录。此外，还包括待偿期限指数、未描述的字段如回购目的、货币单位及被否决日期等。"}, {"表名": "astockshareholderdb.lc_buybackattach", "说明": "该数据表记录了有关股份回购的信息，包含回购的唯一标识（股份回购ID）及其相关的日期信息，如信息发布日期和生效日期。涉及财务数据的字段包括货币单位、最高价、最低价、本次回购资金及累计回购资金总额。此外，表中还记录了与回购数量相关的数据，如回购股数、累计回购数量及其占总股本的比例。通过这些字段，能够全面了解某次股份回购的基本信息和财务影响。"}, {"表名": "astockshareholderdb.lc_legaldistribution", "说明": "该数据表记录了证券配售的详细信息，涵盖了多方面的内容：基础信息如证券内部编码、证券代码、信息发布日期及首次发布日期等；配售相关信息包括配售总股数、配售原因、配售性质、获配股数（有锁定期和无锁定期分别记录）、获配金额、实际发行价、有效申购股数、退款金额、补款金额等；投资者信息包括投资者名称（标准化和原始）、投资者编号、投资者类型、投资者分类等，以及获配企业的名称、性质和所属券商的编号及名称；战略配售的详细记录如高管、员工、保荐机构及其他参与战略配售的股份数量、金额和占比等；此外，还包括流通日期、持股时间等时间维度信息，以及备注说明和配售对象代码等辅助字段。整体涵盖了证券配售的全流程信息，便于分析和统计。"}, {"表名": "astockshareholderdb.lc_nationalstockholdst", "说明": "该数据表主要用于记录股东持股相关信息，包含以下字段类别：基础信息如内部编码、公司代码、股东ID、股东名称；时间信息如截止日期；持股数据如持有A股总数、有限售A股数、无限售A股数；比例数据如占总股本比例、占流通A股比例；变动信息如持有A股数量增减及其增减幅度。"}, {"表名": "astockshareholderdb.cs_foreignholdingst", "说明": "该数据表记录了证券相关的交易信息，包括证券内部编码用于标识证券，交易日期表示具体的交易时间，外资持股总数（单位为万股）和外资持股比例（百分比）则反映了外资在该证券中的持股情况。"}, {"表名": "astockshareholderdb.lc_esop", "说明": "该数据表主要用于记录资产管理计划相关信息，涵盖了基础标识信息如“内部编码、公司代码”等，公告日期信息如“首次信息发布日期、董事会公告日期、股东大会公告日期”等，计划进程与实施信息如“事件进程、是否分期实施、数据统计区间、首次实施公告日”等，股票与资金规模信息如“股票来源方式、股票规模上限与下限、资金总额上限与下限”等，计划细节信息如“麦考利久期、锁定期、释放期、资金来源、参与单位及人员、管理模式、管理机构、资产管理计划全称、分期情况、杠杆比例”等，价格与参与情况信息如“购买股票价格、参与人数、高管及员工的参与人数、认购份额与比例”等，时间节点信息如“持股的完成日、锁定的起始日”等，以及其他补充说明如“计划情况说明”等，全面涵盖计划的各个维度。"}, {"表名": "astockshareholderdb.lc_esopsummary", "说明": "该数据表主要用于记录证券相关事件的信息，包括证券内部编码和公司代码等基础标识信息；首次信息发布日期、董事会公告日期、股东大会公告日期等时间信息；事件进程和序号等事件状态信息；是否分期实施及分期情况等分期相关信息；股票规模和资金总额的上下限等规模和资金范围信息；以及备注说明等补充描述信息。"}, {"表名": "astockshareholderdb.lc_transferplan", "说明": "该数据表主要记录了公司股东承诺及增减持计划的相关信息，涵盖多个方面的字段：公司基本信息如“公司代码”；信息披露相关字段如“首次信息发布日期”“信息发布日期”“信息来源”；承诺主体与事项类型信息如“承诺主体类型”“承诺事项类型”；承诺时间范围及内容描述如“承诺起始日期”“承诺截止日期”“承诺说明”；股东信息如“股东序号”“股东名称”；增持计划相关字段包括“增持时间描述”“增持实施期限”“增持价格描述”“增持股票触发价格上下限”“增持股份数量上下限”“增持比例上下限”“增持投入资金上下限”等；减持计划相关字段包括“减持时间描述”“减持实施期限”“减持价格描述”“减持股票触发价格上下限”“减持股份数量上下限”“减持比例上下限”等；承诺有效性及不减持承诺期限如“承诺是否有效”“不减持承诺期限”；交易方式及相关描述如“交易方式”“交易方式描述”；事件进程信息如“事件进程”。这些字段全面记录了公司股东承诺及增减持行为的各类细节。"}, {"表名": "astockshareholderdb.lc_smattendinfo", "说明": "该数据表记录了公司股东大会相关的综合信息，涵盖多个维度。包括公司基本信息如公司代码；股东大会的时间安排，如首次信息发布日期、最新信息发布日期、公告日期、股东大会召开日及时间、股权登记日、会议登记起止日期、网络投票起止日期等；股东大会的地点和形式信息，如召开地址、会议类别、投票表决方式、网络投票通道及代码等；股东大会的参与情况统计，包括出席总体股东及代表人数、各类股东人数（如A股、H股、中小股东、优先股股东等）、出席股东代表股份及其占比（按不同股东类别区分）；股东大会的主持及法律见证信息，包括大会主持人及其职务、见证律师事务所及其编号、经办律师等；其他相关信息如议案内容、是否有效、股东大会取消日期、年度及届次等。通过这些字段，全面反映了股东大会的组织、参与及法律合规情况。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要找出机器人2019年年报中股权变动中涉及股数量最大的一次非专场大宗交易的正式变动日期，需要关注以下几个关键点：
+1. **机器人公司信息**：需要确定机器人公司的相关代码，以便在数据表中定位其信息。
+2. **2019年年报**：需要通过时间条件筛选出2019年的相关数据。
+3. **股权变动**：需要关注股权转让的详细信息，特别是涉及股数量和交易类型。
+4. **非专场大宗交易**：需要区分交易类型，确保选择的是非专场大宗交易。
+5. **正式变动日期**：需要找到股权变动的正式生效日期。
+
+基于以上分析，以下数据表可能包含所需信息：
+- `astockshareholderdb.lc_sharetransfer`：记录股权转让的详细信息，包括公司代码、正式变动日期、涉及股数、交易类型等。
+
+【选中的数据表】
+- `astockshareholderdb.lc_sharetransfer`: 这个数据表包含股权转让的详细信息，包括公司代码、正式变动日期、涉及股数、交易类型等，可以用于查找2019年年报中涉及股数量最大的一次非专场大宗交易的正式变动日期。
+
+【选中的数据库表的清单】
+```json
+["astockshareholderdb.lc_sharetransfer"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockshareholderdb.lc_sharetransfer", "表字段": [{"column": "CompanyCode", "desc": "公司代码；，得到上市公司的交易代码、简称等。"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "ContractSignDate", "desc": "股权转让协议签署日"}, {"column": "ApprovedDate", "desc": "转让批准日期"}, {"column": "TranDate", "desc": "股权正式变动日期/过户日期"}, {"column": "TransfererName", "desc": "股权出让方名称"}, {"column": "TansfererEcoNature", "desc": "股权出让方经济性质"}, {"column": "TranShareType", "desc": "出让股权性质；，令LB = 1040，得到出让股权性质的具体描述：1-国家股，2-国有法人股，3-外资法人股，4-其他法人股，5-流通A股，6-B股，7-H股，8-转配股，9-专项资产管理计划转让，10-资产支持证券转让，11-中小企业私募债转让，12-中国存托凭证，13-可转换公司债券。"}, {"column": "SumBeforeTran", "desc": "出让前持股数量(股)"}, {"column": "PCTBeforeTran", "desc": "出让前持股比例"}, {"column": "SumAfterTran", "desc": "出让后持股数量(股)"}, {"column": "PCTAfterTran", "desc": "出让后持股比例"}, {"column": "ReceiverName", "desc": "接受股权质押方"}, {"column": "ReceiverEcoNature", "desc": "股权受让方经济性质"}, {"column": "SumAfterRece", "desc": "受让后持股数量(股)"}, {"column": "PCTAfterRece", "desc": "受让后持股比例"}, {"column": "TranMode", "desc": "股权转让方式；，令LB = 1202 AND DM NOT IN ( 8,51,55,57,98)，得到股权转让方式的具体描述：1-协议转让，2-国有股行政划转或变更，3-执行法院裁定，4-以资抵债，5-二级市场买卖，6-其他-股东重组，7-股东更名，9-其他-要约收购，10-以股抵债，11-大宗交易(席位)，12-大宗交易，13-其他-ETF换购，14-其他-行权买入，15-集中竞价，16-定向可转债转让，17-集合竞价，18-连续竞价，19-做市，20-询价转让，21-赠与，22-继承，24-间接方式转让，53-股改后间接股东增持，56-交易所集中交易，59-股权激励，70-国有股转持，71-老股转让，80-司法拍卖，99-其他。"}, {"column": "InvolvedSum", "desc": "涉及股数(股)"}, {"column": "PCTOfTansferer", "desc": "占出让方原持股数比例"}, {"column": "PCTOfTotalShares", "desc": "占总股本比例"}, {"column": "DealPrice", "desc": "交易价格(元/股)"}, {"column": "DealTurnover", "desc": "交易金额(元)"}, {"column": "ValidCondition", "desc": "生效条件"}, {"column": "TranStatement", "desc": "事项描述与进展说明"}, {"column": "IfSuspended", "desc": "是否终止实施；是否终止实施（IfSuspended），该字段固定以下常量：1-是；0-否"}, {"column": "SuspendedPublDate", "desc": "终止实施公告日期"}, {"column": "SNBeforeTran", "desc": "出让前股东序号"}, {"column": "SNAfterTran", "desc": "出让后股东序号"}, {"column": "SNAfterRece", "desc": "受让后股东序号"}, {"column": "IfSPBlockTradeCode", "desc": "是否专场大宗交易代码；是否专场大宗交易代码（IfSPBLockTradeCode），该字段固定以下常量：1-是；0-否"}, {"column": "IfSPBlockTrade", "desc": "是否专场大宗交易"}, {"column": "InnerCode", "desc": "证券内部编码"}, {"column": "ResSumAfterTran", "desc": "其中:出让后有限售股数(股)"}, {"column": "NonResSumAfterTran", "desc": "其中:出让后无限售股数(股)"}, {"column": "ResSumAfterRece", "desc": "其中:受让后有限售股数(股)"}, {"column": "NonResSumAfterRece", "desc": "其中:受让后无限售股数(股)"}, {"column": "InitialInfoPublDate", "desc": "首次信息发布日期"}, {"column": "TransfererAttribute", "desc": "股权出让方所属性质"}, {"column": "TransfererCode", "desc": "股权出让方编码"}, {"column": "ReceiverAttribute", "desc": "股权受让方所属性质；，令LB = 1783 and DM in (1,2,3,99)，得到股权受让方所属性质的具体描述：1-自然人，2-企业，3-证券品种，99-其他。"}, {"column": "ReceiverCode", "desc": "股权受让方编码；,得到事件主体企业的基本信息; 当股权受让方所属性质(ReceiverAttribute)=3时,与“证券码表总表(SecuMainAll)”中的“证券内部编码(InnerCode)”关联,得到事件主体证券品种的基本信息。"}, {"column": "SumBeforeRece", "desc": "受让前持股数量(股)"}, {"column": "PCTBeforerRece", "desc": "受让前持股比例(%)"}, {"column": "TranStartDate", "desc": "股权变动起始日"}, {"column": "SerialNumber", "desc": "序号"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是关于机器人公司在2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易的正式变动日期。需要找到与机器人公司相关的股权变动记录，筛选出2019年的数据，并且找出涉及股数量最大的那次非专场大宗交易的正式变动日期。
+
+【信息所在字段】
+- astockshareholderdb.lc_sharetransfer.CompanyCode: 这个字段可能包含公司代码信息，对应用户提问中的机器人公司
+- astockshareholderdb.lc_sharetransfer.TranDate: 这个字段可能包含股权正式变动日期信息，对应用户提问中的正式变动日期
+- astockshareholderdb.lc_sharetransfer.InvolvedSum: 这个字段可能包含涉及股数信息，对应用户提问中的涉及股数量最大的一次交易
+- astockshareholderdb.lc_sharetransfer.IfSPBlockTrade: 这个字段可能包含是否专场大宗交易信息，对应用户提问中的非专场大宗交易
+
+【筛选条件所在字段】
+- astockshareholderdb.lc_sharetransfer.CompanyCode: 这个字段可能包含公司代码信息，用于筛选机器人公司
+- astockshareholderdb.lc_sharetransfer.TranDate: 这个字段可能包含股权正式变动日期信息，用于筛选2019年的数据
+- astockshareholderdb.lc_sharetransfer.IfSPBlockTrade: 这个字段可能包含是否专场大宗交易信息，用于筛选非专场大宗交易
+
+【选中的字段的清单】
+```json
+{
+  "astockshareholderdb.lc_sharetransfer": [
+    "CompanyCode",
+    "TranDate",
+    "InvolvedSum",
+    "IfSPBlockTrade"
+  ]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在2020年1月1日至2020年12月31日期间，公司代码为77318的上市公司发布的“前十大股东”信息中，中国科学院沈阳自动化研究所是其中一位股东（SHList）。由于使用了LIMIT 1，结果仅展示了该时间段内符合条件的第一条记录。
+---
+查询结果表明:
+该查询从`astockshareholderdb.lc_shnumber`表中选择了一条记录。记录显示，公司代码为50006的上市公司在2019年1月11日发布了相关信息，信息来源为深交所互动易。截至2019年1月10日，该公司股东数量为53084，平均持股金额为45755.51元。该记录还包含了多个与持股相关的字段，如持股比例变化、季度和半年平均持股金额增长率等。具体字段值包括持股比例（HoldProportionPAccount）为0.0018838067967749，季度平均持股金额增长率（AvgHoldSumGRQuarter）为3.031，半年平均持股金额增长率（AvgHoldSumGRHalfAYear）为6.9926等。部分字段如B股和H股相关数据为空。记录的最后更新时间为2020年12月12日。
+---
+查询结果表明: 在2019年，公司代码为77318的上市公司，其股东总数为702,656人。该结果是通过汇总astockshareholderdb.lc_shnumber表中符合条件（CompanyCode为77318且EndDate年份为2019年）的SHNum字段得到的。
+---
+查询结果表明: 在2020年1月1日至2020年12月31日期间，公司代码为77318的上市公司发布的流通股本信息中，第一条记录的流通股本数为1560239617股。
+
+请问:机器人2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易是在哪天正式变动的？（时间回答格式：XXXX-XX-XX）
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 机器人关联信息：CompanyCode为77318，SecuCode为300024，ChiNameAbbr为机器人。
+- 目标是查询2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易的正式变动日期。
+
+【当前阶段要获取的信息】
+- 涉及股数量最大的一次非专场大宗交易的正式变动日期。
+
+【信息所在字段】
+- `TranDate`：股权正式变动日期/过户日期。
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码。
+- `IfSPBlockTrade`：是否专场大宗交易。
+- `InvolvedSum`：涉及股数(股)。
+- `TranDate`：股权正式变动日期/过户日期。
+
+【SQL语句的思路】
+1. 从`astockshareholderdb.lc_sharetransfer`表中选择`TranDate`字段。
+2. 筛选条件：
+   - `CompanyCode`为77318。
+   - `IfSPBlockTrade`为0（非专场大宗交易）。
+   - `TranDate`在2019年内。
+3. 按照涉及股数`InvolvedSum`降序排列，取第一条记录。
+
+【执行SQL语句】
+```exec_sql
+SELECT TranDate 
+FROM astockshareholderdb.lc_sharetransfer 
+WHERE CompanyCode = 77318 
+  AND IfSPBlockTrade = 0 
+  AND YEAR(TranDate) = 2019 
+ORDER BY InvolvedSum DESC 
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+- 从`astockshareholderdb.lc_sharetransfer`表中查询公司代码为77318，且在2019年内进行的非专场大宗交易的记录。
+- 按照涉及股数从大到小排序，选取涉及股数最大的一次交易的正式变动日期。
+
+>>>>> 查询sql:
+SELECT TranDate 
+FROM astockshareholderdb.lc_sharetransfer 
+WHERE CompanyCode = 77318 
+  AND IfSPBlockTrade = 0 
+  AND YEAR(TranDate) = 2019 
+ORDER BY InvolvedSum DESC 
+LIMIT 1;
+查询结果:
+[{"TranDate": "2019-04-15 12:00:00.000"}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT TranDate 
+FROM astockshareholderdb.lc_sharetransfer 
+WHERE CompanyCode = 77318 
+  AND IfSPBlockTrade = 0 
+  AND YEAR(TranDate) = 2019 
+ORDER BY InvolvedSum DESC 
+LIMIT 1;
+查询结果:
+[{"TranDate": "2019-04-15 12:00:00.000"}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 在2019年，公司代码为77318的上市公司中，非专场大宗交易的股权变动记录中，涉及股数最多的一次股权正式变动日期为2019年4月15日。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT TranDate 
+FROM astockshareholderdb.lc_sharetransfer 
+WHERE CompanyCode = 77318 
+  AND IfSPBlockTrade = 0 
+  AND YEAR(TranDate) = 2019 
+ORDER BY InvolvedSum DESC 
+LIMIT 1;
+查询结果:
+[{"TranDate": "2019-04-15 12:00:00.000"}]
+
+查询结果表明: 在2019年，公司代码为77318的上市公司中，非专场大宗交易的股权变动记录中，涉及股数最多的一次股权正式变动日期为2019年4月15日。
+
+当前掌握的信息是否能够回答"机器人2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易是在哪天正式变动的？（时间回答格式：XXXX-XX-XX）"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 查询结果显示，在2019年，公司代码为77318的上市公司中，非专场大宗交易的股权变动记录中，涉及股数最多的一次股权正式变动日期为2019年4月15日。
+
+【当前阶段要获取的信息】
+- 无需继续执行SQL查询，当前掌握的信息已能够回答用户的问题。
+
+【信息所在字段】
+- `TranDate`：股权正式变动日期/过户日期。
+
+【筛选条件所在字段】
+- 无需继续执行SQL查询。
+
+【SQL语句的思路】
+- 无需继续执行SQL查询。
+
+【执行SQL语句】
+```exec_sql
+无
+```
+
+【上述SQL语句的含义】
+- 无需继续执行SQL查询，当前掌握的信息已足够回答用户的问题。
+
+**回答用户问题：**
+机器人2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易是在2019年4月15日正式变动的。
+
+
+>>>>> 【user】 Said:
+充分尊重前面给出的结论，回答问题:"机器人2019年年报中，股权变动中涉及股数量最大的一次非专场大宗交易是在哪天正式变动的？（时间回答格式：XXXX-XX-XX）"
+
+>>>>> Agent【Sql_query.summary】 Said:
+2019-04-15

@@ -1,0 +1,520 @@
+
+>>>>> Original Question: 对于同时具备企业资本背景和创新高的公司，请从以下维度深入分析：
+    这些公司的行业代码是什么？行业相同的公司分别是什么（中文名称缩写即可）
+
+
+>>>>> 【user】 Said:
+下面是顺序的历史问答:
+'''
+Question: 在2021-12-21这一天，A股市场中创出月度新高的公司有哪些（中文名称缩写即可）？他们的证券代码是多少？
+Answer: 斯达半导, 603290
+Question: 在这些创出新高的公司中，哪些公司的股东中包含企业资本？请列出公司名（中文名称缩写即可）和企业资本股东名称
+Answer: 公司名: 斯达半导
+企业资本股东名称: 浙江兴得利纺织有限公司、嘉兴富瑞德投资合伙企业(有限合伙)、嘉兴兴泽投资合伙企业(有限合伙)、宁波展兴投资有限公司、深圳市鑫亮五金制品有限公司、天津环拓科技发展中心(有限合伙)、上海春速投资管理中心(有限合伙)、香港斯达控股有限公司
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：对于同时具备企业资本背景和创新高的公司，请从以下维度深入分析：
+    这些公司的行业代码是什么？行业相同的公司分别是什么（中文名称缩写即可）
+
+>>>>> Agent【rewrite_question】 Said:
+对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），请从以下维度深入分析：
+    1. 这些公司的行业代码是什么？
+    2. 行业相同的公司分别是什么（中文名称缩写即可）？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），请从以下维度深入分析：
+    1. 这些公司的行业代码是什么？
+    2. 行业相同的公司分别是什么（中文名称缩写即可）？"
+
+>>>>> Agent【extract_company】 Said:
+```json
+["斯达半导"]
+```
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '斯达半导'
+   OR ChiName LIKE '%斯达半导%'
+   OR ChiNameAbbr LIKE '%斯达半导%'
+   OR EngName LIKE '%斯达半导%'
+   OR EngNameAbbr LIKE '%斯达半导%'
+   OR SecuAbbr LIKE '%斯达半导%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%斯达半导%'
+   OR ChiName LIKE '%斯达半导%'
+   OR ChiNameAbbr LIKE '%斯达半导%'
+   OR EngName LIKE '%斯达半导%'
+   OR EngNameAbbr LIKE '%斯达半导%'
+   OR SecuAbbr LIKE '%斯达半导%'
+   OR FormerName LIKE '%斯达半导%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '斯达半导'
+   OR ChiName LIKE '%斯达半导%'
+   OR EngName LIKE '%斯达半导%'
+   OR SecuAbbr LIKE '%斯达半导%';
+查询结果:
+[{"TableName": "constantdb.secumain", "InnerCode": 196107, "CompanyCode": 171522, "ChiName": "斯达半导体股份有限公司", "EngName": "StarPower Semiconductor Ltd.", "SecuCode": "603290"}]
+
+>>>>> 已知事实:
+斯达半导的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是196107;CompanyCode(公司代码)是171522;ChiName(中文名称)是斯达半导体股份有限公司;EngName(英文名称)是StarPower Semiconductor Ltd.;SecuCode(证券代码)是603290;]
+603290的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是196107;CompanyCode(公司代码)是171522;ChiName(中文名称)是斯达半导体股份有限公司;EngName(英文名称)是StarPower Semiconductor Ltd.;SecuCode(证券代码)是603290;]
+---
+斯达半导的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是196107;CompanyCode(公司代码)是171522;ChiName(中文名称)是斯达半导体股份有限公司;EngName(英文名称)是StarPower Semiconductor Ltd.;SecuCode(证券代码)是603290;]
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要分析在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司。具体需要的信息包括：
+1. 这些公司的行业代码。
+2. 行业相同的公司分别是什么（中文名称缩写即可）。
+
+为了获取这些信息，我们需要以下数据：
+- 公司的行业代码：可以从“上市公司行业板块”数据库（astockindustrydb）获取。
+- 公司的股票行情数据（包括月度新高信息）：可以从“上市公司股票行情”数据库（astockmarketquotesdb）获取。
+- 公司的资本背景信息：可以从“上市公司股东与股本/公司治理”数据库（astockshareholderdb）获取。
+
+【选中的数据库】
+- astockindustrydb: 这个数据库包含公司所属行业的多层级划分、变更历史、行业估值和财务表现等信息。
+- astockmarketquotesdb: 这个数据库记录了境内股票的交易行情、技术指标、资金流向等全面数据，可以获取月度新高信息。
+- astockshareholderdb: 这个数据库记录了上市公司股东、股本及公司治理相关的详细信息，可以获取企业资本背景信息。
+
+【选中的数据库的清单】
+```json
+["astockindustrydb", "astockmarketquotesdb", "astockshareholderdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockindustrydb.lc_exgindustry", "说明": "该数据表包含与公司及行业相关的信息，主要字段包括公司标识信息如公司代码，信息动态如发布日期和来源，行业分类信息如行业划分标准、所属行业及是否执行，并提供多层级行业分类数据，包括一级至四级行业的代码和名称，以及取消日期等补充信息。"}, {"表名": "astockindustrydb.lc_exgindchange", "说明": "该数据表主要用于记录公司相关的行业信息和执行状态，字段包括公司基础信息如公司代码，公司动态信息如信息发布日期和信息来源，行业分类信息如行业划分标准、所属行业，以及多级行业信息包括一级到四级的行业代码和名称。此外，还包含执行状态相关字段如是否执行和取消日期。"}, {"表名": "astockindustrydb.lc_industryvaluation", "说明": "该数据表主要用于记录行业相关的统计信息和财务指标，包含以下字段：基础信息如行业内部编码、行业名称、行业代码、行业分类标准等；时间信息如交易日；统计维度如统计类型和统计板块；行业市值信息如总市值、A股流通市值、A股自由流通市值等；估值指标如滚动市盈率、静态市盈率、市净率、滚动股息率、滚动市现率、静态市现率、滚动市销率、静态市销率等；其他信息如上市证券数量和分类等，全面反映行业的市场表现和财务状况。"}, {"表名": "astockindustrydb.lc_indfinindicators", "说明": "该数据表主要用于描述行业相关的统计和财务信息，字段涵盖多个方面：基础信息如行业内部编码、名称、级别、代码及划分标准等；时间信息包括信息发布日期和截止日期；统计指标如统计类型和板块；财务数据包括行业营业收入、营业成本、营业利润、净利润及归属母公司净利润等，均提供TTM（滚动12个月）和累计值；资产与股本信息如总资产、净资产、总股本等；盈利能力指标包括每股收益、净资产收益率（平均、摊薄、TTM及扣除值）、总资产净利率、销售毛利率、销售净利率等；费用相关指标如财务费用率、销售费用率、期间费用率及营业总成本占比；运营效率指标包括存货周转率及天数、应收账款周转率及天数、总资产周转率等；现金流与偿债能力指标如经营现金流利息保障倍数、流动比率、速动比率、利息保障倍数等；增长性指标如归属母公司净利润同比增长、毛利润同比增长等；其他指标如资产负债率、有形资产净值占比、对外投资占比、预收账款占营业收入比、应收账款占营业收入比等，全面反映行业的财务状况、盈利能力、运营效率及偿债能力。"}, {"表名": "astockindustrydb.lc_coconcept", "说明": "该数据表主要用于记录证券相关概念及状态信息，包括证券内部编码和概念代码等基础标识信息，调入日期与调出日期等时间维度信息，所属状态及备注等描述性信息，以及信息发布日期等数据更新信息。"}, {"表名": "astockindustrydb.lc_conceptlist", "说明": "该数据表包含与概念分类相关的信息，包括一级和二级概念的代码和名称，以及概念板块的编码和名称。此外，还包括概念的时间信息如起始日期、结束日期和信息发布日期，状态信息如所属状态，以及补充信息如备注和概念英文名称。"}, {"表名": "astockmarketquotesdb.cs_stockcapflowindex", "说明": "该数据表记录了证券交易相关的详细数据，涵盖交易日期、时间区间等基本信息，以及按小单、中单、大单、超大单、主力单和全单分类的交易统计数据，包括流入流出金额、流入流出量、流入流出笔数、净流入流出额与量、买入卖出率（按金额和数量计算）、净买入率及其与流通市值或流通股本的比值等。此外，还细分了主动买入卖出相关的金额、数量、笔数及其比率等指标，全面反映了不同交易规模下的资金流向和市场行为特征。"}, {"表名": "astockmarketquotesdb.cs_turnovervoltecindex", "说明": "该数据表记录了证券交易的相关数据，包含多个类别的字段信息。基本信息包括证券内部编码、聚源代码、交易日期、证券市场等；时间维度涵盖指标周期；成交额和成交量的统计指标包括简单移动平均值（如5日、10日、20日、30日、60日、120日、250日等周期的AMA和VMA）、指数平滑异同平均（如VMACD_EMA12、VMACD_EMA26、VMACD_DIFF、VMACD_DEA、VMACD_MACD）等；成交量的波动性与强弱分析指标包括量比、成交量震荡指标(VOSC)、加权指数成交量(TAPI及其均值TAPIMA)、成交量标准差(VSTD)、量变动速率(VROC)、成交量比率(VR)、量相对强弱(VRSI)等，全面反映证券交易的量价变化及趋势特征。"}, {"表名": "astockmarketquotesdb.cs_stockpatterns", "说明": "该数据表主要用于记录证券交易的多维度表现与趋势分析，涵盖基础信息如证券内部编码、交易日、聚源代码、证券市场等；高点与低点分析，包括价格、收盘价、成交量、成交金额在近一周、一个月、一季度、半年、一年及上市以来的创高或创低情况；历史新高新低统计，记录不同时间区间内创历史新高或新低的次数；趋势与形态分析，如连涨天数、连跌天数、连续放量或缩量天数，以及对5日、10日、20日、60日均线的有效突破情况；其他指标如N天M板表现和均线多空头排列的看涨看跌信号，为证券的短期与长期走势提供综合性参考。"}, {"表名": "astockmarketquotesdb.qt_dailyquote", "说明": "该数据表记录了证券交易的核心信息，包括证券的唯一标识\"证券内部编码\"，交易日期\"交易日\"，以及价格相关数据如\"昨收盘价\"、\"今开盘价\"、\"最高价\"、\"最低价\"和\"收盘价\"（单位均为元）；还包含交易活动指标，如\"成交量\"（股）、\"成交金额\"（元）和\"成交笔数\"（笔），全面反映了每日交易的市场表现。"}, {"表名": "astockmarketquotesdb.qt_stockperformance", "说明": "该数据表涵盖了证券交易的多维度信息，包括基本标识字段如证券内部编码和交易日；价格相关信息如开盘价、收盘价、最高价、最低价、均价以及涨跌幅、振幅等；成交数据如成交量、成交金额、换手率及其日均值；时间维度统计如周、月、三个月、六个月、十二个月及今年以来的价格、成交量、成交金额、涨跌幅、振幅、换手率等汇总指标；自由流通股本相关的换手率及其日均值；市场表现指标如Beta值（相对于不同基准指数）、阿尔法值、波动率、夏普比率、市场收益率等；市值信息包括总市值和流通市值；特殊价格指标如上市以来后复权的最高价、最低价及对应时间。该表全面整合了短期和长期的交易数据、市场表现以及统计汇总，为证券分析提供了丰富的基础数据支持。"}, {"表名": "astockmarketquotesdb.lc_suspendresumption", "说明": "该数据表主要记录证券停复牌相关信息，包括证券标识字段如证券内部编码，时间相关字段如信息发布日期、停牌日期、停牌时间、复牌日期、复牌时间，信息来源字段如信息来源，停复牌详情字段如停牌原因、停牌事项说明、停牌期限、停牌期限类型及复牌事项说明等，全面描述了证券停复牌的时间、原因及相关说明。"}, {"表名": "astockshareholderdb.lc_shtypeclassifi", "说明": "该数据表主要用于记录股东及其分类信息，包含股东的唯一标识信息如股东代码和股东编码，股东名称及其所属性质等基本信息，同时提供多级分类结构，涵盖分类标准及一级至四级分类代码，便于对股东进行分层管理和分析。"}, {"表名": "astockshareholderdb.lc_mainshlistnew", "说明": "该数据表主要记录了股东及其持股情况的详细信息，包括公司代码、日期、信息发布日期和来源等基本信息。股东相关信息涵盖股东排名、序号、名称、性质、类别及其编码等。持股信息详细列出了持股总数、持股比例、持股增减情况，以及持有不同类型股票（如A股、B股、H股、普通股及其他类别）的数量和比例。此外，还包括股东性质描述、股权质押和冻结情况及其说明，股东之间的关联关系和一致行动人说明等。证券相关信息有证券代码、简称、所属券商编号及归属机构名称等。备注说明和其他字段提供了进一步的补充信息。"}, {"表名": "astockshareholderdb.lc_shnumber", "说明": "该数据表主要涵盖了公司股东信息的各类数据，包括公司代码、信息发布日期和信息来源等基本信息。股东数据详细记录了股东总户数及各类股东（如A股、B股、H股、CDR股东）的户数和户均持股数，提供了户均持股比例及其相对变化，季度和半年增长率等动态指标。此外，表中还细分了无限售条件股东的数据，包括无限售A股和CDR的户均持股数及比例变化等。通过这些数据，能够分析不同类型股东的持股分布及其变化趋势。"}, {"表名": "astockshareholderdb.lc_mshareholder", "说明": "该数据表主要用于记录公司股东相关信息及公司基本情况，包含以下几类字段信息：公司基本信息如公司代码、信息发布日期、信息来源等；股东相关信息如股东名称、股东地位、持股比例、股东性质、股东ID、国籍描述、永久境外居留权等；公司运营及财务信息如法人代表、注册资本、主要业务、经济性质、背景介绍等；其他信息如股权获取方式、实际控制人结构图、公告类别、报告原文文件格式、日期以及货币单位等，并提供是否存在的标识字段以便于数据筛选和分析。"}, {"表名": "astockshareholderdb.lc_actualcontroller", "说明": "该数据表主要用于记录公司实际控制人的相关信息，包括公司代码、信息发布日期和日期等基本信息；实际控制人的详细信息如代码、姓名、经济性质、国籍代码及描述、永久境外居留权状态，以及实际控制人所属性质等。"}, {"表名": "astockshareholderdb.lc_sharestru", "说明": "该数据表主要记录了公司股本结构及相关信息，包含以下几类字段：公司基本信息如公司代码(CompanyCode)、信息来源(InfoSource)、信息发布日期(InfoPublDate)；时间相关字段如日期(EndDate)；股本总量及变动情况如总股本(股)(TotalShares)、股本变动原因类别(ChangeType)、简称变更原因(ChangeReason)；股权分类及持股情况包括未流通股(NonListedShares)、流通股本(FloatShare)、有限售条件流通股(RestrictedShares)、无限售条件流通股(NonRestrictedShares)、A股(Ashares)、B股(Bshares)、H股(Hshares)、GDR代表基础股票(GDRshares)、外资持股(ForeignHolding)等，进一步细分为发起人股(PromoterShares)、国家股(StateShares)、法人股(DLegalPersonShares、FLegalPersonShares)、自然人股(NaturalPersonHoldLPShares)、职工股(StaffShares)、战略投资者配售持股(StategicInvestorShares)、基金配售持股(MutualFundShares)等；股本流通状态如已上市流通股(AFloatListed)、未上市增发股(AdditionIssueUnlisted)、配股未上市(RightsIssueUnlisted)等；其他股本信息如优先股(PreferredShares)、有限售H股(RestrictedHShares)、无限售H股(NonRestrictedHShares)、其他未流通股(OUnListedShares)；股本面值及货币单位如每股面值(PerValue)、每股面值货币单位(ParValueCurrencyUnit)。通过这些字段，能够全面反映公司股本的构成、流通及变动情况。"}, {"表名": "astockshareholderdb.lc_stockholdingst", "说明": "该数据表主要用于记录各类机构及股东对A股的持股情况及相关统计信息，包含以下几类字段：基础信息如证券内部编码、公司代码、统计日期等；持股数量信息，包括机构、公募基金、券商、私募基金、银行、外资等不同主体持有的无限售流通A股、总A股及其他类型A股的数量；持股比例信息，涵盖上述主体对不同类型A股的持股比例；持股户数信息，记录各类机构及股东的持股户数，包括流通A股户数、无限售流通A股户数等；前十大股东信息，如前十大股东持股数量及比例、无限售股东持股数据等；信息来源及日期字段，用于标注数据出处和时间。"}, {"表名": "astockshareholderdb.lc_sharetransfer", "说明": "该数据表主要记录股权转让的详细信息，涵盖了公司基本信息如公司代码、信息发布日期、信息来源等；股权转让的关键时间点如协议签署日、批准日期、正式变动日期等；转让方和受让方的相关信息，包括名称、经济性质、属性、编码等；股权转让前后的持股情况，如持股数量、持股比例、有限售股数、无限售股数等；交易相关信息如转让方式、涉及股数、交易价格、交易金额等；其他补充信息如生效条件、事项描述与进展、是否终止实施及公告日期等；以及序号、证券内部编码等标识信息。"}, {"表名": "astockshareholderdb.lc_sharefp", "说明": "该数据表记录了公司股权冻结质押的详细信息，包含公司代码、信息发布日期和来源等基本信息，以及涉及的股东和接受方的详细信息，如股东名称和ID、接受方名称和ID、股东和接受方的属性等。表中还包括冻结质押的具体细节，如涉及股数、占持股比例、占总股本比例、起始和结束日期、原因及事项编码和日期。此外，表格记录了无限售股数、有限售股数，以及初始信息发布日期、初始质押股数和预计解除日期等信息。"}, {"表名": "astockshareholderdb.lc_sharefpsta", "说明": "该数据表主要用于记录股权冻结质押的相关信息，包含以下字段：标识信息如冻结质押编号(FPCode)、公司代码(CompanyCode)和股东ID(SHID)；时间信息如截止日期(EndDate)；信息来源(InfoSource)；类别选择(Category)；股东信息如股权被冻结质押股东名称(FPSHName)及其属性(SHAttribute)；冻结质押相关统计数据如累计冻结质押股数(AccuFPShares)、累计占冻结质押方持股数比例(AccuPCTOfPled)、累计占总股本比例(AccuProportion)及其计算值(AccuProportionCalc)；其他辅助字段如AccuFPSharesCalc。"}, {"表名": "astockshareholderdb.lc_buyback", "说明": "该数据表记录了公司股份回购的详细信息，包括公司基本信息如公司代码，以及重要日期信息如首次信息发布日期、预案发布日期、股东大会通过日期、回购协议签署日、回购并注销股份公告书发布日、起始日期、结束日期、全称更改日期、回购资金划出日、工商变更登记日等。股份回购的具体情况涵盖股份类别、股份被回购方、回购股数及占总股本比例、回购定价方式说明、回购价格及回购总金额、回购数量及价格上下限、拟回购资金总额上下限等。支付方式、资金来源及用途说明、回购目的、事件进程及描述、回购方式代码及描述等信息也被详细记录。此外，还包括待偿期限指数、未描述的字段如回购目的、货币单位及被否决日期等。"}, {"表名": "astockshareholderdb.lc_buybackattach", "说明": "该数据表记录了有关股份回购的信息，包含回购的唯一标识（股份回购ID）及其相关的日期信息，如信息发布日期和生效日期。涉及财务数据的字段包括货币单位、最高价、最低价、本次回购资金及累计回购资金总额。此外，表中还记录了与回购数量相关的数据，如回购股数、累计回购数量及其占总股本的比例。通过这些字段，能够全面了解某次股份回购的基本信息和财务影响。"}, {"表名": "astockshareholderdb.lc_legaldistribution", "说明": "该数据表记录了证券配售的详细信息，涵盖了多方面的内容：基础信息如证券内部编码、证券代码、信息发布日期及首次发布日期等；配售相关信息包括配售总股数、配售原因、配售性质、获配股数（有锁定期和无锁定期分别记录）、获配金额、实际发行价、有效申购股数、退款金额、补款金额等；投资者信息包括投资者名称（标准化和原始）、投资者编号、投资者类型、投资者分类等，以及获配企业的名称、性质和所属券商的编号及名称；战略配售的详细记录如高管、员工、保荐机构及其他参与战略配售的股份数量、金额和占比等；此外，还包括流通日期、持股时间等时间维度信息，以及备注说明和配售对象代码等辅助字段。整体涵盖了证券配售的全流程信息，便于分析和统计。"}, {"表名": "astockshareholderdb.lc_nationalstockholdst", "说明": "该数据表主要用于记录股东持股相关信息，包含以下字段类别：基础信息如内部编码、公司代码、股东ID、股东名称；时间信息如截止日期；持股数据如持有A股总数、有限售A股数、无限售A股数；比例数据如占总股本比例、占流通A股比例；变动信息如持有A股数量增减及其增减幅度。"}, {"表名": "astockshareholderdb.cs_foreignholdingst", "说明": "该数据表记录了证券相关的交易信息，包括证券内部编码用于标识证券，交易日期表示具体的交易时间，外资持股总数（单位为万股）和外资持股比例（百分比）则反映了外资在该证券中的持股情况。"}, {"表名": "astockshareholderdb.lc_esop", "说明": "该数据表主要用于记录资产管理计划相关信息，涵盖了基础标识信息如“内部编码、公司代码”等，公告日期信息如“首次信息发布日期、董事会公告日期、股东大会公告日期”等，计划进程与实施信息如“事件进程、是否分期实施、数据统计区间、首次实施公告日”等，股票与资金规模信息如“股票来源方式、股票规模上限与下限、资金总额上限与下限”等，计划细节信息如“麦考利久期、锁定期、释放期、资金来源、参与单位及人员、管理模式、管理机构、资产管理计划全称、分期情况、杠杆比例”等，价格与参与情况信息如“购买股票价格、参与人数、高管及员工的参与人数、认购份额与比例”等，时间节点信息如“持股的完成日、锁定的起始日”等，以及其他补充说明如“计划情况说明”等，全面涵盖计划的各个维度。"}, {"表名": "astockshareholderdb.lc_esopsummary", "说明": "该数据表主要用于记录证券相关事件的信息，包括证券内部编码和公司代码等基础标识信息；首次信息发布日期、董事会公告日期、股东大会公告日期等时间信息；事件进程和序号等事件状态信息；是否分期实施及分期情况等分期相关信息；股票规模和资金总额的上下限等规模和资金范围信息；以及备注说明等补充描述信息。"}, {"表名": "astockshareholderdb.lc_transferplan", "说明": "该数据表主要记录了公司股东承诺及增减持计划的相关信息，涵盖多个方面的字段：公司基本信息如“公司代码”；信息披露相关字段如“首次信息发布日期”“信息发布日期”“信息来源”；承诺主体与事项类型信息如“承诺主体类型”“承诺事项类型”；承诺时间范围及内容描述如“承诺起始日期”“承诺截止日期”“承诺说明”；股东信息如“股东序号”“股东名称”；增持计划相关字段包括“增持时间描述”“增持实施期限”“增持价格描述”“增持股票触发价格上下限”“增持股份数量上下限”“增持比例上下限”“增持投入资金上下限”等；减持计划相关字段包括“减持时间描述”“减持实施期限”“减持价格描述”“减持股票触发价格上下限”“减持股份数量上下限”“减持比例上下限”等；承诺有效性及不减持承诺期限如“承诺是否有效”“不减持承诺期限”；交易方式及相关描述如“交易方式”“交易方式描述”；事件进程信息如“事件进程”。这些字段全面记录了公司股东承诺及增减持行为的各类细节。"}, {"表名": "astockshareholderdb.lc_smattendinfo", "说明": "该数据表记录了公司股东大会相关的综合信息，涵盖多个维度。包括公司基本信息如公司代码；股东大会的时间安排，如首次信息发布日期、最新信息发布日期、公告日期、股东大会召开日及时间、股权登记日、会议登记起止日期、网络投票起止日期等；股东大会的地点和形式信息，如召开地址、会议类别、投票表决方式、网络投票通道及代码等；股东大会的参与情况统计，包括出席总体股东及代表人数、各类股东人数（如A股、H股、中小股东、优先股股东等）、出席股东代表股份及其占比（按不同股东类别区分）；股东大会的主持及法律见证信息，包括大会主持人及其职务、见证律师事务所及其编号、经办律师等；其他相关信息如议案内容、是否有效、股东大会取消日期、年度及届次等。通过这些字段，全面反映了股东大会的组织、参与及法律合规情况。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要分析在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司，我们需要以下信息：
+1. 公司的行业代码。
+2. 行业相同的公司列表。
+
+为此，我们需要以下数据表：
+- `astockindustrydb.lc_exgindustry`：获取公司的行业代码。
+- `astockmarketquotesdb.cs_stockpatterns`：判断公司是否在2021-12-21创出月度新高。
+- `astockmarketquotesdb.qt_dailyquote`：获取2021-12-21当天的股票价格信息。
+
+【选中的数据表】
+- `astockindustrydb.lc_exgindustry`: 该数据表包含与公司及行业相关的信息，主要字段包括公司标识信息如公司代码，行业分类信息如行业划分标准、所属行业及是否执行，并提供多层级行业分类数据，包括一级至四级行业的代码和名称。
+- `astockmarketquotesdb.cs_stockpatterns`: 该数据表主要用于记录证券交易的多维度表现与趋势分析，涵盖基础信息如证券内部编码、交易日，高点与低点分析，包括价格、收盘价、成交量、成交金额在近一个月的创高或创低情况。
+- `astockmarketquotesdb.qt_dailyquote`: 该数据表记录了证券交易的核心信息，包括证券的唯一标识“证券内部编码”，交易日期“交易日”，以及价格相关数据如“最高价”。
+
+【选中的数据库表的清单】
+```json
+["astockindustrydb.lc_exgindustry", "astockmarketquotesdb.cs_stockpatterns", "astockmarketquotesdb.qt_dailyquote"]
+```
+补充选择table: ["usstockdb.us_dailyquote", "hkstockdb.cs_hkstockperformance"]补充选择table: ["astockmarketquotesdb.qt_stockperformance"]
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockindustrydb.lc_exgindustry", "表字段": [{"column": "CompanyCode", "desc": "公司代码；，得到上市公司的交易代码、简称等。"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "Standard", "desc": "行业划分标准；，令“LB=1081”，得到行业划分的具体标准：1-CSRC行业分类2001版(不更新)，3-中信行业分类2010版(不更新)，5-上交所行业分类(不更新)，6-聚源行业分类(旧)(不更新)，7-SSE-GICS行业分类(不更新)，8-聚源行业分类(不更新)，9-申万行业分类2011版(不更新)，11-中银(BOCI)行业分类(不更新)，12-中证指数行业分类2007版(不更新)，13-中信标普GICS行业分类(不更新)，18-证监会行业分类(中证)(不更新)，19-银华自定义行业分类(不更新)，20-国证行业分类，21-新聚源行业分类(不更新)，22-证监会行业分类2012版，23-证监会行业分类2012版(中证披露)，24-申万行业分类2014版(不更新)，28-中证指数行业分类2016版(不更新)，30-聚源行业分类2016版，32-国民经济行业分类(2017)，37-中信行业2019分类，38-申万行业分类(新)，40-中证指数行业分类(2021版)，42-AMAC行业分类，44-中国上市公司协会行业分类。"}, {"column": "Industry", "desc": "所属行业；；，“LB=1082”；，“LB=1460”；，“LB=1294”；，“LB=1465”；，“LB=1804”；；，“LB=1477”；，“LB=1478”；，“LB=1753”；，“LB=1755”；，“LB=1755”；，“LB=1984”。"}, {"column": "IfPerformed", "desc": "是否执行；是否执行（IfPerformed），该字段固定以下常量：1-是；2-否"}, {"column": "CancelDate", "desc": "取消日期"}, {"column": "FirstIndustryCode", "desc": "对应一级行业代码"}, {"column": "FirstIndustryName", "desc": "对应一级行业名称"}, {"column": "SecondIndustryCode", "desc": "对应二级行业代码"}, {"column": "SecondIndustryName", "desc": "对应二级行业名称"}, {"column": "ThirdIndustryCode", "desc": "对应三级行业代码"}, {"column": "ThirdIndustryName", "desc": "对应三级行业名称"}, {"column": "FourthIndustryCode", "desc": "四级行业代码"}, {"column": "FourthIndustryName", "desc": "四级行业名称"}]}, {"表名": "astockmarketquotesdb.cs_stockpatterns", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到股票的证券代码、简称等其他详细信息。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "GilCode", "desc": "聚源代码"}, {"column": "SecuMarket", "desc": "证券市场"}, {"column": "IfHighestHPriceRW", "desc": "是否创近一周的新高；指定日期最高价是否大于指定日期最近N天最高价，是返回1， 否返回2。 N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfHighestHPriceRM", "desc": "是否创近一月的新高"}, {"column": "IfHighestHPriceRMThree", "desc": "是否创近一季度的新高"}, {"column": "IfHighestHPriceRMSix", "desc": "是否创近半年的新高"}, {"column": "IfHighestHPriceRY", "desc": "是否创近一年的新高"}, {"column": "IfHighestHPriceSL", "desc": "是否创上市以来的新高"}, {"column": "IfHighestCPriceRW", "desc": "是否创近一周的新高收盘价；指定日期收盘价是否大于指定日期最近N天收盘价，是返回1， 否返回2。 N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfHighestCPriceRM", "desc": "是否创近一月的新高收盘价"}, {"column": "IfHighestCPriceRMThree", "desc": "是否创近一季度的新高收盘价"}, {"column": "IfHighestCPriceRMSix", "desc": "是否创近半年的新高收盘价"}, {"column": "IfHighestCPriceRY", "desc": "是否创近一年的新高收盘价"}, {"column": "IfHighestCPriceSL", "desc": "是否创上市以来的新高收盘价"}, {"column": "IfHighestTVolumeRW", "desc": "是否创近一周的新高成交量"}, {"column": "IfHighestTVolumeRM", "desc": "是否创近一月的新高成交量；指定日期成交量是否大于指定日期最近N天成交量，是返回1， 否返回2。 N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfHighestTVRMThree", "desc": "是否创近一季度的新高成交量"}, {"column": "IfHighestTVolumeRMSix", "desc": "是否创近半年的新高成交量"}, {"column": "IfHighestTVolumeRY", "desc": "是否创近一年的新高成交量"}, {"column": "IfHighestTVolumeSL", "desc": "是否创上市以来的新高成交量"}, {"column": "IfHighestTValueRW", "desc": "是否创近一周的新高成交金额；指定日期成交金额是否大于指定日期最近N天成交金额，是返回1， 否返回2。N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfHighestTValueRM", "desc": "是否创近一月的新高成交金额"}, {"column": "IfHighestTValueRMThree", "desc": "是否创近一季度的新高成交金额"}, {"column": "IfHighestTValueRMSix", "desc": "是否创近半年的新高成交金额"}, {"column": "IfHighestTValueRY", "desc": "是否创近一年的新高成交金额"}, {"column": "IfHighestTValueSL", "desc": "是否创上市以来的新高成交金额"}, {"column": "HighestHPTimesSL", "desc": "最新交易日创历史新高次数；指定日期最近N天内大于指定日期之前的历史交易日最高价的次数。 N: 最新交易日、近1周、近1月、近3月、近半年、近1年"}, {"column": "HighestHPTimesRW", "desc": "最近一周创历史新高次数"}, {"column": "HighestHPTimesRM", "desc": "最近一月创历史新高次数"}, {"column": "HighestHPTimesRMThree", "desc": "最近一季度创历史新高次数"}, {"column": "HighestHPTimesRMSix", "desc": "最近半年创历史新高次数"}, {"column": "HighestHPTimesRY", "desc": "最近一年创历史新高次数"}, {"column": "IfLowestLPriceRW", "desc": "是否创近一周的新低；指定日期最低价是否小于指定日期最近N天最低价，是返回1， 否返回2。 N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfLowestLPriceRM", "desc": "是否创近一个月的新低"}, {"column": "IfLowestLPRMThree", "desc": "是否创近一季度的新低"}, {"column": "IfLowestLPriceRMSix", "desc": "是否创近半年的新低"}, {"column": "IfLowestLPriceRY", "desc": "是否创近一年的新低"}, {"column": "IfLowestLPriceSL", "desc": "是否创上市以来的新低"}, {"column": "IfLowestClosePriceRW", "desc": "是否创近一周的新低收盘价；指定日期收盘价是否小于指定日期最近N天收盘价，是返回1， 否返回2。 N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfLowestClosePriceRM", "desc": "是否创近一月的新低收盘价"}, {"column": "IfLowestCPriceRMThree", "desc": "是否创近一季度的新低收盘价"}, {"column": "IfLowestCPriceRMSix", "desc": "是否创近半年的新低收盘价"}, {"column": "IfLowestClosePriceRY", "desc": "是否创近一年的新低收盘价"}, {"column": "IfLowestClosePriceSL", "desc": "是否创上市以来的新低收盘价"}, {"column": "IfLowestTVolumeRW", "desc": "是否创近一周的新低成交量；指定日期成交量是否小于指定日期最近N天成交量，是返回1， 否返回2。 N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfLowestTVolumeRM", "desc": "是否创近一月的新低成交量"}, {"column": "IfLowestTVolumeRMThree", "desc": "是否创近一季度的新低成交量"}, {"column": "IfLowestVolumeRMSix", "desc": "是否创近半年的新低成交量"}, {"column": "IfLowestTVolumeRY", "desc": "是否创近一年的新低成交量"}, {"column": "IfLowestTVolumeSL", "desc": "是否创上市以来的新低成交量"}, {"column": "IfLowestTValueRW", "desc": "是否创近一周的新低成交金额；指定日期成交金额是否小于指定日期最近N天成交金额，是返回1， 否返回2。N分别为：近1周、近1月、近3月、近半年、近1年、上市以来。"}, {"column": "IfLowestTValueRM", "desc": "是否创近一月的新低成交金额"}, {"column": "IfLowestTValueRMThree", "desc": "是否创近一季度的新低成交金额"}, {"column": "IfLowestTValueRMSix", "desc": "是否创近半年的新低成交金额"}, {"column": "IfLowestTValueRY", "desc": "是否创近一年的新低成交金额"}, {"column": "IfLowestTValueSL", "desc": "是否创上市以来的新低成交金额"}, {"column": "LowestLowPriceTimesSL", "desc": "最新交易日创历史新低次数；指定日期最近N天内小于指定日期之前的历史交易日最低价的次数， N: 最新交易日、近1周、近1月、近3月、近半年、近1年。"}, {"column": "LowestLowPriceTimesRW", "desc": "最近一周创历史新低次数"}, {"column": "LowestLowPriceTimesRM", "desc": "最近一个月创历史新低次数"}, {"column": "LowestLPTimesRMThree", "desc": "最近一季度创历史新低次数"}, {"column": "LowestLPTimesRMSix", "desc": "最近半年创历史新低次数"}, {"column": "LowestLPTimesRY", "desc": "最近一年创历史新低次数"}, {"column": "RisingUpDays", "desc": "连涨天数；统计个股在指定交易日期往前推连续上涨的天数。"}, {"column": "FallingDownDays", "desc": "连跌天数；统计个股在指定交易日期往前推连续下跌的天数。"}, {"column": "VolumeRisingUpDays", "desc": "连续放量天数；统计个股在指定交易日期往前推成交量连续上升的天数。"}, {"column": "VolumeFallingDownDays", "desc": "连续缩量天数；统计个股在指定交易日期往前推成交量连续下降的天数。"}, {"column": "BreakingMAverageFive", "desc": "向上向下有效突破5日均线；向上有效突破： 最近N天的收盘价>n日均线，且距今N+1天的收盘价<=n日均线。 向下有效突破： 最近N天的收盘价<n日均线，且距今N+1天的收盘价>=n日均线。 1-向上有效突破, 2-向下有效突破, 0-其他。 均线计算：n日均线=n日收盘价之和/n。 向上向下有效突破字段按照N=3 计算。"}, {"column": "BreakingMAverageTen", "desc": "向上向下有效突破10日均线"}, {"column": "BreakingMAverageTwenty", "desc": "向上向下有效突破20日均线"}, {"column": "BreakingMAverageSixty", "desc": "向上向下有效突破60日均线"}, {"column": "RaisingLimitInNDays", "desc": "N天M板；N天： 指定交易日往前取到连续三个非涨停的交易日的最后一个交易日的后一个交易日且该交易日涨停作为起始日期，指定交易日作为截至日期，N天即为起始日期到截至日期区间内的天数。 M板：上述N天内的涨停数。"}, {"column": "MAverageArrangements", "desc": "均线多空头排列看涨看跌；看涨：5日均线>10日均线>20日均线>60日均线，看涨返回1。 看跌：5日均线<10日均线<20日均线<60日均线，看跌返回2。"}]}, {"表名": "astockmarketquotesdb.qt_dailyquote", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘(元)"}, {"column": "OpenPrice", "desc": "今开盘(元)"}, {"column": "HighPrice", "desc": "最高价(元)"}, {"column": "LowPrice", "desc": "最低价(元)"}, {"column": "ClosePrice", "desc": "收盘价(元)"}, {"column": "TurnoverVolume", "desc": "成交量(股)；当证券类别为指数时，股票指数成交量单位是股，基金指数成交量单位是份，债券指数成交量单位是元。"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "TurnoverDeals", "desc": "成交笔数(笔)"}]}, {"表名": "usstockdb.us_dailyquote", "表字段": [{"column": "TradingDay", "desc": "交易日"}, {"column": "InnerCode", "desc": "证券内部代码；，得到相关的交易代码、简称等。"}, {"column": "Open", "desc": "开盘价"}, {"column": "High", "desc": "最高价"}, {"column": "Low", "desc": "最低价"}, {"column": "Close", "desc": "收盘价"}, {"column": "Volume", "desc": "成交量(手)"}, {"column": "EPSTTM", "desc": "每股收益TTM(元/股)"}, {"column": "MarketCap", "desc": "证券总市值"}, {"column": "ShareOST", "desc": "证券总股本"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "AvgPrice", "desc": "均价；均价（AvgPrice）：成交额/成交量"}, {"column": "TurnoverValue", "desc": "成交额(万)"}, {"column": "ChangeOF", "desc": "日涨跌"}]}, {"表名": "hkstockdb.cs_hkstockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "CurrencyUnitCode", "desc": "货币代码；，令LB=1068 AND DM IN (1000,1100,1420)，得到货币代码的具体描述：1000-美元，1100-港元，1420-人民币元。"}, {"column": "TurnoverVolume", "desc": "成交量"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "ChangeOF", "desc": "涨跌"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "RangePCT", "desc": "振幅(%)"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "TotalMV", "desc": "总市值(元)"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRW", "desc": "近一周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "近一周成交量(股)"}, {"column": "ChangeOFRW", "desc": "近一周涨跌(元)"}, {"column": "ChangePCTRW", "desc": "近一周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "近一周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "近一周换手率(%)"}, {"column": "AvgPriceRW", "desc": "近一周成交均价(元)"}, {"column": "HighPriceRW", "desc": "近一周最高价(元)"}, {"column": "LowPriceRW", "desc": "近一周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "近一周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "近一周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "近一周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "近一周日均换手率(%)"}, {"column": "TurnVolumePerDayRW", "desc": "近一周日均成交量(股)"}, {"column": "ChangePCTPerDayRW", "desc": "近一周日均涨跌幅(%)"}, {"column": "RangePCTPerDayRW", "desc": "近一周日均振幅(%)"}, {"column": "TotalMVPerDayRW", "desc": "近一周日均总市值(元)"}, {"column": "NegotiableMVPerDayRW", "desc": "近一周日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangeOFTW", "desc": "本周以来涨跌(元)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnVolumePerDayTW", "desc": "本周以来日均成交量(股)"}, {"column": "ChangePCTPerDayTW", "desc": "本周以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTW", "desc": "本周以来日均振幅(%)"}, {"column": "TotalMVPerDayTW", "desc": "本周以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTW", "desc": "本周以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRM", "desc": "近一月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "近一月成交量(股)"}, {"column": "ChangeOFRM", "desc": "近一月涨跌(元)"}, {"column": "ChangePCTRM", "desc": "近一月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "近一月月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "近一月月换手率(%)"}, {"column": "AvgPriceRM", "desc": "近一月成交均价(元)"}, {"column": "HighPriceRM", "desc": "近一月最高价(元)"}, {"column": "LowPriceRM", "desc": "近一月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "近一月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "近一月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "近一月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "近一月日均换手率(%)"}, {"column": "TurnVolumePerDayRM", "desc": "近一月日均成交量(股)"}, {"column": "ChangePCTPerDayRM", "desc": "近一月日均涨跌幅(%)"}, {"column": "RangePCTPerDayRM", "desc": "近一月日均振幅(%)"}, {"column": "TotalMVPerDayRM", "desc": "近一月日均总市值(元)"}, {"column": "NegotiableMVPerDayRM", "desc": "近一月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangeOFTM", "desc": "本月以来涨跌(元)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnVolumePerDayTM", "desc": "本月以来日均成交量(股)"}, {"column": "ChangePCTPerDayTM", "desc": "本月以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTM", "desc": "本月以来日均振幅(%)"}, {"column": "TotalMVPerDayTM", "desc": "本月以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTM", "desc": "本月以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMThree", "desc": "近三个月成交金额(元)"}, {"column": "TurnoverVolumeRMThree", "desc": "近三个月成交量(股)"}, {"column": "ChangeOFRMThree", "desc": "近三个月涨跌(元)"}, {"column": "ChangePCTRMThree", "desc": "近三个月涨跌幅(%)"}, {"column": "RangePCTRMThree", "desc": "近三个月振幅(%)"}, {"column": "TurnoverRateRMThree", "desc": "近三个月换手率(%)"}, {"column": "AvgPriceRMThree", "desc": "近三个月成交均价(元)"}, {"column": "HighPriceRMThree", "desc": "近三个月以来最高价(元)"}, {"column": "LowPriceRMThree", "desc": "近三个月以来最低价(元)"}, {"column": "HighestClosePRMThree", "desc": "近三个月以来收盘最高价(元)"}, {"column": "LowestClosePRMThree", "desc": "近三个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMThree", "desc": "近三个月日均成交金额(元)"}, {"column": "TurnRatePDayRMThree", "desc": "近三个月日均换手率(%)"}, {"column": "TurnVolumePDayRMThree", "desc": "近三个月日均成交量(股)"}, {"column": "ChangePCTPDayRMThree", "desc": "近三个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMThree", "desc": "近三个月日均振幅(%)"}, {"column": "TotalMVPerDayRMThree", "desc": "近三个月日均总市值(元)"}, {"column": "NegotiableMVPRMThree", "desc": "近三个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMSix", "desc": "近六个月成交金额(元)"}, {"column": "TurnoverVolumeRMSix", "desc": "近六个月成交量(股)"}, {"column": "ChangeOFRMSix", "desc": "近六个月涨跌(元)"}, {"column": "ChangePCTRMSix", "desc": "近六个月涨跌幅(%)"}, {"column": "RangePCTRMSix", "desc": "近六个月振幅(%)"}, {"column": "TurnoverRateRMSix", "desc": "近六个月换手率(%)"}, {"column": "AvgPriceRMSix", "desc": "近六个月成交均价(元)"}, {"column": "HighPriceRMSix", "desc": "近六个月以来最高价(元)"}, {"column": "LowPriceRMSix", "desc": "近六个月以来最低价(元)"}, {"column": "HighestClosePRMSix", "desc": "近六个月以来收盘最高价(元)"}, {"column": "LowestClosePRMSix", "desc": "近六个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMSix", "desc": "近六个月日均成交金额(元)"}, {"column": "TurnRatePDayRMSix", "desc": "近六个月日均换手率(%)"}, {"column": "TurnVolumePDayRMSix", "desc": "近六个月日均成交量(股)"}, {"column": "ChangePCTPDayRMSix", "desc": "近六个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMSix", "desc": "近六个月日均振幅(%)"}, {"column": "TotalMVPerDayRMSix", "desc": "近六个月日均总市值(元)"}, {"column": "NegotiableMVPRMSix", "desc": "近六个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRY", "desc": "近一年成交金额(元)"}, {"column": "TurnoverVolumeRY", "desc": "近一年成交量(股)"}, {"column": "ChangeOFRY", "desc": "近一年涨跌(元)"}, {"column": "ChangePCTRY", "desc": "近一年涨跌幅(%)"}, {"column": "RangePCTRY", "desc": "近一年振幅(%)"}, {"column": "TurnoverRateRY", "desc": "近一年换手率(%)"}, {"column": "AvgPriceRY", "desc": "近一年成交均价(元)"}, {"column": "HighPriceRY", "desc": "近一年最高价(元)"}, {"column": "LowPriceRY", "desc": "近一年最低价(元)"}, {"column": "HighestClosePRY", "desc": "近一年收盘价最高(元)"}, {"column": "LowestClosePRY", "desc": "近一年收盘价最低(元)"}, {"column": "TurnoverValuePDayRY", "desc": "近一年日均成交金额(元)"}, {"column": "TurnoverRatePDayRY", "desc": "近一年日均换手率(%)"}, {"column": "TurnVolumePDayRY", "desc": "近一年日均成交量(股)"}, {"column": "ChangePCTPDayRY", "desc": "近一年日均涨跌幅(%)"}, {"column": "RangePCTPDayRY", "desc": "近一年日均振幅(%)"}, {"column": "TotalMVPerDayRY", "desc": "近一年日均总市值(元)"}, {"column": "NegotiableMVPRY", "desc": "近一年日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)"}, {"column": "ChangeOFYTD", "desc": "今年以来涨跌(元)"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)"}, {"column": "TurnVolumePDayYTD", "desc": "今年以来日均成交量(股)"}, {"column": "ChangePCTPerDayYTD", "desc": "今年以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayYTD", "desc": "今年以来日均振幅(%)"}, {"column": "TotalMVPerDayYTD", "desc": "今年以来日均总市值(元)"}, {"column": "NegotiableMVPYTD", "desc": "今年以来日均流通市值(不含限售股)(元)"}, {"column": "HighAdjustedPrice", "desc": "上市以来复权最高价(元)"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来复权最高价日期"}, {"column": "LowAdjustedPrice", "desc": "上市以来复权最低价(元)"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来复权最低价日期"}]}, {"表名": "astockmarketquotesdb.qt_stockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "TurnoverVolume", "desc": "成交量1"}, {"column": "TurnoverValue", "desc": "成交金额(元)1"}, {"column": "ChangePCT", "desc": "涨跌幅(%)1"}, {"column": "RangePCT", "desc": "振幅(%)1"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "Ifsuspend", "desc": "是否停牌；1：当日停牌；0：当日非停牌"}, {"column": "TurnoverValueRW", "desc": "周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "周成交量(股)"}, {"column": "ChangePCTRW", "desc": "周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "周换手率(%)"}, {"column": "AvgPriceRW", "desc": "周成交均价(元)"}, {"column": "HighPriceRW", "desc": "周最高价(元)"}, {"column": "LowPriceRW", "desc": "周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "周日均换手率(%)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnoverValueRM", "desc": "月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "月成交量(股)"}, {"column": "ChangePCTRM", "desc": "月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "月换手率(%)"}, {"column": "AvgPriceRM", "desc": "月成交均价(元)"}, {"column": "HighPriceRM", "desc": "月最高价(元)"}, {"column": "LowPriceRM", "desc": "月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "月日均换手率(%)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnoverValueRMThree", "desc": "三个月成交金额(元)1"}, {"column": "TurnoverVolumeRMThree", "desc": "三个月成交量(股)1"}, {"column": "ChangePCTRMThree", "desc": "三个月涨跌幅(%)1"}, {"column": "RangePCTRMThree", "desc": "三个月振幅(%)1"}, {"column": "TurnoverRateRMThree", "desc": "三个月换手率(%)1"}, {"column": "TurnoverValueRMSix", "desc": "六个月成交金额(元)1"}, {"column": "TurnoverVolumeRMSix", "desc": "六个月成交量(股)1"}, {"column": "ChangePCTRMSix", "desc": "六个月涨跌幅(%)1"}, {"column": "RangePCTRMSix", "desc": "六个月振幅(%)1"}, {"column": "TurnoverRateRMSix", "desc": "六个月换手率(%)1"}, {"column": "TurnoverValueRY", "desc": "十二个月成交金额(元)1"}, {"column": "TurnoverVolumeRY", "desc": "十二个月成交量(股)1"}, {"column": "ChangePCTRY", "desc": "十二个月涨跌幅(%)1"}, {"column": "RangePCTRY", "desc": "十二个月振幅(%)1"}, {"column": "TurnoverRateRY", "desc": "十二个月换手率(%)1"}, {"column": "AvgPriceRY", "desc": "十二个月成交均价(元)1"}, {"column": "HighPriceRY", "desc": "十二个月最高价(元)1"}, {"column": "LowPriceRY", "desc": "十二个月最低价(元)1"}, {"column": "HighestClosePriceRY", "desc": "十二个月收盘最高价(元)1"}, {"column": "LowestClosePriceRY", "desc": "十二个月收盘最低价(元)1"}, {"column": "TurnoverValuePDayRY", "desc": "十二个月日均成交金额(元)1"}, {"column": "TurnoverRatePDayRY", "desc": "十二个月日均换手率(%)1"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)1"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)1"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)1"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)1"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)1"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)1"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)1"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)1"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)1"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)1"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)1"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)1"}, {"column": "HighAdjustedPrice", "desc": "上市以来后复权最高价(元)1"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来后复权最高价时间1"}, {"column": "LowAdjustedPrice", "desc": "上市以来后复权最低价(元)1"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来后复权最低价时间"}, {"column": "BetaLargeCapIndex", "desc": "Beta值(相对沪深300,一年)"}, {"column": "BetaCompositeIndex", "desc": "Beta值(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "BetaSYWGIndustryIndex", "desc": "Beta值(相对申万行业,一年)；取该股票所属的申万行业指数"}, {"column": "BetaMidCapIndex", "desc": "Beta值(相对中证500,一年)"}, {"column": "BetaWeekly", "desc": "Beta值(两年,周步长)；Beta值（两年,周步长）（BetaWeekly）：Beta=[n∑RXiRi-(∑RXi)*(∑Ri)]／[n∑（RXi^2）-(∑RXi)^2]Ri为步长区间股票增长率Rxi为步长区间基准增长率"}, {"column": "AdjustBetaWeekly", "desc": "调整Beta值(两年,周步长)；调整Beta值（两年,周步长）（AdjustBetaWeekly）：BETA值（两年,周步长）*0.67+0.33"}, {"column": "AlphaLargeCapIndex", "desc": "阿尔法(相对沪深300,一年)"}, {"column": "AlphaCompositeIndex", "desc": "阿尔法(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "AlphaSYWGIndustryIndex", "desc": "阿尔法(相对申万行业,一年)；取该股票所属的申万行业指数。"}, {"column": "AlphMidCapIndex", "desc": "阿尔法(相对中证500,一年)"}, {"column": "YearVolatilityByDay", "desc": "波动率(日步长)；波动率(日步长)(YearVolatilityByDay):计算中为日步长数据，时间跨度为1年"}, {"column": "YearVolatilityByWeek", "desc": "波动率(周步长)1"}, {"column": "YearSharpeRatio", "desc": "夏普比率(年化)1"}, {"column": "MarketIndexRORArithAvg", "desc": "市场收益率(算术平均)；市场收益率（算术平均）（MarketIndexRORArithAvg）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（算术平均）Rm2为深证综指年收益率（算术平均）指数年平均收益率Rxi=(∑（Ri）/10)*100%"}, {"column": "MarketIndexRORGeomMean", "desc": "市场收益率(几何平均)；市场收益率（几何平均）（MarketIndexRORGeomMean）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（几何平均）Rm2为深证综指年收益率（几何平均）"}, {"column": "TotalMV", "desc": "总市值(元)1"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)1"}, {"column": "TurnoverRateFreeFloat", "desc": "换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRW", "desc": "周换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRW", "desc": "周日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTW", "desc": "本周以来换手率_自由流通股本(%)"}, {"column": "TurnoverRatePDFFTTW", "desc": "本周以来日均换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRM", "desc": "月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRM", "desc": "月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTM", "desc": "本月以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTTM", "desc": "本月以来日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMThree", "desc": "三个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMSix", "desc": "六个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRY", "desc": "十二个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRY", "desc": "十二个月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTYTD", "desc": "今年以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTYTD", "desc": "今年以来日均换手率_自由流通股本(%)1"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户想要分析在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司，具体需要了解这些公司的行业代码以及行业相同的公司名称缩写。
+
+【信息所在字段】
+- astockmarketquotesdb.cs_stockpatterns.InnerCode: 这个字段包含证券内部编码，用于识别公司。
+- astockmarketquotesdb.cs_stockpatterns.TradingDay: 这个字段包含交易日信息，用于筛选出特定日期的数据。
+- astockmarketquotesdb.cs_stockpatterns.IfHighestHPriceRM: 这个字段表示是否创出月度新高，用于筛选出符合条件的数据。
+- astockindustrydb.lc_exgindustry.CompanyCode: 这个字段包含公司代码，可以与astockmarketquotesdb.cs_stockpatterns.InnerCode关联，得到公司的行业信息。
+- astockindustrydb.lc_exgindustry.Industry: 这个字段包含公司的行业代码，用于回答用户的问题。
+- constantdb.secumain.ChiName: 这个字段包含公司的中文名称，用于列出行业相同的公司名称缩写。
+
+【筛选条件所在字段】
+- astockmarketquotesdb.cs_stockpatterns.TradingDay: 这个字段用于筛选出2021-12-21这一天的数据。
+- astockmarketquotesdb.cs_stockpatterns.IfHighestHPriceRM: 这个字段用于筛选出创出月度新高的公司。
+- astockindustrydb.lc_exgindustry.CompanyCode: 这个字段用于关联astockmarketquotesdb.cs_stockpatterns.InnerCode，筛选出具有行业信息的公司。
+
+【选中的字段的清单】
+```json
+{
+  "astockmarketquotesdb.cs_stockpatterns": ["InnerCode", "TradingDay", "IfHighestHPriceRM"],
+  "astockindustrydb.lc_exgindustry": ["CompanyCode", "Industry"],
+  "constantdb.secumain": ["ChiName"]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在2021年12月21日这一交易日，证券内部编码为196107的证券在其前一个月（即2021年11月21日至2021年12月21日）的时间范围内，达到了该时间段内的最高月最高价(HighPriceRM)。
+---
+查询结果表明: 根据证券内部编码(InnerCode)为196107的查询条件，从constantdb数据库的secumain表中获取到对应的证券代码(SecuCode)为603290，公司代码(CompanyCode)为171522。
+---
+查询结果表明: 表`lc_stockarchives`是存储公司概况信息的表，包含多个字段，如`ID`（ID）、`CompanyCode`（公司代码）、`State`（国别）、`SecretaryBD`（董事会秘书）、`SecuAffairsRepr`（证券/股证事务代表）、`AuthReprSBD`（董秘授权代表）、`ContactTel`（联系人电话）、`ContactFax`（联系人传真）、`ContactEmail`（联系人电子邮箱）、`RegAddr`（公司注册地址）、`RegZipCode`（公司注册地址邮编）、`OfficeAddr`（公司办公地址）、`OfficeZipCode`（公司办公地址邮编）、`ContactAddr`（公司联系地址）、`ConatactZipCode`（公司联系地址邮编）、`Email`（邮箱）、`Website`（公司网址）、`DisclosureWebsites`（信息披露网址）、`DisclosurePapers`（信息披露报纸）、`EstablishmentDate`（公司成立日期）、`IRegPlace`（首次注册登记地点）、`LegalRepr`（法人代表）、`GeneralManager`（总经理）、`LegalConsultant`（法律顾问）、`AccountingFirm`（会计师事务所）、`InduCSRC`（公司所属证监会行业(聚源)）、`BusinessMajor`（经营范围-主营）、`BusinessMinor`（经营范围-兼营）、`AShareAbbr`（A股证券简称）、`AStockCode`（A股证券代码）、`BShareAbbr`（B股证券简称）、`BStockCode`（B股证券代码）、`HShareAbbr`（H股证券简称）、`HStockCode`（H股证券代码）、`BriefIntroText`（公司简介）、`XGRQ`（修改日期）、`JSID`（JSID）、`ChiName`（中文名称）、`BusinessRegNumber`（企业法人营业执照注册号）、`SecretaryBDTel`（董秘电话）、`SecretaryBDFax`（董秘传真）、`SecretaryBDEmail`（董秘电子邮件）、`SecuAffairsReprTel`（证券事务代表电话）、`SecuAffairsReprFax`（证券事务代表传真）、`SecuAffairsReprEmail`（证券事务代表电子邮件）、`CityCode`（地区代码）、`CDRShareAbbr`（CDR证券简称）、`CDRStockCode`（CDR证券代码）、`ExtendedAbbr`（扩位简称）、`UnprofitableMark`（尚未盈利标识）、`SpecialVoteMark`（特殊表决权标识）、`VIEMark`（协议控制架构标识）、`RedChipMark`（红筹企业标识）、`RegArea`（所属区县）。该表使用InnoDB引擎，默认字符集为utf8mb4，校对规则为utf8mb4_unicode_ci。
+---
+查询结果表明: 根据公司代码(CompanyCode)为171522的查询条件，从astockbasicinfodb.lc_stockarchives表中获取到的A股简称(AShareAbbr)为“斯达半导”。
+---
+查询结果表明: 公司代码为171522的上市公司拥有众多股东，包括浙江兴得利纺织有限公司、嘉兴富瑞德投资合伙企业(有限合伙)、嘉兴兴泽投资合伙企业(有限合伙)、宁波展兴投资有限公司、深圳市鑫亮五金制品有限公司、天津环拓科技发展中心(有限合伙)、上海春速投资管理中心(有限合伙)、戴志展、汤艺、香港斯达控股有限公司等。股东性质涵盖了一般企业、投资、咨询公司、风险投资公司、自然人、社保基金、社保机构、开放式投资基金、其他金融产品等多种类型。其中，部分股东如浙江兴得利纺织有限公司、嘉兴富瑞德投资合伙企业(有限合伙)等多次出现，表明他们可能持有不同类别的股份或在不同报告期内均有持股。
+
+请问:对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），请从以下维度深入分析：
+    1. 这些公司的行业代码是什么？
+    2. 行业相同的公司分别是什么（中文名称缩写即可）？
+
+>>>>> Agent【Sql_query.master】 Said:
+### 分阶段执行策略
+
+#### 第一阶段：获取斯达半导的行业代码
+
+【已知信息】
+- 斯达半导的公司代码(CompanyCode)为171522
+
+【当前阶段要获取的信息】
+- 斯达半导的行业代码
+
+【信息所在字段】
+- IndustryCode
+
+【筛选条件所在字段】
+- CompanyCode
+
+【SQL语句的思路】
+- 从`astockindustrydb.lc_exgindustry`表中查询斯达半导的行业代码
+
+【执行SQL语句】
+```exec_sql
+SELECT Industry, FirstIndustryCode, SecondIndustryCode, ThirdIndustryCode, FourthIndustryCode
+FROM astockindustrydb.lc_exgindustry
+WHERE CompanyCode = 171522;
+```
+
+【上述SQL语句的含义】
+- 从`astockindustrydb.lc_exgindustry`表中筛选出公司代码为171522的记录，并获取其行业代码相关信息。
+
+---
+
+请先执行上述SQL语句，获取斯达半导的行业代码信息。后续将基于此结果进行进一步查询。
+
+>>>>> 查询sql:
+SELECT Industry, FirstIndustryCode, SecondIndustryCode, ThirdIndustryCode, FourthIndustryCode
+FROM astockindustrydb.lc_exgindustry
+WHERE CompanyCode = 171522;
+查询结果:
+[{"Industry": 60102928, "FirstIndustryCode": "270000", "SecondIndustryCode": "270100", "ThirdIndustryCode": "270101", "FourthIndustryCode": null}, {"Industry": 60102929, "FirstIndustryCode": "270000", "SecondIndustryCode": "270100", "ThirdIndustryCode": "270102", "FourthIndustryCode": null}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT Industry, FirstIndustryCode, SecondIndustryCode, ThirdIndustryCode, FourthIndustryCode
+FROM astockindustrydb.lc_exgindustry
+WHERE CompanyCode = 171522;
+查询结果:
+[{"Industry": 60102928, "FirstIndustryCode": "270000", "SecondIndustryCode": "270100", "ThirdIndustryCode": "270101", "FourthIndustryCode": null}, {"Industry": 60102929, "FirstIndustryCode": "270000", "SecondIndustryCode": "270100", "ThirdIndustryCode": "270102", "FourthIndustryCode": null}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 公司代码为171522的上市公司所属的行业信息如下：第一条记录显示该公司的行业代码为60102928，对应的一级行业代码为270000，二级行业代码为270100，三级行业代码为270101，四级行业代码为空；第二条记录显示该公司的行业代码为60102929，对应的一级行业代码为270000，二级行业代码为270100，三级行业代码为270102，四级行业代码为空。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT Industry, FirstIndustryCode, SecondIndustryCode, ThirdIndustryCode, FourthIndustryCode
+FROM astockindustrydb.lc_exgindustry
+WHERE CompanyCode = 171522;
+查询结果:
+[{"Industry": 60102928, "FirstIndustryCode": "270000", "SecondIndustryCode": "270100", "ThirdIndustryCode": "270101", "FourthIndustryCode": null}, {"Industry": 60102929, "FirstIndustryCode": "270000", "SecondIndustryCode": "270100", "ThirdIndustryCode": "270102", "FourthIndustryCode": null}]
+
+查询结果表明: 公司代码为171522的上市公司所属的行业信息如下：第一条记录显示该公司的行业代码为60102928，对应的一级行业代码为270000，二级行业代码为270100，三级行业代码为270101，四级行业代码为空；第二条记录显示该公司的行业代码为60102929，对应的一级行业代码为270000，二级行业代码为270100，三级行业代码为270102，四级行业代码为空。
+
+当前掌握的信息是否能够回答"对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），请从以下维度深入分析：
+    1. 这些公司的行业代码是什么？
+    2. 行业相同的公司分别是什么（中文名称缩写即可）？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+### 分阶段执行策略
+
+#### 第二阶段：获取与斯达半导行业相同的公司
+
+【已知信息】
+- 斯达半导的行业代码为60102928和60102929
+- 斯达半导的一级行业代码为270000，二级行业代码为270100，三级行业代码为270101和270102
+
+【当前阶段要获取的信息】
+- 与斯达半导行业相同的公司列表（中文名称缩写）
+
+【信息所在字段】
+- AShareAbbr（A股简称）
+
+【筛选条件所在字段】
+- Industry, FirstIndustryCode, SecondIndustryCode, ThirdIndustryCode
+
+【SQL语句的思路】
+- 从`astockindustrydb.lc_exgindustry`表中查询与斯达半导行业代码相同的公司代码
+- 再从`astockbasicinfodb.lc_stockarchives`表中获取这些公司的中文名称缩写
+
+【执行SQL语句】
+```exec_sql
+SELECT DISTINCT a.AShareAbbr
+FROM astockbasicinfodb.lc_stockarchives AS a
+JOIN astockindustrydb.lc_exgindustry AS b ON a.CompanyCode = b.CompanyCode
+WHERE (b.Industry = 60102928 OR b.Industry = 60102929)
+   OR (b.FirstIndustryCode = '270000' AND b.SecondIndustryCode = '270100' AND (b.ThirdIndustryCode = '270101' OR b.ThirdIndustryCode = '270102'));
+```
+
+【上述SQL语句的含义】
+- 通过联表查询，从`astockbasicinfodb.lc_stockarchives`和`astockindustrydb.lc_exgindustry`表中筛选出与斯达半导行业代码相同的公司，并获取这些公司的A股简称。
+
+---
+
+请先执行上述SQL语句，获取与斯达半导行业相同的公司列表。后续将基于此结果进行进一步分析。
+
+>>>>> 查询sql:
+SELECT DISTINCT a.AShareAbbr
+FROM astockbasicinfodb.lc_stockarchives AS a
+JOIN astockindustrydb.lc_exgindustry AS b ON a.CompanyCode = b.CompanyCode
+WHERE (b.Industry = 60102928 OR b.Industry = 60102929)
+   OR (b.FirstIndustryCode = '270000' AND b.SecondIndustryCode = '270100' AND (b.ThirdIndustryCode = '270101' OR b.ThirdIndustryCode = '270102'));
+查询结果:
+[{"AShareAbbr": "斯达半导"}, {"AShareAbbr": "汇顶科技"}, {"AShareAbbr": "长川科技"}, {"AShareAbbr": "瑞芯微"}, {"AShareAbbr": "立昂微"}, {"AShareAbbr": "通富微电"}, {"AShareAbbr": "华天科技"}, {"AShareAbbr": "扬杰科技"}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DISTINCT a.AShareAbbr
+FROM astockbasicinfodb.lc_stockarchives AS a
+JOIN astockindustrydb.lc_exgindustry AS b ON a.CompanyCode = b.CompanyCode
+WHERE (b.Industry = 60102928 OR b.Industry = 60102929)
+   OR (b.FirstIndustryCode = '270000' AND b.SecondIndustryCode = '270100' AND (b.ThirdIndustryCode = '270101' OR b.ThirdIndustryCode = '270102'));
+查询结果:
+[{"AShareAbbr": "斯达半导"}, {"AShareAbbr": "汇顶科技"}, {"AShareAbbr": "长川科技"}, {"AShareAbbr": "瑞芯微"}, {"AShareAbbr": "立昂微"}, {"AShareAbbr": "通富微电"}, {"AShareAbbr": "华天科技"}, {"AShareAbbr": "扬杰科技"}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 该查询返回了在特定行业分类下的A股简称列表。具体来说，这些公司要么属于行业代码为60102928或60102929的行业，要么属于一级行业代码为270000、二级行业代码为270100且三级行业代码为270101或270102的行业。查询结果共包含8家公司，分别是斯达半导、汇顶科技、长川科技、瑞芯微、立昂微、通富微电、华天科技和扬杰科技。这些公司的简称通过字段AShareAbbr展示。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DISTINCT a.AShareAbbr
+FROM astockbasicinfodb.lc_stockarchives AS a
+JOIN astockindustrydb.lc_exgindustry AS b ON a.CompanyCode = b.CompanyCode
+WHERE (b.Industry = 60102928 OR b.Industry = 60102929)
+   OR (b.FirstIndustryCode = '270000' AND b.SecondIndustryCode = '270100' AND (b.ThirdIndustryCode = '270101' OR b.ThirdIndustryCode = '270102'));
+查询结果:
+[{"AShareAbbr": "斯达半导"}, {"AShareAbbr": "汇顶科技"}, {"AShareAbbr": "长川科技"}, {"AShareAbbr": "瑞芯微"}, {"AShareAbbr": "立昂微"}, {"AShareAbbr": "通富微电"}, {"AShareAbbr": "华天科技"}, {"AShareAbbr": "扬杰科技"}]
+
+查询结果表明: 该查询返回了在特定行业分类下的A股简称列表。具体来说，这些公司要么属于行业代码为60102928或60102929的行业，要么属于一级行业代码为270000、二级行业代码为270100且三级行业代码为270101或270102的行业。查询结果共包含8家公司，分别是斯达半导、汇顶科技、长川科技、瑞芯微、立昂微、通富微电、华天科技和扬杰科技。这些公司的简称通过字段AShareAbbr展示。
+
+当前掌握的信息是否能够回答"对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），请从以下维度深入分析：
+    1. 这些公司的行业代码是什么？
+    2. 行业相同的公司分别是什么（中文名称缩写即可）？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+### 分阶段执行策略
+
+#### 第三阶段：确认这些公司在2021-12-21是否创出月度新高
+
+【已知信息】
+- 与斯达半导行业相同的公司列表：斯达半导、汇顶科技、长川科技、瑞芯微、立昂微、通富微电、华天科技、扬杰科技
+- 这些公司的行业代码为60102928和60102929
+
+【当前阶段要获取的信息】
+- 确认这些公司在2021-12-21是否创出月度新高
+
+【信息所在字段】
+- IfHighestHPriceRM（是否创近一月的新高）
+
+【筛选条件所在字段】
+- InnerCode, TradingDay
+
+【SQL语句的思路】
+- 从`astockmarketquotesdb.cs_stockpatterns`表中查询这些公司在2021-12-21是否创出月度新高
+
+【执行SQL语句】
+```exec_sql
+SELECT c.AShareAbbr, s.IfHighestHPriceRM
+FROM astockmarketquotesdb.cs_stockpatterns AS s
+JOIN constantdb.secumain AS m ON s.InnerCode = m.InnerCode
+JOIN astockbasicinfodb.lc_stockarchives AS c ON m.CompanyCode = c.CompanyCode
+WHERE s.TradingDay = '2021-12-21'
+  AND c.AShareAbbr IN ('斯达半导', '汇顶科技', '长川科技', '瑞芯微', '立昂微', '通富微电', '华天科技', '扬杰科技');
+```
+
+【上述SQL语句的含义】
+- 通过联表查询，从`astockmarketquotesdb.cs_stockpatterns`、`constantdb.secumain`和`astockbasicinfodb.lc_stockarchives`表中筛选出在2021-12-21这一交易日，且公司简称在已知列表中的记录，并获取这些公司是否创出月度新高的信息。
+
+---
+
+请先执行上述SQL语句，确认这些公司在2021-12-21是否创出月度新高。后续将基于此结果进行进一步分析。
+
+>>>>> 查询sql:
+SELECT c.AShareAbbr, s.IfHighestHPriceRM
+FROM astockmarketquotesdb.cs_stockpatterns AS s
+JOIN constantdb.secumain AS m ON s.InnerCode = m.InnerCode
+JOIN astockbasicinfodb.lc_stockarchives AS c ON m.CompanyCode = c.CompanyCode
+WHERE s.TradingDay = '2021-12-21'
+  AND c.AShareAbbr IN ('斯达半导', '汇顶科技', '长川科技', '瑞芯微', '立昂微', '通富微电', '华天科技', '扬杰科技');
+查询结果:
+[]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT c.AShareAbbr, s.IfHighestHPriceRM
+FROM astockmarketquotesdb.cs_stockpatterns AS s
+JOIN constantdb.secumain AS m ON s.InnerCode = m.InnerCode
+JOIN astockbasicinfodb.lc_stockarchives AS c ON m.CompanyCode = c.CompanyCode
+WHERE s.TradingDay = '2021-12-21'
+  AND c.AShareAbbr IN ('斯达半导', '汇顶科技', '长川科技', '瑞芯微', '立昂微', '通富微电', '华天科技', '扬杰科技');
+查询结果:
+[]
+
+请检查筛选条件是否存在问题，比如时间日期字段没有用DATE()或YEAR()格式化？
+
+>>>>> Agent【Sql_query.master】 Said:
+### 分阶段执行策略
+
+#### 重新检查筛选条件
+
+【已知信息】
+- 与斯达半导行业相同的公司列表：斯达半导、汇顶科技、长川科技、瑞芯微、立昂微、通富微电、华天科技、扬杰科技
+- 这些公司的行业代码为60102928和60102929
+
+【当前阶段要获取的信息】
+- 确认这些公司在2021-12-21是否创出月度新高
+
+【信息所在字段】
+- IfHighestHPriceRM（是否创近一月的新高）
+
+【筛选条件所在字段】
+- InnerCode, TradingDay
+
+【SQL语句的思路】
+- 重新检查时间日期字段的格式化，确保使用`DATE()`函数
+- 确认联表查询的关联条件是否正确
+
+【执行SQL语句】
+```exec_sql
+SELECT c.AShareAbbr, s.IfHighestHPriceRM
+FROM astockmarketquotesdb.cs_stockpatterns AS s
+JOIN constantdb.secumain AS m ON s.InnerCode = m.InnerCode
+JOIN astockbasicinfodb.lc_stockarchives AS c ON m.CompanyCode = c.CompanyCode
+WHERE DATE(s.TradingDay) = '2021-12-21'
+  AND c.AShareAbbr IN ('斯达半导', '汇顶科技', '长川科技', '瑞芯微', '立昂微', '通富微电', '华天科技', '扬杰科技');
+```
+
+【上述SQL语句的含义】
+- 通过联表查询，从`astockmarketquotesdb.cs_stockpatterns`、`constantdb.secumain`和`astockbasicinfodb.lc_stockarchives`表中筛选出在2021-12-21这一交易日，且公司简称在已知列表中的记录，并获取这些公司是否创出月度新高的信息。此次查询特别确保了时间日期字段使用`DATE()`函数进行格式化。
+
+---
+
+请先执行上述SQL语句，确认这些公司在2021-12-21是否创出月度新高。后续将基于此结果进行进一步分析。
+
+>>>>> 查询sql:
+SELECT c.AShareAbbr, s.IfHighestHPriceRM
+FROM astockmarketquotesdb.cs_stockpatterns AS s
+JOIN constantdb.secumain AS m ON s.InnerCode = m.InnerCode
+JOIN astockbasicinfodb.lc_stockarchives AS c ON m.CompanyCode = c.CompanyCode
+WHERE DATE(s.TradingDay) = '2021-12-21'
+  AND c.AShareAbbr IN ('斯达半导', '汇顶科技', '长川科技', '瑞芯微', '立昂微', '通富微电', '华天科技', '扬杰科技');
+查询结果:
+[{"AShareAbbr": "立昂微", "IfHighestHPriceRM": 2}, {"AShareAbbr": "瑞芯微", "IfHighestHPriceRM": 2}, {"AShareAbbr": "斯达半导", "IfHighestHPriceRM": 2}, {"AShareAbbr": "长川科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "汇顶科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "扬杰科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "华天科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "通富微电", "IfHighestHPriceRM": 2}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT c.AShareAbbr, s.IfHighestHPriceRM
+FROM astockmarketquotesdb.cs_stockpatterns AS s
+JOIN constantdb.secumain AS m ON s.InnerCode = m.InnerCode
+JOIN astockbasicinfodb.lc_stockarchives AS c ON m.CompanyCode = c.CompanyCode
+WHERE DATE(s.TradingDay) = '2021-12-21'
+  AND c.AShareAbbr IN ('斯达半导', '汇顶科技', '长川科技', '瑞芯微', '立昂微', '通富微电', '华天科技', '扬杰科技');
+查询结果:
+[{"AShareAbbr": "立昂微", "IfHighestHPriceRM": 2}, {"AShareAbbr": "瑞芯微", "IfHighestHPriceRM": 2}, {"AShareAbbr": "斯达半导", "IfHighestHPriceRM": 2}, {"AShareAbbr": "长川科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "汇顶科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "扬杰科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "华天科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "通富微电", "IfHighestHPriceRM": 2}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 在2021年12月21日的交易日中，以下八家上市公司的A股简称（AShareAbbr）分别为立昂微、瑞芯微、斯达半导、长川科技、汇顶科技、扬杰科技、华天科技和通富微电，它们的股票均创下了近一个月的新高（IfHighestHPriceRM值为2）。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT c.AShareAbbr, s.IfHighestHPriceRM
+FROM astockmarketquotesdb.cs_stockpatterns AS s
+JOIN constantdb.secumain AS m ON s.InnerCode = m.InnerCode
+JOIN astockbasicinfodb.lc_stockarchives AS c ON m.CompanyCode = c.CompanyCode
+WHERE DATE(s.TradingDay) = '2021-12-21'
+  AND c.AShareAbbr IN ('斯达半导', '汇顶科技', '长川科技', '瑞芯微', '立昂微', '通富微电', '华天科技', '扬杰科技');
+查询结果:
+[{"AShareAbbr": "立昂微", "IfHighestHPriceRM": 2}, {"AShareAbbr": "瑞芯微", "IfHighestHPriceRM": 2}, {"AShareAbbr": "斯达半导", "IfHighestHPriceRM": 2}, {"AShareAbbr": "长川科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "汇顶科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "扬杰科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "华天科技", "IfHighestHPriceRM": 2}, {"AShareAbbr": "通富微电", "IfHighestHPriceRM": 2}]
+
+查询结果表明: 在2021年12月21日的交易日中，以下八家上市公司的A股简称（AShareAbbr）分别为立昂微、瑞芯微、斯达半导、长川科技、汇顶科技、扬杰科技、华天科技和通富微电，它们的股票均创下了近一个月的新高（IfHighestHPriceRM值为2）。
+
+当前掌握的信息是否能够回答"对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），请从以下维度深入分析：
+    1. 这些公司的行业代码是什么？
+    2. 行业相同的公司分别是什么（中文名称缩写即可）？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+### 综合分析
+
+【已知信息】
+1. 斯达半导的行业代码为60102928和60102929，一级行业代码为270000，二级行业代码为270100，三级行业代码为270101和270102。
+2. 与斯达半导行业相同的公司列表：斯达半导、汇顶科技、长川科技、瑞芯微、立昂微、通富微电、华天科技、扬杰科技。
+3. 在2021年12月21日，这些公司均创下了近一个月的新高。
+
+【当前阶段要获取的信息】
+- 这些公司的行业代码
+- 行业相同的公司分别是什么（中文名称缩写）
+
+【已获取的信息】
+1. 这些公司的行业代码已经通过之前的查询确认，与斯达半导相同。
+2. 行业相同的公司列表已经通过之前的查询获取。
+
+【综合分析结果】
+1. **行业代码**：
+   - 斯达半导的行业代码为60102928和60102929。
+   - 其他公司的行业代码与斯达半导相同，即一级行业代码为270000，二级行业代码为270100，三级行业代码为270101和270102。
+
+2. **行业相同的公司（中文名称缩写）**：
+   - 斯达半导
+   - 汇顶科技
+   - 长川科技
+   - 瑞芯微
+   - 立昂微
+   - 通富微电
+   - 华天科技
+   - 扬杰科技
+
+【结论】
+当前掌握的信息已经能够完全回答问题：
+1. 这些公司的行业代码是60102928和60102929，以及对应的一级行业代码270000，二级行业代码270100，三级行业代码270101和270102。
+2. 行业相同的公司分别是斯达半导、汇顶科技、长川科技、瑞芯微、立昂微、通富微电、华天科技和扬杰科技。
+
+无需继续执行下一阶段SQL查询。
+
+---
+
+【最终回答】
+对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），深入分析结果如下：
+1. 这些公司的行业代码是60102928和60102929，以及对应的一级行业代码270000，二级行业代码270100，三级行业代码270101和270102。
+2. 行业相同的公司分别包括斯达半导、汇顶科技、长川科技、瑞芯微、立昂微、通富微电、华天科技和扬杰科技。
+
+
+>>>>> 【user】 Said:
+充分尊重前面给出的结论，回答问题:"对于在2021-12-21这一天A股市场中同时具备企业资本背景并创出月度新高的公司（如斯达半导），请从以下维度深入分析：
+    1. 这些公司的行业代码是什么？
+    2. 行业相同的公司分别是什么（中文名称缩写即可）？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+1. 行业代码: 60102928, 60102929, 270000, 270100, 270101, 270102
+2. 行业相同公司: 斯达半导, 汇顶科技, 长川科技, 瑞芯微, 立昂微, 通富微电, 华天科技, 扬杰科技

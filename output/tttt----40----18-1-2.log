@@ -1,0 +1,302 @@
+
+>>>>> Original Question: 这些公司中有哪些当年股东减持了的？
+
+
+>>>>> 【user】 Said:
+已知事实:无。
+下面是顺序的历史问答:
+'''
+Question: 上海市锦天城律师事务所2020年见证多少家公司的年度股东大会？
+Answer: 14家
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：这些公司中有哪些当年股东减持了的？
+
+>>>>> Agent【rewrite_question】 Said:
+在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，有哪些公司的股东当年进行了减持？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，有哪些公司的股东当年进行了减持？"
+
+>>>>> Agent【extract_company】 Said:
+```json
+["上海市锦天城律师事务所"]
+```
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '上海市锦天城律师事务所'
+   OR ChiName LIKE '%上海市锦天城律师事务所%'
+   OR ChiNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR EngName LIKE '%上海市锦天城律师事务所%'
+   OR EngNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR SecuAbbr LIKE '%上海市锦天城律师事务所%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%上海市锦天城律师事务所%'
+   OR ChiName LIKE '%上海市锦天城律师事务所%'
+   OR ChiNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR EngName LIKE '%上海市锦天城律师事务所%'
+   OR EngNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR SecuAbbr LIKE '%上海市锦天城律师事务所%'
+   OR FormerName LIKE '%上海市锦天城律师事务所%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '上海市锦天城律师事务所'
+   OR ChiName LIKE '%上海市锦天城律师事务所%'
+   OR EngName LIKE '%上海市锦天城律师事务所%'
+   OR SecuAbbr LIKE '%上海市锦天城律师事务所%';
+查询结果:
+[]
+
+>>>>> 已知事实:
+
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询的是在2020年，由上海市锦天城律师事务所见证的14家公司年度股东大会中，哪些公司的股东在当年进行了减持。这需要两个关键信息：
+1. 2020年由上海市锦天城律师事务所见证的公司年度股东大会信息。
+2. 这些公司股东在2020年的减持情况。
+
+【选中的数据库】
+- `astockeventsdb`: 这个数据库记录了上市公司公告中披露的各种重大事项，包括股东大会信息，可以用来查找由上海市锦天城律师事务所见证的年度股东大会。
+- `astockshareholderdb`: 这个数据库记录了上市公司股东及股本变动信息，可以用来查找股东减持情况。
+
+【选中的数据库的清单】
+```json
+["astockeventsdb", "astockshareholderdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockeventsdb.lc_warrant", "说明": "该数据表涵盖了与公司事件披露相关的多维度信息，包括基础信息如公司代码、事件编码等；时间信息如首次信息发布日期、信息发布日期、协议签署日期、借贷及担保的起止日期等；信息来源和披露方式等描述性字段；事件相关信息如事件内容、行为描述、最新进展状态、事件主体及其名称、企业编号、关联关系等；交易对象和担保相关信息，包括交易对象名称、担保金额（首次及最新）、担保资产、提供担保企业及其关联关系、接受担保企业及其关联关系、反担保企业及资产等；借贷信息如借款银行、借款期限、续借期限、借贷起止日期、担保期限及续保期限等；以及其他补充信息如担保是否违规、借贷是否逾期、担保解除日期及方式、附注等，全面记录了公司事件的关键要素和关联信息。"}, {"表名": "astockeventsdb.lc_credit", "说明": "该数据表主要记录公司与上市公司之间的贷款及担保相关信息。字段信息包括公司标识及关联关系，如公司代码、事件主体名称及编号、交易对象名称及编号、借入方及借出方、担保方及其关联关系等。时间信息涵盖首次信息发布日期、信息发布日期、协议签署日期、借贷起始日及截止日、担保起始日及截止日、最近还款日期等。贷款与担保的详细信息涉及到货币单位、首次及最新借贷金额、最近及累计还款金额、借贷条件、年利率及其说明、借贷及担保期限、续借及续保期限、抵押置押资产等。事件相关信息包括信息来源、公告类型、披露方式、事件内容及主体、行为描述及方式、最新进展状态、是否终止等。此外，还包括附注信息用于补充说明。"}, {"表名": "astockeventsdb.lc_suitarbitration", "说明": "该数据表主要用于记录与公司相关的事件、诉讼仲裁及其进展信息。表中包含了基础标识信息如ID和公司代码(CompanyCode)；时间信息如首次信息发布日期(InitialInfoPublDate)和信息发布日期(InfoPublDate)；信息来源和披露方式(InfoSource, DisclosureMethod)；事件相关信息如事件内容(EventContent)、行为描述(ActionDesc)、事件主体名称及编号(SubjectName, SubjectCode)、事件进程(EventProcedure)、行为方式(ActionWays)、事件主体在诉讼中的角色(EventSubjectRole)等；涉及的交易或诉讼对象信息如交易对象名称及编号(ObjectName, ObjectCode)、诉讼仲裁原告和被告(Plaintiff, Defendant)及其关联关系；诉讼仲裁详细信息如案由描述(SubjectMatterStat)、案由(SubjectMatter)、诉讼仲裁金额(FirstSuitSum, LatestSuitSum)、审理机构(InquisitionInstitute)、仲裁状态及各审级状态(CaseStatus, FirstInstanceStatus, SecondInstanceStatus, SPPStatus)；财产执行信息如被执行财产(PropertyEnforced)、归属(PropertyBelonged)、执行状态(AdjudgementStatus)；以及协议签署日期(AgreementDate)、备注(Note)、是否终止(IfEnded)等辅助字段。字段内容涵盖了事件描述、诉讼仲裁进展、主体与关联方信息等多方面内容，便于综合分析和管理。"}, {"表名": "astockeventsdb.lc_entrustinv", "说明": "该数据表主要记录公司相关事件的详细信息，包括公司标识字段如公司代码、事件主体名称及其企业编号、交易对象名称及其企业编号等；事件基本信息字段如首次信息发布日期、信息发布日期、信息来源、公告类型、披露方式、事件内容、行为描述、行为方式及事件进程等；状态与进展字段如最新进展状态描述、是否终止、协议签署日期等；财务相关字段如涉及金额、货币单位、委托期限、委托起始日与截止日、约定收益说明及实际收益等；以及其他补充信息字段如与上市公司的关联关系、备注等，全面涵盖了事件的时间、主体、财务及进展等核心要素。"}, {"表名": "astockeventsdb.lc_regroup", "说明": "该数据表主要用于记录公司事件相关的信息。包括公司基础信息如公司代码、事件主体名称及其编号、事件主体与上市公司的关联关系等；事件相关的时间信息如首次信息发布日期、信息发布日期、协议签署日期等；事件的详细描述如事件内容、行为描述、最新进展状态、事件进程、行为方式等；信息来源和披露方式等公告信息；涉及的财务数据如资产帐面价值、资产评估价值、资产出售金额、资产转让收益、债务重组金额等；事件的类别和编码信息如公告类型、事项类型、事项编码、序号等；此外，还包括事件是否终止、交易对象企业编号及其与上市公司的关联关系等补充信息。"}, {"表名": "astockeventsdb.lc_majorcontract", "说明": "该数据表记录了与公司相关的事件及合同信息，包含公司基本信息如公司代码、事件主体名称及编号、交易对象名称及编号，以及主体与上市公司间的关联关系等；事件相关信息如首次信息发布日期、最新信息发布日期、信息来源、公告类型、事件内容、行为描述、行为方式、最新进展状态描述、事件主体、事件进程等；合同相关信息如协议签署日期、合同标的、合同获得方式、中标日期、涉及金额、合同起始日、合同截止日、合同期限及合同对公司的影响等；此外，还包括货币单位及备注等辅助信息。"}, {"表名": "astockeventsdb.lc_investorra", "说明": "该数据表记录了与证券相关的接待活动信息，包含信息发布日期、标题及链接等基本信息；证券内部编码、编号和序号等标识信息；接待日期、时间及截止日等时间信息；活动类别、地点、参与单位及人员、上市公司接待人员等活动相关信息；主要内容、附件及其格式等内容信息。"}, {"表名": "astockeventsdb.lc_investordetail", "说明": "该数据表主要用于记录投资者关系活动的详细信息，包括活动的唯一标识（投资者关系活动ID）、参与的调研机构及其编码（调研机构、调研机构编码）、参与的调研人员及其编码（调研人员、调研人员编码）、调研人员的职位名称，以及活动的排序序号等基本信息。"}, {"表名": "astockshareholderdb.lc_shtypeclassifi", "说明": "该数据表主要用于记录股东及其分类信息，包含股东的唯一标识信息如股东代码和股东编码，股东名称及其所属性质等基本信息，同时提供多级分类结构，涵盖分类标准及一级至四级分类代码，便于对股东进行分层管理和分析。"}, {"表名": "astockshareholderdb.lc_mainshlistnew", "说明": "该数据表主要记录了股东及其持股情况的详细信息，包括公司代码、日期、信息发布日期和来源等基本信息。股东相关信息涵盖股东排名、序号、名称、性质、类别及其编码等。持股信息详细列出了持股总数、持股比例、持股增减情况，以及持有不同类型股票（如A股、B股、H股、普通股及其他类别）的数量和比例。此外，还包括股东性质描述、股权质押和冻结情况及其说明，股东之间的关联关系和一致行动人说明等。证券相关信息有证券代码、简称、所属券商编号及归属机构名称等。备注说明和其他字段提供了进一步的补充信息。"}, {"表名": "astockshareholderdb.lc_shnumber", "说明": "该数据表主要涵盖了公司股东信息的各类数据，包括公司代码、信息发布日期和信息来源等基本信息。股东数据详细记录了股东总户数及各类股东（如A股、B股、H股、CDR股东）的户数和户均持股数，提供了户均持股比例及其相对变化，季度和半年增长率等动态指标。此外，表中还细分了无限售条件股东的数据，包括无限售A股和CDR的户均持股数及比例变化等。通过这些数据，能够分析不同类型股东的持股分布及其变化趋势。"}, {"表名": "astockshareholderdb.lc_mshareholder", "说明": "该数据表主要用于记录公司股东相关信息及公司基本情况，包含以下几类字段信息：公司基本信息如公司代码、信息发布日期、信息来源等；股东相关信息如股东名称、股东地位、持股比例、股东性质、股东ID、国籍描述、永久境外居留权等；公司运营及财务信息如法人代表、注册资本、主要业务、经济性质、背景介绍等；其他信息如股权获取方式、实际控制人结构图、公告类别、报告原文文件格式、日期以及货币单位等，并提供是否存在的标识字段以便于数据筛选和分析。"}, {"表名": "astockshareholderdb.lc_actualcontroller", "说明": "该数据表主要用于记录公司实际控制人的相关信息，包括公司代码、信息发布日期和日期等基本信息；实际控制人的详细信息如代码、姓名、经济性质、国籍代码及描述、永久境外居留权状态，以及实际控制人所属性质等。"}, {"表名": "astockshareholderdb.lc_sharestru", "说明": "该数据表主要记录了公司股本结构及相关信息，包含以下几类字段：公司基本信息如公司代码(CompanyCode)、信息来源(InfoSource)、信息发布日期(InfoPublDate)；时间相关字段如日期(EndDate)；股本总量及变动情况如总股本(股)(TotalShares)、股本变动原因类别(ChangeType)、简称变更原因(ChangeReason)；股权分类及持股情况包括未流通股(NonListedShares)、流通股本(FloatShare)、有限售条件流通股(RestrictedShares)、无限售条件流通股(NonRestrictedShares)、A股(Ashares)、B股(Bshares)、H股(Hshares)、GDR代表基础股票(GDRshares)、外资持股(ForeignHolding)等，进一步细分为发起人股(PromoterShares)、国家股(StateShares)、法人股(DLegalPersonShares、FLegalPersonShares)、自然人股(NaturalPersonHoldLPShares)、职工股(StaffShares)、战略投资者配售持股(StategicInvestorShares)、基金配售持股(MutualFundShares)等；股本流通状态如已上市流通股(AFloatListed)、未上市增发股(AdditionIssueUnlisted)、配股未上市(RightsIssueUnlisted)等；其他股本信息如优先股(PreferredShares)、有限售H股(RestrictedHShares)、无限售H股(NonRestrictedHShares)、其他未流通股(OUnListedShares)；股本面值及货币单位如每股面值(PerValue)、每股面值货币单位(ParValueCurrencyUnit)。通过这些字段，能够全面反映公司股本的构成、流通及变动情况。"}, {"表名": "astockshareholderdb.lc_stockholdingst", "说明": "该数据表主要用于记录各类机构及股东对A股的持股情况及相关统计信息，包含以下几类字段：基础信息如证券内部编码、公司代码、统计日期等；持股数量信息，包括机构、公募基金、券商、私募基金、银行、外资等不同主体持有的无限售流通A股、总A股及其他类型A股的数量；持股比例信息，涵盖上述主体对不同类型A股的持股比例；持股户数信息，记录各类机构及股东的持股户数，包括流通A股户数、无限售流通A股户数等；前十大股东信息，如前十大股东持股数量及比例、无限售股东持股数据等；信息来源及日期字段，用于标注数据出处和时间。"}, {"表名": "astockshareholderdb.lc_sharetransfer", "说明": "该数据表主要记录股权转让的详细信息，涵盖了公司基本信息如公司代码、信息发布日期、信息来源等；股权转让的关键时间点如协议签署日、批准日期、正式变动日期等；转让方和受让方的相关信息，包括名称、经济性质、属性、编码等；股权转让前后的持股情况，如持股数量、持股比例、有限售股数、无限售股数等；交易相关信息如转让方式、涉及股数、交易价格、交易金额等；其他补充信息如生效条件、事项描述与进展、是否终止实施及公告日期等；以及序号、证券内部编码等标识信息。"}, {"表名": "astockshareholderdb.lc_sharefp", "说明": "该数据表记录了公司股权冻结质押的详细信息，包含公司代码、信息发布日期和来源等基本信息，以及涉及的股东和接受方的详细信息，如股东名称和ID、接受方名称和ID、股东和接受方的属性等。表中还包括冻结质押的具体细节，如涉及股数、占持股比例、占总股本比例、起始和结束日期、原因及事项编码和日期。此外，表格记录了无限售股数、有限售股数，以及初始信息发布日期、初始质押股数和预计解除日期等信息。"}, {"表名": "astockshareholderdb.lc_sharefpsta", "说明": "该数据表主要用于记录股权冻结质押的相关信息，包含以下字段：标识信息如冻结质押编号(FPCode)、公司代码(CompanyCode)和股东ID(SHID)；时间信息如截止日期(EndDate)；信息来源(InfoSource)；类别选择(Category)；股东信息如股权被冻结质押股东名称(FPSHName)及其属性(SHAttribute)；冻结质押相关统计数据如累计冻结质押股数(AccuFPShares)、累计占冻结质押方持股数比例(AccuPCTOfPled)、累计占总股本比例(AccuProportion)及其计算值(AccuProportionCalc)；其他辅助字段如AccuFPSharesCalc。"}, {"表名": "astockshareholderdb.lc_buyback", "说明": "该数据表记录了公司股份回购的详细信息，包括公司基本信息如公司代码，以及重要日期信息如首次信息发布日期、预案发布日期、股东大会通过日期、回购协议签署日、回购并注销股份公告书发布日、起始日期、结束日期、全称更改日期、回购资金划出日、工商变更登记日等。股份回购的具体情况涵盖股份类别、股份被回购方、回购股数及占总股本比例、回购定价方式说明、回购价格及回购总金额、回购数量及价格上下限、拟回购资金总额上下限等。支付方式、资金来源及用途说明、回购目的、事件进程及描述、回购方式代码及描述等信息也被详细记录。此外，还包括待偿期限指数、未描述的字段如回购目的、货币单位及被否决日期等。"}, {"表名": "astockshareholderdb.lc_buybackattach", "说明": "该数据表记录了有关股份回购的信息，包含回购的唯一标识（股份回购ID）及其相关的日期信息，如信息发布日期和生效日期。涉及财务数据的字段包括货币单位、最高价、最低价、本次回购资金及累计回购资金总额。此外，表中还记录了与回购数量相关的数据，如回购股数、累计回购数量及其占总股本的比例。通过这些字段，能够全面了解某次股份回购的基本信息和财务影响。"}, {"表名": "astockshareholderdb.lc_legaldistribution", "说明": "该数据表记录了证券配售的详细信息，涵盖了多方面的内容：基础信息如证券内部编码、证券代码、信息发布日期及首次发布日期等；配售相关信息包括配售总股数、配售原因、配售性质、获配股数（有锁定期和无锁定期分别记录）、获配金额、实际发行价、有效申购股数、退款金额、补款金额等；投资者信息包括投资者名称（标准化和原始）、投资者编号、投资者类型、投资者分类等，以及获配企业的名称、性质和所属券商的编号及名称；战略配售的详细记录如高管、员工、保荐机构及其他参与战略配售的股份数量、金额和占比等；此外，还包括流通日期、持股时间等时间维度信息，以及备注说明和配售对象代码等辅助字段。整体涵盖了证券配售的全流程信息，便于分析和统计。"}, {"表名": "astockshareholderdb.lc_nationalstockholdst", "说明": "该数据表主要用于记录股东持股相关信息，包含以下字段类别：基础信息如内部编码、公司代码、股东ID、股东名称；时间信息如截止日期；持股数据如持有A股总数、有限售A股数、无限售A股数；比例数据如占总股本比例、占流通A股比例；变动信息如持有A股数量增减及其增减幅度。"}, {"表名": "astockshareholderdb.cs_foreignholdingst", "说明": "该数据表记录了证券相关的交易信息，包括证券内部编码用于标识证券，交易日期表示具体的交易时间，外资持股总数（单位为万股）和外资持股比例（百分比）则反映了外资在该证券中的持股情况。"}, {"表名": "astockshareholderdb.lc_esop", "说明": "该数据表主要用于记录资产管理计划相关信息，涵盖了基础标识信息如“内部编码、公司代码”等，公告日期信息如“首次信息发布日期、董事会公告日期、股东大会公告日期”等，计划进程与实施信息如“事件进程、是否分期实施、数据统计区间、首次实施公告日”等，股票与资金规模信息如“股票来源方式、股票规模上限与下限、资金总额上限与下限”等，计划细节信息如“麦考利久期、锁定期、释放期、资金来源、参与单位及人员、管理模式、管理机构、资产管理计划全称、分期情况、杠杆比例”等，价格与参与情况信息如“购买股票价格、参与人数、高管及员工的参与人数、认购份额与比例”等，时间节点信息如“持股的完成日、锁定的起始日”等，以及其他补充说明如“计划情况说明”等，全面涵盖计划的各个维度。"}, {"表名": "astockshareholderdb.lc_esopsummary", "说明": "该数据表主要用于记录证券相关事件的信息，包括证券内部编码和公司代码等基础标识信息；首次信息发布日期、董事会公告日期、股东大会公告日期等时间信息；事件进程和序号等事件状态信息；是否分期实施及分期情况等分期相关信息；股票规模和资金总额的上下限等规模和资金范围信息；以及备注说明等补充描述信息。"}, {"表名": "astockshareholderdb.lc_transferplan", "说明": "该数据表主要记录了公司股东承诺及增减持计划的相关信息，涵盖多个方面的字段：公司基本信息如“公司代码”；信息披露相关字段如“首次信息发布日期”“信息发布日期”“信息来源”；承诺主体与事项类型信息如“承诺主体类型”“承诺事项类型”；承诺时间范围及内容描述如“承诺起始日期”“承诺截止日期”“承诺说明”；股东信息如“股东序号”“股东名称”；增持计划相关字段包括“增持时间描述”“增持实施期限”“增持价格描述”“增持股票触发价格上下限”“增持股份数量上下限”“增持比例上下限”“增持投入资金上下限”等；减持计划相关字段包括“减持时间描述”“减持实施期限”“减持价格描述”“减持股票触发价格上下限”“减持股份数量上下限”“减持比例上下限”等；承诺有效性及不减持承诺期限如“承诺是否有效”“不减持承诺期限”；交易方式及相关描述如“交易方式”“交易方式描述”；事件进程信息如“事件进程”。这些字段全面记录了公司股东承诺及增减持行为的各类细节。"}, {"表名": "astockshareholderdb.lc_smattendinfo", "说明": "该数据表记录了公司股东大会相关的综合信息，涵盖多个维度。包括公司基本信息如公司代码；股东大会的时间安排，如首次信息发布日期、最新信息发布日期、公告日期、股东大会召开日及时间、股权登记日、会议登记起止日期、网络投票起止日期等；股东大会的地点和形式信息，如召开地址、会议类别、投票表决方式、网络投票通道及代码等；股东大会的参与情况统计，包括出席总体股东及代表人数、各类股东人数（如A股、H股、中小股东、优先股股东等）、出席股东代表股份及其占比（按不同股东类别区分）；股东大会的主持及法律见证信息，包括大会主持人及其职务、见证律师事务所及其编号、经办律师等；其他相关信息如议案内容、是否有效、股东大会取消日期、年度及届次等。通过这些字段，全面反映了股东大会的组织、参与及法律合规情况。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要找出在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，哪些公司的股东当年进行了减持，我们需要以下信息：
+1. 2020年股东大会的信息，包括公司代码和见证律师事务所。
+2. 2020年股东减持的信息，包括公司代码和减持情况。
+
+【选中的数据表】
+- astockshareholderdb.lc_smattendinfo: 该数据表记录了公司股东大会相关的综合信息，包括公司代码、股东大会召开日及见证律师事务所等信息。
+- astockshareholderdb.lc_sharetransfer: 该数据表主要记录股权转让的详细信息，包括公司代码、信息发布日期、转让方和受让方的相关信息以及股权转让前后的持股情况。
+
+【选中的数据库表的清单】
+```json
+["astockshareholderdb.lc_smattendinfo", "astockshareholderdb.lc_sharetransfer"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockshareholderdb.lc_smattendinfo", "表字段": [{"column": "CompanyCode", "desc": "公司代码；，得到上市公司的交易代码、简称等。"}, {"column": "InitialInfoPublDate", "desc": "首次信息发布日期"}, {"column": "LatestInfoPublDate", "desc": "最新信息发布日期"}, {"column": "MeetingDate", "desc": "股东大会召开日"}, {"column": "SHMeetingTime", "desc": "股东大会召开时间"}, {"column": "SMRegDate", "desc": "股东大会股权登记日"}, {"column": "MeetingRegStartDate", "desc": "会议登记起始日"}, {"column": "MeetingRegEndDate", "desc": "会议登记截止日"}, {"column": "AnounceDate", "desc": "股东大会公告日期"}, {"column": "ProposalContent", "desc": "议案内容"}, {"column": "CancelDate", "desc": "股东大会取消日期"}, {"column": "Address", "desc": "股东大会召开地址"}, {"column": "IfEffected", "desc": "是否有效；，令LB = 999 AND DM IN (1,2)，得到是否有效的具体描述：1-是，2-否。"}, {"column": "SerialNumber", "desc": "序号"}, {"column": "MeetingType", "desc": "股东大会类别；，令LB = 1299 AND DM IN (1,3,5)，得到股东大会类别的具体描述：1-年度股东大会，3-临时股东大会，5-出资人组会议。"}, {"column": "VotingMeans", "desc": "投票表决方式；，令LB = 1300，得到投票表决方式的具体描述：1-网络投票，2-现场投票，3-网络和通讯，5-现场和网络投票，9-通讯表决，15-现场投票和通讯表决，16-现场投票、通讯表决和网络投票。"}, {"column": "Year", "desc": "年度"}, {"column": "Series", "desc": "届次"}, {"column": "NetVotingPlatform", "desc": "网络投票通道；，令LB = 2521，得到网络投票通道的具体描述：1-中国证券登记结算有限责任公司网络系统，2-上海证券交易所交易系统，3-深圳证券交易所交易系统，4-互联网投票系统，5-中国证券登记结算有限责任公司网络系统、互联网投票系统，6-上海证券交易所交易系统、互联网投票系统，7-深圳证券交易所交易系统、互联网投票系统，999-其他。"}, {"column": "NetVotingCode", "desc": "网络投票代码"}, {"column": "VotingAbbr", "desc": "投票简称"}, {"column": "NetVotingStartDate", "desc": "网络投票起始日"}, {"column": "NetVotingEndDate", "desc": "网络投票截止日"}, {"column": "Presider", "desc": "大会主持人"}, {"column": "PresiderOfficialPost", "desc": "主持人职务(多选)"}, {"column": "TestmonyLawOffice", "desc": "见证律师事务所"}, {"column": "LawOfficeCode", "desc": "律师事务所企业编号；，得到预测机构的具体信息。"}, {"column": "Lawyer", "desc": "经办律师"}, {"column": "AttendanceType", "desc": "股东出席类别；，令LB = 1301，得到股东出席类别的具体描述：1-总体出席，2-现场投票出席，3-网络投票出席。"}, {"column": "AttendanceNumber", "desc": "出席总体股东及代表人数(人)"}, {"column": "ASharesNumber", "desc": "#A股股东人数(人)"}, {"column": "HSharesNumber", "desc": "#H股股东人数(人)"}, {"column": "OtherSharesNumber", "desc": "#其他基础股票股东人数(人)"}, {"column": "ShareANumber", "desc": "#A类普通股股东人数"}, {"column": "ShareBNumber", "desc": "#B类普通股股东人数"}, {"column": "ShareReprensented", "desc": "出席总体股东代表股份(股)/(票)"}, {"column": "ASharesReprensented", "desc": "#A股股东代表股份(股)"}, {"column": "HSharesReprensented", "desc": "#H股股东代表股份(股)"}, {"column": "OSharesReprensented", "desc": "#其他基础股票股东代表股份占比(%)"}, {"column": "ShareAReprensented", "desc": "#A类普通股股东代表股份(票)(以股计)"}, {"column": "ShareBReprensented", "desc": "#B类普通股股东代表股份(票)(以股计)"}, {"column": "RatioInTotalShare", "desc": "出席总体股东股份占总股份比例(%)"}, {"column": "ASharesRatio", "desc": "#A股股东代表股份占比(%)"}, {"column": "HSharesRatio", "desc": "#H股股东代表股份占比(%)"}, {"column": "OtherSharesRatio", "desc": "#其他基础股票股东代表股份占比(%)"}, {"column": "ShareARatio", "desc": "#A类普通股股东代表股份比例(%)"}, {"column": "ShareBRatio", "desc": "#B类普通股股东代表股份比例(%)"}, {"column": "MSharesNumber", "desc": "出席中小股东及代表人数"}, {"column": "MShareReprensented", "desc": "出席中小股东代表股份(股)"}, {"column": "MSharesRatio", "desc": "出席中小股东股份占总股份比例(%)"}, {"column": "PSharesNumber", "desc": "出席优先股股东及代表人数"}, {"column": "PSharesReprensented", "desc": "出席优先股股东代表股份(股)"}, {"column": "PSharesRatio", "desc": "出席优先股股东股份占总股份比例(%)"}]}, {"表名": "astockshareholderdb.lc_sharetransfer", "表字段": [{"column": "CompanyCode", "desc": "公司代码；，得到上市公司的交易代码、简称等。"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "ContractSignDate", "desc": "股权转让协议签署日"}, {"column": "ApprovedDate", "desc": "转让批准日期"}, {"column": "TranDate", "desc": "股权正式变动日期/过户日期"}, {"column": "TransfererName", "desc": "股权出让方名称"}, {"column": "TansfererEcoNature", "desc": "股权出让方经济性质"}, {"column": "TranShareType", "desc": "出让股权性质；，令LB = 1040，得到出让股权性质的具体描述：1-国家股，2-国有法人股，3-外资法人股，4-其他法人股，5-流通A股，6-B股，7-H股，8-转配股，9-专项资产管理计划转让，10-资产支持证券转让，11-中小企业私募债转让，12-中国存托凭证，13-可转换公司债券。"}, {"column": "SumBeforeTran", "desc": "出让前持股数量(股)"}, {"column": "PCTBeforeTran", "desc": "出让前持股比例"}, {"column": "SumAfterTran", "desc": "出让后持股数量(股)"}, {"column": "PCTAfterTran", "desc": "出让后持股比例"}, {"column": "ReceiverName", "desc": "接受股权质押方"}, {"column": "ReceiverEcoNature", "desc": "股权受让方经济性质"}, {"column": "SumAfterRece", "desc": "受让后持股数量(股)"}, {"column": "PCTAfterRece", "desc": "受让后持股比例"}, {"column": "TranMode", "desc": "股权转让方式；，令LB = 1202 AND DM NOT IN ( 8,51,55,57,98)，得到股权转让方式的具体描述：1-协议转让，2-国有股行政划转或变更，3-执行法院裁定，4-以资抵债，5-二级市场买卖，6-其他-股东重组，7-股东更名，9-其他-要约收购，10-以股抵债，11-大宗交易(席位)，12-大宗交易，13-其他-ETF换购，14-其他-行权买入，15-集中竞价，16-定向可转债转让，17-集合竞价，18-连续竞价，19-做市，20-询价转让，21-赠与，22-继承，24-间接方式转让，53-股改后间接股东增持，56-交易所集中交易，59-股权激励，70-国有股转持，71-老股转让，80-司法拍卖，99-其他。"}, {"column": "InvolvedSum", "desc": "涉及股数(股)"}, {"column": "PCTOfTansferer", "desc": "占出让方原持股数比例"}, {"column": "PCTOfTotalShares", "desc": "占总股本比例"}, {"column": "DealPrice", "desc": "交易价格(元/股)"}, {"column": "DealTurnover", "desc": "交易金额(元)"}, {"column": "ValidCondition", "desc": "生效条件"}, {"column": "TranStatement", "desc": "事项描述与进展说明"}, {"column": "IfSuspended", "desc": "是否终止实施；是否终止实施（IfSuspended），该字段固定以下常量：1-是；0-否"}, {"column": "SuspendedPublDate", "desc": "终止实施公告日期"}, {"column": "SNBeforeTran", "desc": "出让前股东序号"}, {"column": "SNAfterTran", "desc": "出让后股东序号"}, {"column": "SNAfterRece", "desc": "受让后股东序号"}, {"column": "IfSPBlockTradeCode", "desc": "是否专场大宗交易代码；是否专场大宗交易代码（IfSPBLockTradeCode），该字段固定以下常量：1-是；0-否"}, {"column": "IfSPBlockTrade", "desc": "是否专场大宗交易"}, {"column": "InnerCode", "desc": "证券内部编码"}, {"column": "ResSumAfterTran", "desc": "其中:出让后有限售股数(股)"}, {"column": "NonResSumAfterTran", "desc": "其中:出让后无限售股数(股)"}, {"column": "ResSumAfterRece", "desc": "其中:受让后有限售股数(股)"}, {"column": "NonResSumAfterRece", "desc": "其中:受让后无限售股数(股)"}, {"column": "InitialInfoPublDate", "desc": "首次信息发布日期"}, {"column": "TransfererAttribute", "desc": "股权出让方所属性质"}, {"column": "TransfererCode", "desc": "股权出让方编码"}, {"column": "ReceiverAttribute", "desc": "股权受让方所属性质；，令LB = 1783 and DM in (1,2,3,99)，得到股权受让方所属性质的具体描述：1-自然人，2-企业，3-证券品种，99-其他。"}, {"column": "ReceiverCode", "desc": "股权受让方编码；,得到事件主体企业的基本信息; 当股权受让方所属性质(ReceiverAttribute)=3时,与“证券码表总表(SecuMainAll)”中的“证券内部编码(InnerCode)”关联,得到事件主体证券品种的基本信息。"}, {"column": "SumBeforeRece", "desc": "受让前持股数量(股)"}, {"column": "PCTBeforerRece", "desc": "受让前持股比例(%)"}, {"column": "TranStartDate", "desc": "股权变动起始日"}, {"column": "SerialNumber", "desc": "序号"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户提问涉及以下几个方面：
+1. 时间条件：2020年
+2. 地点条件：上海市
+3. 机构条件：锦天城律师事务所
+4. 事件条件：年度股东大会
+5. 行为条件：股东减持
+
+需要找到与这些条件相关的字段，并确定哪些公司在2020年由锦天城律师事务所见证的年度股东大会中，股东进行了减持。
+
+【信息所在字段】
+- astockshareholderdb.lc_smattendinfo.MeetingDate: 这个字段可能包含股东大会召开日期信息，对应用户提问中的2020年
+- astockshareholderdb.lc_smattendinfo.TestmonyLawOffice: 这个字段可能包含见证律师事务所信息，对应用户提问中的锦天城律师事务所
+- astockshareholderdb.lc_smattendinfo.MeetingType: 这个字段可能包含股东大会类别信息，对应用户提问中的年度股东大会
+- astockshareholderdb.lc_smattendinfo.CompanyCode: 这个字段可能包含公司代码信息，用于关联公司信息
+- astockshareholderdb.lc_sharetransfer.TranDate: 这个字段可能包含股权正式变动日期信息，对应用户提问中的股东减持
+- astockshareholderdb.lc_sharetransfer.SumBeforeTran: 这个字段可能包含出让前持股数量信息，对应用户提问中的股东减持
+- astockshareholderdb.lc_sharetransfer.SumAfterTran: 这个字段可能包含出让后持股数量信息，对应用户提问中的股东减持
+- astockshareholderdb.lc_sharetransfer.CompanyCode: 这个字段可能包含公司代码信息，用于关联公司信息
+
+【筛选条件所在字段】
+- astockshareholderdb.lc_smattendinfo.MeetingDate: 用于筛选2020年的股东大会
+- astockshareholderdb.lc_smattendinfo.TestmonyLawOffice: 用于筛选锦天城律师事务所见证的股东大会
+- astockshareholderdb.lc_smattendinfo.MeetingType: 用于筛选年度股东大会
+- astockshareholderdb.lc_sharetransfer.TranDate: 用于筛选2020年的股权变动
+- astockshareholderdb.lc_sharetransfer.SumBeforeTran: 用于判断是否有减持行为
+- astockshareholderdb.lc_sharetransfer.SumAfterTran: 用于判断是否有减持行为
+
+【选中的字段的清单】
+```json
+{
+  "astockshareholderdb.lc_smattendinfo": [
+    "MeetingDate",
+    "TestmonyLawOffice",
+    "MeetingType",
+    "CompanyCode"
+  ],
+  "astockshareholderdb.lc_sharetransfer": [
+    "TranDate",
+    "SumBeforeTran",
+    "SumAfterTran",
+    "CompanyCode"
+  ]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在2020年1月1日至2020年12月31日期间，共有14家上市公司在其年度股东大会（MeetingType = 1）中邀请了上海市锦天城律师事务所（TestmonyLawOffice字段包含“上海市锦天城律师事务所”）作为见证律师事务所。这些公司的公司代码（CompanyCode）是唯一的。
+
+请问:在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，有哪些公司的股东当年进行了减持？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 2020年，上海市锦天城律师事务所见证了14家公司的年度股东大会。
+- 这些公司的公司代码（CompanyCode）是唯一的。
+
+【当前阶段要获取的信息】
+- 2020年，这14家公司中哪些公司的股东进行了减持。
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+- `TranDate`：股权正式变动日期/过户日期
+- `SumBeforeTran`：出让前持股数量(股)
+- `SumAfterTran`：出让后持股数量(股)
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码
+- `TranDate`：股权正式变动日期/过户日期
+
+【SQL语句的思路】
+1. 从`astockshareholderdb.lc_sharetransfer`表中筛选出2020年有股权变动的记录。
+2. 通过比较`SumBeforeTran`和`SumAfterTran`来确定是否为减持。
+3. 将这些记录的公司代码与已知的14家公司代码进行匹配。
+
+【执行SQL语句】
+```exec_sql
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_sharetransfer
+WHERE DATE(TranDate) BETWEEN '2020-01-01' AND '2020-12-31'
+AND SumBeforeTran > SumAfterTran
+AND CompanyCode IN (
+    SELECT CompanyCode
+    FROM astockshareholderdb.lc_smattendinfo
+    WHERE DATE(MeetingDate) BETWEEN '2020-01-01' AND '2020-12-31'
+    AND MeetingType = 1
+    AND TestmonyLawOffice LIKE '%上海市锦天城律师事务所%'
+)
+```
+
+【上述SQL语句的含义】
+- 首先，从`astockshareholderdb.lc_sharetransfer`表中筛选出2020年期间（`TranDate`在2020年1月1日至2020年12月31日之间）的股权变动记录。
+- 然后，通过比较`SumBeforeTran`（出让前持股数量）和`SumAfterTran`（出让后持股数量）来筛选出减持的记录（即`SumBeforeTran`大于`SumAfterTran`）。
+- 最后，将这些记录的公司代码与在2020年由上海市锦天城律师事务所见证的年度股东大会的公司代码进行匹配，得到最终结果。
+
+>>>>> 查询sql:
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_sharetransfer
+WHERE DATE(TranDate) BETWEEN '2020-01-01' AND '2020-12-31'
+AND SumBeforeTran > SumAfterTran
+AND CompanyCode IN (
+    SELECT CompanyCode
+    FROM astockshareholderdb.lc_smattendinfo
+    WHERE DATE(MeetingDate) BETWEEN '2020-01-01' AND '2020-12-31'
+    AND MeetingType = 1
+    AND TestmonyLawOffice LIKE '%上海市锦天城律师事务所%'
+);
+查询结果:
+[{"CompanyCode": 74996}, {"CompanyCode": 171621}, {"CompanyCode": 178300}, {"CompanyCode": 170543}, {"CompanyCode": 1637}, {"CompanyCode": 118021}, {"CompanyCode": 207679}, {"CompanyCode": 151879}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_sharetransfer
+WHERE DATE(TranDate) BETWEEN '2020-01-01' AND '2020-12-31'
+AND SumBeforeTran > SumAfterTran
+AND CompanyCode IN (
+    SELECT CompanyCode
+    FROM astockshareholderdb.lc_smattendinfo
+    WHERE DATE(MeetingDate) BETWEEN '2020-01-01' AND '2020-12-31'
+    AND MeetingType = 1
+    AND TestmonyLawOffice LIKE '%上海市锦天城律师事务所%'
+);
+查询结果:
+[{"CompanyCode": 74996}, {"CompanyCode": 171621}, {"CompanyCode": 178300}, {"CompanyCode": 170543}, {"CompanyCode": 1637}, {"CompanyCode": 118021}, {"CompanyCode": 207679}, {"CompanyCode": 151879}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明:
+在2020年1月1日至2020年12月31日期间，存在股权正式变动且出让前持股数量大于出让后持股数量的公司中，同时这些公司在同一年度内召开了年度股东大会，并且见证律师事务所包含“上海市锦天城律师事务所”字样的公司代码分别为74996、171621、178300、170543、1637、118021、207679和151879。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_sharetransfer
+WHERE DATE(TranDate) BETWEEN '2020-01-01' AND '2020-12-31'
+AND SumBeforeTran > SumAfterTran
+AND CompanyCode IN (
+    SELECT CompanyCode
+    FROM astockshareholderdb.lc_smattendinfo
+    WHERE DATE(MeetingDate) BETWEEN '2020-01-01' AND '2020-12-31'
+    AND MeetingType = 1
+    AND TestmonyLawOffice LIKE '%上海市锦天城律师事务所%'
+);
+查询结果:
+[{"CompanyCode": 74996}, {"CompanyCode": 171621}, {"CompanyCode": 178300}, {"CompanyCode": 170543}, {"CompanyCode": 1637}, {"CompanyCode": 118021}, {"CompanyCode": 207679}, {"CompanyCode": 151879}]
+
+查询结果表明:
+在2020年1月1日至2020年12月31日期间，存在股权正式变动且出让前持股数量大于出让后持股数量的公司中，同时这些公司在同一年度内召开了年度股东大会，并且见证律师事务所包含“上海市锦天城律师事务所”字样的公司代码分别为74996、171621、178300、170543、1637、118021、207679和151879。
+
+当前掌握的信息是否能够回答"在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，有哪些公司的股东当年进行了减持？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 在2020年1月1日至2020年12月31日期间，共有14家上市公司在其年度股东大会中邀请了上海市锦天城律师事务所作为见证律师事务所。
+- 通过查询，发现以下公司代码在2020年进行了减持：74996、171621、178300、170543、1637、118021、207679和151879。
+
+【当前阶段要获取的信息】
+- 确认这些进行减持的公司是否全部包含在之前查询到的14家公司中。
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+
+【筛选条件所在字段】
+- 无需额外筛选条件
+
+【SQL语句的思路】
+- 由于我们已经有了两个列表：一个是14家公司的公司代码，另一个是进行减持的公司代码。我们需要确认后者是否全部包含在前者中。
+
+【执行SQL语句】
+- 由于这一步主要是逻辑确认，不需要额外的SQL查询。我们可以直接通过比较两个列表来确认。
+
+【上述SQL语句的含义】
+- 无需额外SQL查询，直接通过已知信息进行比较。
+
+【执行SQL语句】
+无
+
+【上述SQL语句的含义】
+无
+
+### 结论
+当前掌握的信息已经能够回答“在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，有哪些公司的股东当年进行了减持？”的问题。具体来说，进行减持的公司代码分别为74996、171621、178300、170543、1637、118021、207679和151879。
+
+如果需要进一步确认这些公司代码是否全部包含在之前查询到的14家公司中，可以通过简单的列表比较来进行确认，而不需要额外的SQL查询。
+
+
+>>>>> 【user】 Said:
+请回答问题:"在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，有哪些公司的股东当年进行了减持？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，股东当年进行了减持的公司代码分别为：
+74996、171621、178300、170543、1637、118021、207679、151879。

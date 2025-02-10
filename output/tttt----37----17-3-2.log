@@ -1,0 +1,309 @@
+
+>>>>> Original Question: 在上述回购计划中，最大单笔回购的具体时间(xxxx-xx-xx的格式)和金额是多少？(四舍五入保留2位小数)
+
+
+>>>>> 【user】 Said:
+下面是已知的事实:
+'''
+中远海发的关联信息有:[InnerCode(证券内部编码)是6424;CompanyCode(公司代码)是4507;ChiName(中文名称)是中远海运发展股份有限公司;EngName(英文名称)是COSCO SHIPPING Development Co.,Ltd.;SecuCode(证券代码)是601866;]
+'''
+下面是顺序的历史问答:
+'''
+Question: 中远海发在2019年进行了几次股票回购？回购金额合计是多少？(四舍五入保留2位小数)
+Answer: 中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）在2019年进行了2次股票回购，回购金额合计为299769696.00元。
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：在上述回购计划中，最大单笔回购的具体时间(xxxx-xx-xx的格式)和金额是多少？(四舍五入保留2位小数)
+
+>>>>> Agent【rewrite_question】 Said:
+在中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）2019年的2次股票回购计划中，最大单笔回购的具体时间（格式为xxxx-xx-xx）和金额是多少？(四舍五入保留2位小数)
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."在中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）2019年的2次股票回购计划中，最大单笔回购的具体时间（格式为xxxx-xx-xx）和金额是多少？(四舍五入保留2位小数)"
+
+>>>>> Agent【extract_company】 Said:
+```json
+["中远海运发展股份有限公司", "4507", "6424"]
+```
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '中远海运发展股份有限'
+   OR ChiName LIKE '%中远海运发展股份有限%'
+   OR ChiNameAbbr LIKE '%中远海运发展股份有限%'
+   OR EngName LIKE '%中远海运发展股份有限%'
+   OR EngNameAbbr LIKE '%中远海运发展股份有限%'
+   OR SecuAbbr LIKE '%中远海运发展股份有限%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%中远海运发展股份有限%'
+   OR ChiName LIKE '%中远海运发展股份有限%'
+   OR ChiNameAbbr LIKE '%中远海运发展股份有限%'
+   OR EngName LIKE '%中远海运发展股份有限%'
+   OR EngNameAbbr LIKE '%中远海运发展股份有限%'
+   OR SecuAbbr LIKE '%中远海运发展股份有限%'
+   OR FormerName LIKE '%中远海运发展股份有限%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '中远海运发展股份有限'
+   OR ChiName LIKE '%中远海运发展股份有限%'
+   OR EngName LIKE '%中远海运发展股份有限%'
+   OR SecuAbbr LIKE '%中远海运发展股份有限%';
+查询结果:
+[{"TableName": "constantdb.secumain", "InnerCode": 6424, "CompanyCode": 4507, "ChiName": "中远海运发展股份有限公司", "EngName": "COSCO SHIPPING Development Co.,Ltd.", "SecuCode": "601866"}]
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '4507'
+   OR ChiName LIKE '%4507%'
+   OR ChiNameAbbr LIKE '%4507%'
+   OR EngName LIKE '%4507%'
+   OR EngNameAbbr LIKE '%4507%'
+   OR SecuAbbr LIKE '%4507%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%4507%'
+   OR ChiName LIKE '%4507%'
+   OR ChiNameAbbr LIKE '%4507%'
+   OR EngName LIKE '%4507%'
+   OR EngNameAbbr LIKE '%4507%'
+   OR SecuAbbr LIKE '%4507%'
+   OR FormerName LIKE '%4507%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '4507'
+   OR ChiName LIKE '%4507%'
+   OR EngName LIKE '%4507%'
+   OR SecuAbbr LIKE '%4507%';
+查询结果:
+[]
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '6424'
+   OR ChiName LIKE '%6424%'
+   OR ChiNameAbbr LIKE '%6424%'
+   OR EngName LIKE '%6424%'
+   OR EngNameAbbr LIKE '%6424%'
+   OR SecuAbbr LIKE '%6424%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%6424%'
+   OR ChiName LIKE '%6424%'
+   OR ChiNameAbbr LIKE '%6424%'
+   OR EngName LIKE '%6424%'
+   OR EngNameAbbr LIKE '%6424%'
+   OR SecuAbbr LIKE '%6424%'
+   OR FormerName LIKE '%6424%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '6424'
+   OR ChiName LIKE '%6424%'
+   OR EngName LIKE '%6424%'
+   OR SecuAbbr LIKE '%6424%';
+查询结果:
+[]
+
+>>>>> 已知事实:
+中远海发的关联信息有:[InnerCode(证券内部编码)是6424;CompanyCode(公司代码)是4507;ChiName(中文名称)是中远海运发展股份有限公司;EngName(英文名称)是COSCO SHIPPING Development Co.,Ltd.;SecuCode(证券代码)是601866;]
+---
+中远海运发展股份有限公司的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是6424;CompanyCode(公司代码)是4507;ChiName(中文名称)是中远海运发展股份有限公司;EngName(英文名称)是COSCO SHIPPING Development Co.,Ltd.;SecuCode(证券代码)是601866;]
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询中远海运发展股份有限公司在2019年的两次股票回购计划中，最大单笔回购的具体时间和金额。这涉及到上市公司的股票回购信息，通常这类信息会记录在涉及股东与股本变动的数据库中。
+
+【选中的数据库】
+- `astockshareholderdb`: 这个数据库记录了上市公司股东、股本及公司治理相关的详细信息，包括股份回购的相关数据。
+
+【选中的数据库的清单】
+```json
+["astockshareholderdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockshareholderdb.lc_shtypeclassifi", "说明": "该数据表主要用于记录股东及其分类信息，包含股东的唯一标识信息如股东代码和股东编码，股东名称及其所属性质等基本信息，同时提供多级分类结构，涵盖分类标准及一级至四级分类代码，便于对股东进行分层管理和分析。"}, {"表名": "astockshareholderdb.lc_mainshlistnew", "说明": "该数据表主要记录了股东及其持股情况的详细信息，包括公司代码、日期、信息发布日期和来源等基本信息。股东相关信息涵盖股东排名、序号、名称、性质、类别及其编码等。持股信息详细列出了持股总数、持股比例、持股增减情况，以及持有不同类型股票（如A股、B股、H股、普通股及其他类别）的数量和比例。此外，还包括股东性质描述、股权质押和冻结情况及其说明，股东之间的关联关系和一致行动人说明等。证券相关信息有证券代码、简称、所属券商编号及归属机构名称等。备注说明和其他字段提供了进一步的补充信息。"}, {"表名": "astockshareholderdb.lc_shnumber", "说明": "该数据表主要涵盖了公司股东信息的各类数据，包括公司代码、信息发布日期和信息来源等基本信息。股东数据详细记录了股东总户数及各类股东（如A股、B股、H股、CDR股东）的户数和户均持股数，提供了户均持股比例及其相对变化，季度和半年增长率等动态指标。此外，表中还细分了无限售条件股东的数据，包括无限售A股和CDR的户均持股数及比例变化等。通过这些数据，能够分析不同类型股东的持股分布及其变化趋势。"}, {"表名": "astockshareholderdb.lc_mshareholder", "说明": "该数据表主要用于记录公司股东相关信息及公司基本情况，包含以下几类字段信息：公司基本信息如公司代码、信息发布日期、信息来源等；股东相关信息如股东名称、股东地位、持股比例、股东性质、股东ID、国籍描述、永久境外居留权等；公司运营及财务信息如法人代表、注册资本、主要业务、经济性质、背景介绍等；其他信息如股权获取方式、实际控制人结构图、公告类别、报告原文文件格式、日期以及货币单位等，并提供是否存在的标识字段以便于数据筛选和分析。"}, {"表名": "astockshareholderdb.lc_actualcontroller", "说明": "该数据表主要用于记录公司实际控制人的相关信息，包括公司代码、信息发布日期和日期等基本信息；实际控制人的详细信息如代码、姓名、经济性质、国籍代码及描述、永久境外居留权状态，以及实际控制人所属性质等。"}, {"表名": "astockshareholderdb.lc_sharestru", "说明": "该数据表主要记录了公司股本结构及相关信息，包含以下几类字段：公司基本信息如公司代码(CompanyCode)、信息来源(InfoSource)、信息发布日期(InfoPublDate)；时间相关字段如日期(EndDate)；股本总量及变动情况如总股本(股)(TotalShares)、股本变动原因类别(ChangeType)、简称变更原因(ChangeReason)；股权分类及持股情况包括未流通股(NonListedShares)、流通股本(FloatShare)、有限售条件流通股(RestrictedShares)、无限售条件流通股(NonRestrictedShares)、A股(Ashares)、B股(Bshares)、H股(Hshares)、GDR代表基础股票(GDRshares)、外资持股(ForeignHolding)等，进一步细分为发起人股(PromoterShares)、国家股(StateShares)、法人股(DLegalPersonShares、FLegalPersonShares)、自然人股(NaturalPersonHoldLPShares)、职工股(StaffShares)、战略投资者配售持股(StategicInvestorShares)、基金配售持股(MutualFundShares)等；股本流通状态如已上市流通股(AFloatListed)、未上市增发股(AdditionIssueUnlisted)、配股未上市(RightsIssueUnlisted)等；其他股本信息如优先股(PreferredShares)、有限售H股(RestrictedHShares)、无限售H股(NonRestrictedHShares)、其他未流通股(OUnListedShares)；股本面值及货币单位如每股面值(PerValue)、每股面值货币单位(ParValueCurrencyUnit)。通过这些字段，能够全面反映公司股本的构成、流通及变动情况。"}, {"表名": "astockshareholderdb.lc_stockholdingst", "说明": "该数据表主要用于记录各类机构及股东对A股的持股情况及相关统计信息，包含以下几类字段：基础信息如证券内部编码、公司代码、统计日期等；持股数量信息，包括机构、公募基金、券商、私募基金、银行、外资等不同主体持有的无限售流通A股、总A股及其他类型A股的数量；持股比例信息，涵盖上述主体对不同类型A股的持股比例；持股户数信息，记录各类机构及股东的持股户数，包括流通A股户数、无限售流通A股户数等；前十大股东信息，如前十大股东持股数量及比例、无限售股东持股数据等；信息来源及日期字段，用于标注数据出处和时间。"}, {"表名": "astockshareholderdb.lc_sharetransfer", "说明": "该数据表主要记录股权转让的详细信息，涵盖了公司基本信息如公司代码、信息发布日期、信息来源等；股权转让的关键时间点如协议签署日、批准日期、正式变动日期等；转让方和受让方的相关信息，包括名称、经济性质、属性、编码等；股权转让前后的持股情况，如持股数量、持股比例、有限售股数、无限售股数等；交易相关信息如转让方式、涉及股数、交易价格、交易金额等；其他补充信息如生效条件、事项描述与进展、是否终止实施及公告日期等；以及序号、证券内部编码等标识信息。"}, {"表名": "astockshareholderdb.lc_sharefp", "说明": "该数据表记录了公司股权冻结质押的详细信息，包含公司代码、信息发布日期和来源等基本信息，以及涉及的股东和接受方的详细信息，如股东名称和ID、接受方名称和ID、股东和接受方的属性等。表中还包括冻结质押的具体细节，如涉及股数、占持股比例、占总股本比例、起始和结束日期、原因及事项编码和日期。此外，表格记录了无限售股数、有限售股数，以及初始信息发布日期、初始质押股数和预计解除日期等信息。"}, {"表名": "astockshareholderdb.lc_sharefpsta", "说明": "该数据表主要用于记录股权冻结质押的相关信息，包含以下字段：标识信息如冻结质押编号(FPCode)、公司代码(CompanyCode)和股东ID(SHID)；时间信息如截止日期(EndDate)；信息来源(InfoSource)；类别选择(Category)；股东信息如股权被冻结质押股东名称(FPSHName)及其属性(SHAttribute)；冻结质押相关统计数据如累计冻结质押股数(AccuFPShares)、累计占冻结质押方持股数比例(AccuPCTOfPled)、累计占总股本比例(AccuProportion)及其计算值(AccuProportionCalc)；其他辅助字段如AccuFPSharesCalc。"}, {"表名": "astockshareholderdb.lc_buyback", "说明": "该数据表记录了公司股份回购的详细信息，包括公司基本信息如公司代码，以及重要日期信息如首次信息发布日期、预案发布日期、股东大会通过日期、回购协议签署日、回购并注销股份公告书发布日、起始日期、结束日期、全称更改日期、回购资金划出日、工商变更登记日等。股份回购的具体情况涵盖股份类别、股份被回购方、回购股数及占总股本比例、回购定价方式说明、回购价格及回购总金额、回购数量及价格上下限、拟回购资金总额上下限等。支付方式、资金来源及用途说明、回购目的、事件进程及描述、回购方式代码及描述等信息也被详细记录。此外，还包括待偿期限指数、未描述的字段如回购目的、货币单位及被否决日期等。"}, {"表名": "astockshareholderdb.lc_buybackattach", "说明": "该数据表记录了有关股份回购的信息，包含回购的唯一标识（股份回购ID）及其相关的日期信息，如信息发布日期和生效日期。涉及财务数据的字段包括货币单位、最高价、最低价、本次回购资金及累计回购资金总额。此外，表中还记录了与回购数量相关的数据，如回购股数、累计回购数量及其占总股本的比例。通过这些字段，能够全面了解某次股份回购的基本信息和财务影响。"}, {"表名": "astockshareholderdb.lc_legaldistribution", "说明": "该数据表记录了证券配售的详细信息，涵盖了多方面的内容：基础信息如证券内部编码、证券代码、信息发布日期及首次发布日期等；配售相关信息包括配售总股数、配售原因、配售性质、获配股数（有锁定期和无锁定期分别记录）、获配金额、实际发行价、有效申购股数、退款金额、补款金额等；投资者信息包括投资者名称（标准化和原始）、投资者编号、投资者类型、投资者分类等，以及获配企业的名称、性质和所属券商的编号及名称；战略配售的详细记录如高管、员工、保荐机构及其他参与战略配售的股份数量、金额和占比等；此外，还包括流通日期、持股时间等时间维度信息，以及备注说明和配售对象代码等辅助字段。整体涵盖了证券配售的全流程信息，便于分析和统计。"}, {"表名": "astockshareholderdb.lc_nationalstockholdst", "说明": "该数据表主要用于记录股东持股相关信息，包含以下字段类别：基础信息如内部编码、公司代码、股东ID、股东名称；时间信息如截止日期；持股数据如持有A股总数、有限售A股数、无限售A股数；比例数据如占总股本比例、占流通A股比例；变动信息如持有A股数量增减及其增减幅度。"}, {"表名": "astockshareholderdb.cs_foreignholdingst", "说明": "该数据表记录了证券相关的交易信息，包括证券内部编码用于标识证券，交易日期表示具体的交易时间，外资持股总数（单位为万股）和外资持股比例（百分比）则反映了外资在该证券中的持股情况。"}, {"表名": "astockshareholderdb.lc_esop", "说明": "该数据表主要用于记录资产管理计划相关信息，涵盖了基础标识信息如“内部编码、公司代码”等，公告日期信息如“首次信息发布日期、董事会公告日期、股东大会公告日期”等，计划进程与实施信息如“事件进程、是否分期实施、数据统计区间、首次实施公告日”等，股票与资金规模信息如“股票来源方式、股票规模上限与下限、资金总额上限与下限”等，计划细节信息如“麦考利久期、锁定期、释放期、资金来源、参与单位及人员、管理模式、管理机构、资产管理计划全称、分期情况、杠杆比例”等，价格与参与情况信息如“购买股票价格、参与人数、高管及员工的参与人数、认购份额与比例”等，时间节点信息如“持股的完成日、锁定的起始日”等，以及其他补充说明如“计划情况说明”等，全面涵盖计划的各个维度。"}, {"表名": "astockshareholderdb.lc_esopsummary", "说明": "该数据表主要用于记录证券相关事件的信息，包括证券内部编码和公司代码等基础标识信息；首次信息发布日期、董事会公告日期、股东大会公告日期等时间信息；事件进程和序号等事件状态信息；是否分期实施及分期情况等分期相关信息；股票规模和资金总额的上下限等规模和资金范围信息；以及备注说明等补充描述信息。"}, {"表名": "astockshareholderdb.lc_transferplan", "说明": "该数据表主要记录了公司股东承诺及增减持计划的相关信息，涵盖多个方面的字段：公司基本信息如“公司代码”；信息披露相关字段如“首次信息发布日期”“信息发布日期”“信息来源”；承诺主体与事项类型信息如“承诺主体类型”“承诺事项类型”；承诺时间范围及内容描述如“承诺起始日期”“承诺截止日期”“承诺说明”；股东信息如“股东序号”“股东名称”；增持计划相关字段包括“增持时间描述”“增持实施期限”“增持价格描述”“增持股票触发价格上下限”“增持股份数量上下限”“增持比例上下限”“增持投入资金上下限”等；减持计划相关字段包括“减持时间描述”“减持实施期限”“减持价格描述”“减持股票触发价格上下限”“减持股份数量上下限”“减持比例上下限”等；承诺有效性及不减持承诺期限如“承诺是否有效”“不减持承诺期限”；交易方式及相关描述如“交易方式”“交易方式描述”；事件进程信息如“事件进程”。这些字段全面记录了公司股东承诺及增减持行为的各类细节。"}, {"表名": "astockshareholderdb.lc_smattendinfo", "说明": "该数据表记录了公司股东大会相关的综合信息，涵盖多个维度。包括公司基本信息如公司代码；股东大会的时间安排，如首次信息发布日期、最新信息发布日期、公告日期、股东大会召开日及时间、股权登记日、会议登记起止日期、网络投票起止日期等；股东大会的地点和形式信息，如召开地址、会议类别、投票表决方式、网络投票通道及代码等；股东大会的参与情况统计，包括出席总体股东及代表人数、各类股东人数（如A股、H股、中小股东、优先股股东等）、出席股东代表股份及其占比（按不同股东类别区分）；股东大会的主持及法律见证信息，包括大会主持人及其职务、见证律师事务所及其编号、经办律师等；其他相关信息如议案内容、是否有效、股东大会取消日期、年度及届次等。通过这些字段，全面反映了股东大会的组织、参与及法律合规情况。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要查找中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）在2019年的2次股票回购计划中，最大单笔回购的具体时间和金额，我们需要关注与股票回购相关的数据表。根据表名和说明，`astockshareholderdb.lc_buyback` 和 `astockshareholderdb.lc_buybackattach` 这两个表记录了公司股份回购的详细信息和相关财务数据，是最相关的表。
+
+【选中的数据表】
+- astockshareholderdb.lc_buyback: 该数据表记录了公司股份回购的详细信息，包括公司基本信息、重要日期信息和回购的具体情况。
+- astockshareholderdb.lc_buybackattach: 该数据表记录了有关股份回购的信息，包含回购的唯一标识、日期信息以及财务数据。
+
+【选中的数据库表的清单】
+```json
+["astockshareholderdb.lc_buyback", "astockshareholderdb.lc_buybackattach"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockshareholderdb.lc_buyback", "表字段": [{"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "FirstPublDate", "desc": "首次信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "ShareType", "desc": "股份类别；股份类别(ShareType)与(CT_SystemConst)表中的DM字段关联，令LB = 1040，得到股份类别的具体描述：1-国家股，2-国有法人股，3-外资法人股，4-其他法人股，5-流通A股，6-B股，7-H股，8-转配股，9-专项资产管理计划转让，10-资产支持证券转让，11-中小企业私募债转让，12-中国存托凭证，13-可转换公司债券。"}, {"column": "AdvanceDate", "desc": "预案发布日期"}, {"column": "MeetPassDate", "desc": "股东大会通过日期"}, {"column": "WriteOffPublDate", "desc": "回购并注销股份公告书发布日"}, {"column": "ContractDate", "desc": "回购协议签署日"}, {"column": "Seller", "desc": "股份被回购方"}, {"column": "BuybackSum", "desc": "回购股数(股)"}, {"column": "Percentage", "desc": "占总股本比例"}, {"column": "PricingStatement", "desc": "回购定价方式说明"}, {"column": "BuybackPrice", "desc": "回购价格(元/股)"}, {"column": "BuybackMoney", "desc": "回购总金额(元)"}, {"column": "StartDate", "desc": "起始日期"}, {"column": "EndDate", "desc": "日期"}, {"column": "PayMode", "desc": "回购支付方式"}, {"column": "ChangeDate", "desc": "全称更改日期"}, {"column": "PayDate", "desc": "回购资金划出日"}, {"column": "ChangeRegDate", "desc": "工商变更登记日"}, {"column": "VolumeFloor", "desc": "回购数量下限(股)"}, {"column": "VolumeCeiling", "desc": "回购数量上限(股)"}, {"column": "PriceFloor", "desc": "回购价格下限(元)"}, {"column": "PriceCeiling", "desc": "回购价格上限(元)"}, {"column": "ValueFloor", "desc": "拟回购资金总额下限(元)"}, {"column": "ValueCeiling", "desc": "拟回购资金总额上限(元)"}, {"column": "MaturityDesc", "desc": "待偿期限_指数"}, {"column": "EventProcedure", "desc": "事件进程；事件进程代码(EventProcedure)与(CT_SystemConst)表中的DM字段关联，令LB = 1059，得到事件进程代码的具体描述：1000-意向，1001-预案，1004-决案，1007-否决，1010-申请，1013-批准，1016-未实施终止，1019-实施中，1022-实施完成，1025-解除，1028-到期，1041-续签，1043-部分续签，1051-涉诉，1053-可能涉诉，1055-预估，1303-收到，1305-部分收到，2001-逾期，2003-还款，2005-延期，2007-展期，2501-诉前，2504-诉中，2507-诉后，3001-提前回收，3002-提前部分回收，3003-到期后协议延期，3004-到期回收，3005-到期待回收，3006-到期部分待回收，3007-到期无法回收，3008-到期部分无法回收，3101-改革意向，3103-股改动议取消，3105-董事会改革方案，3108-沟通确认方案，3111-上级部门批准，3115-上级部门驳回，3120-董事会否决，3121-股东大会通过，3125-股东大会否决，3126-有效期内未实施，3131-方案实施，3201-证监会审核通过，3202-证监会审核否决，3203-证监会核准，3204-证监会未核准，3212-方案部分实施，3301-已注册未发行，3302-已发行有额度，3303-已发行无额度，3304-提前终止，3305-放弃，3399-其他。"}, {"column": "EventProceDesc", "desc": "事件进程描述"}, {"column": "BuybackModeCode", "desc": "股份回购方式代码；股份回购方式代码(BuybackModeCode)与(CT_SystemConst)表中的DM字段关联，令LB = 1523，得到股份回购方式代码的具体描述：10-集中竞价，20-协议回购，30-其他，40-要约回购。"}, {"column": "BuybackModeDesc", "desc": "股份回购方式描述"}, {"column": "FundsSourceDesc", "desc": "资金总额及来源说明"}, {"column": "PurposeDesc", "desc": "回购目的说明"}, {"column": "BuybackPurpose", "desc": "No description available；回购目的(BuybackPurpose)与(CT_SystemConst)表中的DM字段关联，令LB=2560，得到回购目的的具体描述：1-实施股权激励，2-实施员工持股计划，3-实施股权激励或员工持股计划，4-发行可转债，5-未达激励计划条件，6-市值管理，7-资产重组，8-吸收合并，9-业绩补偿，10-大股东资金占用，11-对价购买。"}, {"column": "CurrencyUnit", "desc": "No description available"}, {"column": "OverruledDate", "desc": "No description available"}]}, {"表名": "astockshareholderdb.lc_buybackattach", "表字段": [{"column": "BuybackID", "desc": "股份回购ID；股份回购ID（BuybackID）：与LC_Buyback表的ID字段关联。"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "EffectiveDate", "desc": "生效日期"}, {"column": "CurrencyUnit", "desc": "货币单位；货币单位(CurrencyUnit)与(CT_SystemConst)表中的DM字段关联，令LB = 1068，得到货币单位的具体描述：1000-美元，1001-美分，1002-美元(次日)，1003-美元(同日)，1100-港元，1110-印度卢比，1120-印度尼西亚卢比，1130-伊朗里亚尔，1140-波兰兹罗提，1150-匈牙利福林，1160-日本元，1161-欧洲日元(离岸)，1170-约旦第纳尔，1180-科威特第纳尔，1190-阿联酋迪拉姆，1200-亚美尼亚德拉姆，1210-澳门元，1220-马来西亚林吉特，1230-安第列斯群岛盾，1240-安哥拉宽扎，1250-尼泊尔卢比，1260-哈萨克斯坦坚戈，1270-巴基斯坦卢比，1280-阿鲁巴岛弗罗林，1290-菲律宾比索，1300-阿塞拜疆马纳特，1310-波斯尼亚马克，1320-新加坡元，1330-韩国元，1340-孟加拉塔卡，1350-百慕大元，1360-泰国铢，1370-沙特里亚尔，1380-文莱林吉特，1390-不丹努尔特鲁姆，1400-博茨瓦纳普拉，1410-白俄罗斯卢布，1420-人民币元，1430-台湾元，1440-伯利兹元，1450-南苏丹镑，1460-世界投资报告法郎，1470-佛得角埃斯库多，1480-厄立特里亚纳克法，1490-埃塞俄比亚比尔，1500-福克兰群岛镑，1510-格鲁吉亚拉里，1520-直布罗陀镑，1530-克罗地亚库纳，1540-以色列新谢克尔，1550-吉尔吉斯斯坦索姆，1560-开曼群岛元，1570-莱索托马洛蒂，1580-摩尔多瓦列伊，1590-马其顿第纳尔，1600-蒙古图格里克，1610-马拉维克瓦查，1620-梅蒂卡尔，1630-纳米比亚元，1640-巴布亚新几内亚基那，1650-塞尔维亚第纳尔，1660-圣赫勒拿群岛磅，1670-圣多美和普林西比多布拉，1680-太平洋法郎，1690-非共体法郎，1700-斯威士兰里兰吉尼，1710-塔吉克斯坦索莫尼，1720-土库曼斯坦马纳特，1730-汤加潘加，1740-乌克兰格里夫纳，1750-乌兹别克斯坦苏姆，1760-瓦努阿图瓦图，1770-萨摩亚塔拉，1780-中非金融合作法郎，1790-东加勒比元，1810-人民币(离岸)，2470-坦桑尼亚先令，3000-欧元，3010-比利时法郎，3020-丹麦克朗，3030-英镑，3031-便士，3040-德国马克，3050-法国法郎，3070-意大利里拉，3090-荷兰盾，3100-葡萄牙埃斯库多，3110-立陶宛立特，3120-西班牙比塞塔，3130-拉脱维亚立特，3140-斯洛文尼亚托拉尔，3150-奥地利先令，3160-斯洛伐克克朗，3170-爱沙尼亚克朗，3180-芬兰马克，3190-安道尔比塞塔(废弃)，3260-挪威克朗，3300-瑞典克朗，3310-瑞士法郎，3311-记帐瑞士法郎，3313-清算瑞士法郎，3430-苏联卢布(废弃)，3440-俄国卢布，3450-俄罗斯卢布，4000-巴西雷亚尔(废弃)，4100-巴西里亚尔，4290-墨西哥比索，5010-加拿大元，6010-澳大利亚元，6090-新西兰元，7101-刚果法郎，7103-尼日利亚奈拉，7105-越南盾，7107-肯尼亚先令，7109-卢森堡法郎，7111-摩洛哥迪拉姆，7113-南非兰特，7115-斯里兰卡卢比，7117-苏丹第纳尔，7119-也门里亚尔(废弃)，7120-苏丹镑，7121-爱尔兰镑，7123-土耳其里拉(废弃)，7125-捷克克朗(废弃)，8000-阿尔巴尼亚列克，8010-阿尔及利亚第纳尔，8020-阿富汗尼，8030-阿根廷比索，8040-也门里亚尔，8050-阿曼里亚尔，8060-埃及镑，8070-巴巴多斯元，8080-巴哈马元，8090-巴拉圭瓜拉尼，8100-巴林第纳尔，8110-巴拿马巴波亚，8120-保加利亚列弗，8130-冰岛克朗，8150-玻利维亚诺，8160-布隆迪法郎，8170-朝鲜圆，8180-赤道几内亚埃奎勒，8190-多米尼加比索，8200-厄瓜多尔苏克雷，8210-斐济元，8220-冈比亚法拉西，8230-哥伦比亚比索，8240-哥斯达黎加科朗，8250-古巴比索，8260-圭亚那元，8270-海地古德，8280-洪都拉斯伦皮拉，8290-吉布提法郎，8300-几内亚法郎，8310-几内亚比索，8320-加纳塞地，8330-柬埔寨瑞尔，8340-捷克克朗，8350-津巴布韦元，8360-卡塔尔里亚尔，8370-科摩罗法郎，8380-老挝基普，8390-黎巴嫩镑，8400-利比里亚元，8410-利比亚第纳尔，8420-卢旺达法郎，8430-罗马尼亚列伊，8440-马达加斯加阿里亚里，8450-马尔代夫卢比，8460-马耳他镑，8470-毛里求斯卢比，8480-毛里塔尼亚乌吉亚，8490-秘鲁新索尔，8500-缅甸元，8510-也门第纳尔，8520-南斯拉夫新第纳尔，8530-尼加拉瓜科多巴，8540-埃斯库多，8550-萨尔瓦多科朗，8560-塞拉里昂利昂，8570-塞浦路斯镑，8580-塞舌尔卢比，8590-沙特阿拉伯亚尔，8600-苏里南元，8610-所罗门元，8620-索马里先令，8630-特立尼达多巴哥元，8640-突尼斯第纳尔，8650-土耳其里拉，8660-危地马拉格查尔，8670-委内瑞拉玻利瓦尔，8680-乌干达先令，8690-乌拉圭新比索，8700-希腊德拉马克，8720-叙利亚镑，8730-牙买加元，8740-伊拉克第纳尔，8750-赞比亚克瓦查，8760-扎伊尔，8770-智利比索，8780-玻利维亚Mvdol基金，8790-智利CUF基金，8800-哥伦比亚实际价值单位，8810-古巴可兑换比索，8820-墨西哥UDI基金，8830-莫桑比克梅蒂卡尔，8840-东帝汶埃斯库多，8850-罗马尼亚列伊(废弃)，8860-苏里南盾(废弃)，8870-马尔加什法郎(废弃)，8880-赞比亚克瓦查(废弃)，9900-其他货币，9901-本地货币，9990-特别提款权，9999-各币种折合美元。"}, {"column": "BuybackSum", "desc": "回购股数(股)"}, {"column": "Percentage", "desc": "占总股本比例"}, {"column": "CumulativeSum", "desc": "累计回购数量(股)"}, {"column": "CumulativeSumToTS", "desc": "累计回购数量占总股本的比例"}, {"column": "HighPrice", "desc": "最高价(元)"}, {"column": "LowPrice", "desc": "最低价(元)"}, {"column": "BuybackFunds", "desc": "本次回购资金(元)"}, {"column": "CumulativeValueSum", "desc": "累计回购资金总额(元)"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是中远海运发展股份有限公司在2019年的两次股票回购计划中，最大单笔回购的具体时间和金额。需要找到回购记录，并筛选出2019年的数据，然后确定最大单笔回购的时间和金额。
+
+【信息所在字段】
+- astockshareholderdb.lc_buyback.CompanyCode: 这个字段可能包含公司代码信息，对应用户提问中的CompanyCode: 4507
+- astockshareholderdb.lc_buyback.FirstPublDate: 这个字段可能包含首次信息发布日期，对应用户提问中的具体时间
+- astockshareholderdb.lc_buyback.BuybackMoney: 这个字段可能包含回购总金额信息，对应用户提问中的金额
+- astockshareholderdb.lc_buyback.InfoPublDate: 这个字段可能包含信息发布日期，用于筛选2019年的数据
+
+【筛选条件所在字段】
+- astockshareholderdb.lc_buyback.CompanyCode: 这个字段可能包含公司代码信息，用于筛选中远海运发展股份有限公司的数据
+- astockshareholderdb.lc_buyback.InfoPublDate: 这个字段可能包含信息发布日期，用于筛选2019年的数据
+
+【选中的字段的清单】
+```json
+{
+  "astockshareholderdb.lc_buyback": ["CompanyCode", "FirstPublDate", "BuybackMoney", "InfoPublDate"]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 公司代码为4507的上市公司在2019年进行了2次回购，累计回购总金额为299,769,696.00元。
+
+请问:在中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）2019年的2次股票回购计划中，最大单笔回购的具体时间（格式为xxxx-xx-xx）和金额是多少？(四舍五入保留2位小数)
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 中远海运发展股份有限公司的CompanyCode为4507，InnerCode为6424。
+- 该公司在2019年进行了2次股票回购，累计回购总金额为299,769,696.00元。
+
+【当前阶段要获取的信息】
+- 2019年最大单笔回购的具体时间（格式为xxxx-xx-xx）
+- 该笔回购的金额（四舍五入保留2位小数）
+
+【信息所在字段】
+- 具体时间：`FirstPublDate`
+- 回购金额：`BuybackMoney`
+
+【筛选条件所在字段】
+- 公司代码：`CompanyCode`
+- 时间：`FirstPublDate`（需格式化为`DATE(FirstPublDate)`）
+
+【SQL语句的思路】
+1. 从`astockshareholderdb.lc_buyback`表中筛选出CompanyCode为4507且FirstPublDate在2019年的记录。
+2. 按照BuybackMoney降序排列，取金额最大的那条记录。
+3. 选择该记录的FirstPublDate和BuybackMoney字段。
+
+【执行SQL语句】
+```exec_sql
+SELECT DATE(FirstPublDate) AS MaxBuybackDate, 
+       ROUND(BuybackMoney, 2) AS MaxBuybackAmount
+FROM astockshareholderdb.lc_buyback
+WHERE CompanyCode = 4507 
+  AND YEAR(FirstPublDate) = 2019
+ORDER BY BuybackMoney DESC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+- 从`astockshareholderdb.lc_buyback`表中筛选出公司代码为4507且首次信息发布日期在2019年的记录。
+- 按照回购总金额降序排列，选取金额最大的那条记录。
+- 选择该记录的首次信息发布日期（格式化为日期形式）和回购总金额（四舍五入保留2位小数）。
+
+>>>>> 查询sql:
+SELECT DATE(FirstPublDate) AS MaxBuybackDate, 
+       ROUND(BuybackMoney, 2) AS MaxBuybackAmount
+FROM astockshareholderdb.lc_buyback
+WHERE CompanyCode = 4507 
+  AND YEAR(FirstPublDate) = 2019
+ORDER BY BuybackMoney DESC
+LIMIT 1;
+查询结果:
+[{"MaxBuybackDate": "2019-01-25", "MaxBuybackAmount": 233364954.0}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DATE(FirstPublDate) AS MaxBuybackDate, 
+       ROUND(BuybackMoney, 2) AS MaxBuybackAmount
+FROM astockshareholderdb.lc_buyback
+WHERE CompanyCode = 4507 
+  AND YEAR(FirstPublDate) = 2019
+ORDER BY BuybackMoney DESC
+LIMIT 1;
+查询结果:
+[{"MaxBuybackDate": "2019-01-25", "MaxBuybackAmount": 233364954.0}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 对于公司代码为4507的上市公司，在2019年进行的股票回购中，回购金额最大的记录发生在2019年1月25日，该次回购的总金额为233,364,954.00元。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DATE(FirstPublDate) AS MaxBuybackDate, 
+       ROUND(BuybackMoney, 2) AS MaxBuybackAmount
+FROM astockshareholderdb.lc_buyback
+WHERE CompanyCode = 4507 
+  AND YEAR(FirstPublDate) = 2019
+ORDER BY BuybackMoney DESC
+LIMIT 1;
+查询结果:
+[{"MaxBuybackDate": "2019-01-25", "MaxBuybackAmount": 233364954.0}]
+
+查询结果表明: 对于公司代码为4507的上市公司，在2019年进行的股票回购中，回购金额最大的记录发生在2019年1月25日，该次回购的总金额为233,364,954.00元。
+
+当前掌握的信息是否能够回答"在中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）2019年的2次股票回购计划中，最大单笔回购的具体时间（格式为xxxx-xx-xx）和金额是多少？(四舍五入保留2位小数)"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 中远海运发展股份有限公司的CompanyCode为4507，InnerCode为6424。
+- 该公司在2019年进行了2次股票回购，累计回购总金额为299,769,696.00元。
+- 2019年最大单笔回购的具体时间为2019年1月25日，金额为233,364,954.00元。
+
+【当前阶段要获取的信息】
+无
+
+【信息所在字段】
+无
+
+【筛选条件所在字段】
+无
+
+【SQL语句的思路】
+无
+
+【执行SQL语句】
+无
+
+【上述SQL语句的含义】
+无
+
+当前掌握的信息已经能够回答“在中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）2019年的2次股票回购计划中，最大单笔回购的具体时间（格式为xxxx-xx-xx）和金额是多少？(四舍五入保留2位小数)”的问题。
+
+**回答**：
+在中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）2019年的2次股票回购计划中，最大单笔回购的具体时间为2019年1月25日，金额为233,364,954.00元（四舍五入保留2位小数）。
+
+
+>>>>> 【user】 Said:
+请回答问题:"在中远海运发展股份有限公司（CompanyCode: 4507, InnerCode: 6424）2019年的2次股票回购计划中，最大单笔回购的具体时间（格式为xxxx-xx-xx）和金额是多少？(四舍五入保留2位小数)"
+
+>>>>> Agent【Sql_query.summary】 Said:
+最大单笔回购时间: 2019-01-25, 金额: 233364954.00元

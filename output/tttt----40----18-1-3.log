@@ -1,0 +1,885 @@
+
+>>>>> Original Question: 当年哪家公司的涨幅最大，达到了多少？
+
+
+>>>>> 【user】 Said:
+已知事实:无。
+下面是顺序的历史问答:
+'''
+Question: 上海市锦天城律师事务所2020年见证多少家公司的年度股东大会？
+Answer: 14家
+Question: 这些公司中有哪些当年股东减持了的？
+Answer: 在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，股东当年进行了减持的公司代码分别为：
+74996、171621、178300、170543、1637、118021、207679、151879。
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：当年哪家公司的涨幅最大，达到了多少？
+
+>>>>> Agent【rewrite_question】 Said:
+在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少？"
+
+>>>>> Agent【extract_company】 Said:
+```json
+["上海市锦天城律师事务所"]
+```
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '上海市锦天城律师事务所'
+   OR ChiName LIKE '%上海市锦天城律师事务所%'
+   OR ChiNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR EngName LIKE '%上海市锦天城律师事务所%'
+   OR EngNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR SecuAbbr LIKE '%上海市锦天城律师事务所%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%上海市锦天城律师事务所%'
+   OR ChiName LIKE '%上海市锦天城律师事务所%'
+   OR ChiNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR EngName LIKE '%上海市锦天城律师事务所%'
+   OR EngNameAbbr LIKE '%上海市锦天城律师事务所%'
+   OR SecuAbbr LIKE '%上海市锦天城律师事务所%'
+   OR FormerName LIKE '%上海市锦天城律师事务所%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '上海市锦天城律师事务所'
+   OR ChiName LIKE '%上海市锦天城律师事务所%'
+   OR EngName LIKE '%上海市锦天城律师事务所%'
+   OR SecuAbbr LIKE '%上海市锦天城律师事务所%';
+查询结果:
+[]
+
+>>>>> 已知事实:
+
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+要回答这个问题，我们需要以下信息：
+1. 2020年上海市锦天城律师事务所见证的公司年度股东大会信息。
+2. 这些公司在2020年的股价涨幅。
+
+首先，我们需要从数据库中找到2020年上海市锦天城律师事务所见证的公司年度股东大会的记录。这涉及到公司治理和股东大会信息，可能需要用到 `astockshareholderdb` 数据库。
+
+其次，我们需要获取这些公司在2020年的股价涨幅数据，这涉及到股票行情信息，可能需要用到 `astockmarketquotesdb` 数据库。
+
+【选中的数据库】
+- `astockshareholderdb`: 这个数据库记录了上市公司股东、股本及公司治理相关的详细信息，包括股东大会出席信息。
+- `astockmarketquotesdb`: 这个数据库记录了上市公司股票行情，包括每日行情、技术指标等，可以用来计算股价涨幅。
+
+【选中的数据库的清单】
+```json
+["astockshareholderdb", "astockmarketquotesdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockshareholderdb.lc_shtypeclassifi", "说明": "该数据表主要用于记录股东及其分类信息，包含股东的唯一标识信息如股东代码和股东编码，股东名称及其所属性质等基本信息，同时提供多级分类结构，涵盖分类标准及一级至四级分类代码，便于对股东进行分层管理和分析。"}, {"表名": "astockshareholderdb.lc_mainshlistnew", "说明": "该数据表主要记录了股东及其持股情况的详细信息，包括公司代码、日期、信息发布日期和来源等基本信息。股东相关信息涵盖股东排名、序号、名称、性质、类别及其编码等。持股信息详细列出了持股总数、持股比例、持股增减情况，以及持有不同类型股票（如A股、B股、H股、普通股及其他类别）的数量和比例。此外，还包括股东性质描述、股权质押和冻结情况及其说明，股东之间的关联关系和一致行动人说明等。证券相关信息有证券代码、简称、所属券商编号及归属机构名称等。备注说明和其他字段提供了进一步的补充信息。"}, {"表名": "astockshareholderdb.lc_shnumber", "说明": "该数据表主要涵盖了公司股东信息的各类数据，包括公司代码、信息发布日期和信息来源等基本信息。股东数据详细记录了股东总户数及各类股东（如A股、B股、H股、CDR股东）的户数和户均持股数，提供了户均持股比例及其相对变化，季度和半年增长率等动态指标。此外，表中还细分了无限售条件股东的数据，包括无限售A股和CDR的户均持股数及比例变化等。通过这些数据，能够分析不同类型股东的持股分布及其变化趋势。"}, {"表名": "astockshareholderdb.lc_mshareholder", "说明": "该数据表主要用于记录公司股东相关信息及公司基本情况，包含以下几类字段信息：公司基本信息如公司代码、信息发布日期、信息来源等；股东相关信息如股东名称、股东地位、持股比例、股东性质、股东ID、国籍描述、永久境外居留权等；公司运营及财务信息如法人代表、注册资本、主要业务、经济性质、背景介绍等；其他信息如股权获取方式、实际控制人结构图、公告类别、报告原文文件格式、日期以及货币单位等，并提供是否存在的标识字段以便于数据筛选和分析。"}, {"表名": "astockshareholderdb.lc_actualcontroller", "说明": "该数据表主要用于记录公司实际控制人的相关信息，包括公司代码、信息发布日期和日期等基本信息；实际控制人的详细信息如代码、姓名、经济性质、国籍代码及描述、永久境外居留权状态，以及实际控制人所属性质等。"}, {"表名": "astockshareholderdb.lc_sharestru", "说明": "该数据表主要记录了公司股本结构及相关信息，包含以下几类字段：公司基本信息如公司代码(CompanyCode)、信息来源(InfoSource)、信息发布日期(InfoPublDate)；时间相关字段如日期(EndDate)；股本总量及变动情况如总股本(股)(TotalShares)、股本变动原因类别(ChangeType)、简称变更原因(ChangeReason)；股权分类及持股情况包括未流通股(NonListedShares)、流通股本(FloatShare)、有限售条件流通股(RestrictedShares)、无限售条件流通股(NonRestrictedShares)、A股(Ashares)、B股(Bshares)、H股(Hshares)、GDR代表基础股票(GDRshares)、外资持股(ForeignHolding)等，进一步细分为发起人股(PromoterShares)、国家股(StateShares)、法人股(DLegalPersonShares、FLegalPersonShares)、自然人股(NaturalPersonHoldLPShares)、职工股(StaffShares)、战略投资者配售持股(StategicInvestorShares)、基金配售持股(MutualFundShares)等；股本流通状态如已上市流通股(AFloatListed)、未上市增发股(AdditionIssueUnlisted)、配股未上市(RightsIssueUnlisted)等；其他股本信息如优先股(PreferredShares)、有限售H股(RestrictedHShares)、无限售H股(NonRestrictedHShares)、其他未流通股(OUnListedShares)；股本面值及货币单位如每股面值(PerValue)、每股面值货币单位(ParValueCurrencyUnit)。通过这些字段，能够全面反映公司股本的构成、流通及变动情况。"}, {"表名": "astockshareholderdb.lc_stockholdingst", "说明": "该数据表主要用于记录各类机构及股东对A股的持股情况及相关统计信息，包含以下几类字段：基础信息如证券内部编码、公司代码、统计日期等；持股数量信息，包括机构、公募基金、券商、私募基金、银行、外资等不同主体持有的无限售流通A股、总A股及其他类型A股的数量；持股比例信息，涵盖上述主体对不同类型A股的持股比例；持股户数信息，记录各类机构及股东的持股户数，包括流通A股户数、无限售流通A股户数等；前十大股东信息，如前十大股东持股数量及比例、无限售股东持股数据等；信息来源及日期字段，用于标注数据出处和时间。"}, {"表名": "astockshareholderdb.lc_sharetransfer", "说明": "该数据表主要记录股权转让的详细信息，涵盖了公司基本信息如公司代码、信息发布日期、信息来源等；股权转让的关键时间点如协议签署日、批准日期、正式变动日期等；转让方和受让方的相关信息，包括名称、经济性质、属性、编码等；股权转让前后的持股情况，如持股数量、持股比例、有限售股数、无限售股数等；交易相关信息如转让方式、涉及股数、交易价格、交易金额等；其他补充信息如生效条件、事项描述与进展、是否终止实施及公告日期等；以及序号、证券内部编码等标识信息。"}, {"表名": "astockshareholderdb.lc_sharefp", "说明": "该数据表记录了公司股权冻结质押的详细信息，包含公司代码、信息发布日期和来源等基本信息，以及涉及的股东和接受方的详细信息，如股东名称和ID、接受方名称和ID、股东和接受方的属性等。表中还包括冻结质押的具体细节，如涉及股数、占持股比例、占总股本比例、起始和结束日期、原因及事项编码和日期。此外，表格记录了无限售股数、有限售股数，以及初始信息发布日期、初始质押股数和预计解除日期等信息。"}, {"表名": "astockshareholderdb.lc_sharefpsta", "说明": "该数据表主要用于记录股权冻结质押的相关信息，包含以下字段：标识信息如冻结质押编号(FPCode)、公司代码(CompanyCode)和股东ID(SHID)；时间信息如截止日期(EndDate)；信息来源(InfoSource)；类别选择(Category)；股东信息如股权被冻结质押股东名称(FPSHName)及其属性(SHAttribute)；冻结质押相关统计数据如累计冻结质押股数(AccuFPShares)、累计占冻结质押方持股数比例(AccuPCTOfPled)、累计占总股本比例(AccuProportion)及其计算值(AccuProportionCalc)；其他辅助字段如AccuFPSharesCalc。"}, {"表名": "astockshareholderdb.lc_buyback", "说明": "该数据表记录了公司股份回购的详细信息，包括公司基本信息如公司代码，以及重要日期信息如首次信息发布日期、预案发布日期、股东大会通过日期、回购协议签署日、回购并注销股份公告书发布日、起始日期、结束日期、全称更改日期、回购资金划出日、工商变更登记日等。股份回购的具体情况涵盖股份类别、股份被回购方、回购股数及占总股本比例、回购定价方式说明、回购价格及回购总金额、回购数量及价格上下限、拟回购资金总额上下限等。支付方式、资金来源及用途说明、回购目的、事件进程及描述、回购方式代码及描述等信息也被详细记录。此外，还包括待偿期限指数、未描述的字段如回购目的、货币单位及被否决日期等。"}, {"表名": "astockshareholderdb.lc_buybackattach", "说明": "该数据表记录了有关股份回购的信息，包含回购的唯一标识（股份回购ID）及其相关的日期信息，如信息发布日期和生效日期。涉及财务数据的字段包括货币单位、最高价、最低价、本次回购资金及累计回购资金总额。此外，表中还记录了与回购数量相关的数据，如回购股数、累计回购数量及其占总股本的比例。通过这些字段，能够全面了解某次股份回购的基本信息和财务影响。"}, {"表名": "astockshareholderdb.lc_legaldistribution", "说明": "该数据表记录了证券配售的详细信息，涵盖了多方面的内容：基础信息如证券内部编码、证券代码、信息发布日期及首次发布日期等；配售相关信息包括配售总股数、配售原因、配售性质、获配股数（有锁定期和无锁定期分别记录）、获配金额、实际发行价、有效申购股数、退款金额、补款金额等；投资者信息包括投资者名称（标准化和原始）、投资者编号、投资者类型、投资者分类等，以及获配企业的名称、性质和所属券商的编号及名称；战略配售的详细记录如高管、员工、保荐机构及其他参与战略配售的股份数量、金额和占比等；此外，还包括流通日期、持股时间等时间维度信息，以及备注说明和配售对象代码等辅助字段。整体涵盖了证券配售的全流程信息，便于分析和统计。"}, {"表名": "astockshareholderdb.lc_nationalstockholdst", "说明": "该数据表主要用于记录股东持股相关信息，包含以下字段类别：基础信息如内部编码、公司代码、股东ID、股东名称；时间信息如截止日期；持股数据如持有A股总数、有限售A股数、无限售A股数；比例数据如占总股本比例、占流通A股比例；变动信息如持有A股数量增减及其增减幅度。"}, {"表名": "astockshareholderdb.cs_foreignholdingst", "说明": "该数据表记录了证券相关的交易信息，包括证券内部编码用于标识证券，交易日期表示具体的交易时间，外资持股总数（单位为万股）和外资持股比例（百分比）则反映了外资在该证券中的持股情况。"}, {"表名": "astockshareholderdb.lc_esop", "说明": "该数据表主要用于记录资产管理计划相关信息，涵盖了基础标识信息如“内部编码、公司代码”等，公告日期信息如“首次信息发布日期、董事会公告日期、股东大会公告日期”等，计划进程与实施信息如“事件进程、是否分期实施、数据统计区间、首次实施公告日”等，股票与资金规模信息如“股票来源方式、股票规模上限与下限、资金总额上限与下限”等，计划细节信息如“麦考利久期、锁定期、释放期、资金来源、参与单位及人员、管理模式、管理机构、资产管理计划全称、分期情况、杠杆比例”等，价格与参与情况信息如“购买股票价格、参与人数、高管及员工的参与人数、认购份额与比例”等，时间节点信息如“持股的完成日、锁定的起始日”等，以及其他补充说明如“计划情况说明”等，全面涵盖计划的各个维度。"}, {"表名": "astockshareholderdb.lc_esopsummary", "说明": "该数据表主要用于记录证券相关事件的信息，包括证券内部编码和公司代码等基础标识信息；首次信息发布日期、董事会公告日期、股东大会公告日期等时间信息；事件进程和序号等事件状态信息；是否分期实施及分期情况等分期相关信息；股票规模和资金总额的上下限等规模和资金范围信息；以及备注说明等补充描述信息。"}, {"表名": "astockshareholderdb.lc_transferplan", "说明": "该数据表主要记录了公司股东承诺及增减持计划的相关信息，涵盖多个方面的字段：公司基本信息如“公司代码”；信息披露相关字段如“首次信息发布日期”“信息发布日期”“信息来源”；承诺主体与事项类型信息如“承诺主体类型”“承诺事项类型”；承诺时间范围及内容描述如“承诺起始日期”“承诺截止日期”“承诺说明”；股东信息如“股东序号”“股东名称”；增持计划相关字段包括“增持时间描述”“增持实施期限”“增持价格描述”“增持股票触发价格上下限”“增持股份数量上下限”“增持比例上下限”“增持投入资金上下限”等；减持计划相关字段包括“减持时间描述”“减持实施期限”“减持价格描述”“减持股票触发价格上下限”“减持股份数量上下限”“减持比例上下限”等；承诺有效性及不减持承诺期限如“承诺是否有效”“不减持承诺期限”；交易方式及相关描述如“交易方式”“交易方式描述”；事件进程信息如“事件进程”。这些字段全面记录了公司股东承诺及增减持行为的各类细节。"}, {"表名": "astockshareholderdb.lc_smattendinfo", "说明": "该数据表记录了公司股东大会相关的综合信息，涵盖多个维度。包括公司基本信息如公司代码；股东大会的时间安排，如首次信息发布日期、最新信息发布日期、公告日期、股东大会召开日及时间、股权登记日、会议登记起止日期、网络投票起止日期等；股东大会的地点和形式信息，如召开地址、会议类别、投票表决方式、网络投票通道及代码等；股东大会的参与情况统计，包括出席总体股东及代表人数、各类股东人数（如A股、H股、中小股东、优先股股东等）、出席股东代表股份及其占比（按不同股东类别区分）；股东大会的主持及法律见证信息，包括大会主持人及其职务、见证律师事务所及其编号、经办律师等；其他相关信息如议案内容、是否有效、股东大会取消日期、年度及届次等。通过这些字段，全面反映了股东大会的组织、参与及法律合规情况。"}, {"表名": "astockmarketquotesdb.cs_stockcapflowindex", "说明": "该数据表记录了证券交易相关的详细数据，涵盖交易日期、时间区间等基本信息，以及按小单、中单、大单、超大单、主力单和全单分类的交易统计数据，包括流入流出金额、流入流出量、流入流出笔数、净流入流出额与量、买入卖出率（按金额和数量计算）、净买入率及其与流通市值或流通股本的比值等。此外，还细分了主动买入卖出相关的金额、数量、笔数及其比率等指标，全面反映了不同交易规模下的资金流向和市场行为特征。"}, {"表名": "astockmarketquotesdb.cs_turnovervoltecindex", "说明": "该数据表记录了证券交易的相关数据，包含多个类别的字段信息。基本信息包括证券内部编码、聚源代码、交易日期、证券市场等；时间维度涵盖指标周期；成交额和成交量的统计指标包括简单移动平均值（如5日、10日、20日、30日、60日、120日、250日等周期的AMA和VMA）、指数平滑异同平均（如VMACD_EMA12、VMACD_EMA26、VMACD_DIFF、VMACD_DEA、VMACD_MACD）等；成交量的波动性与强弱分析指标包括量比、成交量震荡指标(VOSC)、加权指数成交量(TAPI及其均值TAPIMA)、成交量标准差(VSTD)、量变动速率(VROC)、成交量比率(VR)、量相对强弱(VRSI)等，全面反映证券交易的量价变化及趋势特征。"}, {"表名": "astockmarketquotesdb.cs_stockpatterns", "说明": "该数据表主要用于记录证券交易的多维度表现与趋势分析，涵盖基础信息如证券内部编码、交易日、聚源代码、证券市场等；高点与低点分析，包括价格、收盘价、成交量、成交金额在近一周、一个月、一季度、半年、一年及上市以来的创高或创低情况；历史新高新低统计，记录不同时间区间内创历史新高或新低的次数；趋势与形态分析，如连涨天数、连跌天数、连续放量或缩量天数，以及对5日、10日、20日、60日均线的有效突破情况；其他指标如N天M板表现和均线多空头排列的看涨看跌信号，为证券的短期与长期走势提供综合性参考。"}, {"表名": "astockmarketquotesdb.qt_dailyquote", "说明": "该数据表记录了证券交易的核心信息，包括证券的唯一标识\"证券内部编码\"，交易日期\"交易日\"，以及价格相关数据如\"昨收盘价\"、\"今开盘价\"、\"最高价\"、\"最低价\"和\"收盘价\"（单位均为元）；还包含交易活动指标，如\"成交量\"（股）、\"成交金额\"（元）和\"成交笔数\"（笔），全面反映了每日交易的市场表现。"}, {"表名": "astockmarketquotesdb.qt_stockperformance", "说明": "该数据表涵盖了证券交易的多维度信息，包括基本标识字段如证券内部编码和交易日；价格相关信息如开盘价、收盘价、最高价、最低价、均价以及涨跌幅、振幅等；成交数据如成交量、成交金额、换手率及其日均值；时间维度统计如周、月、三个月、六个月、十二个月及今年以来的价格、成交量、成交金额、涨跌幅、振幅、换手率等汇总指标；自由流通股本相关的换手率及其日均值；市场表现指标如Beta值（相对于不同基准指数）、阿尔法值、波动率、夏普比率、市场收益率等；市值信息包括总市值和流通市值；特殊价格指标如上市以来后复权的最高价、最低价及对应时间。该表全面整合了短期和长期的交易数据、市场表现以及统计汇总，为证券分析提供了丰富的基础数据支持。"}, {"表名": "astockmarketquotesdb.lc_suspendresumption", "说明": "该数据表主要记录证券停复牌相关信息，包括证券标识字段如证券内部编码，时间相关字段如信息发布日期、停牌日期、停牌时间、复牌日期、复牌时间，信息来源字段如信息来源，停复牌详情字段如停牌原因、停牌事项说明、停牌期限、停牌期限类型及复牌事项说明等，全面描述了证券停复牌的时间、原因及相关说明。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要找出2020年上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少，我们需要以下信息：
+1. 2020年上海市锦天城律师事务所见证的公司年度股东大会信息。
+2. 这些公司在2020年的股价数据，特别是年初和年末的股价，以计算涨幅。
+
+【选中的数据表】
+- `astockshareholderdb.lc_smattendinfo`: 该数据表记录了公司股东大会相关的综合信息，包括见证律师事务所及其编号，可以用来筛选出2020年上海市锦天城律师事务所见证的公司年度股东大会。
+- `astockmarketquotesdb.qt_dailyquote`: 该数据表记录了证券交易的核心信息，包括每日的股价数据，可以用来计算公司在2020年的股价涨幅。
+
+【选中的数据库表的清单】
+```json
+["astockshareholderdb.lc_smattendinfo", "astockmarketquotesdb.qt_dailyquote"]
+```
+补充选择table: ["usstockdb.us_dailyquote", "hkstockdb.cs_hkstockperformance"]补充选择table: ["astockmarketquotesdb.qt_stockperformance"]
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockshareholderdb.lc_smattendinfo", "表字段": [{"column": "CompanyCode", "desc": "公司代码；，得到上市公司的交易代码、简称等。"}, {"column": "InitialInfoPublDate", "desc": "首次信息发布日期"}, {"column": "LatestInfoPublDate", "desc": "最新信息发布日期"}, {"column": "MeetingDate", "desc": "股东大会召开日"}, {"column": "SHMeetingTime", "desc": "股东大会召开时间"}, {"column": "SMRegDate", "desc": "股东大会股权登记日"}, {"column": "MeetingRegStartDate", "desc": "会议登记起始日"}, {"column": "MeetingRegEndDate", "desc": "会议登记截止日"}, {"column": "AnounceDate", "desc": "股东大会公告日期"}, {"column": "ProposalContent", "desc": "议案内容"}, {"column": "CancelDate", "desc": "股东大会取消日期"}, {"column": "Address", "desc": "股东大会召开地址"}, {"column": "IfEffected", "desc": "是否有效；，令LB = 999 AND DM IN (1,2)，得到是否有效的具体描述：1-是，2-否。"}, {"column": "SerialNumber", "desc": "序号"}, {"column": "MeetingType", "desc": "股东大会类别；，令LB = 1299 AND DM IN (1,3,5)，得到股东大会类别的具体描述：1-年度股东大会，3-临时股东大会，5-出资人组会议。"}, {"column": "VotingMeans", "desc": "投票表决方式；，令LB = 1300，得到投票表决方式的具体描述：1-网络投票，2-现场投票，3-网络和通讯，5-现场和网络投票，9-通讯表决，15-现场投票和通讯表决，16-现场投票、通讯表决和网络投票。"}, {"column": "Year", "desc": "年度"}, {"column": "Series", "desc": "届次"}, {"column": "NetVotingPlatform", "desc": "网络投票通道；，令LB = 2521，得到网络投票通道的具体描述：1-中国证券登记结算有限责任公司网络系统，2-上海证券交易所交易系统，3-深圳证券交易所交易系统，4-互联网投票系统，5-中国证券登记结算有限责任公司网络系统、互联网投票系统，6-上海证券交易所交易系统、互联网投票系统，7-深圳证券交易所交易系统、互联网投票系统，999-其他。"}, {"column": "NetVotingCode", "desc": "网络投票代码"}, {"column": "VotingAbbr", "desc": "投票简称"}, {"column": "NetVotingStartDate", "desc": "网络投票起始日"}, {"column": "NetVotingEndDate", "desc": "网络投票截止日"}, {"column": "Presider", "desc": "大会主持人"}, {"column": "PresiderOfficialPost", "desc": "主持人职务(多选)"}, {"column": "TestmonyLawOffice", "desc": "见证律师事务所"}, {"column": "LawOfficeCode", "desc": "律师事务所企业编号；，得到预测机构的具体信息。"}, {"column": "Lawyer", "desc": "经办律师"}, {"column": "AttendanceType", "desc": "股东出席类别；，令LB = 1301，得到股东出席类别的具体描述：1-总体出席，2-现场投票出席，3-网络投票出席。"}, {"column": "AttendanceNumber", "desc": "出席总体股东及代表人数(人)"}, {"column": "ASharesNumber", "desc": "#A股股东人数(人)"}, {"column": "HSharesNumber", "desc": "#H股股东人数(人)"}, {"column": "OtherSharesNumber", "desc": "#其他基础股票股东人数(人)"}, {"column": "ShareANumber", "desc": "#A类普通股股东人数"}, {"column": "ShareBNumber", "desc": "#B类普通股股东人数"}, {"column": "ShareReprensented", "desc": "出席总体股东代表股份(股)/(票)"}, {"column": "ASharesReprensented", "desc": "#A股股东代表股份(股)"}, {"column": "HSharesReprensented", "desc": "#H股股东代表股份(股)"}, {"column": "OSharesReprensented", "desc": "#其他基础股票股东代表股份占比(%)"}, {"column": "ShareAReprensented", "desc": "#A类普通股股东代表股份(票)(以股计)"}, {"column": "ShareBReprensented", "desc": "#B类普通股股东代表股份(票)(以股计)"}, {"column": "RatioInTotalShare", "desc": "出席总体股东股份占总股份比例(%)"}, {"column": "ASharesRatio", "desc": "#A股股东代表股份占比(%)"}, {"column": "HSharesRatio", "desc": "#H股股东代表股份占比(%)"}, {"column": "OtherSharesRatio", "desc": "#其他基础股票股东代表股份占比(%)"}, {"column": "ShareARatio", "desc": "#A类普通股股东代表股份比例(%)"}, {"column": "ShareBRatio", "desc": "#B类普通股股东代表股份比例(%)"}, {"column": "MSharesNumber", "desc": "出席中小股东及代表人数"}, {"column": "MShareReprensented", "desc": "出席中小股东代表股份(股)"}, {"column": "MSharesRatio", "desc": "出席中小股东股份占总股份比例(%)"}, {"column": "PSharesNumber", "desc": "出席优先股股东及代表人数"}, {"column": "PSharesReprensented", "desc": "出席优先股股东代表股份(股)"}, {"column": "PSharesRatio", "desc": "出席优先股股东股份占总股份比例(%)"}]}, {"表名": "astockmarketquotesdb.qt_dailyquote", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘(元)"}, {"column": "OpenPrice", "desc": "今开盘(元)"}, {"column": "HighPrice", "desc": "最高价(元)"}, {"column": "LowPrice", "desc": "最低价(元)"}, {"column": "ClosePrice", "desc": "收盘价(元)"}, {"column": "TurnoverVolume", "desc": "成交量(股)；当证券类别为指数时，股票指数成交量单位是股，基金指数成交量单位是份，债券指数成交量单位是元。"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "TurnoverDeals", "desc": "成交笔数(笔)"}]}, {"表名": "usstockdb.us_dailyquote", "表字段": [{"column": "TradingDay", "desc": "交易日"}, {"column": "InnerCode", "desc": "证券内部代码；，得到相关的交易代码、简称等。"}, {"column": "Open", "desc": "开盘价"}, {"column": "High", "desc": "最高价"}, {"column": "Low", "desc": "最低价"}, {"column": "Close", "desc": "收盘价"}, {"column": "Volume", "desc": "成交量(手)"}, {"column": "EPSTTM", "desc": "每股收益TTM(元/股)"}, {"column": "MarketCap", "desc": "证券总市值"}, {"column": "ShareOST", "desc": "证券总股本"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "AvgPrice", "desc": "均价；均价（AvgPrice）：成交额/成交量"}, {"column": "TurnoverValue", "desc": "成交额(万)"}, {"column": "ChangeOF", "desc": "日涨跌"}]}, {"表名": "hkstockdb.cs_hkstockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "CurrencyUnitCode", "desc": "货币代码；，令LB=1068 AND DM IN (1000,1100,1420)，得到货币代码的具体描述：1000-美元，1100-港元，1420-人民币元。"}, {"column": "TurnoverVolume", "desc": "成交量"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "ChangeOF", "desc": "涨跌"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "RangePCT", "desc": "振幅(%)"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "TotalMV", "desc": "总市值(元)"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRW", "desc": "近一周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "近一周成交量(股)"}, {"column": "ChangeOFRW", "desc": "近一周涨跌(元)"}, {"column": "ChangePCTRW", "desc": "近一周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "近一周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "近一周换手率(%)"}, {"column": "AvgPriceRW", "desc": "近一周成交均价(元)"}, {"column": "HighPriceRW", "desc": "近一周最高价(元)"}, {"column": "LowPriceRW", "desc": "近一周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "近一周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "近一周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "近一周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "近一周日均换手率(%)"}, {"column": "TurnVolumePerDayRW", "desc": "近一周日均成交量(股)"}, {"column": "ChangePCTPerDayRW", "desc": "近一周日均涨跌幅(%)"}, {"column": "RangePCTPerDayRW", "desc": "近一周日均振幅(%)"}, {"column": "TotalMVPerDayRW", "desc": "近一周日均总市值(元)"}, {"column": "NegotiableMVPerDayRW", "desc": "近一周日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangeOFTW", "desc": "本周以来涨跌(元)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnVolumePerDayTW", "desc": "本周以来日均成交量(股)"}, {"column": "ChangePCTPerDayTW", "desc": "本周以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTW", "desc": "本周以来日均振幅(%)"}, {"column": "TotalMVPerDayTW", "desc": "本周以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTW", "desc": "本周以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRM", "desc": "近一月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "近一月成交量(股)"}, {"column": "ChangeOFRM", "desc": "近一月涨跌(元)"}, {"column": "ChangePCTRM", "desc": "近一月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "近一月月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "近一月月换手率(%)"}, {"column": "AvgPriceRM", "desc": "近一月成交均价(元)"}, {"column": "HighPriceRM", "desc": "近一月最高价(元)"}, {"column": "LowPriceRM", "desc": "近一月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "近一月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "近一月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "近一月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "近一月日均换手率(%)"}, {"column": "TurnVolumePerDayRM", "desc": "近一月日均成交量(股)"}, {"column": "ChangePCTPerDayRM", "desc": "近一月日均涨跌幅(%)"}, {"column": "RangePCTPerDayRM", "desc": "近一月日均振幅(%)"}, {"column": "TotalMVPerDayRM", "desc": "近一月日均总市值(元)"}, {"column": "NegotiableMVPerDayRM", "desc": "近一月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangeOFTM", "desc": "本月以来涨跌(元)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnVolumePerDayTM", "desc": "本月以来日均成交量(股)"}, {"column": "ChangePCTPerDayTM", "desc": "本月以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTM", "desc": "本月以来日均振幅(%)"}, {"column": "TotalMVPerDayTM", "desc": "本月以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTM", "desc": "本月以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMThree", "desc": "近三个月成交金额(元)"}, {"column": "TurnoverVolumeRMThree", "desc": "近三个月成交量(股)"}, {"column": "ChangeOFRMThree", "desc": "近三个月涨跌(元)"}, {"column": "ChangePCTRMThree", "desc": "近三个月涨跌幅(%)"}, {"column": "RangePCTRMThree", "desc": "近三个月振幅(%)"}, {"column": "TurnoverRateRMThree", "desc": "近三个月换手率(%)"}, {"column": "AvgPriceRMThree", "desc": "近三个月成交均价(元)"}, {"column": "HighPriceRMThree", "desc": "近三个月以来最高价(元)"}, {"column": "LowPriceRMThree", "desc": "近三个月以来最低价(元)"}, {"column": "HighestClosePRMThree", "desc": "近三个月以来收盘最高价(元)"}, {"column": "LowestClosePRMThree", "desc": "近三个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMThree", "desc": "近三个月日均成交金额(元)"}, {"column": "TurnRatePDayRMThree", "desc": "近三个月日均换手率(%)"}, {"column": "TurnVolumePDayRMThree", "desc": "近三个月日均成交量(股)"}, {"column": "ChangePCTPDayRMThree", "desc": "近三个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMThree", "desc": "近三个月日均振幅(%)"}, {"column": "TotalMVPerDayRMThree", "desc": "近三个月日均总市值(元)"}, {"column": "NegotiableMVPRMThree", "desc": "近三个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMSix", "desc": "近六个月成交金额(元)"}, {"column": "TurnoverVolumeRMSix", "desc": "近六个月成交量(股)"}, {"column": "ChangeOFRMSix", "desc": "近六个月涨跌(元)"}, {"column": "ChangePCTRMSix", "desc": "近六个月涨跌幅(%)"}, {"column": "RangePCTRMSix", "desc": "近六个月振幅(%)"}, {"column": "TurnoverRateRMSix", "desc": "近六个月换手率(%)"}, {"column": "AvgPriceRMSix", "desc": "近六个月成交均价(元)"}, {"column": "HighPriceRMSix", "desc": "近六个月以来最高价(元)"}, {"column": "LowPriceRMSix", "desc": "近六个月以来最低价(元)"}, {"column": "HighestClosePRMSix", "desc": "近六个月以来收盘最高价(元)"}, {"column": "LowestClosePRMSix", "desc": "近六个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMSix", "desc": "近六个月日均成交金额(元)"}, {"column": "TurnRatePDayRMSix", "desc": "近六个月日均换手率(%)"}, {"column": "TurnVolumePDayRMSix", "desc": "近六个月日均成交量(股)"}, {"column": "ChangePCTPDayRMSix", "desc": "近六个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMSix", "desc": "近六个月日均振幅(%)"}, {"column": "TotalMVPerDayRMSix", "desc": "近六个月日均总市值(元)"}, {"column": "NegotiableMVPRMSix", "desc": "近六个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRY", "desc": "近一年成交金额(元)"}, {"column": "TurnoverVolumeRY", "desc": "近一年成交量(股)"}, {"column": "ChangeOFRY", "desc": "近一年涨跌(元)"}, {"column": "ChangePCTRY", "desc": "近一年涨跌幅(%)"}, {"column": "RangePCTRY", "desc": "近一年振幅(%)"}, {"column": "TurnoverRateRY", "desc": "近一年换手率(%)"}, {"column": "AvgPriceRY", "desc": "近一年成交均价(元)"}, {"column": "HighPriceRY", "desc": "近一年最高价(元)"}, {"column": "LowPriceRY", "desc": "近一年最低价(元)"}, {"column": "HighestClosePRY", "desc": "近一年收盘价最高(元)"}, {"column": "LowestClosePRY", "desc": "近一年收盘价最低(元)"}, {"column": "TurnoverValuePDayRY", "desc": "近一年日均成交金额(元)"}, {"column": "TurnoverRatePDayRY", "desc": "近一年日均换手率(%)"}, {"column": "TurnVolumePDayRY", "desc": "近一年日均成交量(股)"}, {"column": "ChangePCTPDayRY", "desc": "近一年日均涨跌幅(%)"}, {"column": "RangePCTPDayRY", "desc": "近一年日均振幅(%)"}, {"column": "TotalMVPerDayRY", "desc": "近一年日均总市值(元)"}, {"column": "NegotiableMVPRY", "desc": "近一年日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)"}, {"column": "ChangeOFYTD", "desc": "今年以来涨跌(元)"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)"}, {"column": "TurnVolumePDayYTD", "desc": "今年以来日均成交量(股)"}, {"column": "ChangePCTPerDayYTD", "desc": "今年以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayYTD", "desc": "今年以来日均振幅(%)"}, {"column": "TotalMVPerDayYTD", "desc": "今年以来日均总市值(元)"}, {"column": "NegotiableMVPYTD", "desc": "今年以来日均流通市值(不含限售股)(元)"}, {"column": "HighAdjustedPrice", "desc": "上市以来复权最高价(元)"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来复权最高价日期"}, {"column": "LowAdjustedPrice", "desc": "上市以来复权最低价(元)"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来复权最低价日期"}]}, {"表名": "astockmarketquotesdb.qt_stockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "TurnoverVolume", "desc": "成交量1"}, {"column": "TurnoverValue", "desc": "成交金额(元)1"}, {"column": "ChangePCT", "desc": "涨跌幅(%)1"}, {"column": "RangePCT", "desc": "振幅(%)1"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "Ifsuspend", "desc": "是否停牌；1：当日停牌；0：当日非停牌"}, {"column": "TurnoverValueRW", "desc": "周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "周成交量(股)"}, {"column": "ChangePCTRW", "desc": "周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "周换手率(%)"}, {"column": "AvgPriceRW", "desc": "周成交均价(元)"}, {"column": "HighPriceRW", "desc": "周最高价(元)"}, {"column": "LowPriceRW", "desc": "周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "周日均换手率(%)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnoverValueRM", "desc": "月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "月成交量(股)"}, {"column": "ChangePCTRM", "desc": "月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "月换手率(%)"}, {"column": "AvgPriceRM", "desc": "月成交均价(元)"}, {"column": "HighPriceRM", "desc": "月最高价(元)"}, {"column": "LowPriceRM", "desc": "月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "月日均换手率(%)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnoverValueRMThree", "desc": "三个月成交金额(元)1"}, {"column": "TurnoverVolumeRMThree", "desc": "三个月成交量(股)1"}, {"column": "ChangePCTRMThree", "desc": "三个月涨跌幅(%)1"}, {"column": "RangePCTRMThree", "desc": "三个月振幅(%)1"}, {"column": "TurnoverRateRMThree", "desc": "三个月换手率(%)1"}, {"column": "TurnoverValueRMSix", "desc": "六个月成交金额(元)1"}, {"column": "TurnoverVolumeRMSix", "desc": "六个月成交量(股)1"}, {"column": "ChangePCTRMSix", "desc": "六个月涨跌幅(%)1"}, {"column": "RangePCTRMSix", "desc": "六个月振幅(%)1"}, {"column": "TurnoverRateRMSix", "desc": "六个月换手率(%)1"}, {"column": "TurnoverValueRY", "desc": "十二个月成交金额(元)1"}, {"column": "TurnoverVolumeRY", "desc": "十二个月成交量(股)1"}, {"column": "ChangePCTRY", "desc": "十二个月涨跌幅(%)1"}, {"column": "RangePCTRY", "desc": "十二个月振幅(%)1"}, {"column": "TurnoverRateRY", "desc": "十二个月换手率(%)1"}, {"column": "AvgPriceRY", "desc": "十二个月成交均价(元)1"}, {"column": "HighPriceRY", "desc": "十二个月最高价(元)1"}, {"column": "LowPriceRY", "desc": "十二个月最低价(元)1"}, {"column": "HighestClosePriceRY", "desc": "十二个月收盘最高价(元)1"}, {"column": "LowestClosePriceRY", "desc": "十二个月收盘最低价(元)1"}, {"column": "TurnoverValuePDayRY", "desc": "十二个月日均成交金额(元)1"}, {"column": "TurnoverRatePDayRY", "desc": "十二个月日均换手率(%)1"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)1"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)1"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)1"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)1"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)1"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)1"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)1"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)1"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)1"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)1"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)1"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)1"}, {"column": "HighAdjustedPrice", "desc": "上市以来后复权最高价(元)1"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来后复权最高价时间1"}, {"column": "LowAdjustedPrice", "desc": "上市以来后复权最低价(元)1"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来后复权最低价时间"}, {"column": "BetaLargeCapIndex", "desc": "Beta值(相对沪深300,一年)"}, {"column": "BetaCompositeIndex", "desc": "Beta值(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "BetaSYWGIndustryIndex", "desc": "Beta值(相对申万行业,一年)；取该股票所属的申万行业指数"}, {"column": "BetaMidCapIndex", "desc": "Beta值(相对中证500,一年)"}, {"column": "BetaWeekly", "desc": "Beta值(两年,周步长)；Beta值（两年,周步长）（BetaWeekly）：Beta=[n∑RXiRi-(∑RXi)*(∑Ri)]／[n∑（RXi^2）-(∑RXi)^2]Ri为步长区间股票增长率Rxi为步长区间基准增长率"}, {"column": "AdjustBetaWeekly", "desc": "调整Beta值(两年,周步长)；调整Beta值（两年,周步长）（AdjustBetaWeekly）：BETA值（两年,周步长）*0.67+0.33"}, {"column": "AlphaLargeCapIndex", "desc": "阿尔法(相对沪深300,一年)"}, {"column": "AlphaCompositeIndex", "desc": "阿尔法(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "AlphaSYWGIndustryIndex", "desc": "阿尔法(相对申万行业,一年)；取该股票所属的申万行业指数。"}, {"column": "AlphMidCapIndex", "desc": "阿尔法(相对中证500,一年)"}, {"column": "YearVolatilityByDay", "desc": "波动率(日步长)；波动率(日步长)(YearVolatilityByDay):计算中为日步长数据，时间跨度为1年"}, {"column": "YearVolatilityByWeek", "desc": "波动率(周步长)1"}, {"column": "YearSharpeRatio", "desc": "夏普比率(年化)1"}, {"column": "MarketIndexRORArithAvg", "desc": "市场收益率(算术平均)；市场收益率（算术平均）（MarketIndexRORArithAvg）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（算术平均）Rm2为深证综指年收益率（算术平均）指数年平均收益率Rxi=(∑（Ri）/10)*100%"}, {"column": "MarketIndexRORGeomMean", "desc": "市场收益率(几何平均)；市场收益率（几何平均）（MarketIndexRORGeomMean）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（几何平均）Rm2为深证综指年收益率（几何平均）"}, {"column": "TotalMV", "desc": "总市值(元)1"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)1"}, {"column": "TurnoverRateFreeFloat", "desc": "换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRW", "desc": "周换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRW", "desc": "周日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTW", "desc": "本周以来换手率_自由流通股本(%)"}, {"column": "TurnoverRatePDFFTTW", "desc": "本周以来日均换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRM", "desc": "月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRM", "desc": "月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTM", "desc": "本月以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTTM", "desc": "本月以来日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMThree", "desc": "三个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMSix", "desc": "六个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRY", "desc": "十二个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRY", "desc": "十二个月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTYTD", "desc": "今年以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTYTD", "desc": "今年以来日均换手率_自由流通股本(%)1"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是2020年上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少。
+
+【信息所在字段】
+- astockshareholderdb.lc_smattendinfo.TestmonyLawOffice: 这个字段可能包含见证律师事务所的信息，对应用户提问中的上海市锦天城律师事务所。
+- astockshareholderdb.lc_smattendinfo.MeetingType: 这个字段可能包含股东大会类别的信息，对应用户提问中的年度股东大会。
+- astockshareholderdb.lc_smattendinfo.Year: 这个字段可能包含年度的信息，对应用户提问中的2020年。
+- astockmarketquotesdb.qt_dailyquote.ChangePCT: 这个字段可能包含涨跌幅的信息，对应用户提问中的股价涨幅。
+- usstockdb.us_dailyquote.ChangePCT: 这个字段可能包含涨跌幅的信息，对应用户提问中的股价涨幅。
+- hkstockdb.cs_hkstockperformance.ChangePCT: 这个字段可能包含涨跌幅的信息，对应用户提问中的股价涨幅。
+
+【筛选条件所在字段】
+- astockshareholderdb.lc_smattendinfo.TestmonyLawOffice: 这个字段可能包含见证律师事务所的信息，对应用户提问中的上海市锦天城律师事务所。
+- astockshareholderdb.lc_smattendinfo.MeetingType: 这个字段可能包含股东大会类别的信息，对应用户提问中的年度股东大会。
+- astockshareholderdb.lc_smattendinfo.Year: 这个字段可能包含年度的信息，对应用户提问中的2020年。
+
+【选中的字段的清单】
+```json
+{
+  "astockshareholderdb.lc_smattendinfo": ["TestmonyLawOffice", "MeetingType", "Year"],
+  "astockmarketquotesdb.qt_dailyquote": ["ChangePCT"],
+  "usstockdb.us_dailyquote": ["ChangePCT"],
+  "hkstockdb.cs_hkstockperformance": ["ChangePCT"]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在2020年1月1日至2020年12月31日期间，共有14家上市公司在其年度股东大会（MeetingType = 1）中邀请了上海市锦天城律师事务所（TestmonyLawOffice字段包含“上海市锦天城律师事务所”）作为见证律师事务所。这些公司的公司代码（CompanyCode）是唯一的。
+---
+查询结果表明:
+在2020年1月1日至2020年12月31日期间，存在股权正式变动且出让前持股数量大于出让后持股数量的公司中，同时这些公司在同一年度内召开了年度股东大会，并且见证律师事务所包含“上海市锦天城律师事务所”字样的公司代码分别为74996、171621、178300、170543、1637、118021、207679和151879。
+
+请问:在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+1. 2020年，上海市锦天城律师事务所见证的14家公司年度股东大会的公司代码是唯一的。
+2. 这些公司中，股东当年进行了减持的公司代码分别为：74996、171621、178300、170543、1637、118021、207679、151879。
+
+【当前阶段要获取的信息】
+2020年，这些公司中股价涨幅最大的公司及其具体涨幅。
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+- `ChangePCT`：涨跌幅（%）
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码
+- `Year`：年度（需格式化为`YEAR(column_name)`）
+
+【SQL语句的思路】
+1. 从`astockmarketquotesdb.qt_dailyquote`表中获取2020年的每日股价数据。
+2. 计算每家公司的年度涨幅。
+3. 筛选出上海市锦天城律师事务所见证的公司。
+4. 找出涨幅最大的公司及其涨幅。
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    a.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.CompanyCode = b.CompanyCode
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    a.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+1. 从`astockmarketquotesdb.qt_dailyquote`表中选择公司代码和涨跌幅。
+2. 通过子查询从`astockshareholderdb.lc_smattendinfo`表中获取2020年上海市锦天城律师事务所见证的公司的公司代码。
+3. 将两个表通过公司代码进行连接。
+4. 筛选2020年的数据。
+5. 按公司代码分组，计算每家公司的最大涨幅。
+6. 按最大涨幅降序排列，取涨幅最大的公司及其涨幅。
+
+>>>>> 查询sql:
+SELECT 
+    a.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.CompanyCode = b.CompanyCode
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    a.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'a.CompanyCode' in 'field list'
+[SQL: SELECT 
+    a.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.CompanyCode = b.CompanyCode
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    a.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    a.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.CompanyCode = b.CompanyCode
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    a.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'a.CompanyCode' in 'field list'
+[SQL: SELECT 
+    a.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.CompanyCode = b.CompanyCode
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    a.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+1. 2020年，上海市锦天城律师事务所见证的14家公司年度股东大会的公司代码是唯一的。
+2. 这些公司中，股东当年进行了减持的公司代码分别为：74996、171621、178300、170543、1637、118021、207679、151879。
+
+【当前阶段要获取的信息】
+2020年，这些公司中股价涨幅最大的公司及其具体涨幅。
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+- `ChangePCT`：涨跌幅（%）
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码
+- `Year`：年度（需格式化为`YEAR(column_name)`）
+
+【SQL语句的思路】
+1. 从`astockmarketquotesdb.qt_dailyquote`表中获取2020年的每日股价数据。
+2. 计算每家公司的年度涨幅。
+3. 筛选出上海市锦天城律师事务所见证的公司。
+4. 找出涨幅最大的公司及其涨幅。
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    b.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.InnerCode = (SELECT InnerCode FROM constantdb.secumain WHERE CompanyCode = b.CompanyCode)
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+1. 从`astockmarketquotesdb.qt_dailyquote`表中选择涨跌幅。
+2. 通过子查询从`astockshareholderdb.lc_smattendinfo`表中获取2020年上海市锦天城律师事务所见证的公司的公司代码。
+3. 将两个表通过公司代码进行连接，并通过`constantdb.secumain`表将`CompanyCode`转换为`InnerCode`。
+4. 筛选2020年的数据。
+5. 按公司代码分组，计算每家公司的最大涨幅。
+6. 按最大涨幅降序排列，取涨幅最大的公司及其涨幅。
+
+>>>>> 查询sql:
+SELECT 
+    b.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.InnerCode = (SELECT InnerCode FROM constantdb.secumain WHERE CompanyCode = b.CompanyCode)
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'a.ChangePCT' in 'field list'
+[SQL: SELECT 
+    b.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.InnerCode = (SELECT InnerCode FROM constantdb.secumain WHERE CompanyCode = b.CompanyCode)
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    b.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.InnerCode = (SELECT InnerCode FROM constantdb.secumain WHERE CompanyCode = b.CompanyCode)
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'a.ChangePCT' in 'field list'
+[SQL: SELECT 
+    b.CompanyCode,
+    MAX(a.ChangePCT) AS MaxChangePCT
+FROM 
+    astockmarketquotesdb.qt_dailyquote AS a
+JOIN 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+ON 
+    a.InnerCode = (SELECT InnerCode FROM constantdb.secumain WHERE CompanyCode = b.CompanyCode)
+WHERE 
+    YEAR(a.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+1. 2020年，上海市锦天城律师事务所见证的14家公司年度股东大会的公司代码是唯一的。
+2. 这些公司中，股东当年进行了减持的公司代码分别为：74996、171621、178300、170543、1637、118021、207679、151879。
+
+【当前阶段要获取的信息】
+2020年，这些公司中股价涨幅最大的公司及其具体涨幅。
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+- `ChangePCT`：涨跌幅（%）
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码
+- `Year`：年度（需格式化为`YEAR(column_name)`）
+
+【SQL语句的思路】
+1. 从`astockmarketquotesdb.qt_dailyquote`表中获取2020年的每日股价数据。
+2. 计算每家公司的年度涨幅。
+3. 筛选出上海市锦天城律师事务所见证的公司。
+4. 找出涨幅最大的公司及其涨幅。
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    b.CompanyCode,
+    MAX(d.ChangePCT) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+1. 从`astockshareholderdb.lc_smattendinfo`表中获取2020年上海市锦天城律师事务所见证的公司的公司代码。
+2. 通过`constantdb.secumain`表将`CompanyCode`转换为`InnerCode`。
+3. 将转换后的`InnerCode`与`astockmarketquotesdb.qt_dailyquote`表进行连接，获取每日股价数据。
+4. 筛选2020年的数据。
+5. 按公司代码分组，计算每家公司的最大涨幅。
+6. 按最大涨幅降序排列，取涨幅最大的公司及其涨幅。
+
+>>>>> 查询sql:
+SELECT 
+    b.CompanyCode,
+    MAX(d.ChangePCT) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'd.ChangePCT' in 'field list'
+[SQL: SELECT 
+    b.CompanyCode,
+    MAX(d.ChangePCT) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    b.CompanyCode,
+    MAX(d.ChangePCT) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'd.ChangePCT' in 'field list'
+[SQL: SELECT 
+    b.CompanyCode,
+    MAX(d.ChangePCT) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+1. 2020年，上海市锦天城律师事务所见证的14家公司年度股东大会的公司代码是唯一的。
+2. 这些公司中，股东当年进行了减持的公司代码分别为：74996、171621、178300、170543、1637、118021、207679、151879。
+
+【当前阶段要获取的信息】
+2020年，这些公司中股价涨幅最大的公司及其具体涨幅。
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+- `ChangePCT`：涨跌幅（%）
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码
+- `Year`：年度（需格式化为`YEAR(column_name)`）
+
+【SQL语句的思路】
+1. 从`astockshareholderdb.lc_smattendinfo`表中获取2020年上海市锦天城律师事务所见证的公司的公司代码。
+2. 通过`constantdb.secumain`表将`CompanyCode`转换为`InnerCode`。
+3. 将转换后的`InnerCode`与`astockmarketquotesdb.qt_dailyquote`表进行连接，获取每日股价数据。
+4. 筛选2020年的数据。
+5. 按公司代码分组，计算每家公司的最大涨幅。
+6. 按最大涨幅降序排列，取涨幅最大的公司及其涨幅。
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    b.CompanyCode,
+    MAX(d.ChangePCT) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+1. 从`astockshareholderdb.lc_smattendinfo`表中获取2020年上海市锦天城律师事务所见证的公司的公司代码。
+2. 通过`constantdb.secumain`表将`CompanyCode`转换为`InnerCode`。
+3. 将转换后的`InnerCode`与`astockmarketquotesdb.qt_dailyquote`表进行连接，获取每日股价数据。
+4. 筛选2020年的数据。
+5. 按公司代码分组，计算每家公司的最大涨幅。
+6. 按最大涨幅降序排列，取涨幅最大的公司及其涨幅。
+
+由于查询再次失败，提示`Unknown column 'd.ChangePCT' in 'field list'`，我们需要确认`astockmarketquotesdb.qt_dailyquote`表中是否存在`ChangePCT`字段。如果不存在，我们需要找到正确的字段名。
+
+【执行SQL语句】
+```exec_sql
+SHOW COLUMNS FROM astockmarketquotesdb.qt_dailyquote;
+```
+
+【上述SQL语句的含义】
+显示`astockmarketquotesdb.qt_dailyquote`表的所有字段，以便确认正确的字段名。
+
+>>>>> 查询sql:
+SHOW COLUMNS FROM astockmarketquotesdb.qt_dailyquote;
+查询结果:
+[{"Field": "ID", "Type": "bigint", "Null": "NO", "Key": "PRI", "Default": null, "Extra": ""}, {"Field": "InnerCode", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TradingDay", "Type": "longtext", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "PrevClosePrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "OpenPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "HighPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "LowPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "ClosePrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverVolume", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverValue", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverDeals", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "XGRQ", "Type": "longtext", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "JSID", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SHOW COLUMNS FROM astockmarketquotesdb.qt_dailyquote;
+查询结果:
+[{"Field": "ID", "Type": "bigint", "Null": "NO", "Key": "PRI", "Default": null, "Extra": ""}, {"Field": "InnerCode", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TradingDay", "Type": "longtext", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "PrevClosePrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "OpenPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "HighPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "LowPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "ClosePrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverVolume", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverValue", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverDeals", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "XGRQ", "Type": "longtext", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "JSID", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 表 `astockmarketquotesdb.qt_dailyquote` 包含以下字段及其属性：
+- `ID`：bigint类型，不允许为空，是主键。
+- `InnerCode`：bigint类型，允许为空。
+- `TradingDay`：longtext类型，允许为空。
+- `PrevClosePrice`：double类型，允许为空。
+- `OpenPrice`：double类型，允许为空。
+- `HighPrice`：double类型，允许为空。
+- `LowPrice`：double类型，允许为空。
+- `ClosePrice`：double类型，允许为空。
+- `TurnoverVolume`：double类型，允许为空。
+- `TurnoverValue`：double类型，允许为空。
+- `TurnoverDeals`：bigint类型，允许为空。
+- `XGRQ`：longtext类型，允许为空。
+- `JSID`：bigint类型，允许为空。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SHOW COLUMNS FROM astockmarketquotesdb.qt_dailyquote;
+查询结果:
+[{"Field": "ID", "Type": "bigint", "Null": "NO", "Key": "PRI", "Default": null, "Extra": ""}, {"Field": "InnerCode", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TradingDay", "Type": "longtext", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "PrevClosePrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "OpenPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "HighPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "LowPrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "ClosePrice", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverVolume", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverValue", "Type": "double", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "TurnoverDeals", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "XGRQ", "Type": "longtext", "Null": "YES", "Key": "", "Default": null, "Extra": ""}, {"Field": "JSID", "Type": "bigint", "Null": "YES", "Key": "", "Default": null, "Extra": ""}]
+
+查询结果表明: 表 `astockmarketquotesdb.qt_dailyquote` 包含以下字段及其属性：
+- `ID`：bigint类型，不允许为空，是主键。
+- `InnerCode`：bigint类型，允许为空。
+- `TradingDay`：longtext类型，允许为空。
+- `PrevClosePrice`：double类型，允许为空。
+- `OpenPrice`：double类型，允许为空。
+- `HighPrice`：double类型，允许为空。
+- `LowPrice`：double类型，允许为空。
+- `ClosePrice`：double类型，允许为空。
+- `TurnoverVolume`：double类型，允许为空。
+- `TurnoverValue`：double类型，允许为空。
+- `TurnoverDeals`：bigint类型，允许为空。
+- `XGRQ`：longtext类型，允许为空。
+- `JSID`：bigint类型，允许为空。
+
+当前掌握的信息是否能够回答"在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+1. 2020年，上海市锦天城律师事务所见证的14家公司年度股东大会的公司代码是唯一的。
+2. 这些公司中，股东当年进行了减持的公司代码分别为：74996、171621、178300、170543、1637、118021、207679、151879。
+3. `astockmarketquotesdb.qt_dailyquote`表中的字段信息。
+
+【当前阶段要获取的信息】
+2020年，这些公司中股价涨幅最大的公司及其具体涨幅。
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+- `ChangePCT`：涨跌幅（%）
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码
+- `Year`：年度（需格式化为`YEAR(column_name)`）
+
+【SQL语句的思路】
+1. 从`astockshareholderdb.lc_smattendinfo`表中获取2020年上海市锦天城律师事务所见证的公司的公司代码。
+2. 通过`constantdb.secumain`表将`CompanyCode`转换为`InnerCode`。
+3. 将转换后的`InnerCode`与`astockmarketquotesdb.qt_dailyquote`表进行连接，获取每日股价数据。
+4. 筛选2020年的数据。
+5. 计算每家公司的年度涨幅。
+6. 找出涨幅最大的公司及其涨幅。
+
+由于`astockmarketquotesdb.qt_dailyquote`表中没有`ChangePCT`字段，我们需要使用其他字段来计算涨幅。通常涨幅可以通过以下公式计算：
+\[ \text{涨幅} = \frac{\text{ClosePrice} - \text{PrevClosePrice}}{\text{PrevClosePrice}} \times 100\% \]
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    b.CompanyCode,
+    MAX((d.ClosePrice - d.PrevClosePrice) / d.PrevClosePrice * 100) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+1. 从`astockshareholderdb.lc_smattendinfo`表中获取2020年上海市锦天城律师事务所见证的公司的公司代码。
+2. 通过`constantdb.secumain`表将`CompanyCode`转换为`InnerCode`。
+3. 将转换后的`InnerCode`与`astockmarketquotesdb.qt_dailyquote`表进行连接，获取每日股价数据。
+4. 筛选2020年的数据。
+5. 计算每家公司的最大涨幅。
+6. 按最大涨幅降序排列，取涨幅最大的公司及其涨幅。
+
+>>>>> 查询sql:
+SELECT 
+    b.CompanyCode,
+    MAX((d.ClosePrice - d.PrevClosePrice) / d.PrevClosePrice * 100) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询结果:
+[{"CompanyCode": 1772, "MaxChangePCT": 10.130718954248367}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    b.CompanyCode,
+    MAX((d.ClosePrice - d.PrevClosePrice) / d.PrevClosePrice * 100) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询结果:
+[{"CompanyCode": 1772, "MaxChangePCT": 10.130718954248367}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 公司代码为1772的上市公司在2020年度股东大会（MeetingType = 1）中，由上海市锦天城律师事务所见证（TestmonyLawOffice LIKE '%上海市锦天城律师事务所%'），其在2020年内的最大涨跌幅（MaxChangePCT）为10.1307%，这是通过计算每日收盘价与前一日收盘价的涨跌幅百分比得出的最大值。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    b.CompanyCode,
+    MAX((d.ClosePrice - d.PrevClosePrice) / d.PrevClosePrice * 100) AS MaxChangePCT
+FROM 
+    (SELECT DISTINCT CompanyCode FROM astockshareholderdb.lc_smattendinfo 
+     WHERE TestmonyLawOffice LIKE '%上海市锦天城律师事务所%' 
+     AND YEAR = 2020 AND MeetingType = 1) AS b
+JOIN 
+    constantdb.secumain AS c
+ON 
+    b.CompanyCode = c.CompanyCode
+JOIN 
+    astockmarketquotesdb.qt_dailyquote AS d
+ON 
+    c.InnerCode = d.InnerCode
+WHERE 
+    YEAR(d.TradingDay) = 2020
+GROUP BY 
+    b.CompanyCode
+ORDER BY 
+    MaxChangePCT DESC
+LIMIT 1;
+查询结果:
+[{"CompanyCode": 1772, "MaxChangePCT": 10.130718954248367}]
+
+查询结果表明: 公司代码为1772的上市公司在2020年度股东大会（MeetingType = 1）中，由上海市锦天城律师事务所见证（TestmonyLawOffice LIKE '%上海市锦天城律师事务所%'），其在2020年内的最大涨跌幅（MaxChangePCT）为10.1307%，这是通过计算每日收盘价与前一日收盘价的涨跌幅百分比得出的最大值。
+
+当前掌握的信息是否能够回答"在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+1. 2020年，上海市锦天城律师事务所见证的14家公司年度股东大会的公司代码是唯一的。
+2. 这些公司中，股东当年进行了减持的公司代码分别为：74996、171621、178300、170543、1637、118021、207679、151879。
+3. 公司代码为1772的上市公司在2020年的最大涨跌幅为10.1307%。
+
+【当前阶段要获取的信息】
+无
+
+【信息所在字段】
+- `CompanyCode`：公司代码
+- `MaxChangePCT`：最大涨跌幅
+
+【筛选条件所在字段】
+- `CompanyCode`：公司代码
+- `Year`：年度（需格式化为`YEAR(column_name)`）
+
+【SQL语句的思路】
+无需执行SQL语句，因为已经找到了2020年上海市锦天城律师事务所见证的14家公司年度股东大会中股价涨幅最大的公司及其具体涨幅。
+
+【执行SQL语句】
+无
+
+【上述SQL语句的含义】
+无
+
+根据查询结果，我们可以回答问题：在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，公司代码为1772的上市公司股价涨幅最大，具体涨幅达到了10.1307%。
+
+
+>>>>> 【user】 Said:
+请回答问题:"在2020年，上海市锦天城律师事务所见证的14家公司年度股东大会中，哪家公司的股价涨幅最大，具体涨幅达到了多少？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+公司代码: 1772, 涨幅: 10.1307%

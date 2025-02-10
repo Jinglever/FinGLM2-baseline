@@ -1,0 +1,273 @@
+
+>>>>> Original Question: 2019年6月6日，正常交易且跳空低开的股票一共有几只？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字中的实体（如公司名、股票代码、拼音缩写等），如果识别结果是空，那么就回复No Entities."2019年6月6日，正常交易且跳空低开的股票一共有几只？"
+
+>>>>> Agent【extract_company】 Said:
+No Entities.
+
+
+>>>>> 【user】 Said:
+历史问答:无。
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：2019年6月6日，正常交易且跳空低开的股票一共有几只？
+
+>>>>> Agent【rewrite_question】 Said:
+2019年6月6日，正常交易且跳空低开的股票共有多少只？
+
+>>>>> 已知事实:
+
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询2019年6月6日正常交易且跳空低开的股票数量。这需要以下信息：
+1. 2019年6月6日的交易数据，包括开盘价和前一日收盘价。
+2. 股票的正常交易状态。
+
+根据知识库描述，以下数据库可能包含所需信息：
+- `astockmarketquotesdb`：记录了股票的交易行情，包括每日行情、开盘价、收盘价等。
+- `constantdb`：记录了交易日的信息，可以确认2019年6月6日是否为交易日。
+
+【选中的数据库】
+- `astockmarketquotesdb`：这个数据库包含每日股票行情数据，可以获取2019年6月6日的开盘价和前一日收盘价。
+- `constantdb`：这个数据库包含交易日的信息，可以确认2019年6月6日是否为正常交易日。
+
+【选中的数据库的清单】
+```json
+["astockmarketquotesdb", "constantdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockmarketquotesdb.cs_stockcapflowindex", "说明": "该数据表记录了证券交易相关的详细数据，涵盖交易日期、时间区间等基本信息，以及按小单、中单、大单、超大单、主力单和全单分类的交易统计数据，包括流入流出金额、流入流出量、流入流出笔数、净流入流出额与量、买入卖出率（按金额和数量计算）、净买入率及其与流通市值或流通股本的比值等。此外，还细分了主动买入卖出相关的金额、数量、笔数及其比率等指标，全面反映了不同交易规模下的资金流向和市场行为特征。"}, {"表名": "astockmarketquotesdb.cs_turnovervoltecindex", "说明": "该数据表记录了证券交易的相关数据，包含多个类别的字段信息。基本信息包括证券内部编码、聚源代码、交易日期、证券市场等；时间维度涵盖指标周期；成交额和成交量的统计指标包括简单移动平均值（如5日、10日、20日、30日、60日、120日、250日等周期的AMA和VMA）、指数平滑异同平均（如VMACD_EMA12、VMACD_EMA26、VMACD_DIFF、VMACD_DEA、VMACD_MACD）等；成交量的波动性与强弱分析指标包括量比、成交量震荡指标(VOSC)、加权指数成交量(TAPI及其均值TAPIMA)、成交量标准差(VSTD)、量变动速率(VROC)、成交量比率(VR)、量相对强弱(VRSI)等，全面反映证券交易的量价变化及趋势特征。"}, {"表名": "astockmarketquotesdb.cs_stockpatterns", "说明": "该数据表主要用于记录证券交易的多维度表现与趋势分析，涵盖基础信息如证券内部编码、交易日、聚源代码、证券市场等；高点与低点分析，包括价格、收盘价、成交量、成交金额在近一周、一个月、一季度、半年、一年及上市以来的创高或创低情况；历史新高新低统计，记录不同时间区间内创历史新高或新低的次数；趋势与形态分析，如连涨天数、连跌天数、连续放量或缩量天数，以及对5日、10日、20日、60日均线的有效突破情况；其他指标如N天M板表现和均线多空头排列的看涨看跌信号，为证券的短期与长期走势提供综合性参考。"}, {"表名": "astockmarketquotesdb.qt_dailyquote", "说明": "该数据表记录了证券交易的核心信息，包括证券的唯一标识\"证券内部编码\"，交易日期\"交易日\"，以及价格相关数据如\"昨收盘价\"、\"今开盘价\"、\"最高价\"、\"最低价\"和\"收盘价\"（单位均为元）；还包含交易活动指标，如\"成交量\"（股）、\"成交金额\"（元）和\"成交笔数\"（笔），全面反映了每日交易的市场表现。"}, {"表名": "astockmarketquotesdb.qt_stockperformance", "说明": "该数据表涵盖了证券交易的多维度信息，包括基本标识字段如证券内部编码和交易日；价格相关信息如开盘价、收盘价、最高价、最低价、均价以及涨跌幅、振幅等；成交数据如成交量、成交金额、换手率及其日均值；时间维度统计如周、月、三个月、六个月、十二个月及今年以来的价格、成交量、成交金额、涨跌幅、振幅、换手率等汇总指标；自由流通股本相关的换手率及其日均值；市场表现指标如Beta值（相对于不同基准指数）、阿尔法值、波动率、夏普比率、市场收益率等；市值信息包括总市值和流通市值；特殊价格指标如上市以来后复权的最高价、最低价及对应时间。该表全面整合了短期和长期的交易数据、市场表现以及统计汇总，为证券分析提供了丰富的基础数据支持。"}, {"表名": "astockmarketquotesdb.lc_suspendresumption", "说明": "该数据表主要记录证券停复牌相关信息，包括证券标识字段如证券内部编码，时间相关字段如信息发布日期、停牌日期、停牌时间、复牌日期、复牌时间，信息来源字段如信息来源，停复牌详情字段如停牌原因、停牌事项说明、停牌期限、停牌期限类型及复牌事项说明等，全面描述了证券停复牌的时间、原因及相关说明。"}, {"表名": "constantdb.secumain", "说明": "该数据表主要用于描述证券的基本信息，包括标识信息如证券内部编码、公司代码、证券代码，名称信息如中文名称、中文名称缩写、英文名称、英文名称缩写、证券简称及其拼音和扩位形式，市场和类别信息如证券市场、证券类别，上市相关信息如上市日期、上市板块、上市状态，以及国际标准化标识如ISIN代码等，全面覆盖了证券的核心属性及其分类与标识信息。"}, {"表名": "constantdb.hk_secumain", "说明": "该数据表包含证券的基本信息和交易相关数据，包括唯一标识的内部编码、公司代码和证券代码，以及中文和英文的名称及其缩写和拼音简称。证券的市场、类别、上市日期、板块、状态、曾用名和退市日期等信息描述了证券的上市情况。交易相关的信息包括买卖单位、交易货币类别和国际通用的ISIN代码。"}, {"表名": "constantdb.ct_systemconst", "说明": "该数据表主要用于存储与常量相关的信息，包括分类和具体值。字段涵盖常量分类的编码和名称（如常量分类编码LB、常量分类名称LBMC）、常量的描述信息（如常量描述MS）、常量的具体标识代码（如常量代码DM），以及不同类型的常量值（如浮点值FVALUE、整型值IVALUE、日期值DVALUE、字符值CVALUE），以便对常量进行分类管理和多维度存储。"}, {"表名": "constantdb.qt_tradingdaynew", "说明": "该数据表记录了与交易日期相关的多维信息，包括日期（TradingDate）、证券市场（SecuMarket）等基础字段，同时标注了日期属性，如是否为交易日（IfTradingDay）、是否为周、月、季、年最后一个交易日（IfWeekEnd、IfMonthEnd、IfQuarterEnd、IfYearEnd），全面反映了日期在不同周期维度下的交易属性。"}, {"表名": "constantdb.lc_areacode", "说明": "该数据表主要用于记录地区相关信息，包含地区编码信息如地区内部编码、地区行政编码、一级和二级区划代码，地区名称信息如中文名称、英文名称及其缩写，层级结构信息如父节点代码和名称，状态信息如是否有效及取消日期，变更记录如变更内容，以及备注等辅助信息。"}, {"表名": "constantdb.us_secumain", "说明": "该数据表主要用于记录证券的基本信息，包括标识信息如证券内部编码、证券代码、ISIN代码等，名称信息如证券简称、拼音简称、中文名称、英文名称等，分类信息如证券类别、证券市场、上市板块等，状态信息如上市日期、退市日期、上市状态等，以及关联信息如公司代码等。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要找出2019年6月6日正常交易且跳空低开的股票数量，需要以下信息：
+1. 交易日期为2019年6月6日的股票。
+2. 正常交易的股票（排除停牌的股票）。
+3. 跳空低开的股票（今开盘价低于昨收盘价）。
+
+【选中的数据表】
+- astockmarketquotesdb.qt_dailyquote: 这个数据表包含交易日期、昨收盘价、今开盘价等信息，用于判断跳空低开。
+- astockmarketquotesdb.lc_suspendresumption: 这个数据表包含停复牌信息，用于排除停牌的股票。
+- constantdb.qt_tradingdaynew: 这个数据表包含交易日期信息，用于确认2019年6月6日是否为交易日。
+
+【选中的数据库表的清单】
+```json
+["astockmarketquotesdb.qt_dailyquote", "astockmarketquotesdb.lc_suspendresumption", "constantdb.qt_tradingdaynew"]
+```
+补充选择table: ["usstockdb.us_dailyquote", "hkstockdb.cs_hkstockperformance"]补充选择table: ["astockmarketquotesdb.qt_stockperformance"]补充选择table: ["constantdb.hk_secumain", "constantdb.us_secumain"]
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockmarketquotesdb.qt_dailyquote", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘(元)"}, {"column": "OpenPrice", "desc": "今开盘(元)"}, {"column": "HighPrice", "desc": "最高价(元)"}, {"column": "LowPrice", "desc": "最低价(元)"}, {"column": "ClosePrice", "desc": "收盘价(元)"}, {"column": "TurnoverVolume", "desc": "成交量(股)；当证券类别为指数时，股票指数成交量单位是股，基金指数成交量单位是份，债券指数成交量单位是元。"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "TurnoverDeals", "desc": "成交笔数(笔)"}]}, {"表名": "astockmarketquotesdb.lc_suspendresumption", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源；，令LB=201 AND DM IN (18,83,90)，得到信息来源的具体描述：18-北京证券交易所，83-上海证券交易所，90-深圳证券交易所。"}, {"column": "SuspendDate", "desc": "停牌日期"}, {"column": "SuspendTime", "desc": "停牌时间"}, {"column": "SuspendReason", "desc": "停牌原因"}, {"column": "SuspendStatement", "desc": "停牌事项说明；，令LB = 1654 ，得到停牌事项说明的具体描述：101-临时停牌，102-召开股东大会，103-重大事项，104-其它公告（停牌），105-交易异常波动，106-澄清公告，107-撤销其他特别处理公告，108-盘中临时停牌，109-撤销退市风险警示公告，110-未能如期刊登股东大会决议，111-增发提示性公告，112-续发行招投标，113-股价异动停牌公告，114-份额暂停交易公告，115-交易风险提示，116-收益分配，117-实行退市风险警示公告，118-实行其他特别处理公告，119-未按期披露定期报告，120-破产，121-拟终止挂牌，122-做市商不足2家，123-转板上市，603-刊登重要公告，604-拟筹划重大资产重组，605-重要事项未公告，606-未刊登股东大会决议公告，607-刊登股票交易异常波动公告，608-媒体报道需澄清，610-基金公司申请，611-定价增发，612-正股停牌，999-其他特别原因。"}, {"column": "SuspendTerm", "desc": "停牌期限"}, {"column": "ResumptionDate", "desc": "复牌日期"}, {"column": "ResumptionTime", "desc": "复牌时间"}, {"column": "ResumptionStatement", "desc": "复牌事项说明"}, {"column": "SuspendType", "desc": "停牌期限类型；，令LB=2546，得到停牌期限类型的具体描述：10-上午停牌，20-下午停牌，30-今起连续停牌，40-盘中停牌，50-停牌1天，60-停牌1小时。"}]}, {"表名": "constantdb.qt_tradingdaynew", "表字段": [{"column": "TradingDate", "desc": "日期"}, {"column": "IfTradingDay", "desc": "是否交易日；是否交易日（IfTradingDay）：该字段固定以下常量：1-是，2-否。"}, {"column": "SecuMarket", "desc": "证券市场；，令LB = 201 AND DM IN (14,18,49,68,70,71,72,76,77,78,80,81,83,85,86,87,89,90,94,210,620)，得到证券市场的具体描述：14-上海黄金交易所，18-北京证券交易所，49-澳大利亚证券交易所，68-东京证券交易所，70-台湾证券交易所，71-柜台交易市场，72-香港联交所，76-美国证券交易所，77-美国纳斯达克证券交易所，78-纽约证券交易所，80-加拿大多伦多证券交易所，81-三板市场，83-上海证券交易所，85-伦敦证券交易所，86-法国巴黎证券交易所，87-德国法兰克福证券交易所，89-银行间债券市场，90-深圳证券交易所，94-瑞士证券交易所，210-印度国家证券交易所，620-胡志明市证券交易所。"}, {"column": "IfWeekEnd", "desc": "是否周最后交易日；是否周最后交易日（IfWeekEnd）：该字段固定以下常量：1-是，2-否。"}, {"column": "IfMonthEnd", "desc": "是否月最后交易日；是否月最后交易日（IfMonthEnd）：该字段固定以下常量：1-是，2-否。"}, {"column": "IfQuarterEnd", "desc": "是否季最后交易日；是否季最后交易日（IfQuarterEnd）：该字段固定以下常量：1-是，2-否。"}, {"column": "IfYearEnd", "desc": "是否年最后交易日；是否年最后交易日（IfYearEnd）：该字段固定以下常量：1-是，2-否。"}, {"column": "TradingDate", "desc": "日期"}, {"column": "IfTradingDay", "desc": "是否交易日；是否交易日（IfTradingDay）：该字段固定以下常量：1-是，2-否。"}, {"column": "SecuMarket", "desc": "证券市场；，令LB = 201 AND DM IN (14,18,49,68,70,71,72,76,77,78,80,81,83,85,86,87,89,90,94,210,620)，得到证券市场的具体描述：14-上海黄金交易所，18-北京证券交易所，49-澳大利亚证券交易所，68-东京证券交易所，70-台湾证券交易所，71-柜台交易市场，72-香港联交所，76-美国证券交易所，77-美国纳斯达克证券交易所，78-纽约证券交易所，80-加拿大多伦多证券交易所，81-三板市场，83-上海证券交易所，85-伦敦证券交易所，86-法国巴黎证券交易所，87-德国法兰克福证券交易所，89-银行间债券市场，90-深圳证券交易所，94-瑞士证券交易所，210-印度国家证券交易所，620-胡志明市证券交易所。"}, {"column": "IfWeekEnd", "desc": "是否周最后交易日；是否周最后交易日（IfWeekEnd）：该字段固定以下常量：1-是，2-否。"}, {"column": "IfMonthEnd", "desc": "是否月最后交易日；是否月最后交易日（IfMonthEnd）：该字段固定以下常量：1-是，2-否。"}, {"column": "IfQuarterEnd", "desc": "是否季最后交易日；是否季最后交易日（IfQuarterEnd）：该字段固定以下常量：1-是，2-否。"}, {"column": "IfYearEnd", "desc": "是否年最后交易日；是否年最后交易日（IfYearEnd）：该字段固定以下常量：1-是，2-否。"}]}, {"表名": "usstockdb.us_dailyquote", "表字段": [{"column": "TradingDay", "desc": "交易日"}, {"column": "InnerCode", "desc": "证券内部代码；，得到相关的交易代码、简称等。"}, {"column": "Open", "desc": "开盘价"}, {"column": "High", "desc": "最高价"}, {"column": "Low", "desc": "最低价"}, {"column": "Close", "desc": "收盘价"}, {"column": "Volume", "desc": "成交量(手)"}, {"column": "EPSTTM", "desc": "每股收益TTM(元/股)"}, {"column": "MarketCap", "desc": "证券总市值"}, {"column": "ShareOST", "desc": "证券总股本"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "AvgPrice", "desc": "均价；均价（AvgPrice）：成交额/成交量"}, {"column": "TurnoverValue", "desc": "成交额(万)"}, {"column": "ChangeOF", "desc": "日涨跌"}]}, {"表名": "hkstockdb.cs_hkstockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "CurrencyUnitCode", "desc": "货币代码；，令LB=1068 AND DM IN (1000,1100,1420)，得到货币代码的具体描述：1000-美元，1100-港元，1420-人民币元。"}, {"column": "TurnoverVolume", "desc": "成交量"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "ChangeOF", "desc": "涨跌"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "RangePCT", "desc": "振幅(%)"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "TotalMV", "desc": "总市值(元)"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRW", "desc": "近一周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "近一周成交量(股)"}, {"column": "ChangeOFRW", "desc": "近一周涨跌(元)"}, {"column": "ChangePCTRW", "desc": "近一周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "近一周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "近一周换手率(%)"}, {"column": "AvgPriceRW", "desc": "近一周成交均价(元)"}, {"column": "HighPriceRW", "desc": "近一周最高价(元)"}, {"column": "LowPriceRW", "desc": "近一周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "近一周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "近一周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "近一周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "近一周日均换手率(%)"}, {"column": "TurnVolumePerDayRW", "desc": "近一周日均成交量(股)"}, {"column": "ChangePCTPerDayRW", "desc": "近一周日均涨跌幅(%)"}, {"column": "RangePCTPerDayRW", "desc": "近一周日均振幅(%)"}, {"column": "TotalMVPerDayRW", "desc": "近一周日均总市值(元)"}, {"column": "NegotiableMVPerDayRW", "desc": "近一周日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangeOFTW", "desc": "本周以来涨跌(元)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnVolumePerDayTW", "desc": "本周以来日均成交量(股)"}, {"column": "ChangePCTPerDayTW", "desc": "本周以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTW", "desc": "本周以来日均振幅(%)"}, {"column": "TotalMVPerDayTW", "desc": "本周以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTW", "desc": "本周以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRM", "desc": "近一月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "近一月成交量(股)"}, {"column": "ChangeOFRM", "desc": "近一月涨跌(元)"}, {"column": "ChangePCTRM", "desc": "近一月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "近一月月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "近一月月换手率(%)"}, {"column": "AvgPriceRM", "desc": "近一月成交均价(元)"}, {"column": "HighPriceRM", "desc": "近一月最高价(元)"}, {"column": "LowPriceRM", "desc": "近一月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "近一月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "近一月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "近一月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "近一月日均换手率(%)"}, {"column": "TurnVolumePerDayRM", "desc": "近一月日均成交量(股)"}, {"column": "ChangePCTPerDayRM", "desc": "近一月日均涨跌幅(%)"}, {"column": "RangePCTPerDayRM", "desc": "近一月日均振幅(%)"}, {"column": "TotalMVPerDayRM", "desc": "近一月日均总市值(元)"}, {"column": "NegotiableMVPerDayRM", "desc": "近一月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangeOFTM", "desc": "本月以来涨跌(元)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnVolumePerDayTM", "desc": "本月以来日均成交量(股)"}, {"column": "ChangePCTPerDayTM", "desc": "本月以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTM", "desc": "本月以来日均振幅(%)"}, {"column": "TotalMVPerDayTM", "desc": "本月以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTM", "desc": "本月以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMThree", "desc": "近三个月成交金额(元)"}, {"column": "TurnoverVolumeRMThree", "desc": "近三个月成交量(股)"}, {"column": "ChangeOFRMThree", "desc": "近三个月涨跌(元)"}, {"column": "ChangePCTRMThree", "desc": "近三个月涨跌幅(%)"}, {"column": "RangePCTRMThree", "desc": "近三个月振幅(%)"}, {"column": "TurnoverRateRMThree", "desc": "近三个月换手率(%)"}, {"column": "AvgPriceRMThree", "desc": "近三个月成交均价(元)"}, {"column": "HighPriceRMThree", "desc": "近三个月以来最高价(元)"}, {"column": "LowPriceRMThree", "desc": "近三个月以来最低价(元)"}, {"column": "HighestClosePRMThree", "desc": "近三个月以来收盘最高价(元)"}, {"column": "LowestClosePRMThree", "desc": "近三个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMThree", "desc": "近三个月日均成交金额(元)"}, {"column": "TurnRatePDayRMThree", "desc": "近三个月日均换手率(%)"}, {"column": "TurnVolumePDayRMThree", "desc": "近三个月日均成交量(股)"}, {"column": "ChangePCTPDayRMThree", "desc": "近三个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMThree", "desc": "近三个月日均振幅(%)"}, {"column": "TotalMVPerDayRMThree", "desc": "近三个月日均总市值(元)"}, {"column": "NegotiableMVPRMThree", "desc": "近三个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMSix", "desc": "近六个月成交金额(元)"}, {"column": "TurnoverVolumeRMSix", "desc": "近六个月成交量(股)"}, {"column": "ChangeOFRMSix", "desc": "近六个月涨跌(元)"}, {"column": "ChangePCTRMSix", "desc": "近六个月涨跌幅(%)"}, {"column": "RangePCTRMSix", "desc": "近六个月振幅(%)"}, {"column": "TurnoverRateRMSix", "desc": "近六个月换手率(%)"}, {"column": "AvgPriceRMSix", "desc": "近六个月成交均价(元)"}, {"column": "HighPriceRMSix", "desc": "近六个月以来最高价(元)"}, {"column": "LowPriceRMSix", "desc": "近六个月以来最低价(元)"}, {"column": "HighestClosePRMSix", "desc": "近六个月以来收盘最高价(元)"}, {"column": "LowestClosePRMSix", "desc": "近六个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMSix", "desc": "近六个月日均成交金额(元)"}, {"column": "TurnRatePDayRMSix", "desc": "近六个月日均换手率(%)"}, {"column": "TurnVolumePDayRMSix", "desc": "近六个月日均成交量(股)"}, {"column": "ChangePCTPDayRMSix", "desc": "近六个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMSix", "desc": "近六个月日均振幅(%)"}, {"column": "TotalMVPerDayRMSix", "desc": "近六个月日均总市值(元)"}, {"column": "NegotiableMVPRMSix", "desc": "近六个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRY", "desc": "近一年成交金额(元)"}, {"column": "TurnoverVolumeRY", "desc": "近一年成交量(股)"}, {"column": "ChangeOFRY", "desc": "近一年涨跌(元)"}, {"column": "ChangePCTRY", "desc": "近一年涨跌幅(%)"}, {"column": "RangePCTRY", "desc": "近一年振幅(%)"}, {"column": "TurnoverRateRY", "desc": "近一年换手率(%)"}, {"column": "AvgPriceRY", "desc": "近一年成交均价(元)"}, {"column": "HighPriceRY", "desc": "近一年最高价(元)"}, {"column": "LowPriceRY", "desc": "近一年最低价(元)"}, {"column": "HighestClosePRY", "desc": "近一年收盘价最高(元)"}, {"column": "LowestClosePRY", "desc": "近一年收盘价最低(元)"}, {"column": "TurnoverValuePDayRY", "desc": "近一年日均成交金额(元)"}, {"column": "TurnoverRatePDayRY", "desc": "近一年日均换手率(%)"}, {"column": "TurnVolumePDayRY", "desc": "近一年日均成交量(股)"}, {"column": "ChangePCTPDayRY", "desc": "近一年日均涨跌幅(%)"}, {"column": "RangePCTPDayRY", "desc": "近一年日均振幅(%)"}, {"column": "TotalMVPerDayRY", "desc": "近一年日均总市值(元)"}, {"column": "NegotiableMVPRY", "desc": "近一年日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)"}, {"column": "ChangeOFYTD", "desc": "今年以来涨跌(元)"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)"}, {"column": "TurnVolumePDayYTD", "desc": "今年以来日均成交量(股)"}, {"column": "ChangePCTPerDayYTD", "desc": "今年以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayYTD", "desc": "今年以来日均振幅(%)"}, {"column": "TotalMVPerDayYTD", "desc": "今年以来日均总市值(元)"}, {"column": "NegotiableMVPYTD", "desc": "今年以来日均流通市值(不含限售股)(元)"}, {"column": "HighAdjustedPrice", "desc": "上市以来复权最高价(元)"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来复权最高价日期"}, {"column": "LowAdjustedPrice", "desc": "上市以来复权最低价(元)"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来复权最低价日期"}]}, {"表名": "astockmarketquotesdb.qt_stockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "TurnoverVolume", "desc": "成交量1"}, {"column": "TurnoverValue", "desc": "成交金额(元)1"}, {"column": "ChangePCT", "desc": "涨跌幅(%)1"}, {"column": "RangePCT", "desc": "振幅(%)1"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "Ifsuspend", "desc": "是否停牌；1：当日停牌；0：当日非停牌"}, {"column": "TurnoverValueRW", "desc": "周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "周成交量(股)"}, {"column": "ChangePCTRW", "desc": "周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "周换手率(%)"}, {"column": "AvgPriceRW", "desc": "周成交均价(元)"}, {"column": "HighPriceRW", "desc": "周最高价(元)"}, {"column": "LowPriceRW", "desc": "周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "周日均换手率(%)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnoverValueRM", "desc": "月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "月成交量(股)"}, {"column": "ChangePCTRM", "desc": "月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "月换手率(%)"}, {"column": "AvgPriceRM", "desc": "月成交均价(元)"}, {"column": "HighPriceRM", "desc": "月最高价(元)"}, {"column": "LowPriceRM", "desc": "月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "月日均换手率(%)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnoverValueRMThree", "desc": "三个月成交金额(元)1"}, {"column": "TurnoverVolumeRMThree", "desc": "三个月成交量(股)1"}, {"column": "ChangePCTRMThree", "desc": "三个月涨跌幅(%)1"}, {"column": "RangePCTRMThree", "desc": "三个月振幅(%)1"}, {"column": "TurnoverRateRMThree", "desc": "三个月换手率(%)1"}, {"column": "TurnoverValueRMSix", "desc": "六个月成交金额(元)1"}, {"column": "TurnoverVolumeRMSix", "desc": "六个月成交量(股)1"}, {"column": "ChangePCTRMSix", "desc": "六个月涨跌幅(%)1"}, {"column": "RangePCTRMSix", "desc": "六个月振幅(%)1"}, {"column": "TurnoverRateRMSix", "desc": "六个月换手率(%)1"}, {"column": "TurnoverValueRY", "desc": "十二个月成交金额(元)1"}, {"column": "TurnoverVolumeRY", "desc": "十二个月成交量(股)1"}, {"column": "ChangePCTRY", "desc": "十二个月涨跌幅(%)1"}, {"column": "RangePCTRY", "desc": "十二个月振幅(%)1"}, {"column": "TurnoverRateRY", "desc": "十二个月换手率(%)1"}, {"column": "AvgPriceRY", "desc": "十二个月成交均价(元)1"}, {"column": "HighPriceRY", "desc": "十二个月最高价(元)1"}, {"column": "LowPriceRY", "desc": "十二个月最低价(元)1"}, {"column": "HighestClosePriceRY", "desc": "十二个月收盘最高价(元)1"}, {"column": "LowestClosePriceRY", "desc": "十二个月收盘最低价(元)1"}, {"column": "TurnoverValuePDayRY", "desc": "十二个月日均成交金额(元)1"}, {"column": "TurnoverRatePDayRY", "desc": "十二个月日均换手率(%)1"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)1"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)1"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)1"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)1"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)1"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)1"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)1"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)1"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)1"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)1"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)1"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)1"}, {"column": "HighAdjustedPrice", "desc": "上市以来后复权最高价(元)1"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来后复权最高价时间1"}, {"column": "LowAdjustedPrice", "desc": "上市以来后复权最低价(元)1"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来后复权最低价时间"}, {"column": "BetaLargeCapIndex", "desc": "Beta值(相对沪深300,一年)"}, {"column": "BetaCompositeIndex", "desc": "Beta值(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "BetaSYWGIndustryIndex", "desc": "Beta值(相对申万行业,一年)；取该股票所属的申万行业指数"}, {"column": "BetaMidCapIndex", "desc": "Beta值(相对中证500,一年)"}, {"column": "BetaWeekly", "desc": "Beta值(两年,周步长)；Beta值（两年,周步长）（BetaWeekly）：Beta=[n∑RXiRi-(∑RXi)*(∑Ri)]／[n∑（RXi^2）-(∑RXi)^2]Ri为步长区间股票增长率Rxi为步长区间基准增长率"}, {"column": "AdjustBetaWeekly", "desc": "调整Beta值(两年,周步长)；调整Beta值（两年,周步长）（AdjustBetaWeekly）：BETA值（两年,周步长）*0.67+0.33"}, {"column": "AlphaLargeCapIndex", "desc": "阿尔法(相对沪深300,一年)"}, {"column": "AlphaCompositeIndex", "desc": "阿尔法(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "AlphaSYWGIndustryIndex", "desc": "阿尔法(相对申万行业,一年)；取该股票所属的申万行业指数。"}, {"column": "AlphMidCapIndex", "desc": "阿尔法(相对中证500,一年)"}, {"column": "YearVolatilityByDay", "desc": "波动率(日步长)；波动率(日步长)(YearVolatilityByDay):计算中为日步长数据，时间跨度为1年"}, {"column": "YearVolatilityByWeek", "desc": "波动率(周步长)1"}, {"column": "YearSharpeRatio", "desc": "夏普比率(年化)1"}, {"column": "MarketIndexRORArithAvg", "desc": "市场收益率(算术平均)；市场收益率（算术平均）（MarketIndexRORArithAvg）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（算术平均）Rm2为深证综指年收益率（算术平均）指数年平均收益率Rxi=(∑（Ri）/10)*100%"}, {"column": "MarketIndexRORGeomMean", "desc": "市场收益率(几何平均)；市场收益率（几何平均）（MarketIndexRORGeomMean）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（几何平均）Rm2为深证综指年收益率（几何平均）"}, {"column": "TotalMV", "desc": "总市值(元)1"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)1"}, {"column": "TurnoverRateFreeFloat", "desc": "换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRW", "desc": "周换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRW", "desc": "周日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTW", "desc": "本周以来换手率_自由流通股本(%)"}, {"column": "TurnoverRatePDFFTTW", "desc": "本周以来日均换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRM", "desc": "月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRM", "desc": "月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTM", "desc": "本月以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTTM", "desc": "本月以来日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMThree", "desc": "三个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMSix", "desc": "六个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRY", "desc": "十二个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRY", "desc": "十二个月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTYTD", "desc": "今年以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTYTD", "desc": "今年以来日均换手率_自由流通股本(%)1"}]}, {"表名": "constantdb.hk_secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "ChiSpelling", "desc": "拼音证券简称"}, {"column": "SecuMarket", "desc": "证券市场；，令LB = 201 AND DM IN (72)，得到证券市场的具体描述：72-香港联交所。"}, {"column": "SecuCategory", "desc": "证券类别；，令LB = 1177 and DM in (3,4,10,20,21,25,51,52,53,55,60,61,62,63,64,65,68,69,71,72,78,81,82)，得到证券类别的具体描述：3-H股，4-大盘，10-其他，20-衍生权证，21-股本权证，25-牛熊证，51-港股，52-合订证券，53-红筹股，55-优先股，60-基金，61-信托基金，62-ETF基金，63-参与证书，64-杠杆及反向产品，65-债务证券，68-界内证，69-美国证券(交易试验计划)，71-普通预托证券，72-优先预托证券，78-临时证券(Temporary)，81-SPAC股份，82-SPAC权证。"}, {"column": "ListedDate", "desc": "上市日期"}, {"column": "ListedSector", "desc": "上市板块；，令LB = 207 AND DM IN (1,4,6)，得到上市板块的具体描述：1-主板，4-其他，6-创业板。"}, {"column": "ListedState", "desc": "上市状态；，令LB = 1176 AND DM IN (1,5,9)，得到上市状态的具体描述：1-上市，5-终止，9-其他。"}, {"column": "FormerName", "desc": "曾用名"}, {"column": "DelistingDate", "desc": "退市日期"}, {"column": "TradingUnit", "desc": "买卖单位(股/手)"}, {"column": "TraCurrUnit", "desc": "交易货币类别；，令LB=“1068”，得到“交易货币”描述：1000-美元，1100-港元，1160-日本元，1320-新加坡元，1420-人民币元，3000-欧元，3030-英镑，5010-加拿大元，6010-澳大利亚元。"}, {"column": "ISIN", "desc": "ISIN代码"}]}, {"表名": "constantdb.us_secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "ChiSpelling", "desc": "拼音证券简称"}, {"column": "SecuCategory", "desc": "证券类别；，令LB = 1177 AND DM IN (55,62,74,75,78,101,201,202,203,204,205,206,207,208)，得到证券类别的具体描述：55-优先股，62-ETF基金，74-普通股，75-美国存托凭证（ADR），78-临时证券(Temporary)，101-全球存托凭证(GDR)，201-其他存托凭证(DR)，202-无投票权的存托凭证(NVDR)，203-具有权益特征的证券(Preferred Equity)，204-权利(Right)，205-结构性产品(Structured Products)，206-单位证券(Unit)，207-权证(Warrant)，208-外国证券(Alien/Foreign)。"}, {"column": "SecuMarket", "desc": "证券市场；，令LB = 201 and DM IN (49,55,57,65,66,67,68,69,70,76,77,78,80,86,87,94,96,114,190,210,280,290,320,360,460,480,500,620)，得到证券市场的具体描述：49-澳大利亚证券交易所，55-巴西圣保罗证券交易所，57-马来西亚吉隆坡证券交易所，65-印度尼西亚证券交易所，66-泰国证券交易所，67-韩国首尔证券交易所，68-东京证券交易所，69-新加坡证券交易所，70-台湾证券交易所，76-美国证券交易所，77-美国纳斯达克证券交易所，78-纽约证券交易所，80-加拿大多伦多证券交易所，86-法国巴黎证券交易所，87-德国法兰克福证券交易所，94-瑞士证券交易所，96-约翰内斯堡证券交易所，114-德国证券交易所，190-韩国科斯达克交易所，210-印度国家证券交易所，280-菲律宾证券交易所，290-印度孟买证券交易所，320-俄罗斯莫斯科证券交易所，360-纽交所群岛交易所(NYSE Arca)，460-美国OTC(OTCBB和OtherOTC)，480-投资者交易所(IEX)，500-Cboe BZX US Equities Exchange，620-胡志明市证券交易所。"}, {"column": "ListedSector", "desc": "上市板块；，令LB = 207 AND DM IN (101,102,103)，得到上市板块的具体描述：101-纳斯达克全球精选市场（NASDAQ-GS），102-纳斯达克全球市场（NASDAQ-GM），103-纳斯达克资本市场（NASDAQ-CM）。"}, {"column": "ListedDate", "desc": "上市日期"}, {"column": "ListedState", "desc": "上市状态；，令LB = 1176 and DM in (1,2,4,5,9)，得到上市状态的具体描述：1-上市，2-预上市，4-上市失败，5-终止，9-其他。"}, {"column": "ISIN", "desc": "ISIN代码"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "DelistingDate", "desc": "退市日期1"}, {"column": "EngName", "desc": "英文名称"}, {"column": "ChiName", "desc": "中文名称"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是2019年6月6日正常交易且跳空低开的股票数量。跳空低开意味着当天的开盘价低于前一天的收盘价。
+
+【信息所在字段】
+- astockmarketquotesdb.qt_dailyquote.InnerCode: 这个字段包含证券内部编码，用于识别股票。
+- astockmarketquotesdb.qt_dailyquote.TradingDay: 这个字段包含交易日，用于筛选出2019年6月6日的交易数据。
+- astockmarketquotesdb.qt_dailyquote.PrevClosePrice: 这个字段包含昨天的收盘价，用于比较是否跳空低开。
+- astockmarketquotesdb.qt_dailyquote.OpenPrice: 这个字段包含今天的开盘价，用于比较是否跳空低开。
+
+【筛选条件所在字段】
+- astockmarketquotesdb.qt_dailyquote.TradingDay: 这个字段用于筛选出2019年6月6日的交易数据。
+- astockmarketquotesdb.qt_dailyquote.PrevClosePrice: 这个字段用于比较昨天的收盘价和今天的开盘价，以确定是否跳空低开。
+- astockmarketquotesdb.lc_suspendresumption.SuspendDate: 这个字段用于排除当天停牌的股票。
+
+【选中的字段的清单】
+```json
+{
+  "astockmarketquotesdb.qt_dailyquote": ["InnerCode", "TradingDay", "PrevClosePrice", "OpenPrice"],
+  "astockmarketquotesdb.lc_suspendresumption": ["SuspendDate"]
+}
+```
+
+
+>>>>> 【user】 Said:
+2019年6月6日，正常交易且跳空低开的股票共有多少只？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 日期：2019年6月6日
+- 条件：正常交易且跳空低开
+
+【当前阶段要获取的信息】
+- 2019年6月6日正常交易的股票数量
+- 2019年6月6日跳空低开的股票数量
+
+【信息所在字段】
+- 正常交易：`astockmarketquotesdb.qt_dailyquote` 表中的 `InnerCode` 字段
+- 跳空低开：`astockmarketquotesdb.qt_dailyquote` 表中的 `OpenPrice` 和 `PrevClosePrice` 字段
+
+【筛选条件所在字段】
+- 日期：`astockmarketquotesdb.qt_dailyquote` 表中的 `TradingDay` 字段
+- 正常交易：无特定字段，需通过排除停牌股票来确定
+- 跳空低开：`OpenPrice < PrevClosePrice`
+
+【SQL语句的思路】
+1. 首先查询2019年6月6日所有正常交易的股票数量。
+2. 然后查询2019年6月6日跳空低开的股票数量。
+3. 最后将两个结果进行对比，找出同时满足正常交易和跳空低开的股票数量。
+
+【执行SQL语句】
+```exec_sql
+-- 查询2019年6月6日所有正常交易的股票数量
+SELECT COUNT(DISTINCT InnerCode) AS NormalTradingCount
+FROM astockmarketquotesdb.qt_dailyquote
+WHERE DATE(TradingDay) = '2019-06-06'
+AND InnerCode NOT IN (
+    SELECT InnerCode
+    FROM astockmarketquotesdb.lc_suspendresumption
+    WHERE DATE(SuspendDate) = '2019-06-06'
+);
+
+-- 查询2019年6月6日跳空低开的股票数量
+SELECT COUNT(DISTINCT InnerCode) AS GapDownCount
+FROM astockmarketquotesdb.qt_dailyquote
+WHERE DATE(TradingDay) = '2019-06-06'
+AND OpenPrice < PrevClosePrice;
+```
+
+【上述SQL语句的含义】
+- 第一条SQL语句查询2019年6月6日所有正常交易的股票数量，通过排除当天停牌的股票来确定。
+- 第二条SQL语句查询2019年6月6日跳空低开的股票数量，通过比较开盘价和昨日收盘价来确定。
+
+请注意，由于每次只能执行一条SQL语句，上述两条SQL语句需要分两次执行。接下来，我们将首先执行第一条SQL语句以获取正常交易的股票数量。
+
+
+>>>>> 【user】 Said:
+2019年6月6日，正常交易且跳空低开的股票共有多少只？
+
+一次仅允许给出一组待执行的SQL写到代码块```exec_sql ```中
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 目标日期：2019年6月6日
+- 条件1：正常交易
+- 条件2：跳空低开
+
+【当前阶段要获取的信息】
+- 2019年6月6日正常交易且跳空低开的股票数量
+
+【信息所在字段】
+- 正常交易：需要通过停牌表（astockmarketquotesdb.lc_suspendresumption）确认当天没有停牌记录
+- 跳空低开：开盘价（OpenPrice）低于前一日收盘价（PrevClosePrice）
+
+【筛选条件所在字段】
+- 交易日：astockmarketquotesdb.qt_dailyquote.TradingDay
+- 停牌日期：astockmarketquotesdb.lc_suspendresumption.SuspendDate
+- 开盘价：astockmarketquotesdb.qt_dailyquote.OpenPrice
+- 昨收盘价：astockmarketquotesdb.qt_dailyquote.PrevClosePrice
+
+【SQL语句的思路】
+1. 从 astockmarketquotesdb.qt_dailyquote 表中筛选出2019年6月6日的记录。
+2. 确认这些记录中开盘价低于前一日收盘价的股票。
+3. 从 astockmarketquotesdb.lc_suspendresumption 表中排除2019年6月6日停牌的股票。
+4. 计算最终符合条件的股票数量。
+
+【执行SQL语句】
+```exec_sql
+SELECT COUNT(DISTINCT q.InnerCode) 
+FROM astockmarketquotesdb.qt_dailyquote q
+LEFT JOIN astockmarketquotesdb.lc_suspendresumption s ON q.InnerCode = s.InnerCode AND DATE(s.SuspendDate) = '2019-06-06'
+WHERE DATE(q.TradingDay) = '2019-06-06'
+AND q.OpenPrice < q.PrevClosePrice
+AND s.InnerCode IS NULL;
+```
+
+【上述SQL语句的含义】
+- `SELECT COUNT(DISTINCT q.InnerCode)`：统计符合条件的不同股票数量。
+- `FROM astockmarketquotesdb.qt_dailyquote q`：从每日行情表中选择数据。
+- `LEFT JOIN astockmarketquotesdb.lc_suspendresumption s ON q.InnerCode = s.InnerCode AND DATE(s.SuspendDate) = '2019-06-06'`：左连接停牌表，筛选出2019年6月6日停牌的股票。
+- `WHERE DATE(q.TradingDay) = '2019-06-06'`：筛选2019年6月6日的记录。
+- `AND q.OpenPrice < q.PrevClosePrice`：筛选开盘价低于前一日收盘价的股票。
+- `AND s.InnerCode IS NULL`：排除2019年6月6日停牌的股票。
+
+>>>>> 查询sql:
+SELECT COUNT(DISTINCT q.InnerCode) 
+FROM astockmarketquotesdb.qt_dailyquote q
+LEFT JOIN astockmarketquotesdb.lc_suspendresumption s ON q.InnerCode = s.InnerCode AND DATE(s.SuspendDate) = '2019-06-06'
+WHERE DATE(q.TradingDay) = '2019-06-06'
+AND q.OpenPrice < q.PrevClosePrice
+AND s.InnerCode IS NULL;
+查询结果:
+[{"COUNT(DISTINCT q.InnerCode)": 161}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT q.InnerCode) 
+FROM astockmarketquotesdb.qt_dailyquote q
+LEFT JOIN astockmarketquotesdb.lc_suspendresumption s ON q.InnerCode = s.InnerCode AND DATE(s.SuspendDate) = '2019-06-06'
+WHERE DATE(q.TradingDay) = '2019-06-06'
+AND q.OpenPrice < q.PrevClosePrice
+AND s.InnerCode IS NULL;
+查询结果:
+[{"COUNT(DISTINCT q.InnerCode)": 161}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 在2019年6月6日的交易日中，共有161只证券的今开盘价低于昨收盘价，并且这些证券在当天没有停牌记录。具体来说，查询通过`astockmarketquotesdb.qt_dailyquote`表筛选出交易日为2019年6月6日且今开盘价低于昨收盘价的证券，然后通过左连接`astockmarketquotesdb.lc_suspendresumption`表排除掉在2019年6月6日有停牌记录的证券，最终统计出符合条件的不同证券内部编码的数量为161。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT q.InnerCode) 
+FROM astockmarketquotesdb.qt_dailyquote q
+LEFT JOIN astockmarketquotesdb.lc_suspendresumption s ON q.InnerCode = s.InnerCode AND DATE(s.SuspendDate) = '2019-06-06'
+WHERE DATE(q.TradingDay) = '2019-06-06'
+AND q.OpenPrice < q.PrevClosePrice
+AND s.InnerCode IS NULL;
+查询结果:
+[{"COUNT(DISTINCT q.InnerCode)": 161}]
+
+查询结果表明: 在2019年6月6日的交易日中，共有161只证券的今开盘价低于昨收盘价，并且这些证券在当天没有停牌记录。具体来说，查询通过`astockmarketquotesdb.qt_dailyquote`表筛选出交易日为2019年6月6日且今开盘价低于昨收盘价的证券，然后通过左连接`astockmarketquotesdb.lc_suspendresumption`表排除掉在2019年6月6日有停牌记录的证券，最终统计出符合条件的不同证券内部编码的数量为161。
+
+当前掌握的信息是否能够回答"2019年6月6日，正常交易且跳空低开的股票共有多少只？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 查询结果显示，2019年6月6日共有161只证券的今开盘价低于昨收盘价，并且这些证券在当天没有停牌记录。
+
+【当前阶段要获取的信息】
+- 无需继续执行SQL，当前信息已能回答问题。
+
+【信息所在字段】
+- 无
+
+【筛选条件所在字段】
+- 无
+
+【SQL语句的思路】
+- 无
+
+【执行SQL语句】
+```exec_sql
+无
+```
+
+【上述SQL语句的含义】
+- 无
+
+当前掌握的信息已经能够回答“2019年6月6日，正常交易且跳空低开的股票共有多少只？”的问题。根据查询结果，2019年6月6日，正常交易且跳空低开的股票共有161只。无需继续执行下一阶段的SQL查询。
+
+
+>>>>> 【user】 Said:
+充分尊重前面给出的结论，回答问题:"2019年6月6日，正常交易且跳空低开的股票共有多少只？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+2019年6月6日，正常交易且跳空低开的股票共有161只。

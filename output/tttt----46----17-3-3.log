@@ -1,0 +1,300 @@
+
+>>>>> Original Question: 2020年5月涨幅前十的股票中， 6月涨幅最小的是？
+
+
+>>>>> 【user】 Said:
+下面是顺序的历史问答:
+'''
+Question: 2020年5月涨幅前10的港股股票有哪些?
+Answer: 03900、03998、02202、01458、00772、01810、03690、01060、01211、02319
+Question: 2020年6月涨幅前10的港股股票有哪些？
+Answer: 2020年6月，继2020年5月之后，涨幅排名前10的港股股票证券代码为：
+03900、03998、01458、00772、01810、03690、01060、01211
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：2020年5月涨幅前十的股票中， 6月涨幅最小的是？
+
+>>>>> Agent【rewrite_question】 Said:
+在2020年5月涨幅排名前10的港股股票中，哪一只股票在2020年6月的涨幅最小？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."在2020年5月涨幅排名前10的港股股票中，哪一只股票在2020年6月的涨幅最小？"
+
+>>>>> Agent【extract_company】 Said:
+No Entities.
+
+>>>>> 已知事实:
+
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询的是2020年5月涨幅排名前10的港股股票，并进一步找出这些股票中在2020年6月涨幅最小的一只。这涉及到两个时间段的股票涨幅数据，需要从包含港股行情数据的数据库中获取。
+
+【选中的数据库】
+- hkstockdb: 这个数据库记录了港股相关的多维度信息，包括股票行情表现，可以提供2020年5月和6月的涨幅数据。
+
+【选中的数据库的清单】
+```json
+["hkstockdb"]
+```
+补充选择db: ["usstockdb", "astockbasicinfodb"]
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "hkstockdb.hk_employeechange", "说明": "该数据表主要记录证券相关信息，包括证券内部代码、信息发布日期与来源等基本信息；股东大会公告日期及相关生效与失效日期等时间信息；是否有效的状态标识；以及变更前后员工数量的对比等数据。"}, {"表名": "hkstockdb.hk_stockarchives", "说明": "该数据表主要记录公司基本信息及相关属性，涵盖了公司标识信息如公司代码、中文名称、企业类别及描述等；成立及注册信息如公司成立日期、注册地、注册资本及其货币单位等；行业分类信息如所属行业（港交所、恒生）等；管理层信息如主席、公司秘书、合资格会计师等；办公及运营信息如注册办事处、总办事处及主要营业地点、股份过户处（香港）等；联系方式如电话、传真、邮箱、公司网址等；以及其他信息如公司业务、公司简介、审计机构等，全面反映了公司的基本情况和运营特征。"}, {"表名": "hkstockdb.cs_hkstockperformance", "说明": "该数据表主要用于记录证券交易及相关指标的详细信息，涵盖了基础信息如证券内部编码、交易日、货币代码等；价格信息包括昨收盘、今开盘、最高价、最低价、收盘价、均价、复权最高价及最低价等；成交信息如成交量、成交金额、换手率等；涨跌信息包括涨跌金额、涨跌幅、振幅等；市值信息如总市值、流通市值等；周期指标覆盖近一周、本周、近一月、本月、近三个月、近六个月、近一年及今年以来的成交、涨跌、振幅、换手率、均价、市值等详细数据，且提供各周期的日均指标；此外，还包含上市以来的复权价格及其对应日期等。"}, {"表名": "usstockdb.us_companyinfo", "说明": "该数据表主要记录公司的基本信息，包括公司标识信息如公司代码、英文名称及其缩写、中文名称；地址信息如公司地址、城市、省份、邮编、国家及国家代码；联系方式如电话、传真；公司描述信息如公司简介、英文公司简介、英文业务简介；注册地信息如注册地国家、注册地省份/州；其他信息如成立日期及其精度、公司类型、是否公司总部，以及链接地址等。"}, {"表名": "usstockdb.us_dailyquote", "说明": "该数据表记录了证券交易的详细信息，包括交易日和证券内部代码用于标识交易记录，开盘价、最高价、最低价和收盘价用于描述当天的价格波动，成交量和成交额反映市场活跃程度，每股收益TTM和证券总市值提供了盈利能力和规模的财务指标，证券总股本用于计算市场相关比率，昨收盘和日涨跌则用于分析价格变动趋势，涨跌幅百分比和均价提供了额外的市场表现信息。"}, {"表名": "astockbasicinfodb.lc_stockarchives", "说明": "该数据表主要记录了公司的基本信息、联系方式、经营信息及证券信息等内容。其中，公司基本信息包括公司代码、国别、中文名称、法人代表、总经理、法律顾问、会计师事务所、公司成立日期、首次注册登记地点、企业法人营业执照注册号、所属区县及地区代码；联系方式涵盖联系人电话、传真、电子邮箱，公司注册地址、办公地址、联系地址及其对应的邮编，董秘及证券事务代表的电话、传真、电子邮件，以及公司邮箱和网址；经营信息涉及公司所属证监会行业、主营及兼营范围；证券信息包括A股、B股、H股及CDR证券的简称和代码，扩位简称，以及尚未盈利标识、特殊表决权标识、协议控制架构标识、红筹企业标识；此外，还包括信息披露相关内容如披露网址、披露报纸，以及公司简介等。"}, {"表名": "astockbasicinfodb.lc_namechange", "说明": "该数据表主要记录公司基本信息及相关公告，包括公司代码、中文及英文名称（全称与缩写）、信息来源和发布日期等基本信息；还涵盖重要事件如股东大会决议公告日期、是否否决决议、全称更改日期等关键时间节点，便于追踪企业动态与重要决策信息。"}, {"表名": "astockbasicinfodb.lc_business", "说明": "该数据表主要用于记录公司基本信息及相关业务情况，包括公司代码、信息发布日期和来源等基础信息；股东大会决议公告日期及是否否决的决议结果等决策信息；经营范围及主要业务、产品名称等经营信息；涉及行业的分类信息，如行业代码、行业类别及涉足行业等；此外，还包括简称变更原因等补充说明字段。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要找出2020年5月涨幅排名前10的港股股票，并在这些股票中找出2020年6月涨幅最小的股票，我们需要以下信息：
+1. 港股股票的交易数据，包括价格和涨跌幅。
+2. 时间范围为2020年5月和2020年6月。
+
+根据提供的数据库表信息，`hkstockdb.cs_hkstockperformance` 表包含了证券交易及相关指标的详细信息，包括价格信息和涨跌信息，且覆盖了所需的周期数据。
+
+【选中的数据表】
+- hkstockdb.cs_hkstockperformance: 这个数据表包含证券交易及相关指标的详细信息，包括价格信息（如最高价、最低价、收盘价）和涨跌信息（如涨跌金额、涨跌幅），并且覆盖了所需的周期数据（如近一月、本月等）。
+
+【选中的数据库表的清单】
+```json
+["hkstockdb.cs_hkstockperformance"]
+```
+补充选择table: ["usstockdb.us_dailyquote", "astockmarketquotesdb.qt_dailyquote"]补充选择table: ["astockmarketquotesdb.qt_stockperformance"]
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "hkstockdb.cs_hkstockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "CurrencyUnitCode", "desc": "货币代码；，令LB=1068 AND DM IN (1000,1100,1420)，得到货币代码的具体描述：1000-美元，1100-港元，1420-人民币元。"}, {"column": "TurnoverVolume", "desc": "成交量"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "ChangeOF", "desc": "涨跌"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "RangePCT", "desc": "振幅(%)"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "TotalMV", "desc": "总市值(元)"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRW", "desc": "近一周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "近一周成交量(股)"}, {"column": "ChangeOFRW", "desc": "近一周涨跌(元)"}, {"column": "ChangePCTRW", "desc": "近一周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "近一周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "近一周换手率(%)"}, {"column": "AvgPriceRW", "desc": "近一周成交均价(元)"}, {"column": "HighPriceRW", "desc": "近一周最高价(元)"}, {"column": "LowPriceRW", "desc": "近一周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "近一周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "近一周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "近一周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "近一周日均换手率(%)"}, {"column": "TurnVolumePerDayRW", "desc": "近一周日均成交量(股)"}, {"column": "ChangePCTPerDayRW", "desc": "近一周日均涨跌幅(%)"}, {"column": "RangePCTPerDayRW", "desc": "近一周日均振幅(%)"}, {"column": "TotalMVPerDayRW", "desc": "近一周日均总市值(元)"}, {"column": "NegotiableMVPerDayRW", "desc": "近一周日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangeOFTW", "desc": "本周以来涨跌(元)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnVolumePerDayTW", "desc": "本周以来日均成交量(股)"}, {"column": "ChangePCTPerDayTW", "desc": "本周以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTW", "desc": "本周以来日均振幅(%)"}, {"column": "TotalMVPerDayTW", "desc": "本周以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTW", "desc": "本周以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRM", "desc": "近一月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "近一月成交量(股)"}, {"column": "ChangeOFRM", "desc": "近一月涨跌(元)"}, {"column": "ChangePCTRM", "desc": "近一月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "近一月月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "近一月月换手率(%)"}, {"column": "AvgPriceRM", "desc": "近一月成交均价(元)"}, {"column": "HighPriceRM", "desc": "近一月最高价(元)"}, {"column": "LowPriceRM", "desc": "近一月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "近一月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "近一月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "近一月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "近一月日均换手率(%)"}, {"column": "TurnVolumePerDayRM", "desc": "近一月日均成交量(股)"}, {"column": "ChangePCTPerDayRM", "desc": "近一月日均涨跌幅(%)"}, {"column": "RangePCTPerDayRM", "desc": "近一月日均振幅(%)"}, {"column": "TotalMVPerDayRM", "desc": "近一月日均总市值(元)"}, {"column": "NegotiableMVPerDayRM", "desc": "近一月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangeOFTM", "desc": "本月以来涨跌(元)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnVolumePerDayTM", "desc": "本月以来日均成交量(股)"}, {"column": "ChangePCTPerDayTM", "desc": "本月以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTM", "desc": "本月以来日均振幅(%)"}, {"column": "TotalMVPerDayTM", "desc": "本月以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTM", "desc": "本月以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMThree", "desc": "近三个月成交金额(元)"}, {"column": "TurnoverVolumeRMThree", "desc": "近三个月成交量(股)"}, {"column": "ChangeOFRMThree", "desc": "近三个月涨跌(元)"}, {"column": "ChangePCTRMThree", "desc": "近三个月涨跌幅(%)"}, {"column": "RangePCTRMThree", "desc": "近三个月振幅(%)"}, {"column": "TurnoverRateRMThree", "desc": "近三个月换手率(%)"}, {"column": "AvgPriceRMThree", "desc": "近三个月成交均价(元)"}, {"column": "HighPriceRMThree", "desc": "近三个月以来最高价(元)"}, {"column": "LowPriceRMThree", "desc": "近三个月以来最低价(元)"}, {"column": "HighestClosePRMThree", "desc": "近三个月以来收盘最高价(元)"}, {"column": "LowestClosePRMThree", "desc": "近三个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMThree", "desc": "近三个月日均成交金额(元)"}, {"column": "TurnRatePDayRMThree", "desc": "近三个月日均换手率(%)"}, {"column": "TurnVolumePDayRMThree", "desc": "近三个月日均成交量(股)"}, {"column": "ChangePCTPDayRMThree", "desc": "近三个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMThree", "desc": "近三个月日均振幅(%)"}, {"column": "TotalMVPerDayRMThree", "desc": "近三个月日均总市值(元)"}, {"column": "NegotiableMVPRMThree", "desc": "近三个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMSix", "desc": "近六个月成交金额(元)"}, {"column": "TurnoverVolumeRMSix", "desc": "近六个月成交量(股)"}, {"column": "ChangeOFRMSix", "desc": "近六个月涨跌(元)"}, {"column": "ChangePCTRMSix", "desc": "近六个月涨跌幅(%)"}, {"column": "RangePCTRMSix", "desc": "近六个月振幅(%)"}, {"column": "TurnoverRateRMSix", "desc": "近六个月换手率(%)"}, {"column": "AvgPriceRMSix", "desc": "近六个月成交均价(元)"}, {"column": "HighPriceRMSix", "desc": "近六个月以来最高价(元)"}, {"column": "LowPriceRMSix", "desc": "近六个月以来最低价(元)"}, {"column": "HighestClosePRMSix", "desc": "近六个月以来收盘最高价(元)"}, {"column": "LowestClosePRMSix", "desc": "近六个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMSix", "desc": "近六个月日均成交金额(元)"}, {"column": "TurnRatePDayRMSix", "desc": "近六个月日均换手率(%)"}, {"column": "TurnVolumePDayRMSix", "desc": "近六个月日均成交量(股)"}, {"column": "ChangePCTPDayRMSix", "desc": "近六个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMSix", "desc": "近六个月日均振幅(%)"}, {"column": "TotalMVPerDayRMSix", "desc": "近六个月日均总市值(元)"}, {"column": "NegotiableMVPRMSix", "desc": "近六个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRY", "desc": "近一年成交金额(元)"}, {"column": "TurnoverVolumeRY", "desc": "近一年成交量(股)"}, {"column": "ChangeOFRY", "desc": "近一年涨跌(元)"}, {"column": "ChangePCTRY", "desc": "近一年涨跌幅(%)"}, {"column": "RangePCTRY", "desc": "近一年振幅(%)"}, {"column": "TurnoverRateRY", "desc": "近一年换手率(%)"}, {"column": "AvgPriceRY", "desc": "近一年成交均价(元)"}, {"column": "HighPriceRY", "desc": "近一年最高价(元)"}, {"column": "LowPriceRY", "desc": "近一年最低价(元)"}, {"column": "HighestClosePRY", "desc": "近一年收盘价最高(元)"}, {"column": "LowestClosePRY", "desc": "近一年收盘价最低(元)"}, {"column": "TurnoverValuePDayRY", "desc": "近一年日均成交金额(元)"}, {"column": "TurnoverRatePDayRY", "desc": "近一年日均换手率(%)"}, {"column": "TurnVolumePDayRY", "desc": "近一年日均成交量(股)"}, {"column": "ChangePCTPDayRY", "desc": "近一年日均涨跌幅(%)"}, {"column": "RangePCTPDayRY", "desc": "近一年日均振幅(%)"}, {"column": "TotalMVPerDayRY", "desc": "近一年日均总市值(元)"}, {"column": "NegotiableMVPRY", "desc": "近一年日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)"}, {"column": "ChangeOFYTD", "desc": "今年以来涨跌(元)"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)"}, {"column": "TurnVolumePDayYTD", "desc": "今年以来日均成交量(股)"}, {"column": "ChangePCTPerDayYTD", "desc": "今年以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayYTD", "desc": "今年以来日均振幅(%)"}, {"column": "TotalMVPerDayYTD", "desc": "今年以来日均总市值(元)"}, {"column": "NegotiableMVPYTD", "desc": "今年以来日均流通市值(不含限售股)(元)"}, {"column": "HighAdjustedPrice", "desc": "上市以来复权最高价(元)"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来复权最高价日期"}, {"column": "LowAdjustedPrice", "desc": "上市以来复权最低价(元)"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来复权最低价日期"}]}, {"表名": "usstockdb.us_dailyquote", "表字段": [{"column": "TradingDay", "desc": "交易日"}, {"column": "InnerCode", "desc": "证券内部代码；，得到相关的交易代码、简称等。"}, {"column": "Open", "desc": "开盘价"}, {"column": "High", "desc": "最高价"}, {"column": "Low", "desc": "最低价"}, {"column": "Close", "desc": "收盘价"}, {"column": "Volume", "desc": "成交量(手)"}, {"column": "EPSTTM", "desc": "每股收益TTM(元/股)"}, {"column": "MarketCap", "desc": "证券总市值"}, {"column": "ShareOST", "desc": "证券总股本"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "AvgPrice", "desc": "均价；均价（AvgPrice）：成交额/成交量"}, {"column": "TurnoverValue", "desc": "成交额(万)"}, {"column": "ChangeOF", "desc": "日涨跌"}]}, {"表名": "astockmarketquotesdb.qt_dailyquote", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘(元)"}, {"column": "OpenPrice", "desc": "今开盘(元)"}, {"column": "HighPrice", "desc": "最高价(元)"}, {"column": "LowPrice", "desc": "最低价(元)"}, {"column": "ClosePrice", "desc": "收盘价(元)"}, {"column": "TurnoverVolume", "desc": "成交量(股)；当证券类别为指数时，股票指数成交量单位是股，基金指数成交量单位是份，债券指数成交量单位是元。"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "TurnoverDeals", "desc": "成交笔数(笔)"}]}, {"表名": "astockmarketquotesdb.qt_stockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "TurnoverVolume", "desc": "成交量1"}, {"column": "TurnoverValue", "desc": "成交金额(元)1"}, {"column": "ChangePCT", "desc": "涨跌幅(%)1"}, {"column": "RangePCT", "desc": "振幅(%)1"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "Ifsuspend", "desc": "是否停牌；1：当日停牌；0：当日非停牌"}, {"column": "TurnoverValueRW", "desc": "周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "周成交量(股)"}, {"column": "ChangePCTRW", "desc": "周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "周换手率(%)"}, {"column": "AvgPriceRW", "desc": "周成交均价(元)"}, {"column": "HighPriceRW", "desc": "周最高价(元)"}, {"column": "LowPriceRW", "desc": "周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "周日均换手率(%)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnoverValueRM", "desc": "月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "月成交量(股)"}, {"column": "ChangePCTRM", "desc": "月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "月换手率(%)"}, {"column": "AvgPriceRM", "desc": "月成交均价(元)"}, {"column": "HighPriceRM", "desc": "月最高价(元)"}, {"column": "LowPriceRM", "desc": "月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "月日均换手率(%)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnoverValueRMThree", "desc": "三个月成交金额(元)1"}, {"column": "TurnoverVolumeRMThree", "desc": "三个月成交量(股)1"}, {"column": "ChangePCTRMThree", "desc": "三个月涨跌幅(%)1"}, {"column": "RangePCTRMThree", "desc": "三个月振幅(%)1"}, {"column": "TurnoverRateRMThree", "desc": "三个月换手率(%)1"}, {"column": "TurnoverValueRMSix", "desc": "六个月成交金额(元)1"}, {"column": "TurnoverVolumeRMSix", "desc": "六个月成交量(股)1"}, {"column": "ChangePCTRMSix", "desc": "六个月涨跌幅(%)1"}, {"column": "RangePCTRMSix", "desc": "六个月振幅(%)1"}, {"column": "TurnoverRateRMSix", "desc": "六个月换手率(%)1"}, {"column": "TurnoverValueRY", "desc": "十二个月成交金额(元)1"}, {"column": "TurnoverVolumeRY", "desc": "十二个月成交量(股)1"}, {"column": "ChangePCTRY", "desc": "十二个月涨跌幅(%)1"}, {"column": "RangePCTRY", "desc": "十二个月振幅(%)1"}, {"column": "TurnoverRateRY", "desc": "十二个月换手率(%)1"}, {"column": "AvgPriceRY", "desc": "十二个月成交均价(元)1"}, {"column": "HighPriceRY", "desc": "十二个月最高价(元)1"}, {"column": "LowPriceRY", "desc": "十二个月最低价(元)1"}, {"column": "HighestClosePriceRY", "desc": "十二个月收盘最高价(元)1"}, {"column": "LowestClosePriceRY", "desc": "十二个月收盘最低价(元)1"}, {"column": "TurnoverValuePDayRY", "desc": "十二个月日均成交金额(元)1"}, {"column": "TurnoverRatePDayRY", "desc": "十二个月日均换手率(%)1"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)1"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)1"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)1"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)1"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)1"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)1"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)1"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)1"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)1"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)1"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)1"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)1"}, {"column": "HighAdjustedPrice", "desc": "上市以来后复权最高价(元)1"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来后复权最高价时间1"}, {"column": "LowAdjustedPrice", "desc": "上市以来后复权最低价(元)1"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来后复权最低价时间"}, {"column": "BetaLargeCapIndex", "desc": "Beta值(相对沪深300,一年)"}, {"column": "BetaCompositeIndex", "desc": "Beta值(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "BetaSYWGIndustryIndex", "desc": "Beta值(相对申万行业,一年)；取该股票所属的申万行业指数"}, {"column": "BetaMidCapIndex", "desc": "Beta值(相对中证500,一年)"}, {"column": "BetaWeekly", "desc": "Beta值(两年,周步长)；Beta值（两年,周步长）（BetaWeekly）：Beta=[n∑RXiRi-(∑RXi)*(∑Ri)]／[n∑（RXi^2）-(∑RXi)^2]Ri为步长区间股票增长率Rxi为步长区间基准增长率"}, {"column": "AdjustBetaWeekly", "desc": "调整Beta值(两年,周步长)；调整Beta值（两年,周步长）（AdjustBetaWeekly）：BETA值（两年,周步长）*0.67+0.33"}, {"column": "AlphaLargeCapIndex", "desc": "阿尔法(相对沪深300,一年)"}, {"column": "AlphaCompositeIndex", "desc": "阿尔法(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "AlphaSYWGIndustryIndex", "desc": "阿尔法(相对申万行业,一年)；取该股票所属的申万行业指数。"}, {"column": "AlphMidCapIndex", "desc": "阿尔法(相对中证500,一年)"}, {"column": "YearVolatilityByDay", "desc": "波动率(日步长)；波动率(日步长)(YearVolatilityByDay):计算中为日步长数据，时间跨度为1年"}, {"column": "YearVolatilityByWeek", "desc": "波动率(周步长)1"}, {"column": "YearSharpeRatio", "desc": "夏普比率(年化)1"}, {"column": "MarketIndexRORArithAvg", "desc": "市场收益率(算术平均)；市场收益率（算术平均）（MarketIndexRORArithAvg）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（算术平均）Rm2为深证综指年收益率（算术平均）指数年平均收益率Rxi=(∑（Ri）/10)*100%"}, {"column": "MarketIndexRORGeomMean", "desc": "市场收益率(几何平均)；市场收益率（几何平均）（MarketIndexRORGeomMean）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（几何平均）Rm2为深证综指年收益率（几何平均）"}, {"column": "TotalMV", "desc": "总市值(元)1"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)1"}, {"column": "TurnoverRateFreeFloat", "desc": "换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRW", "desc": "周换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRW", "desc": "周日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTW", "desc": "本周以来换手率_自由流通股本(%)"}, {"column": "TurnoverRatePDFFTTW", "desc": "本周以来日均换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRM", "desc": "月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRM", "desc": "月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTM", "desc": "本月以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTTM", "desc": "本月以来日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMThree", "desc": "三个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMSix", "desc": "六个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRY", "desc": "十二个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRY", "desc": "十二个月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTYTD", "desc": "今年以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTYTD", "desc": "今年以来日均换手率_自由流通股本(%)1"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户想要知道2020年5月涨幅排名前10的港股股票中，哪一只股票在2020年6月的涨幅最小。
+
+【信息所在字段】
+- hkstockdb.cs_hkstockperformance.ChangePCT: 这个字段包含涨跌幅信息，对应用户提问中的涨幅。
+
+【筛选条件所在字段】
+- hkstockdb.cs_hkstockperformance.TradingDay: 这个字段包含交易日信息，用于筛选2020年5月和2020年6月的数据。
+
+【选中的字段的清单】
+```json
+{"hkstockdb.cs_hkstockperformance": ["ChangePCT", "TradingDay"]}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在2020年5月1日至2020年5月31日期间，根据涨跌幅(ChangePCT)从高到低排序，前10个涨跌幅最高的香港证券代码(SecuCode)分别为00772、03690、00772、01810、03998、00772、03690、00772、01060和03690。其中，证券代码00772和03690各出现了3次，01810、03998和01060各出现了1次。
+---
+查询结果表明: 在2020年5月1日至2020年5月31日期间，根据涨跌幅(ChangePCT)最高的前10只港股的证券代码(SecuCode)分别为03900、03998、02202、01458、00772、01810、03690、01060、01211和02319。这些证券代码是通过先从hkstockdb.cs_hkstockperformance表中筛选出该时间段内的数据，按证券内部编码(InnerCode)分组，并按最大涨跌幅降序排列，取前10条记录，然后与constantdb.hk_secumain表进行关联查询得到的。
+---
+查询结果表明: 在2020年6月1日至2020年6月30日期间，涨跌幅最高的前10只港股的证券代码分别为03900、03998、01918、01458、00772、01810、03690、00763、01060和01211。这些证券代码是通过先从hkstockdb.cs_hkstockperformance表中筛选出该时间段内的数据，按证券内部编码分组并计算每组的最大涨跌幅，然后按最大涨跌幅降序排列取前10条记录，最后与constantdb.hk_secumain表关联获取对应的证券代码。
+
+请问:在2020年5月涨幅排名前10的港股股票中，哪一只股票在2020年6月的涨幅最小？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 2020年5月涨幅排名前10的港股股票证券代码分别为：03900、03998、02202、01458、00772、01810、03690、01060、01211、02319。
+- 2020年6月各股票的涨跌幅数据已查询到。
+
+【当前阶段要获取的信息】
+- 在2020年5月涨幅排名前10的港股股票中，2020年6月涨幅最小的股票。
+
+【信息所在字段】
+- `SecuCode`：证券代码
+- `ChangePCT`：涨跌幅
+
+【筛选条件所在字段】
+- `SecuCode`：证券代码
+- `TradingDay`：交易日
+
+【SQL语句的思路】
+1. 从`hkstockdb.cs_hkstockperformance`表中筛选出2020年6月1日至2020年6月30日期间的数据。
+2. 筛选出2020年5月涨幅排名前10的港股股票的证券代码。
+3. 对这些股票在2020年6月的涨跌幅进行排序，找出涨幅最小的股票。
+
+【执行SQL语句】
+```exec_sql
+SELECT SecuCode, MIN(ChangePCT) AS MinChangePCT
+FROM hkstockdb.cs_hkstockperformance
+WHERE DATE(TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+- 从`hkstockdb.cs_hkstockperformance`表中筛选出2020年6月1日至2020年6月30日期间的数据。
+- 筛选出2020年5月涨幅排名前10的港股股票的证券代码。
+- 对这些股票在2020年6月的涨跌幅进行分组并计算每组的最低涨跌幅。
+- 按最低涨跌幅升序排列，取涨幅最小的股票。
+
+>>>>> 查询sql:
+SELECT SecuCode, MIN(ChangePCT) AS MinChangePCT
+FROM hkstockdb.cs_hkstockperformance
+WHERE DATE(TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'SecuCode' in 'field list'
+[SQL: SELECT SecuCode, MIN(ChangePCT) AS MinChangePCT
+FROM hkstockdb.cs_hkstockperformance
+WHERE DATE(TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT SecuCode, MIN(ChangePCT) AS MinChangePCT
+FROM hkstockdb.cs_hkstockperformance
+WHERE DATE(TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'SecuCode' in 'field list'
+[SQL: SELECT SecuCode, MIN(ChangePCT) AS MinChangePCT
+FROM hkstockdb.cs_hkstockperformance
+WHERE DATE(TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 2020年5月涨幅排名前10的港股股票证券代码分别为：03900、03998、02202、01458、00772、01810、03690、01060、01211、02319。
+- 2020年6月各股票的涨跌幅数据已查询到。
+
+【当前阶段要获取的信息】
+- 在2020年5月涨幅排名前10的港股股票中，2020年6月涨幅最小的股票。
+
+【信息所在字段】
+- `SecuCode`：证券代码
+- `ChangePCT`：涨跌幅
+
+【筛选条件所在字段】
+- `SecuCode`：证券代码
+- `TradingDay`：交易日
+
+【SQL语句的思路】
+1. 从`hkstockdb.cs_hkstockperformance`表中筛选出2020年6月1日至2020年6月30日期间的数据。
+2. 筛选出2020年5月涨幅排名前10的港股股票的证券代码。
+3. 对这些股票在2020年6月的涨跌幅进行排序，找出涨幅最小的股票。
+
+【执行SQL语句】
+由于`SecuCode`字段不在`hkstockdb.cs_hkstockperformance`表中，我们需要先与`constantdb.hk_secumain`表进行关联查询以获取`SecuCode`。
+
+```exec_sql
+SELECT a.SecuCode, MIN(b.ChangePCT) AS MinChangePCT
+FROM constantdb.hk_secumain a
+JOIN hkstockdb.cs_hkstockperformance b ON a.InnerCode = b.InnerCode
+WHERE DATE(b.TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND a.SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY a.SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+- 从`constantdb.hk_secumain`表和`hkstockdb.cs_hkstockperformance`表进行关联查询，关联条件为`InnerCode`。
+- 筛选出2020年6月1日至2020年6月30日期间的数据。
+- 筛选出2020年5月涨幅排名前10的港股股票的证券代码。
+- 对这些股票在2020年6月的涨跌幅进行分组并计算每组的最低涨跌幅。
+- 按最低涨跌幅升序排列，取涨幅最小的股票。
+
+>>>>> 查询sql:
+SELECT a.SecuCode, MIN(b.ChangePCT) AS MinChangePCT
+FROM constantdb.hk_secumain a
+JOIN hkstockdb.cs_hkstockperformance b ON a.InnerCode = b.InnerCode
+WHERE DATE(b.TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND a.SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY a.SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;
+查询结果:
+[{"SecuCode": "01060", "MinChangePCT": -6.6038}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT a.SecuCode, MIN(b.ChangePCT) AS MinChangePCT
+FROM constantdb.hk_secumain a
+JOIN hkstockdb.cs_hkstockperformance b ON a.InnerCode = b.InnerCode
+WHERE DATE(b.TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND a.SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY a.SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;
+查询结果:
+[{"SecuCode": "01060", "MinChangePCT": -6.6038}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 在2020年6月1日至2020年6月30日期间，证券代码为01060的股票在所查询的10只股票中（包括03900, 03998, 02202, 01458, 00772, 01810, 03690, 01060, 01211, 02319）具有最低的涨跌幅，其最小涨跌幅为-6.6038%。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT a.SecuCode, MIN(b.ChangePCT) AS MinChangePCT
+FROM constantdb.hk_secumain a
+JOIN hkstockdb.cs_hkstockperformance b ON a.InnerCode = b.InnerCode
+WHERE DATE(b.TradingDay) BETWEEN '2020-06-01' AND '2020-06-30'
+AND a.SecuCode IN ('03900', '03998', '02202', '01458', '00772', '01810', '03690', '01060', '01211', '02319')
+GROUP BY a.SecuCode
+ORDER BY MinChangePCT ASC
+LIMIT 1;
+查询结果:
+[{"SecuCode": "01060", "MinChangePCT": -6.6038}]
+
+查询结果表明: 在2020年6月1日至2020年6月30日期间，证券代码为01060的股票在所查询的10只股票中（包括03900, 03998, 02202, 01458, 00772, 01810, 03690, 01060, 01211, 02319）具有最低的涨跌幅，其最小涨跌幅为-6.6038%。
+
+当前掌握的信息是否能够回答"在2020年5月涨幅排名前10的港股股票中，哪一只股票在2020年6月的涨幅最小？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 2020年5月涨幅排名前10的港股股票证券代码分别为：03900、03998、02202、01458、00772、01810、03690、01060、01211、02319。
+- 在2020年6月1日至2020年6月30日期间，证券代码为01060的股票在所查询的10只股票中具有最低的涨跌幅，其最小涨跌幅为-6.6038%。
+
+【当前阶段要获取的信息】
+- 无需继续执行SQL查询，当前掌握的信息已能够回答问题。
+
+【信息所在字段】
+- 无
+
+【筛选条件所在字段】
+- 无
+
+【SQL语句的思路】
+- 无
+
+【执行SQL语句】
+- 无
+
+【上述SQL语句的含义】
+- 无
+
+**结论**：
+当前掌握的信息已能够回答"在2020年5月涨幅排名前10的港股股票中，哪一只股票在2020年6月的涨幅最小？"的问题。答案是证券代码为01060的股票，其在2020年6月的最低涨跌幅为-6.6038%。无需继续执行下一阶段SQL查询。
+
+
+>>>>> 【user】 Said:
+充分尊重前面给出的结论，回答问题:"在2020年5月涨幅排名前10的港股股票中，哪一只股票在2020年6月的涨幅最小？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+在2020年5月涨幅排名前10的港股股票中，证券代码为01060的股票在2020年6月的涨幅最小，其最小涨跌幅为-6.6038%。

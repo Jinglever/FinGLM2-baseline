@@ -1,0 +1,424 @@
+
+>>>>> Original Question: 该公司高管的年度薪酬总额是多少？一年后呢？变化比例是(四舍五入保留到小数点两位)？
+
+
+>>>>> 【user】 Said:
+下面是已知的事实:
+'''
+吉比特公司的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是36007;CompanyCode(公司代码)是186977;ChiName(中文名称)是厦门吉比特网络技术股份有限公司;EngName(英文名称)是G-bits Network Technology (Xiamen) Co., Ltd.;SecuCode(证券代码)是603444;]
+'''
+下面是顺序的历史问答:
+'''
+Question: 吉比特在2019年1月份进行了多少次投资者关系活动？这些活动中参与机构最多的一次活动发生在哪天(xxxx-xx-xx的格式)，有多少家机构参与？
+Answer: 吉比特公司在2019年1月份共进行了3次投资者关系活动。在这些活动中，参与机构数量最多的一次活动具体发生在2019-01-09，并且该活动中有15家机构参与了。
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：该公司高管的年度薪酬总额是多少？一年后呢？变化比例是(四舍五入保留到小数点两位)？
+
+>>>>> Agent【rewrite_question】 Said:
+厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是多少？2020年的年度薪酬总额又是多少？这两年的薪酬总额变化比例是多少（四舍五入保留到小数点两位）？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是多少？2020年的年度薪酬总额又是多少？这两年的薪酬总额变化比例是多少（四舍五入保留到小数点两位）？"
+
+>>>>> Agent【extract_company】 Said:
+```json
+["厦门吉比特网络技术股份有限公司", "603444"]
+```
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '厦门吉比特网络技术股份有限'
+   OR ChiName LIKE '%厦门吉比特网络技术股份有限%'
+   OR ChiNameAbbr LIKE '%厦门吉比特网络技术股份有限%'
+   OR EngName LIKE '%厦门吉比特网络技术股份有限%'
+   OR EngNameAbbr LIKE '%厦门吉比特网络技术股份有限%'
+   OR SecuAbbr LIKE '%厦门吉比特网络技术股份有限%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%厦门吉比特网络技术股份有限%'
+   OR ChiName LIKE '%厦门吉比特网络技术股份有限%'
+   OR ChiNameAbbr LIKE '%厦门吉比特网络技术股份有限%'
+   OR EngName LIKE '%厦门吉比特网络技术股份有限%'
+   OR EngNameAbbr LIKE '%厦门吉比特网络技术股份有限%'
+   OR SecuAbbr LIKE '%厦门吉比特网络技术股份有限%'
+   OR FormerName LIKE '%厦门吉比特网络技术股份有限%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '厦门吉比特网络技术股份有限'
+   OR ChiName LIKE '%厦门吉比特网络技术股份有限%'
+   OR EngName LIKE '%厦门吉比特网络技术股份有限%'
+   OR SecuAbbr LIKE '%厦门吉比特网络技术股份有限%';
+查询结果:
+[{"TableName": "constantdb.secumain", "InnerCode": 36007, "CompanyCode": 186977, "ChiName": "厦门吉比特网络技术股份有限公司", "EngName": "G-bits Network Technology (Xiamen) Co., Ltd.", "SecuCode": "603444"}]
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '603444'
+   OR ChiName LIKE '%603444%'
+   OR ChiNameAbbr LIKE '%603444%'
+   OR EngName LIKE '%603444%'
+   OR EngNameAbbr LIKE '%603444%'
+   OR SecuAbbr LIKE '%603444%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%603444%'
+   OR ChiName LIKE '%603444%'
+   OR ChiNameAbbr LIKE '%603444%'
+   OR EngName LIKE '%603444%'
+   OR EngNameAbbr LIKE '%603444%'
+   OR SecuAbbr LIKE '%603444%'
+   OR FormerName LIKE '%603444%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '603444'
+   OR ChiName LIKE '%603444%'
+   OR EngName LIKE '%603444%'
+   OR SecuAbbr LIKE '%603444%';
+查询结果:
+[{"TableName": "constantdb.secumain", "InnerCode": 36007, "CompanyCode": 186977, "ChiName": "厦门吉比特网络技术股份有限公司", "EngName": "G-bits Network Technology (Xiamen) Co., Ltd.", "SecuCode": "603444"}]
+
+>>>>> 已知事实:
+吉比特公司的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是36007;CompanyCode(公司代码)是186977;ChiName(中文名称)是厦门吉比特网络技术股份有限公司;EngName(英文名称)是G-bits Network Technology (Xiamen) Co., Ltd.;SecuCode(证券代码)是603444;]
+---
+厦门吉比特网络技术股份有限公司的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是36007;CompanyCode(公司代码)是186977;ChiName(中文名称)是厦门吉比特网络技术股份有限公司;EngName(英文名称)是G-bits Network Technology (Xiamen) Co., Ltd.;SecuCode(证券代码)是603444;]
+603444的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是36007;CompanyCode(公司代码)是186977;ChiName(中文名称)是厦门吉比特网络技术股份有限公司;EngName(英文名称)是G-bits Network Technology (Xiamen) Co., Ltd.;SecuCode(证券代码)是603444;]
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询厦门吉比特网络技术股份有限公司（证券代码603444）在2019年和2020年的高管年度薪酬总额，并计算这两年的薪酬总额变化比例。这涉及到公司高管的薪酬数据，通常这类信息会记录在上市公司的财务报表或相关的公司治理数据库中。
+
+根据已知数据库的描述，`astockoperationsdb`（上市公司产品供销/人力资源）数据库中包含了管理层报酬统计的信息，具体包括管理层报酬总额等数据，适合用来查询高管薪酬。
+
+【选中的数据库】
+- `astockoperationsdb`: 这个数据库包含上市公司管理层报酬统计的信息，可以查询到高管年度薪酬总额。
+
+【选中的数据库的清单】
+```json
+["astockoperationsdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockoperationsdb.lc_suppcustdetail", "说明": "该数据表记录了企业关联交易的详细信息，包含信息发布的时间和来源（如信息发布日期、信息来源及其编码），企业及关联方的基本信息（如公司代码、关联企业名称、供应商/客户代码与属性等），交易相关信息（如交易标的名称与代码、交易金额及占比等），以及其他辅助信息（如截止日期、关系所属类型、序号及备注等）。"}, {"表名": "astockoperationsdb.lc_staff", "说明": "该数据表包含与公司和员工分类相关的信息，字段包括公司代码、信息来源、合并标志等基本信息，日期和信息发布日期等时间信息，分类方式、类别名称及分类代码等分类相关内容，最低年龄、最高年龄及员工数量等员工统计数据，以及占总数比例等比例信息，最后还有备注说明字段用于补充说明。"}, {"表名": "astockoperationsdb.lc_rewardstat", "说明": "该数据表主要记录公司管理层及董事津贴与报酬相关信息，包括公司标识信息如公司代码、信息发布日期和来源；日期信息如截止日期；报酬信息如管理层报酬总额、领取报酬的管理层人数、前三名董事及高管的报酬、独立董事津贴（按人及总额）；以及其他补充说明字段如备注说明等。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要计算厦门吉比特网络技术股份有限公司（证券代码603444）在2019年和2020年的高管年度薪酬总额，并计算这两年的薪酬总额变化比例，我们需要找到记录公司管理层及董事津贴与报酬相关信息的表。根据已知表信息，`astockoperationsdb.lc_rewardstat`表包含了管理层报酬总额等信息，适合用于此分析。
+
+【选中的数据表】
+- astockoperationsdb.lc_rewardstat: 这个数据表主要记录公司管理层及董事津贴与报酬相关信息，包括公司标识信息如公司代码、信息发布日期和来源；日期信息如截止日期；报酬信息如管理层报酬总额、领取报酬的管理层人数、前三名董事及高管的报酬、独立董事津贴（按人及总额）；以及其他补充说明字段如备注说明等。
+
+【选中的数据库表的清单】
+```json
+["astockoperationsdb.lc_rewardstat"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockoperationsdb.lc_rewardstat", "表字段": [{"column": "CompanyCode", "desc": "公司代码"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "EndDate", "desc": "日期"}, {"column": "TotalYearPay", "desc": "报酬总额(元)"}, {"column": "NumPayManagers", "desc": "领取报酬的管理层人数"}, {"column": "High3Directors", "desc": "前三名董事报酬(元)"}, {"column": "High3Managers", "desc": "前三名高管报酬(元)"}, {"column": "TotalIndeSupeYearPay", "desc": "独立董事津贴(元/人)"}, {"column": "Statement", "desc": "备注说明"}, {"column": "TotalIndeSubsidy", "desc": "独立董事津贴总额(元)"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年和2020年的年度薪酬总额，以及这两年的薪酬总额变化比例。需要找到包含公司代码、年份和薪酬总额的字段。
+
+【信息所在字段】
+- astockoperationsdb.lc_rewardstat.CompanyCode: 这个字段可能包含公司代码信息，对应用户提问中的厦门吉比特网络技术股份有限公司的公司代码603444
+- astockoperationsdb.lc_rewardstat.EndDate: 这个字段可能包含年份信息，对应用户提问中的2019年和2020年
+- astockoperationsdb.lc_rewardstat.TotalYearPay: 这个字段可能包含年度薪酬总额信息，对应用户提问中的高管年度薪酬总额
+
+【筛选条件所在字段】
+- constantdb.secumain.CompanyCode: 这个字段可能包含公司代码信息，用于关联查询厦门吉比特网络技术股份有限公司的公司代码603444
+
+【选中的字段的清单】
+```json
+{"astockoperationsdb.lc_rewardstat": ["CompanyCode", "EndDate", "TotalYearPay"], "constantdb.secumain": ["CompanyCode"]}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在2019年1月1日至2019年1月31日期间，证券内部编码为36007的证券共进行了3次投资者关系活动。
+---
+查询结果表明: 表`lc_investorra`在数据库`astockeventsdb`中用于记录投资者关系活动，包含以下字段：`ID`（ID）、`InfoPublDate`（信息发布日期）、`InnerCode`（证券内部编码）、`Nbcode`（编号）、`ReceptionDate`（接待日期）、`ReceptionDaTime`（接待时间）、`SerialNb`（序号）、`ActivitiesCate`（活动类别）、`Participant`（参与单位及人员）、`Place`（地点）、`ListingCreper`（上市公司接待人员）、`TmainContent`（主要内容）、`ArticleFile`（附件）、`FileType`（报告原文文件格式）、`InfoTitle`（信息标题）、`LinkAddress`（链接地址）、`UpdateTime`（更新时间）、`JSID`（JSID）、`ReceptionDateE`（接待日期截止日）。该表使用InnoDB引擎，默认字符集为utf8mb4，校对规则为utf8mb4_unicode_ci，行格式为DYNAMIC。
+---
+查询结果表明: 在2019年1月1日至2019年1月31日期间，证券内部编码为36007的证券在2019年1月9日进行的投资者关系活动中，接待了最多数量的调研机构，共计15家。
+
+请问:厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是多少？2020年的年度薪酬总额又是多少？这两年的薪酬总额变化比例是多少（四舍五入保留到小数点两位）？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 厦门吉比特网络技术股份有限公司的证券代码是603444，证券内部编码是36007，公司代码是186977。
+- 需要查询2019年和2020年的高管年度薪酬总额。
+- 薪酬数据可能存在于`astockoperationsdb.lc_rewardstat`表中，该表包含`CompanyCode`（公司代码）、`EndDate`（日期）、`TotalYearPay`（报酬总额(元)）字段。
+
+【当前阶段要获取的信息】
+- 2019年的高管年度薪酬总额
+- 2020年的高管年度薪酬总额
+
+【信息所在字段】
+- `TotalYearPay`（报酬总额(元)）
+
+【筛选条件所在字段】
+- `CompanyCode`（公司代码）
+- `EndDate`（日期）
+
+【SQL语句的思路】
+1. 分别查询2019年和2020年的高管年度薪酬总额。
+2. 计算两年的薪酬总额变化比例。
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2019;
+```
+
+【上述SQL语句的含义】
+- 从`astockoperationsdb.lc_rewardstat`表中查询公司代码为186977且日期在2019年的记录。
+- 计算这些记录的`TotalYearPay`（报酬总额(元)）的总和，得到2019年的高管年度薪酬总额。
+
+接下来，我们将执行类似的查询来获取2020年的高管年度薪酬总额。
+
+>>>>> 查询sql:
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2019;
+查询结果:
+[{"TotalPay": 5340800.0}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2019;
+查询结果:
+[{"TotalPay": 5340800.0}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 公司代码为186977的公司在2019年的报酬总额为5340800.0元。该结果是通过汇总astockoperationsdb.lc_rewardstat表中符合条件（CompanyCode为186977且EndDate年份为2019）的所有TotalYearPay字段得到的。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2019;
+查询结果:
+[{"TotalPay": 5340800.0}]
+
+查询结果表明: 公司代码为186977的公司在2019年的报酬总额为5340800.0元。该结果是通过汇总astockoperationsdb.lc_rewardstat表中符合条件（CompanyCode为186977且EndDate年份为2019）的所有TotalYearPay字段得到的。
+
+当前掌握的信息是否能够回答"厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是多少？2020年的年度薪酬总额又是多少？这两年的薪酬总额变化比例是多少（四舍五入保留到小数点两位）？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 厦门吉比特网络技术股份有限公司的证券代码是603444，证券内部编码是36007，公司代码是186977。
+- 2019年的高管年度薪酬总额为5340800.0元。
+
+【当前阶段要获取的信息】
+- 2020年的高管年度薪酬总额
+
+【信息所在字段】
+- `TotalYearPay`（报酬总额(元)）
+
+【筛选条件所在字段】
+- `CompanyCode`（公司代码）
+- `EndDate`（日期）
+
+【SQL语句的思路】
+- 查询2020年的高管年度薪酬总额。
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2020;
+```
+
+【上述SQL语句的含义】
+- 从`astockoperationsdb.lc_rewardstat`表中查询公司代码为186977且日期在2020年的记录。
+- 计算这些记录的`TotalYearPay`（报酬总额(元)）的总和，得到2020年的高管年度薪酬总额。
+
+获取2020年的薪酬总额后，我们将计算两年的薪酬总额变化比例。
+
+>>>>> 查询sql:
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2020;
+查询结果:
+[{"TotalPay": 6828700.0}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2020;
+查询结果:
+[{"TotalPay": 6828700.0}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 公司代码为186977的公司在2020年的报酬总额为6828700.0元。该结果是通过汇总astockoperationsdb.lc_rewardstat表中符合条件（CompanyCode为186977且EndDate年份为2020）的所有TotalYearPay字段得到的。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    SUM(TotalYearPay) AS TotalPay
+FROM 
+    astockoperationsdb.lc_rewardstat
+WHERE 
+    CompanyCode = 186977 AND YEAR(EndDate) = 2020;
+查询结果:
+[{"TotalPay": 6828700.0}]
+
+查询结果表明: 公司代码为186977的公司在2020年的报酬总额为6828700.0元。该结果是通过汇总astockoperationsdb.lc_rewardstat表中符合条件（CompanyCode为186977且EndDate年份为2020）的所有TotalYearPay字段得到的。
+
+当前掌握的信息是否能够回答"厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是多少？2020年的年度薪酬总额又是多少？这两年的薪酬总额变化比例是多少（四舍五入保留到小数点两位）？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 厦门吉比特网络技术股份有限公司的证券代码是603444，证券内部编码是36007，公司代码是186977。
+- 2019年的高管年度薪酬总额为5340800.0元。
+- 2020年的高管年度薪酬总额为6828700.0元。
+
+【当前阶段要获取的信息】
+- 计算两年的薪酬总额变化比例。
+
+【信息所在字段】
+- 无需进一步查询字段，使用已知的薪酬总额进行计算。
+
+【筛选条件所在字段】
+- 无需进一步筛选条件。
+
+【SQL语句的思路】
+- 使用已知的2019年和2020年的薪酬总额，计算变化比例。
+- 变化比例公式为：((2020年薪酬总额 - 2019年薪酬总额) / 2019年薪酬总额) * 100%
+
+【执行SQL语句】
+```exec_sql
+SELECT 
+    ROUND(((6828700.0 - 5340800.0) / 5340800.0) * 100, 2) AS ChangePercentage;
+```
+
+【上述SQL语句的含义】
+- 计算2020年与2019年薪酬总额的差值。
+- 将差值除以2019年的薪酬总额，得到变化比例。
+- 将变化比例乘以100，转换为百分比。
+- 使用`ROUND`函数将结果四舍五入保留到小数点后两位。
+
+通过上述计算，我们可以得到两年的薪酬总额变化比例。
+
+>>>>> 查询sql:
+SELECT 
+    ROUND(((6828700.0 - 5340800.0) / 5340800.0) * 100, 2) AS ChangePercentage;
+查询结果:
+[{"ChangePercentage": 27.86}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    ROUND(((6828700.0 - 5340800.0) / 5340800.0) * 100, 2) AS ChangePercentage;
+查询结果:
+[{"ChangePercentage": 27.86}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 计算结果显示，从5340800.0到6828700.0的变化百分比（ChangePercentage）为27.86%，即增加了27.86%。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT 
+    ROUND(((6828700.0 - 5340800.0) / 5340800.0) * 100, 2) AS ChangePercentage;
+查询结果:
+[{"ChangePercentage": 27.86}]
+
+查询结果表明: 计算结果显示，从5340800.0到6828700.0的变化百分比（ChangePercentage）为27.86%，即增加了27.86%。
+
+当前掌握的信息是否能够回答"厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是多少？2020年的年度薪酬总额又是多少？这两年的薪酬总额变化比例是多少（四舍五入保留到小数点两位）？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 厦门吉比特网络技术股份有限公司的证券代码是603444，证券内部编码是36007，公司代码是186977。
+- 2019年的高管年度薪酬总额为5340800.0元。
+- 2020年的高管年度薪酬总额为6828700.0元。
+- 两年的薪酬总额变化比例为27.86%。
+
+【当前阶段要获取的信息】
+- 无需进一步获取信息。
+
+【信息所在字段】
+- 无需进一步查询字段。
+
+【筛选条件所在字段】
+- 无需进一步筛选条件。
+
+【SQL语句的思路】
+- 无需进一步执行SQL查询。
+
+【执行SQL语句】
+```exec_sql
+无
+```
+
+【上述SQL语句的含义】
+- 无需进一步执行SQL查询。
+
+**总结回答**：
+- 厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是5340800.0元。
+- 2020年的年度薪酬总额是6828700.0元。
+- 这两年的薪酬总额变化比例是27.86%。
+
+当前掌握的信息已经能够完全回答用户的问题，无需继续执行下一阶段SQL查询。
+
+
+>>>>> 【user】 Said:
+请回答问题:"厦门吉比特网络技术股份有限公司（证券代码603444）的高管在2019年的年度薪酬总额是多少？2020年的年度薪酬总额又是多少？这两年的薪酬总额变化比例是多少（四舍五入保留到小数点两位）？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+2019年薪酬总额: 5340800.0元, 2020年薪酬总额: 6828700.0元, 变化比例: 27.86%

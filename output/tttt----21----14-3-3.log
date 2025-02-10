@@ -1,0 +1,329 @@
+
+>>>>> Original Question: 哪家公司当年的借贷最多，共计多少？
+
+
+>>>>> 【user】 Said:
+下面是已知的事实:
+'''
+中信证券股份有限公司关联信息有多组:[所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7094968;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是CITIC Securities Co. Ltd. Class H;SecuCode(证券代码)是CIIHF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7030641;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是CITIC Securities Co. Ltd. Unsponsored ADR Class H;SecuCode(证券代码)是CIIHY;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7131596;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC Asia High Dividend ETF;SecuCode(证券代码)是BMOZF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7132462;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC Asia USD Investment Grade Bond ETF HKD;SecuCode(证券代码)是BVSMF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7130390;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC CSI 300 Index ETF CNY;SecuCode(证券代码)是CHMCF!AA;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7133026;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC Hong Kong Banks ETF;SecuCode(证券代码)是BMHKF;]
+'''
+下面是顺序的历史问答:
+'''
+Question: 2020年10月27日哪家证券公司受到了处罚
+Answer: 中信证券股份有限公司
+Question: 他是多少家公司的股东？
+Answer: 31家
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：哪家公司当年的借贷最多，共计多少？
+
+>>>>> Agent【rewrite_question】 Said:
+2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少？"
+
+>>>>> Agent【extract_company】 Said:
+```json
+["中信证券股份有限公司"]
+```
+
+>>>>> 查询sql:
+SELECT 'constantdb.secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.secumain 
+WHERE SecuCode = '中信证券股份有限公司'
+   OR ChiName LIKE '%中信证券股份有限公司%'
+   OR ChiNameAbbr LIKE '%中信证券股份有限公司%'
+   OR EngName LIKE '%中信证券股份有限公司%'
+   OR EngNameAbbr LIKE '%中信证券股份有限公司%'
+   OR SecuAbbr LIKE '%中信证券股份有限公司%'
+UNION ALL
+SELECT 'constantdb.hk_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.hk_secumain 
+WHERE SecuCode = '%中信证券股份有限公司%'
+   OR ChiName LIKE '%中信证券股份有限公司%'
+   OR ChiNameAbbr LIKE '%中信证券股份有限公司%'
+   OR EngName LIKE '%中信证券股份有限公司%'
+   OR EngNameAbbr LIKE '%中信证券股份有限公司%'
+   OR SecuAbbr LIKE '%中信证券股份有限公司%'
+   OR FormerName LIKE '%中信证券股份有限公司%'
+UNION ALL
+SELECT 'constantdb.us_secumain' AS TableName, InnerCode, CompanyCode, ChiName, EngName, SecuCode
+FROM constantdb.us_secumain 
+WHERE SecuCode = '中信证券股份有限公司'
+   OR ChiName LIKE '%中信证券股份有限公司%'
+   OR EngName LIKE '%中信证券股份有限公司%'
+   OR SecuAbbr LIKE '%中信证券股份有限公司%';
+查询结果:
+[{"TableName": "constantdb.us_secumain", "InnerCode": 7094968, "CompanyCode": 1052, "ChiName": "中信证券股份有限公司", "EngName": "CITIC Securities Co. Ltd. Class H", "SecuCode": "CIIHF"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7030641, "CompanyCode": 1052, "ChiName": "中信证券股份有限公司", "EngName": "CITIC Securities Co. Ltd. Unsponsored ADR Class H", "SecuCode": "CIIHY"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7131596, "CompanyCode": 1052, "ChiName": "中信证券股份有限公司", "EngName": "ChinaAMC Asia High Dividend ETF", "SecuCode": "BMOZF"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7132462, "CompanyCode": 1052, "ChiName": "中信证券股份有限公司", "EngName": "ChinaAMC Asia USD Investment Grade Bond ETF HKD", "SecuCode": "BVSMF"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7130390, "CompanyCode": 1052, "ChiName": "中信证券股份有限公司", "EngName": "ChinaAMC CSI 300 Index ETF CNY", "SecuCode": "CHMCF!AA"}, {"TableName": "constantdb.us_secumain", "InnerCode": 7133026, "CompanyCode": 1052, "ChiName": "中信证券股份有限公司", "EngName": "ChinaAMC Hong Kong Banks ETF", "SecuCode": "BMHKF"}]
+
+>>>>> 已知事实:
+中信证券股份有限公司关联信息有多组:[所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7094968;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是CITIC Securities Co. Ltd. Class H;SecuCode(证券代码)是CIIHF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7030641;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是CITIC Securities Co. Ltd. Unsponsored ADR Class H;SecuCode(证券代码)是CIIHY;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7131596;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC Asia High Dividend ETF;SecuCode(证券代码)是BMOZF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7132462;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC Asia USD Investment Grade Bond ETF HKD;SecuCode(证券代码)是BVSMF;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7130390;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC CSI 300 Index ETF CNY;SecuCode(证券代码)是CHMCF!AA;],所在数据表是constantdb.us_secumain;InnerCode(证券内部编码)是7133026;CompanyCode(公司代码)是1052;ChiName(中文名称)是中信证券股份有限公司;EngName(英文名称)是ChinaAMC Hong Kong Banks ETF;SecuCode(证券代码)是BMHKF;]
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询2020年中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，并统计总额。这需要以下信息：
+1. 确定中信证券股份有限公司在2020年是哪些公司的股东。
+2. 查询这些公司在2020年的借贷金额。
+
+【选中的数据库】
+- astockshareholderdb: 用于确定中信证券股份有限公司在2020年的股东身份。
+- astockfinancedb: 用于查询这些公司在2020年的借贷金额。
+
+【选中的数据库的清单】
+```json
+["astockshareholderdb", "astockfinancedb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockshareholderdb.lc_shtypeclassifi", "说明": "该数据表主要用于记录股东及其分类信息，包含股东的唯一标识信息如股东代码和股东编码，股东名称及其所属性质等基本信息，同时提供多级分类结构，涵盖分类标准及一级至四级分类代码，便于对股东进行分层管理和分析。"}, {"表名": "astockshareholderdb.lc_mainshlistnew", "说明": "该数据表主要记录了股东及其持股情况的详细信息，包括公司代码、日期、信息发布日期和来源等基本信息。股东相关信息涵盖股东排名、序号、名称、性质、类别及其编码等。持股信息详细列出了持股总数、持股比例、持股增减情况，以及持有不同类型股票（如A股、B股、H股、普通股及其他类别）的数量和比例。此外，还包括股东性质描述、股权质押和冻结情况及其说明，股东之间的关联关系和一致行动人说明等。证券相关信息有证券代码、简称、所属券商编号及归属机构名称等。备注说明和其他字段提供了进一步的补充信息。"}, {"表名": "astockshareholderdb.lc_shnumber", "说明": "该数据表主要涵盖了公司股东信息的各类数据，包括公司代码、信息发布日期和信息来源等基本信息。股东数据详细记录了股东总户数及各类股东（如A股、B股、H股、CDR股东）的户数和户均持股数，提供了户均持股比例及其相对变化，季度和半年增长率等动态指标。此外，表中还细分了无限售条件股东的数据，包括无限售A股和CDR的户均持股数及比例变化等。通过这些数据，能够分析不同类型股东的持股分布及其变化趋势。"}, {"表名": "astockshareholderdb.lc_mshareholder", "说明": "该数据表主要用于记录公司股东相关信息及公司基本情况，包含以下几类字段信息：公司基本信息如公司代码、信息发布日期、信息来源等；股东相关信息如股东名称、股东地位、持股比例、股东性质、股东ID、国籍描述、永久境外居留权等；公司运营及财务信息如法人代表、注册资本、主要业务、经济性质、背景介绍等；其他信息如股权获取方式、实际控制人结构图、公告类别、报告原文文件格式、日期以及货币单位等，并提供是否存在的标识字段以便于数据筛选和分析。"}, {"表名": "astockshareholderdb.lc_actualcontroller", "说明": "该数据表主要用于记录公司实际控制人的相关信息，包括公司代码、信息发布日期和日期等基本信息；实际控制人的详细信息如代码、姓名、经济性质、国籍代码及描述、永久境外居留权状态，以及实际控制人所属性质等。"}, {"表名": "astockshareholderdb.lc_sharestru", "说明": "该数据表主要记录了公司股本结构及相关信息，包含以下几类字段：公司基本信息如公司代码(CompanyCode)、信息来源(InfoSource)、信息发布日期(InfoPublDate)；时间相关字段如日期(EndDate)；股本总量及变动情况如总股本(股)(TotalShares)、股本变动原因类别(ChangeType)、简称变更原因(ChangeReason)；股权分类及持股情况包括未流通股(NonListedShares)、流通股本(FloatShare)、有限售条件流通股(RestrictedShares)、无限售条件流通股(NonRestrictedShares)、A股(Ashares)、B股(Bshares)、H股(Hshares)、GDR代表基础股票(GDRshares)、外资持股(ForeignHolding)等，进一步细分为发起人股(PromoterShares)、国家股(StateShares)、法人股(DLegalPersonShares、FLegalPersonShares)、自然人股(NaturalPersonHoldLPShares)、职工股(StaffShares)、战略投资者配售持股(StategicInvestorShares)、基金配售持股(MutualFundShares)等；股本流通状态如已上市流通股(AFloatListed)、未上市增发股(AdditionIssueUnlisted)、配股未上市(RightsIssueUnlisted)等；其他股本信息如优先股(PreferredShares)、有限售H股(RestrictedHShares)、无限售H股(NonRestrictedHShares)、其他未流通股(OUnListedShares)；股本面值及货币单位如每股面值(PerValue)、每股面值货币单位(ParValueCurrencyUnit)。通过这些字段，能够全面反映公司股本的构成、流通及变动情况。"}, {"表名": "astockshareholderdb.lc_stockholdingst", "说明": "该数据表主要用于记录各类机构及股东对A股的持股情况及相关统计信息，包含以下几类字段：基础信息如证券内部编码、公司代码、统计日期等；持股数量信息，包括机构、公募基金、券商、私募基金、银行、外资等不同主体持有的无限售流通A股、总A股及其他类型A股的数量；持股比例信息，涵盖上述主体对不同类型A股的持股比例；持股户数信息，记录各类机构及股东的持股户数，包括流通A股户数、无限售流通A股户数等；前十大股东信息，如前十大股东持股数量及比例、无限售股东持股数据等；信息来源及日期字段，用于标注数据出处和时间。"}, {"表名": "astockshareholderdb.lc_sharetransfer", "说明": "该数据表主要记录股权转让的详细信息，涵盖了公司基本信息如公司代码、信息发布日期、信息来源等；股权转让的关键时间点如协议签署日、批准日期、正式变动日期等；转让方和受让方的相关信息，包括名称、经济性质、属性、编码等；股权转让前后的持股情况，如持股数量、持股比例、有限售股数、无限售股数等；交易相关信息如转让方式、涉及股数、交易价格、交易金额等；其他补充信息如生效条件、事项描述与进展、是否终止实施及公告日期等；以及序号、证券内部编码等标识信息。"}, {"表名": "astockshareholderdb.lc_sharefp", "说明": "该数据表记录了公司股权冻结质押的详细信息，包含公司代码、信息发布日期和来源等基本信息，以及涉及的股东和接受方的详细信息，如股东名称和ID、接受方名称和ID、股东和接受方的属性等。表中还包括冻结质押的具体细节，如涉及股数、占持股比例、占总股本比例、起始和结束日期、原因及事项编码和日期。此外，表格记录了无限售股数、有限售股数，以及初始信息发布日期、初始质押股数和预计解除日期等信息。"}, {"表名": "astockshareholderdb.lc_sharefpsta", "说明": "该数据表主要用于记录股权冻结质押的相关信息，包含以下字段：标识信息如冻结质押编号(FPCode)、公司代码(CompanyCode)和股东ID(SHID)；时间信息如截止日期(EndDate)；信息来源(InfoSource)；类别选择(Category)；股东信息如股权被冻结质押股东名称(FPSHName)及其属性(SHAttribute)；冻结质押相关统计数据如累计冻结质押股数(AccuFPShares)、累计占冻结质押方持股数比例(AccuPCTOfPled)、累计占总股本比例(AccuProportion)及其计算值(AccuProportionCalc)；其他辅助字段如AccuFPSharesCalc。"}, {"表名": "astockshareholderdb.lc_buyback", "说明": "该数据表记录了公司股份回购的详细信息，包括公司基本信息如公司代码，以及重要日期信息如首次信息发布日期、预案发布日期、股东大会通过日期、回购协议签署日、回购并注销股份公告书发布日、起始日期、结束日期、全称更改日期、回购资金划出日、工商变更登记日等。股份回购的具体情况涵盖股份类别、股份被回购方、回购股数及占总股本比例、回购定价方式说明、回购价格及回购总金额、回购数量及价格上下限、拟回购资金总额上下限等。支付方式、资金来源及用途说明、回购目的、事件进程及描述、回购方式代码及描述等信息也被详细记录。此外，还包括待偿期限指数、未描述的字段如回购目的、货币单位及被否决日期等。"}, {"表名": "astockshareholderdb.lc_buybackattach", "说明": "该数据表记录了有关股份回购的信息，包含回购的唯一标识（股份回购ID）及其相关的日期信息，如信息发布日期和生效日期。涉及财务数据的字段包括货币单位、最高价、最低价、本次回购资金及累计回购资金总额。此外，表中还记录了与回购数量相关的数据，如回购股数、累计回购数量及其占总股本的比例。通过这些字段，能够全面了解某次股份回购的基本信息和财务影响。"}, {"表名": "astockshareholderdb.lc_legaldistribution", "说明": "该数据表记录了证券配售的详细信息，涵盖了多方面的内容：基础信息如证券内部编码、证券代码、信息发布日期及首次发布日期等；配售相关信息包括配售总股数、配售原因、配售性质、获配股数（有锁定期和无锁定期分别记录）、获配金额、实际发行价、有效申购股数、退款金额、补款金额等；投资者信息包括投资者名称（标准化和原始）、投资者编号、投资者类型、投资者分类等，以及获配企业的名称、性质和所属券商的编号及名称；战略配售的详细记录如高管、员工、保荐机构及其他参与战略配售的股份数量、金额和占比等；此外，还包括流通日期、持股时间等时间维度信息，以及备注说明和配售对象代码等辅助字段。整体涵盖了证券配售的全流程信息，便于分析和统计。"}, {"表名": "astockshareholderdb.lc_nationalstockholdst", "说明": "该数据表主要用于记录股东持股相关信息，包含以下字段类别：基础信息如内部编码、公司代码、股东ID、股东名称；时间信息如截止日期；持股数据如持有A股总数、有限售A股数、无限售A股数；比例数据如占总股本比例、占流通A股比例；变动信息如持有A股数量增减及其增减幅度。"}, {"表名": "astockshareholderdb.cs_foreignholdingst", "说明": "该数据表记录了证券相关的交易信息，包括证券内部编码用于标识证券，交易日期表示具体的交易时间，外资持股总数（单位为万股）和外资持股比例（百分比）则反映了外资在该证券中的持股情况。"}, {"表名": "astockshareholderdb.lc_esop", "说明": "该数据表主要用于记录资产管理计划相关信息，涵盖了基础标识信息如“内部编码、公司代码”等，公告日期信息如“首次信息发布日期、董事会公告日期、股东大会公告日期”等，计划进程与实施信息如“事件进程、是否分期实施、数据统计区间、首次实施公告日”等，股票与资金规模信息如“股票来源方式、股票规模上限与下限、资金总额上限与下限”等，计划细节信息如“麦考利久期、锁定期、释放期、资金来源、参与单位及人员、管理模式、管理机构、资产管理计划全称、分期情况、杠杆比例”等，价格与参与情况信息如“购买股票价格、参与人数、高管及员工的参与人数、认购份额与比例”等，时间节点信息如“持股的完成日、锁定的起始日”等，以及其他补充说明如“计划情况说明”等，全面涵盖计划的各个维度。"}, {"表名": "astockshareholderdb.lc_esopsummary", "说明": "该数据表主要用于记录证券相关事件的信息，包括证券内部编码和公司代码等基础标识信息；首次信息发布日期、董事会公告日期、股东大会公告日期等时间信息；事件进程和序号等事件状态信息；是否分期实施及分期情况等分期相关信息；股票规模和资金总额的上下限等规模和资金范围信息；以及备注说明等补充描述信息。"}, {"表名": "astockshareholderdb.lc_transferplan", "说明": "该数据表主要记录了公司股东承诺及增减持计划的相关信息，涵盖多个方面的字段：公司基本信息如“公司代码”；信息披露相关字段如“首次信息发布日期”“信息发布日期”“信息来源”；承诺主体与事项类型信息如“承诺主体类型”“承诺事项类型”；承诺时间范围及内容描述如“承诺起始日期”“承诺截止日期”“承诺说明”；股东信息如“股东序号”“股东名称”；增持计划相关字段包括“增持时间描述”“增持实施期限”“增持价格描述”“增持股票触发价格上下限”“增持股份数量上下限”“增持比例上下限”“增持投入资金上下限”等；减持计划相关字段包括“减持时间描述”“减持实施期限”“减持价格描述”“减持股票触发价格上下限”“减持股份数量上下限”“减持比例上下限”等；承诺有效性及不减持承诺期限如“承诺是否有效”“不减持承诺期限”；交易方式及相关描述如“交易方式”“交易方式描述”；事件进程信息如“事件进程”。这些字段全面记录了公司股东承诺及增减持行为的各类细节。"}, {"表名": "astockshareholderdb.lc_smattendinfo", "说明": "该数据表记录了公司股东大会相关的综合信息，涵盖多个维度。包括公司基本信息如公司代码；股东大会的时间安排，如首次信息发布日期、最新信息发布日期、公告日期、股东大会召开日及时间、股权登记日、会议登记起止日期、网络投票起止日期等；股东大会的地点和形式信息，如召开地址、会议类别、投票表决方式、网络投票通道及代码等；股东大会的参与情况统计，包括出席总体股东及代表人数、各类股东人数（如A股、H股、中小股东、优先股股东等）、出席股东代表股份及其占比（按不同股东类别区分）；股东大会的主持及法律见证信息，包括大会主持人及其职务、见证律师事务所及其编号、经办律师等；其他相关信息如议案内容、是否有效、股东大会取消日期、年度及届次等。通过这些字段，全面反映了股东大会的组织、参与及法律合规情况。"}, {"表名": "astockfinancedb.lc_ashareseasonednewissue", "说明": "该数据表主要记录证券发行及相关信息，涵盖以下几大类内容：**基本信息**包括证券内部编码、发行股票类型、发行目的等；**时间信息**如首次信息发布日期、预案发布日期、股东大会决议公告日期、发行日期上下限、承销期上下限、募集资金到帐时间等；**价格信息**包括发行价区间（上限、下限）、实际发行价、承销商指导价格、市盈率（加权平均、全面摊薄等）、价格调整相关字段等；**发行量信息**如发行量上下限、超额配售权、网上网下发行股数、原股东优先配售股数、法人网下配售股数等；**申购及配售信息**包括网上申购代码、申购简称、申购单位、有效申购总量与户数、中签率、配售比例等；**费用信息**如发行费用总额、承销费用、律师费用、资产评估费用、每股发行费用等；**资金信息**如募集资金总额、净额、到帐金额及相关分项（货币、非货币、资产、债权等）；**股东及控股股东信息**如优先配售比例、认购方式、认购数量与比例等；**预测与变动**包括盈利预测、方案变动说明、变动原因、预案价格与基准价格比例等；**公告及审批信息**如证监会批准公告日、方案变动公告日、最新预案公布日期等；**其他信息**如面值、零股处理方法、认购邀请书发送日、是否简易程序等。该表全面涵盖了证券发行的各个环节及相关信息。"}, {"表名": "astockfinancedb.lc_ashareplacement", "说明": "该数据表涉及证券配股的各个方面，涵盖了从初始信息发布到配股完成的整个过程。字段包括基本信息如证券内部编码、首次信息发布日期、配股年度和发行股票类型；时间节点信息如预案发布日期、股东大会决议公告日期、决案公布日、配股说明书刊登日期、配股上市日及相关公告日期；定价和比例信息如定价方式、配股价格确定方式说明、计划和实际配股比例及数量、配股价格上下限和每股配股价格；费用和资金信息如发行费用、承销费用、各类中介机构费用、实际募集资金、募集资金净额及到帐金额；股东和配股对象信息如配股对象、配股对象类别、大股东认配说明及持股5%以上大股东的持股和认配情况；其他重要信息如转配比、转配股、零股处理方法、方案变动说明、承销方式、余股包销数量、公众股东认配情况、计划和实际募集资金总额、配股基准日及配股完成后的每股净资产和收益。该表还记录了各类审批通过日期及事件进程等信息。"}, {"表名": "astockfinancedb.lc_dividend", "说明": "该数据表主要记录证券分红相关信息，涵盖了基本标识信息如证券内部编码和日期；分红方案的详细内容，包括是否分红、每股收益、送股比例、转增股比例、派现金额（含税和税后，人民币和外币）、分红股本基数及送转后总股本等；分红实施的关键时间节点，如预案发布日期、股东大会决议公告日期、股权登记日、除权除息日、红利到账日、分红发放起止日等；分红的对象和金额分布，包括A股和B股的派现金额（人民币和外币），以及公司合计派现金额；方案变更相关信息，如变更前后的分红方案、变更原因及说明；分红执行的其他信息，如利润分配次数、主要分配形式、上下限金额、事件进程及描述等；计算除权价用的调整比例和金额；以及其他辅助信息如方案类型、分红意向公布日、议案编号、最新信息发布日期和备注说明等，全面反映了证券分红的各个方面。"}, {"表名": "astockfinancedb.lc_capitalinvest", "说明": "该数据表包含多方面的信息，涉及公司基础信息如公司代码，以及与募资相关的详细内容，包括募资方式、募资投向项目名称、项目内容、计划和实际投入金额以及截至日期。它还涵盖了项目进展和收益的说明，投向行业和领域等信息。表中记录了改投相关的内容，如是否改投、改投项目及金额。此外，关于收购兼并的细节也被详细描述，包括收购类型、资产的账面价值、评估价值、价格、权益比例，以及项目出让方的相关信息如与出让方的关系、相关股票、企业性质等。收购标的的名称和企业性质也在其中列出。信息的来源和发布时间则通过首次信息发布日期和信息发布日期进行记录。"}, {"表名": "astockfinancedb.lc_balancesheetall", "说明": "该数据表主要涵盖了企业财务及业务信息，分为多个类别：基础信息如信息发布日期、信息来源、公告类别等；时间与调整信息如日期、是否调整、是否合并等；会计与企业属性信息如会计准则、工业企业类型等；资产类信息包括流动资产（如货币资金、应收账款、存货等）、非流动资产（如固定资产、无形资产、长期投资等），以及特殊项目和调整项目；负债类信息包含流动负债（如短期借款、应付账款、预收款项等）、非流动负债（如长期借款、递延所得税负债等），以及负债特殊项目和调整项目；权益类信息包括股东权益（如实收资本、资本公积、盈余公积等）、少数股东权益，以及所有者权益特殊项目和调整项目；金融及投资信息如交易性金融资产、债权投资、权益工具投资等；其他信息包括合同资产与负债、保险合同准备金、租赁资产与负债等；综合类信息如总资产、总负债及股东权益合计等。此外，还包含一些字段的特殊说明、分类汇总及调整字段。"}, {"表名": "astockfinancedb.lc_incomestatementall", "说明": "该数据表涵盖了全面的企业财务和经营信息，主要分为以下几类：基本信息如信息发布日期、信息来源、公司代码等；会计和企业分类信息如会计准则、工业企业类型等；收入和成本信息，包括营业收入、营业总成本、营业利润、非经营性净收益等具体细分项，如利息收入、手续费收入、保费收入、营业税金、管理费用等；利润相关信息，如净利润、归属于母公司和少数股东的净利润、综合收益总额等；资产和负债信息，如资产减值损失、信用减值损失、保险责任准备金等；股东权益类信息，如每股收益、其他综合收益等；特殊项目调整信息，用于反映各类收入、成本、利润和综合收益的特殊或调整项；其他专项收入与支出，如基金管理业务收入、担保业务收入、勘探费用等；此外，还包含一些未分类字段和特殊说明字段，全面支持企业财务分析和信息披露需求。"}, {"表名": "astockfinancedb.lc_cashflowstatementall", "说明": "该数据表主要记录企业财务及运营相关信息，涵盖多个维度的字段。基础信息包括信息发布日期、信息来源、公告类别等；企业属性如公司代码、会计准则、工业企业类型等。财务数据方面，详细记录了现金流相关信息，包括经营活动、投资活动、筹资活动的现金流入、流出及净额，以及特殊项目和调整项目；还包括现金及现金等价物的期初、期末余额及变动情况。收入与支出部分，涉及销售商品、提供劳务、税费返还、利息收入与支出、投资收益、资产处置收益等；成本费用方面，记录了税费支付、职工薪酬、资产折旧与摊销、财务费用等。投资与融资活动中，涵盖了投资支付、借款、债券发行、股利分配等数据。其他补充信息包括净利润及其归属、资产减值准备、递延所得税、存货变化、应收应付款变化、信用减值损失等。此外，还有与金融资产、金融负债、代理业务、回购业务等相关的明细字段，以及一些特殊项目和调整项目，用于对现金流和财务数据进行补充说明，反映企业的全面财务状况。"}, {"表名": "astockfinancedb.lc_intassetsdetail", "说明": "该数据表包含多个字段，涵盖基础信息、研发投入、人员构成及核心技术相关数据。基础信息包括内部编码、公司代码、信息发布日期、信息来源编码及截止日期；状态标识类字段包括是否合并及是否调整；研发投入相关字段包括费用化研发投入、资本化研发投入、研发投入合计及其占营业收入比例，同时还包括资本化研发投入占比；人员构成方面有研发人员数量及占比、核心技术人员数量及占比；核心技术相关数据则包括核心技术营业收入及其占比。这些字段全面记录了企业在研发投入及核心技术方面的资源配置和产出情况。"}, {"表名": "astockfinancedb.lc_mainoperincome", "说明": "该数据表主要用于记录和分析公司在特定日期的经营项目财务信息。字段包括公司标识信息如公司代码；时间信息如日期、日期类型、信息发布日期；数据来源信息如信息来源、信息来源编码；合并与调整状态如合并标志、是否调整；分类与显示信息如分类方式、显示序号、所属层级、上级科目名称；经营项目相关信息如经营项目名称、所属行业、地区与业务性质；财务数据包括主营业务收入、主营业务成本、主营业务利润及其同比变化、毛利率及其同比变化和上年同期数据；其他信息如货币单位。通过这些字段，用户可以分析公司的主营业务表现及其变化趋势。"}, {"表名": "astockfinancedb.lc_operatingstatus", "说明": "该数据表记录了与企业经营相关的关键信息，包含公司代码、日期等基础信息，用于标识企业和时间节点；信息来源与信息发布日期字段记录了数据的出处及发布时间，以确保信息的可靠性和时效性；经营述评字段则提供了对企业经营情况的详细描述，为分析和决策提供支持。"}, {"表名": "astockfinancedb.lc_auditopinion", "说明": "该数据表主要记录与公司审计相关的信息，包含公司标识如公司代码、所属机构等，时间信息如日期、信息发布日期，审计相关内容如会计师事务所、注册会计师、审计意见类型及其全文、审计报告类型，以及信息来源等字段。"}, {"表名": "hkstockdb.hk_employeechange", "说明": "该数据表主要记录证券相关信息，包括证券内部代码、信息发布日期与来源等基本信息；股东大会公告日期及相关生效与失效日期等时间信息；是否有效的状态标识；以及变更前后员工数量的对比等数据。"}, {"表名": "hkstockdb.hk_stockarchives", "说明": "该数据表主要记录公司基本信息及相关属性，涵盖了公司标识信息如公司代码、中文名称、企业类别及描述等；成立及注册信息如公司成立日期、注册地、注册资本及其货币单位等；行业分类信息如所属行业（港交所、恒生）等；管理层信息如主席、公司秘书、合资格会计师等；办公及运营信息如注册办事处、总办事处及主要营业地点、股份过户处（香港）等；联系方式如电话、传真、邮箱、公司网址等；以及其他信息如公司业务、公司简介、审计机构等，全面反映了公司的基本情况和运营特征。"}, {"表名": "hkstockdb.cs_hkstockperformance", "说明": "该数据表主要用于记录证券交易及相关指标的详细信息，涵盖了基础信息如证券内部编码、交易日、货币代码等；价格信息包括昨收盘、今开盘、最高价、最低价、收盘价、均价、复权最高价及最低价等；成交信息如成交量、成交金额、换手率等；涨跌信息包括涨跌金额、涨跌幅、振幅等；市值信息如总市值、流通市值等；周期指标覆盖近一周、本周、近一月、本月、近三个月、近六个月、近一年及今年以来的成交、涨跌、振幅、换手率、均价、市值等详细数据，且提供各周期的日均指标；此外，还包含上市以来的复权价格及其对应日期等。"}, {"表名": "usstockdb.us_companyinfo", "说明": "该数据表主要记录公司的基本信息，包括公司标识信息如公司代码、英文名称及其缩写、中文名称；地址信息如公司地址、城市、省份、邮编、国家及国家代码；联系方式如电话、传真；公司描述信息如公司简介、英文公司简介、英文业务简介；注册地信息如注册地国家、注册地省份/州；其他信息如成立日期及其精度、公司类型、是否公司总部，以及链接地址等。"}, {"表名": "usstockdb.us_dailyquote", "说明": "该数据表记录了证券交易的详细信息，包括交易日和证券内部代码用于标识交易记录，开盘价、最高价、最低价和收盘价用于描述当天的价格波动，成交量和成交额反映市场活跃程度，每股收益TTM和证券总市值提供了盈利能力和规模的财务指标，证券总股本用于计算市场相关比率，昨收盘和日涨跌则用于分析价格变动趋势，涨跌幅百分比和均价提供了额外的市场表现信息。"}, {"表名": "astockbasicinfodb.lc_stockarchives", "说明": "该数据表主要记录了公司的基本信息、联系方式、经营信息及证券信息等内容。其中，公司基本信息包括公司代码、国别、中文名称、法人代表、总经理、法律顾问、会计师事务所、公司成立日期、首次注册登记地点、企业法人营业执照注册号、所属区县及地区代码；联系方式涵盖联系人电话、传真、电子邮箱，公司注册地址、办公地址、联系地址及其对应的邮编，董秘及证券事务代表的电话、传真、电子邮件，以及公司邮箱和网址；经营信息涉及公司所属证监会行业、主营及兼营范围；证券信息包括A股、B股、H股及CDR证券的简称和代码，扩位简称，以及尚未盈利标识、特殊表决权标识、协议控制架构标识、红筹企业标识；此外，还包括信息披露相关内容如披露网址、披露报纸，以及公司简介等。"}, {"表名": "astockbasicinfodb.lc_namechange", "说明": "该数据表主要记录公司基本信息及相关公告，包括公司代码、中文及英文名称（全称与缩写）、信息来源和发布日期等基本信息；还涵盖重要事件如股东大会决议公告日期、是否否决决议、全称更改日期等关键时间节点，便于追踪企业动态与重要决策信息。"}, {"表名": "astockbasicinfodb.lc_business", "说明": "该数据表主要用于记录公司基本信息及相关业务情况，包括公司代码、信息发布日期和来源等基础信息；股东大会决议公告日期及是否否决的决议结果等决策信息；经营范围及主要业务、产品名称等经营信息；涉及行业的分类信息，如行业代码、行业类别及涉足行业等；此外，还包括简称变更原因等补充说明字段。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要找出2020年中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，需要以下信息：
+1. 确定中信证券股份有限公司在2020年的股东身份及其持股的公司。
+2. 查找这些公司在2020年的借贷金额。
+
+【选中的数据表】
+- astockshareholderdb.lc_mainshlistnew: 确定中信证券作为股东的公司列表。
+- astockfinancedb.lc_balancesheetall: 查找这些公司的借贷金额。
+
+【选中的数据库表的清单】
+```json
+["astockshareholderdb.lc_mainshlistnew", "astockfinancedb.lc_balancesheetall"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockshareholderdb.lc_mainshlistnew", "表字段": [{"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "EndDate", "desc": "日期"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "InfoTypeCode", "desc": "信息类别编码；信息类别编码(InfoTypeCode)与(CT_SystemConst)表中的DM字段关联，令LB = 1025 AND DM IN (1,2,4,5,6)，得到信息类别编码的具体描述：1-前十大股东，2-前十流通股东，4-十大有限售条件股东，5-发行前股东，6-前十大表决权数量股东。"}, {"column": "SHNo", "desc": "股东排名；股东排名（SHNo）：当“信息类别代码（InfoTypeCode）”=1时，“股东排名（SHNo）”表示股东排名；当“信息类别代码（InfoTypeCode）”=2时，“股东排名（SHNo）”表示流通股东排名。"}, {"column": "SHSerial", "desc": "股东序号"}, {"column": "SHList", "desc": "股东名称；股东名称（SHList）：此字段为股东名称公告原始披露值；如期望获取股东标准名称，可使用股东ID与相关表单关联，具体关联方式详见注4"}, {"column": "SHKind", "desc": "股东性质"}, {"column": "SHTypeCode", "desc": "股东类别编码"}, {"column": "SHType", "desc": "股东类别"}, {"column": "SecuCoBelongedCode", "desc": "所属券商编号"}, {"column": "SecuCoBelongedName", "desc": "归属机构名称"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "HoldSum", "desc": "持股数(股)"}, {"column": "PCTOfTotalShares", "desc": "占总股本比例；占总股本比例（%）（PCTOfTotalShares）：当“信息类别代码（InfoTypeCode）”=1时，持股数(股)/总股本*100当“信息类别代码（InfoTypeCode）”=2时，无限售股数(股)/总股本*100"}, {"column": "RestrainedTShare", "desc": "其中：有限售股数(股)"}, {"column": "UnstintedTShare", "desc": "其中：无限售股数(股)"}, {"column": "HoldSumChange", "desc": "持股数量增减(股)"}, {"column": "HoldSumChangeRate", "desc": "持股数量增减幅度(%)"}, {"column": "HoldAShareSum", "desc": "持有A股数量(股)"}, {"column": "PCTOfFloatShares", "desc": "占流通A股比例(%)"}, {"column": "HoldBShareSum", "desc": "持有B股数量(股)"}, {"column": "HoldHShareSum", "desc": "持有H股数量(股)"}, {"column": "HoldOthterShareSum", "desc": "持有其他股数量(股)"}, {"column": "ShareCharacterStatement", "desc": "股本性质描述"}, {"column": "PledgeInvolvedSum", "desc": "股权质押涉及股数(股)"}, {"column": "FreezeInvolvedSum", "desc": "股权冻结涉及股数(股)"}, {"column": "PFStatement", "desc": "股权质押冻结情况说明"}, {"column": "ConnectionRelation", "desc": "股东关联关系"}, {"column": "ConnectionStatement", "desc": "与其他股东关联关系说明"}, {"column": "ActInConcertStatement", "desc": "与其他股东同属一致行动人说明"}, {"column": "Notes", "desc": "备注说明"}, {"column": "SecuInnerCode", "desc": "证券代码"}, {"column": "SHKindCode", "desc": "股东性质编码"}, {"column": "GDID", "desc": "股东ID"}, {"column": "SHAttribute", "desc": "股东属性"}, {"column": "RestrainedAShare", "desc": "其中:有限售A股数(股)"}, {"column": "UnstintedAShare", "desc": "其中:无限售A股数(股)"}, {"column": "HoldShareASum", "desc": "持有A类普通股数量(股)"}, {"column": "RestrainedShareA", "desc": "其中:有限售A类普通股数量(股)"}, {"column": "UnstintedShareA", "desc": "其中:无限售A类普通股数量(股)"}, {"column": "HoldShareBSum", "desc": "持有B类普通股数量(股)"}, {"column": "RestrainedShareB", "desc": "其中:有限售B类普通股数量(股)"}, {"column": "UnstintedShareB", "desc": "其中:无限售B类普通股数量(股)"}, {"column": "HoldShareCSum", "desc": "持有C类普通股数量(股)"}, {"column": "HoldShareDSum", "desc": "持有D类普通股数量(股)"}, {"column": "HoldOtherComShareSum", "desc": "持有其他类普通股数量(股)1"}, {"column": "HoldChangeType", "desc": "持股变动类型"}, {"column": "PrefShareWithVotRight", "desc": "有投票权的优先股数量(股)"}, {"column": "VotingRightsVol", "desc": "表决权总数(票)"}, {"column": "VotingRightsRatio", "desc": "表决权比例(%)"}, {"column": "SpecialVotingRightsVol", "desc": "特别表决权数量(票)"}, {"column": "PCTOfNRShares", "desc": "占无限售股份比例(%)"}, {"column": "RefinanceLoanShare", "desc": "No description available"}]}, {"表名": "astockfinancedb.lc_balancesheetall", "表字段": [{"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源；信息来源编码(InfoSourceCode)与(CT_SystemConst)表中的DM字段关联，令LB = 2181，得到信息来源编码的具体描述：110101-定期报告:年度报告，110102-定期报告:半年度报告，110103-定期报告:第一季报，110104-定期报告:第三季报，110105-定期报告:审计报告，110106-定期报告:第二季报，110107-定期报告:第四季报，110108-定期报告:第五季报，110109-定期报告:第二季报（更正后），110110-定期报告:第四季报（更正后），110111-定期报告:第五季报（更正后），110201-定期报告:年度报告(关联方)，110202-定期报告:半年度报告(关联方)，110203-定期报告:第一季报(关联方)，110204-定期报告:第三季报(关联方)，110205-定期报告:审计报告(关联方)，120101-临时公告:审计报告(更正后)，120102-临时公告:年度报告(更正后)，120103-临时公告:半年度报告(更正后)，120104-临时公告:第一季报(更正后)，120105-临时公告:第三季报(更正后)，120106-临时公告:公开转让说明书(更正后)，120107-临时公告:业绩快报，120108-临时公告:业绩快报(更正后)，120109-临时公告:第二季报(更正后)，120110-临时公告:第四季报(更正后)，120201-临时公告:跟踪评级报告，120202-临时公告:同业存单发行计划，120203-临时公告:比较式财务报表，120204-临时公告:关联方，120205-临时公告:其他，120206-临时公告:前期差错更正，120207-临时公告:第一季度报告，120208-临时公告:第二季度报告，120209-临时公告:第三季度报告，120210-临时公告:第四季度报告，120211-临时公告：年度报告，120212-临时公告：半年度报告，120213-临时公告:受托管理人事务报告，120214-临时公告:资产评估报告，120215-临时公告:资产管理报告，120216-临时公告：经营数据公告，120217-临时公告：经营数据公告(更正后），120218-临时公告：主要经营业绩，130101-发行上市书:募集说明书，130102-发行上市书:招股说明书(申报稿)，130103-发行上市书:招股意向书，130104-发行上市书:上市公告书，130105-发行上市书:审阅报告，130106-发行上市书:招股说明书，130107-发行上市书:公开转让说明书，130108-发行上市书:发行公告，130109-发行上市书:审计报告，130110-发行上市书:关联方，130111-发行上市书:其他，130112-发行上市书:招股说明书(上会稿)，130113-发行上市书:招股说明书(注册稿)，140101-发行披露文件:第一季报，140102-发行披露文件:半年度报告，140103-发行披露文件:第三季报，140104-发行披露文件:审计报告，140105-发行披露文件:募集说明书，140106-发行披露文件:跟踪评级报告，140107-发行披露文件:年度报告，140108-发行披露文件:关联方，140109-发行披露文件:预案公告，140110-发行披露文件:转让服务公告书，140111-发行披露文件:备案登记表，140112-发行披露文件:初始信息披露，150101-发债定期报告:第一季报，150102-发债定期报告:半年度报告，150103-发债定期报告:第三季报，150104-发债定期报告:年度报告，150105-发债:其他报告。"}, {"column": "BulletinType", "desc": "公告类别；公告类别(BulletinType)与(CT_SystemConst)表中的DM字段关联，令LB = 1311 and DM IN (10,20,30,70)，得到公告类别的具体描述：10-发行上市书，20-定期报告，30-业绩快报，70-临时公告。"}, {"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "EndDate", "desc": "日期"}, {"column": "IfAdjusted", "desc": "是否调整；是否调整(IfAdjusted)与(CT_SystemConst)表中的DM字段关联，令LB = 1188 AND DM IN (1,2,6,7,8)，得到是否调整的具体描述：1-是，2-否，6-一季末调整，7-二季末调整，8-三季末调整。"}, {"column": "IfMerged", "desc": "是否合并；是否合并(IfMerged)与(CT_SystemConst)表中的DM字段关联，令LB = 1189 AND DM IN (1,2)，得到是否合并的具体描述：1-合并，2-母公司。"}, {"column": "AccountingStandards", "desc": "会计准则；会计准则(AccountingStandards)与(CT_SystemConst)表中的DM字段关联，令LB = 1455，得到会计准则的具体描述：1-新会计准则(2007)，9-旧会计准则。"}, {"column": "EnterpriseType", "desc": "工业企业类型；报表格式类型(EnterpriseType)：关联系统常量表，LB=1414，DM IN (13-商业银行，31-证券公司，33-信托公司，35-保险公司，39-其他非银行金融机构，99-一般企业)。 本表报表格式类型(EnterpriseType)字段是参照公告原文财务报表披露形式判断得出，并不准确代表企业的实际性质，如需获取企业性质，可通过公司代码（CompanyCode）关联“机构基本资料（LC_InstiArchive）”的公司代码（CompanyCode）获取对应的企业性质(CompanyType)。"}, {"column": "CashEquivalents", "desc": "货币资金/现金及存放中央银行款项(元)"}, {"column": "ClientDeposit", "desc": "其中:客户资金存款(元)；其中:货币资金:客户资金存款（ClientDeposit）：一般为金融类:证券公司披露科目"}, {"column": "TradingAssets", "desc": "交易性金融资产(元)"}, {"column": "BillReceivable", "desc": "应收票据(元)"}, {"column": "DividendReceivable", "desc": "应收股利(元)"}, {"column": "InterestReceivable", "desc": "应收利息(元)"}, {"column": "AccountReceivable", "desc": "应收账款(元)"}, {"column": "OtherReceivable", "desc": "其他应收款(元)"}, {"column": "AdvancePayment", "desc": "预付款项(元)"}, {"column": "Inventories", "desc": "存货(元)"}, {"column": "BearerBiologicalAssets", "desc": "其中:消耗性生物资产"}, {"column": "DeferredExpense", "desc": "待摊费用(元)"}, {"column": "NonCurrentAssetIn1Year", "desc": "一年内到期的非流动资产"}, {"column": "OtherCurrentAssets", "desc": "其他流动资产"}, {"column": "CAExceptionalItems", "desc": "##流动资产特殊项目"}, {"column": "CAAdjustmentItems", "desc": "##流动资产调整项目"}, {"column": "TotalCurrentAssets", "desc": "流动资产合计"}, {"column": "HoldForSaleAssets", "desc": "可供出售金融资产"}, {"column": "HoldToMaturityInvestments", "desc": "持有至到期投资"}, {"column": "InvestmentProperty", "desc": "投资性房地产"}, {"column": "LongtermEquityInvest", "desc": "长期股权投资(元)"}, {"column": "LongtermReceivableAccount", "desc": "长期应收款"}, {"column": "FixedAssets", "desc": "固定资产(元)"}, {"column": "ConstructionMaterials", "desc": "工程物资(元)"}, {"column": "ConstruInProcess", "desc": "在建工程(元)"}, {"column": "FixedAssetsLiquidation", "desc": "固定资产清理(元)"}, {"column": "BiologicalAssets", "desc": "生产性生物资产"}, {"column": "OilGasAssets", "desc": "油气资产(元)"}, {"column": "IntangibleAssets", "desc": "无形资产(元)"}, {"column": "SeatCosts", "desc": "其中:交易席位费(元)"}, {"column": "DevelopmentExpenditure", "desc": "开发支出"}, {"column": "GoodWill", "desc": "商誉(元)"}, {"column": "LongDeferredExpense", "desc": "长期待摊费用(元)"}, {"column": "DeferredTaxAssets", "desc": "递延所得税资产"}, {"column": "OtherNonCurrentAssets", "desc": "其他非流动资产"}, {"column": "NCAExceptionalItems", "desc": "##非流动资产特殊项目"}, {"column": "NCAAdjustmentItems", "desc": "##非流动资产调整项目"}, {"column": "TotalNonCurrentAssets", "desc": "非流动资产合计"}, {"column": "LoanAndAccountReceivables", "desc": "投资-贷款及应收款项(应收款项类投资)"}, {"column": "SettlementProvi", "desc": "结算备付金(元)；结算备付金（SettlementProvi）：一般为金融类企业披露科目"}, {"column": "ClientProvi", "desc": "其中:客户备付金(元)；其中:客户备付金（ClientProvi）：一般为金融类:证券公司披露科目"}, {"column": "DepositInInterbank", "desc": "存放同业(元)；存放同业款项（DepositInInterbank）：一般为金融类:银行企业披露科目"}, {"column": "RMetal", "desc": "贵金属(元)；贵金属（RMetal）：一般为金融类企业披露科目"}, {"column": "LendCapital", "desc": "拆出资金(元)；拆出资金（LendCapital）：一般为金融类企业披露科目"}, {"column": "DerivativeAssets", "desc": "衍生金融资产"}, {"column": "BoughtSellbackAssets", "desc": "买入返售金融资产"}, {"column": "LoanAndAdvance", "desc": "发放贷款和垫款(元)"}, {"column": "InsuranceReceivables", "desc": "应收保费；应收保费（InsuranceReceivables）：一般为金融类:保险公司披露科目"}, {"column": "ReceivableSubrogationFee", "desc": "应收代位追偿款；应收代位追偿款（ReceivableSubrogationFee）：一般为金融类:保险公司披露科目"}, {"column": "ReinsuranceReceivables", "desc": "应收分保账款；应收分保账款（ReinsuranceReceivables）：一般为金融类:保险公司披露科目"}, {"column": "ReceivableUnearnedR", "desc": "应收分保未到期责任准备金；其中:应收分保未到期责任准备金（ReceivableUnearnedR）：一般为金融类:保险公司披露科目"}, {"column": "ReceivableClaimsR", "desc": "应收分保未决赔款准备金；其中:应收分保未决赔款准备金（ReceivableClaimsR）：一般为金融类:保险公司披露科目"}, {"column": "ReceivableLifeR", "desc": "应收分保寿险责任准备金(元)；其中:应收分保寿险责任准备金（ReceivableLifeR）：一般为金融类:保险公司披露科目"}, {"column": "ReceivableLTHealthR", "desc": "应收分保长期健康险责任准备金；其中:应收分保长期健康险责任准备金（ReceivableLTHealthR）：一般为金融类:保险公司披露科目"}, {"column": "InsurerImpawnLoan", "desc": "保户质押贷款；保户质押贷款（InsurerImpawnLoan）：一般为金融类:保险公司披露科目"}, {"column": "FixedDeposit", "desc": "定期存款(元)"}, {"column": "RefundableDeposit", "desc": "存出保证金"}, {"column": "RefundableCapitalDeposit", "desc": "存出资本保证金；存出资本保证金（RefundableCapitalDeposit）：一般为金融类:保险公司披露科目"}, {"column": "IndependenceAccountAssets", "desc": "独立账户资产；独立账户资产（IndependenceAccountAssets）：一般为金融类:保险公司披露科目"}, {"column": "OtherAssets", "desc": "其他资产(元)；其他资产（OtherAssets）：一般为金融类企业披露科目"}, {"column": "AExceptionalItems", "desc": "##资产特殊项目"}, {"column": "AAdjustmentItems", "desc": "##资产调整项目"}, {"column": "TotalAssets", "desc": "资产总计(元)"}, {"column": "ShortTermLoan", "desc": "短期借款(元)"}, {"column": "ImpawnedLoan", "desc": "其中:质押借款(元)"}, {"column": "TradingLiability", "desc": "交易性金融负债"}, {"column": "NotesPayable", "desc": "应付票据(元)"}, {"column": "AccountsPayable", "desc": "应付账款(元)"}, {"column": "STBondsPayable", "desc": "应付短期债券(元)；应付短期债券（STBondsPayable）：一般为金融类企业披露科目"}, {"column": "AdvanceReceipts", "desc": "预收款项(元)"}, {"column": "SalariesPayable", "desc": "应付职工薪酬(元)"}, {"column": "DividendPayable", "desc": "应付股利(元)"}, {"column": "TaxsPayable", "desc": "应交税费(元)"}, {"column": "InterestPayable", "desc": "应付利息(元)"}, {"column": "OtherPayable", "desc": "其他应付款(元)"}, {"column": "AccruedExpense", "desc": "预提费用(元)"}, {"column": "DeferredProceeds", "desc": "递延收益"}, {"column": "NonCurrentLiabilityIn1Year", "desc": "一年内到期的非流动负债"}, {"column": "OtherCurrentLiability", "desc": "其他流动负债(元)"}, {"column": "CLExceptionalItems", "desc": "##流动负债特殊项目"}, {"column": "CLAdjustmentItems", "desc": "##流动负债调整项目"}, {"column": "TotalCurrentLiability", "desc": "流动负债合计(元)"}, {"column": "LongtermLoan", "desc": "长期借款(元)"}, {"column": "BondsPayable", "desc": "应付债券(元)"}, {"column": "LongtermAccountPayable", "desc": "长期应付款(元)"}, {"column": "SpecificAccountPayable", "desc": "专项应付款(元)"}, {"column": "EstimateLiability", "desc": "预计负债(元)"}, {"column": "DeferredTaxLiability", "desc": "递延所得税负债"}, {"column": "OtherNonCurrentLiability", "desc": "其他非流动负债"}, {"column": "NCLExceptionalItems", "desc": "##非流动负债特殊项目"}, {"column": "NCLAdjustmentItems", "desc": "##非流动负债调整项目"}, {"column": "TotalNonCurrentLiability", "desc": "非流动负债合计"}, {"column": "BorrowingFromCentralBank", "desc": "向中央银行借款；向中央银行借款（BorrowingFromCentralBank）：一般为金融类:银行企业披露科目"}, {"column": "DepositOfInterbank", "desc": "同业及其他金融机构存放款项；其中:同业及其他金融机构存放款项（DepositOfInterbank）：一般为金融类企业披露科目"}, {"column": "BorrowingCapital", "desc": "拆入资金(元)；拆入资金（BorrowingCapital）：一般为金融类企业披露科目"}, {"column": "DerivativeLiability", "desc": "衍生金融负债"}, {"column": "SoldBuybackSecuProceeds", "desc": "卖出回购证券款(元)；卖出回购金融资产款（SoldBuybackSecuProceeds）：一般为金融类企业披露科目"}, {"column": "Deposit", "desc": "吸收存款(元)；其中:吸收存款（Deposit）：一般为金融类:银行企业披露科目"}, {"column": "ProxySecuProceeds", "desc": "代理买卖证券款；代理买卖证券款（ProxySecuProceeds）：一般为金融类:证券公司披露科目"}, {"column": "SubIssueSecuProceeds", "desc": "代发行证券款(元)；代理承销证券款（SubIssueSecuProceeds）：一般为金融类:证券公司披露科目"}, {"column": "DepositsReceived", "desc": "存入保证金；存入保证金（DepositsReceived）：一般为金融类:担保企业披露科目"}, {"column": "AdvanceInsurance", "desc": "预收保费；预收保费（AdvanceInsurance）：一般为金融类:保险公司披露科目"}, {"column": "CommissionPayable", "desc": "应付手续费及佣金；应付手续费及佣金（CommissionPayable）：一般为金融类:保险公司披露科目"}, {"column": "ReinsurancePayables", "desc": "应付分保账款；应付分保账款（ReinsurancePayables）：一般为金融类:保险公司披露科目"}, {"column": "CompensationPayable", "desc": "应付赔付款；应付赔付款（CompensationPayable）：一般为金融类:保险公司披露科目"}, {"column": "PolicyDividendPayable", "desc": "应付保单红利；应付保单红利（PolicyDividendPayable）：一般为金融类:保险公司披露科目"}, {"column": "InsurerDepositInvestment", "desc": "保户储金及投资款；保户储金及投资款（InsurerDepositInvestment）：一般为金融类:保险公司披露科目"}, {"column": "UnearnedPremiumReserve", "desc": "未到期责任准备金"}, {"column": "OutstandingClaimReserve", "desc": "未决赔款准备金"}, {"column": "LifeInsuranceReserve", "desc": "寿险责任准备金；其中:寿险责任准备金（LifeInsuranceReserve）：一般为金融类:保险公司披露科目"}, {"column": "LTHealthInsuranceLR", "desc": "长期健康险责任准备金；其中:长期健康险责任准备金（LTHealthInsuranceLR）：一般为金融类:保险公司披露科目"}, {"column": "IndependenceLiability", "desc": "独立账户负债；独立账户负债（IndependenceLiability）：一般为金融类:保险公司披露科目"}, {"column": "OtherLiability", "desc": "其他负债(元)；其他负债（OtherLiability）：一般为金融类企业披露科目"}, {"column": "LExceptionalItems", "desc": "##负债特殊项目"}, {"column": "LAdjustmentItems", "desc": "##负债调整项目"}, {"column": "TotalLiability", "desc": "负债合计(元)"}, {"column": "PaidInCapital", "desc": "实收资本(或股本)(元)"}, {"column": "CapitalReserveFund", "desc": "资本公积(元)"}, {"column": "SurplusReserveFund", "desc": "盈余公积(元)"}, {"column": "RetainedProfit", "desc": "未分配利润(元)"}, {"column": "TreasuryStock", "desc": "减:库存股(元)"}, {"column": "OrdinaryRiskReserveFund", "desc": "一般风险准备/信托赔偿准备金(元)；一般风险准备（OrdinaryRiskReserveFund）：一般为金融类企业披露科目"}, {"column": "ForeignCurrencyReportConvDiff", "desc": "外币报表折算差额/资本汇差调整(元)"}, {"column": "UncertainedInvestmentLoss", "desc": "未确认投资损失"}, {"column": "OtherReserves", "desc": "其他储备(公允价值变动储备)(元)"}, {"column": "SpecificReserves", "desc": "专项储备"}, {"column": "SEExceptionalItems", "desc": "##所有者权益特殊项目"}, {"column": "SEAdjustmentItems", "desc": "##所有者权益调整项目"}, {"column": "SEWithoutMI", "desc": "归属于母公司所有者权益合计(元)"}, {"column": "MinorityInterests", "desc": "少数股东权益(元)"}, {"column": "OtherItemsEffectingSE", "desc": "影响所有者权益的其他科目"}, {"column": "TotalShareholderEquity", "desc": "股东权益合计(元)"}, {"column": "LEExceptionalItems", "desc": "##负债和权益特殊项目"}, {"column": "LEAdjustmentItems", "desc": "##负债和权益调整项目"}, {"column": "TotalLiabilityAndEquity", "desc": "负债及股东权益总计(元)"}, {"column": "SpecialFieldRemark", "desc": "特殊字段说明"}, {"column": "IfComplete", "desc": "完整标志"}, {"column": "LPreferStock", "desc": "其中:优先股(应付债券)(元)"}, {"column": "LPerpetualDebt", "desc": "其中:永续债(应付债券)(元)"}, {"column": "OtherEquityinstruments", "desc": "其他权益工具"}, {"column": "EPreferStock", "desc": "其中:优先股(其他权益工具)(元)"}, {"column": "EPerpetualDebt", "desc": "其中:永续债(其他权益工具)(元)"}, {"column": "OtherCompositeIncome", "desc": "其他综合收益"}, {"column": "HoldAndFSAssets", "desc": "划分为持有待售的资产(元)"}, {"column": "HoldAndFSLi", "desc": "划分为持有待售的负债(元)"}, {"column": "LongSalariesPay", "desc": "长期应付职工薪酬(元)"}, {"column": "LongDeferIncome", "desc": "长期递延收益(元)"}, {"column": "BillAccReceivable", "desc": "应收票据及应收账款"}, {"column": "ContractualAssets", "desc": "合同资产"}, {"column": "DebtInvestment", "desc": "债权投资"}, {"column": "OthDebtInvestment", "desc": "其他债权投资"}, {"column": "OthEquityInstrument", "desc": "其他权益工具投资"}, {"column": "OthNonCurFinAssets", "desc": "其他非流动金融资产"}, {"column": "NotAccountsPayable", "desc": "应付票据及应付账款"}, {"column": "ContractLiability", "desc": "合同负债"}, {"column": "TradeRiskRSRVFd", "desc": "交易风险准备"}, {"column": "OtherReceivableED", "desc": "其他应收款(含利息和股利)；其他应收款(含利息和股利)（OtherReceivableED）：根据财政部2019.1.22发布的《关于修订印发2018年度合并财务报表格式的通知》，将'应收利息'及 '应收股利'的金额并入'其他应收款'进行披露。为同财政部新报表格式保持一致，2019.1.22起，若原文仅披露'其他应收款'，则处理进'其他应收款（含利息和股利）'，若原文同时披露'其他应收款'、'应收利息'与'应收股利'，则处理进对应的字段，'其他应收款（含利息和股利）'通过计算逻辑赋值。历史报告期的'其他应收款'、'应收利息'与'应收股利'维持原规则，按照原文披露展示，其他应收款（含利息和股利）=其他应收款+应收利息+应收股利。"}, {"column": "OtherPayableED", "desc": "其他应付款(含利息和股利)；其他应付款(含利息和股利)（OtherPayableED）：根据财政部2019.1.22发布的《关于修订印发2018年度合并财务报表格式的通知》，将'应付利息'及 '应付股利'的金额并入'其他应付款'进行披露。为同财政部新报表格式保持一致，2019.1.22起，若原文仅披露'其他应付款'，则处理进'其他应付款（含利息和股利）'，若原文同时披露'其他应付款'、'应付利息'与'应付股利'，则处理进对应的字段，'其他应付款（含利息和股利）'通过计算逻辑赋值。历史报告期的'其他应付款'、'应付利息'与'应付股利'维持原规则，按照原文披露展示，其他应付款（含利息和股利）=其他应付款+应付利息+应付股利。"}, {"column": "ReceivablesFin", "desc": "应收款项融资"}, {"column": "Financing", "desc": "融出资金；融出资金（Financing）：一般为金融类:证券公司披露科目"}, {"column": "FinLeaseReceivable", "desc": "应收融资租赁款；应收融资租赁款（FinLeaseReceivable）：一般为金融类企业披露科目"}, {"column": "ResReiReceContracts", "desc": "应收分保合同准备金；应收分保合同准备金（ResReiReceContracts）：一般为金融类:保险公司披露科目"}, {"column": "UsufructAssets", "desc": "使用权资产"}, {"column": "AbsInterDeposits", "desc": "吸收存款及同业存款；吸收存款及同业存款（AbsInterDeposits）：一般为金融类企业披露科目"}, {"column": "InsContractReserve", "desc": "保险合同准备金；保险合同准备金（InsContractReserve）：一般为金融类:保险公司披露科目"}, {"column": "LeaseLiabilities", "desc": "租赁负债"}, {"column": "FinLeasesPayable", "desc": "应付融资租赁款"}, {"column": "TotalFixedAsset", "desc": "固定资产合计1；固定资产合计（TotalFixedAsset）：根据财政部2019.1.22发布的《关于修订印发2018年度合并财务报表格式的通知》，将‘固定资产清理’的金额并入‘固定资产’进行披露。为同财政部新报表格式保持一致，2019.1.22起，若原文仅披露‘固定资产’，则处理进‘固定资产合计’，若原文同时披露‘固定资产’和‘固定资产清理’，则处理进对应的字段，‘固定资产合计’通过计算逻辑赋值。历史报告期的‘固定资产’与‘固定资产清理’维持原规则，按照原文披露展示，固定资产合计=固定资产+固定资产清理。"}, {"column": "TConstruInProcess", "desc": "在建工程合计；在建工程合计（TConstruInProcess）：根据财政部2019.1.22发布的《关于修订印发2018年度合并财务报表格式的通知》，将‘工程物资’的金额并入‘在建工程’进行披露。为同财政部新报表格式保持一致，2019.1.22起，若原文仅披露‘在建工程’，则处理进‘在建工程合计’，若原文同时披露‘在建工程’和‘工程物资’，则处理进对应的字段，‘在建工程合计’通过计算逻辑赋值。历史报告期的‘在建工程’与‘工程物资’维持原规则，按照原文披露展示，在建工程合计=在建工程+工程物资。"}, {"column": "DepositInAssociate", "desc": "存放联行款项"}, {"column": "DebtAssets", "desc": "抵债资产"}, {"column": "DebitofAssociate", "desc": "联行存放款项"}, {"column": "InfoSourceCode", "desc": "信息来源编码"}, {"column": "Cash", "desc": "其中:货币资金"}, {"column": "DepositInCentralBank", "desc": "其中:现金及存放中央银行款项；其中:现金及存放中央银行款项（DepositInCentralBank）：：一般为金融类:银行企业披露科目"}, {"column": "AmongTradingAssets", "desc": "其中:交易性金融资产"}, {"column": "AmongFinAetAtFValTPL", "desc": "其中:以公允价值计量且其变动计入当期损益的金融资产"}, {"column": "Receivables", "desc": "应收款项；应收款项（Receivables）：一般为金融类企业披露科目"}, {"column": "CashDepositReceive", "desc": "应收货币保证金"}, {"column": "PledgDepositReceive", "desc": "应收质押保证金"}, {"column": "SettlementReceive", "desc": "应收结算担保金"}, {"column": "RiskOfLossReceive", "desc": "应收风险损失款"}, {"column": "FeeCommissionReceive", "desc": "应收手续费及佣金"}, {"column": "AmongDebtInvestment", "desc": "其中:债权投资"}, {"column": "AmongFinAetAtAmorCost", "desc": "其中:以摊余成本计量的金融资产"}, {"column": "AmongOthDebtInvest", "desc": "其中:其他债权投资"}, {"column": "AmongFinAetAtFValTOCI", "desc": "其中:以公允价值计量且其变动计入其他综合收益的金融投资"}, {"column": "AmongOthEquInstrument", "desc": "其中:其他权益工具投资"}, {"column": "AmongEquInsAtFValTOCI", "desc": "其中:以公允价值计量且其变动计入其他综合收益的非交易性权益工具投资"}, {"column": "FutureMemberInvestment", "desc": "期货会员资格投资；期货会员资格投资（FutureMemberInvestment）：一般为金融类:证券公司披露科目"}, {"column": "FinancialInvestment", "desc": "金融投资；金融投资（FinancialInvestment）：一般为金融类企业披露科目"}, {"column": "ShortTermBondPay", "desc": "应付短期融资款；应付短期融资款（ShortTermBondPay）：一般为金融类:证券公司披露科目"}, {"column": "AmongTradingLiability", "desc": "其中:交易性金融负债"}, {"column": "AmongFinLiaAtFValTPL", "desc": "其中:以公允价值计量且其变动计入当期损益的金融负债"}, {"column": "Payables", "desc": "应付款项；应付款项（Payables）：金融类企业专用"}, {"column": "CashDepositPay", "desc": "应付货币保证金"}, {"column": "PledgDepositPay", "desc": "应付质押保证金"}, {"column": "FutureProtectFundPay", "desc": "应付期货投资者保障基金；应付期货投资者保障基金（FutureProtectFundPay）：一般为金融类:证券公司披露科目"}, {"column": "GuarantCompensateRSRV", "desc": "担保赔偿准备金"}, {"column": "GuaranteeReserve", "desc": "担保业务准备金；担保业务准备金（GuaranteeReserve）：一般为金融类:担保企业披露科目"}, {"column": "FutureRiskReserve", "desc": "期货风险准备金；期货风险准备金（FutureRiskReserve）：一般为金融类:证券公司披露科目"}, {"column": "LTInsContractReserve", "desc": "长期保险合同准备金；长期保险合同准备金（LTInsContractReserve）：一般为金融类:保险公司披露科目"}, {"column": "LTAccountPayableTotal", "desc": "长期应付款合计"}, {"column": "AgencyBusAssets", "desc": "代理业务资产"}, {"column": "FinAssetsAtFValTOCI", "desc": "以公允价值计量且其变动计入其他综合收益的金融资产"}, {"column": "SubLoan", "desc": "委托贷款"}, {"column": "PubWBiologicalAssets", "desc": "公益性生物资产"}, {"column": "AgencyBusLiability", "desc": "代理业务负债"}, {"column": "SECParentCompanyOwners", "desc": "其中:归属于母公司普通股股东权益"}, {"column": "TSEExceptionalItems", "desc": "##所有者权益(或股东权益)特殊项目"}]}, {"表名": "usstockdb.us_companyinfo", "表字段": [{"column": "CompanyCode", "desc": "公司代码"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "PEOAddress", "desc": "公司地址"}, {"column": "PEOCity", "desc": "城市"}, {"column": "PEOState", "desc": "省份"}, {"column": "PEOZip", "desc": "邮编"}, {"column": "PEOStatus", "desc": "国家"}, {"column": "PEOTel", "desc": "电话"}, {"column": "BusinessDcrp", "desc": "公司简介"}, {"column": "BriefIntroText", "desc": "公司简介"}, {"column": "EstablishmentDate", "desc": "成立日期"}, {"column": "CompanyType", "desc": "公司类型；公司类型(CompanyType)与(CT_SystemConst)表中的DM字段关联，令LB = 2261，得到公司类型的具体描述：1-美国联邦存款保险公司(FDIC)的银行分支，2-高等院校，3-融资子公司，4-政府，5-控股公司，6-合营企业，7-非盈利性组织，8-上市公司，9-非上市公司，10-子公司，11-已停止经营解散的实体。"}, {"column": "BriefIntroTextEng", "desc": "英文公司简介"}, {"column": "Fax", "desc": "传真"}, {"column": "RegCountry", "desc": "注册地国家；注册地国家（RegCountry）：与“国家城市代码表(LC_AreaCode)”中的“地区内部编码(AreaInnerCode)”关联，得到注册地国家的相关信息。"}, {"column": "RegState", "desc": "注册地省份/州"}, {"column": "BusinessDcrpEng", "desc": "英文业务简介"}, {"column": "IfHeadOffice", "desc": "是否公司总部；是否公司总部(IfHeadOffice)与(CT_SystemConst)表中的DM字段关联，令LB=999 AND DM IN (1,2)，得到是否公司总部的具体描述：1-是，2-否。"}, {"column": "LinkAddress", "desc": "链接地址"}, {"column": "CountryCode", "desc": "国家代码；与“国家城市代码表(LC_AreaCode)”中的“地区内部编码(AreaInnerCode)”关联，得到国家的相关信息。"}, {"column": "EstablishmentDatePreci", "desc": "成立日期精度；成立日期精度(EstablishmentDatePreci)与(CT_SystemConst)表中的DM字段关联，令LB=102 AND DM in (27,28,29)，得到成立日期精度的具体描述：27-年，28-月，29-日。"}]}, {"表名": "astockbasicinfodb.lc_stockarchives", "表字段": [{"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "State", "desc": "国别；省份（State）：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到省份具体信息。"}, {"column": "SecretaryBD", "desc": "董事会秘书"}, {"column": "SecuAffairsRepr", "desc": "证券/股证事务代表"}, {"column": "AuthReprSBD", "desc": "董秘授权代表"}, {"column": "ContactTel", "desc": "联系人电话"}, {"column": "ContactFax", "desc": "联系人传真"}, {"column": "ContactEmail", "desc": "联系人电子邮箱"}, {"column": "RegAddr", "desc": "公司注册地址"}, {"column": "RegZipCode", "desc": "公司注册地址邮编"}, {"column": "OfficeAddr", "desc": "公司办公地址"}, {"column": "OfficeZipCode", "desc": "公司办公地址邮编"}, {"column": "ContactAddr", "desc": "公司联系地址"}, {"column": "ConatactZipCode", "desc": "公司联系地址邮编"}, {"column": "Email", "desc": "邮箱"}, {"column": "Website", "desc": "公司网址"}, {"column": "DisclosureWebsites", "desc": "信息披露网址"}, {"column": "DisclosurePapers", "desc": "信息披露报纸"}, {"column": "EstablishmentDate", "desc": "公司成立日期"}, {"column": "IRegPlace", "desc": "首次注册登记地点"}, {"column": "LegalRepr", "desc": "法人代表"}, {"column": "GeneralManager", "desc": "总经理"}, {"column": "LegalConsultant", "desc": "法律顾问"}, {"column": "AccountingFirm", "desc": "会计师事务所"}, {"column": "InduCSRC", "desc": "公司所属证监会行业(聚源)；与(CT_IndustryType)表中的\"行业内部编码(IndustryNum)\"字段关联,当Standard=1时,LB=1；当Standard=22时,LB=22；当Standard=25时,LB=25；当Standard=26时,LB=26。"}, {"column": "BusinessMajor", "desc": "经营范围-主营"}, {"column": "BusinessMinor", "desc": "经营范围-兼营"}, {"column": "AShareAbbr", "desc": "A股证券简称"}, {"column": "AStockCode", "desc": "A股证券代码"}, {"column": "BShareAbbr", "desc": "B股证券简称"}, {"column": "BStockCode", "desc": "B股证券代码"}, {"column": "HShareAbbr", "desc": "H股证券简称"}, {"column": "HStockCode", "desc": "H股证券代码"}, {"column": "BriefIntroText", "desc": "公司简介"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "BusinessRegNumber", "desc": "企业法人营业执照注册号"}, {"column": "SecretaryBDTel", "desc": "董秘电话"}, {"column": "SecretaryBDFax", "desc": "董秘传真"}, {"column": "SecretaryBDEmail", "desc": "董秘电子邮件"}, {"column": "SecuAffairsReprTel", "desc": "证券事务代表电话"}, {"column": "SecuAffairsReprFax", "desc": "证券事务代表传真"}, {"column": "SecuAffairsReprEmail", "desc": "证券事务代表电子邮件"}, {"column": "CityCode", "desc": "地区代码；地区代码(CityCode)：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到城市具体信息。"}, {"column": "CDRShareAbbr", "desc": "CDR证券简称"}, {"column": "CDRStockCode", "desc": "CDR证券代码"}, {"column": "ExtendedAbbr", "desc": "扩位简称"}, {"column": "UnprofitableMark", "desc": "尚未盈利标识；尚未盈利标识（UnprofitableMark）：在上市时发行人尚未盈利的，其股票或存托凭证的特别标识为“U”；发行人首次实现盈利的，该特别标识取消，数据值为空。"}, {"column": "SpecialVoteMark", "desc": "特殊表决权标识；特殊表决权标识（SpecialVoteMark）：在上市时发行人具有表决权差异安排的，其股票或存托凭证的特别标识为“W”；上市后不再具有表决权差异安排的，该特别标识取消，数据值为空。"}, {"column": "VIEMark", "desc": "协议控制架构标识；协议控制架构标识（VIEMark）：在上市时发行人具有协议控制架构或者类似特殊安排的，其股票或存托凭证的特别标识为“V”；上市后不再具有相关安排的，该特别标识取消，数据值为空。"}, {"column": "RedChipMark", "desc": "红筹企业标识；红筹企业标识（RedChipMark）：发行人属于红筹企业，则数据值=”是“；空值则指无此标识。"}, {"column": "RegArea", "desc": "所属区县；所属区县（RegArea）：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到所属区县具体信息。"}]}, {"表名": "hkstockdb.hk_stockarchives", "表字段": [{"column": "CompanyCode", "desc": "公司代码"}, {"column": "EstablishmentDate", "desc": "公司成立日期"}, {"column": "RegAbbr", "desc": "注册地；注册地点(RegAbbr)与(CT_SystemConst)表中的DM字段关联，令LB = 1023，得到注册地点的具体描述：3-中国港澳台，4-中东地区，7-国际，100-亚洲，101-阿富汗，102-巴林，103-孟加拉国，104-不丹，105-文莱，106-缅甸，107-柬埔寨，108-塞浦路斯，109-朝鲜，110-中国香港，111-印度，112-印度尼西亚，113-伊朗，114-伊拉克，115-以色列，116-日本，117-约旦，118-科威特，119-老挝，120-黎巴嫩，121-中国澳门，122-马来西亚，123-马尔代夫，124-蒙古，125-尼泊尔，126-阿曼，127-巴基斯坦，128-巴勒斯坦，129-菲律宾，130-卡塔尔，131-沙特阿拉伯，132-新加坡，133-韩国，134-斯里兰卡，135-叙利亚，136-泰国，137-土耳其，138-阿拉伯联合酋长国，139-也门共和国，141-越南，142-中国，143-中国台湾，144-东帝汶，199-亚洲其他，200-非洲，201-阿尔及利亚，202-安哥拉，203-贝宁，204-博茨瓦那，205-布隆迪，206-喀麦隆，207-加那利群岛，208-佛得角，209-中非，210-塞卜泰(休达)，211-乍得，212-科摩罗，213-刚果，214-吉布提，215-埃及，216-赤道几内亚，217-埃塞俄比亚，218-加蓬，219-冈比亚，220-加纳，221-几内亚，222-几内亚(比绍)，223-科特迪瓦，224-肯尼亚，225-利比里亚，226-利比亚，227-马达加斯加，228-马拉维，229-马里，230-毛里塔尼亚，231-毛里求斯，232-摩洛哥，233-莫桑比克，234-纳米比亚，235-尼日尔，236-尼日利亚，237-留尼汪，238-卢旺达，239-圣多美和普林西比，240-塞内加尔，241-塞舌尔，242-塞拉利昂，243-索马里，244-南非，245-西撒哈拉，246-苏丹，247-坦桑尼亚，248-多哥，249-突尼斯，250-乌干达，251-布基纳法索，252-扎伊尔，253-赞比亚，254-津巴布韦，255-莱索托，256-梅利利亚，257-斯威士兰，258-厄立特里亚，259-马约特岛，260-刚果民主共和国，299-非洲其他，300-欧洲，301-比利时，302-丹麦，303-英国，304-德国，305-法国，306-爱尔兰，307-意大利，308-卢森堡，309-荷兰，310-希腊，311-葡萄牙，312-西班牙，313-阿尔巴尼亚，314-安道尔，315-奥地利，316-保加利亚，318-芬兰，320-直布罗陀，321-匈牙利，322-冰岛，323-列支敦士登，324-马耳他，325-摩纳哥，326-挪威，327-波兰，328-罗马尼亚，329-圣马力诺，330-瑞典，331-瑞士，334-爱沙尼亚，335-拉脱维亚，336-立陶宛，337-格鲁吉亚，338-亚美尼亚，339-阿塞拜疆，340-白俄罗斯，341-哈萨克斯坦，342-吉尔吉斯，343-摩尔多瓦，344-俄罗斯，345-塔吉克斯坦，346-土库曼斯坦，347-乌克兰，348-乌兹别克斯坦，349-南斯拉夫联盟共和国，350-斯洛文尼亚共和国，351-克罗地亚共和国，352-捷克共和国，353-斯洛伐克共和国，354-前南斯拉夫马其顿共和国，355-波斯尼亚-黑塞哥维那共和国，356-法罗群岛，357-梵蒂冈城国，358-塞尔维亚和黑山，359-塞尔维亚共和国，360-黑山共和国，361-苏联，399-欧洲其他，400-拉丁美洲，401-安提瓜和巴布达，402-阿根廷，403-阿鲁巴岛，404-巴哈马，405-巴巴多斯，406-伯利兹，408-玻利维亚，409-博内尔，410-巴西，411-开曼群岛，412-智利，413-哥伦比亚，414-多米尼克，415-哥斯达黎加，416-古巴，417-库腊索岛，418-多米尼加共和国，419-厄瓜多尔，420-法属圭亚那，421-格林纳达，422-瓜德罗普，423-危地马拉，424-圭亚那，425-海地，426-洪都拉斯，427-牙买加，428-马提尼克，429-墨西哥，430-蒙特塞拉特，431-尼加拉瓜，432-巴拿马，433-巴拉圭，434-秘鲁，435-波多黎各，436-萨巴，437-圣卢西亚，438-圣马丁岛，439-圣文森特和格林纳丁斯，440-萨尔瓦多，441-苏里南，442-特立尼达和多巴哥，443-特克斯和凯科斯群岛，444-乌拉圭，445-委内瑞拉，446-英属维尔京群岛，447-圣其茨--尼维斯，448-荷属安地列斯群岛，499-拉丁美洲其他，500-北美洲，501-加拿大，502-美国，503-格陵兰，504-百慕大，505-泽西岛，599-北美洲其他，600-大洋洲，601-澳大利亚，602-库克群岛，603-斐济，604-盖比群岛，605-马克萨斯群岛，606-瑙鲁，607-新喀里多尼亚，608-瓦努阿图，609-新西兰，610-诺福克岛，611-巴布亚新几内亚，612-社会群岛，613-所罗门群岛，614-汤加，615-土阿莫土群岛，616-土布艾群岛，617-萨摩亚，618-基里巴斯，619-图瓦卢，620-密克罗尼西亚联邦，621-马绍尔群岛共和国，622-贝劳共和国，623-帕劳共和国，624-瓦利斯和浮图纳，625-法属波利尼西亚，626-圣皮埃尔和密克隆，699-大洋洲其他，701-国(地)别不详的，702-联合国和其他国际组织，703-亚太经济合作组织，704-东南亚国家联盟，705-欧洲联盟，706-独立国家联合体，707-经济合作与发展组织(OECD)，708-经合组织北美，709-经合组织亚洲大洋洲，710-经合组织欧洲，711-欧英EFTA，901-欧元区，903-欧盟15国，905-欧盟25国，906-欧盟27国，907-欧盟其他，909-全球。"}, {"column": "Business", "desc": "公司业务"}, {"column": "InduCHKE", "desc": "所属行业-港交所；所属行业-港交所（InduCHKE）:目前字段在该表已经不维护。"}, {"column": "InduCHS", "desc": "所属行业-恒生；所属行业-恒生（InduCHS）：目前字段在该表已经不维护，可以在 港股公司行业划分表HK_ExgIndustry获取到对应的行业分类。"}, {"column": "Chairman", "desc": "主席"}, {"column": "CompanySecretary", "desc": "公司秘书"}, {"column": "CertifiedAccountant", "desc": "合资格会计师"}, {"column": "RegisteredOffice", "desc": "注册办事处"}, {"column": "GeneralOffice", "desc": "总办事处及主要营业地点"}, {"column": "Registrars", "desc": "股份过户处(香港)"}, {"column": "Tel", "desc": "电话"}, {"column": "Fax", "desc": "传真"}, {"column": "Eail", "desc": "邮箱"}, {"column": "Website", "desc": "公司网址"}, {"column": "BriefIntroduction", "desc": "公司简介"}, {"column": "CompanyType", "desc": "企业类别；公司类别(CompanyType)与(CT_SystemConst)表中的DM字段关联，令LB = 1501，得到公司类别的具体描述：1-境内注册内地国资控制，2-境内注册内地个人控制，5-境外注册内地国资控制，6-境外注册内地个人控制，9-其他。"}, {"column": "CompanyTypeDesc", "desc": "公司类别描述"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "AuditInstitution", "desc": "审计机构"}, {"column": "RegCapital", "desc": "注册资本(元)"}, {"column": "RegCapitalCurrency", "desc": "注册资本货币单位；注册资本货币单位(RegCapitalCurrency)与(CT_SystemConst)表中的DM字段关联，令LB = 1548，得到注册资本货币单位的具体描述：1000-美元，1100-港元，1110-印度卢比，1120-印度尼西亚卢比，1130-伊朗里亚尔，1140-波兰兹罗提，1150-匈牙利福林，1160-日本元，1161-欧洲日元(离岸)，1170-约旦第纳尔，1180-科威特第纳尔，1190-阿联酋迪拉姆，1200-亚美尼亚德拉姆，1210-澳门元，1220-马来西亚林吉特，1230-安第列斯群岛盾，1240-安哥拉宽扎，1250-尼泊尔卢比，1260-哈萨克斯坦坚戈，1270-巴基斯坦卢比，1280-阿鲁巴岛弗罗林，1290-菲律宾比索，1300-阿塞拜疆马纳特，1310-波斯尼亚马克，1320-新加坡元，1330-韩国元，1340-孟加拉塔卡，1350-百慕大元，1360-泰国铢，1370-沙特里亚尔，1380-文莱林吉特，1390-不丹努尔特鲁姆，1400-博茨瓦纳普拉，1410-白俄罗斯卢布，1420-人民币元，1430-台湾元，1440-伯利兹元，1450-南苏丹镑，1460-世界投资报告法郎，1470-佛得角埃斯库多，1480-厄立特里亚纳克法，1490-埃塞俄比亚比尔，1500-福克兰群岛镑，1510-格鲁吉亚拉里，1520-直布罗陀镑，1530-克罗地亚库纳，1540-以色列新谢克尔，1550-吉尔吉斯斯坦索姆，1560-开曼群岛元，1570-莱索托马洛蒂，1580-摩尔多瓦列伊，1590-马其顿第纳尔，1600-蒙古图格里克，1610-马拉维克瓦查，1620-梅蒂卡尔，1630-纳米比亚元，1640-巴布亚新几内亚基那，1650-塞尔维亚第纳尔，1660-圣赫勒拿群岛磅，1670-圣多美和普林西比多布拉，1680-太平洋法郎，1690-非共体法郎，1700-斯威士兰里兰吉尼，1710-塔吉克斯坦索莫尼，1720-土库曼斯坦马纳特，1730-汤加潘加，1740-乌克兰格里夫纳，1750-乌兹别克斯坦苏姆，1760-瓦努阿图瓦图，1770-萨摩亚塔拉，1780-中非金融合作法郎，1790-东加勒比元，1800-哈萨克斯坦腾格(废弃)，1810-人民币(离岸)，2470-坦桑尼亚先令，3000-欧元，3010-比利时法郎，3020-丹麦克朗，3030-英镑，3040-德国马克，3050-法国法郎，3070-意大利里拉，3090-荷兰盾，3120-西班牙比塞塔，3150-奥地利先令，3180-芬兰马克，3260-挪威克朗，3300-瑞典克朗，3310-瑞士法郎，3311-记帐瑞士法郎，3313-清算瑞士法郎，3440-俄罗斯卢布，4100-巴西雷亚尔，4290-墨西哥比索，5010-加拿大元，6010-澳大利亚元，6090-新西兰元，7101-刚果法郎，7103-尼日利亚奈拉，7105-越南盾，7107-肯尼亚先令，7109-卢森堡法郎，7111-摩洛哥迪拉姆，7113-南非兰特，7115-斯里兰卡卢比，7117-新苏丹磅，7119-也门里亚尔(废弃)，7121-爱尔兰镑，8000-阿尔巴尼亚列克，8010-阿尔及利亚第纳尔，8020-阿富汗尼，8030-阿根廷比索，8040-也门里亚尔，8050-阿曼里亚尔，8060-埃及镑，8070-巴巴多斯元，8080-巴哈马元，8090-巴拉圭瓜拉尼，8100-巴林第纳尔，8110-巴拿马巴波亚，8120-保加利亚列弗，8130-冰岛克朗，8140-波兰兹罗提(废弃)，8150-玻利维亚诺，8160-布隆迪法郎，8170-朝鲜圆，8180-赤道几内亚埃奎勒，8190-多米尼加比索，8200-厄瓜多尔苏克雷，8210-斐济元，8220-冈比亚法拉西，8230-哥伦比亚比索，8240-哥斯达黎加科朗，8250-古巴比索，8260-圭亚那元，8270-海地古德，8280-洪都拉斯伦皮拉，8290-吉布提法郎，8300-几内亚法郎，8310-几内亚比索，8320-加纳塞地，8330-柬埔寨瑞尔，8340-捷克克朗，8350-津巴布韦元，8360-卡塔尔里亚尔，8370-科摩罗法郎，8380-老挝基普，8390-黎巴嫩镑，8400-利比里亚元，8410-利比亚第纳尔，8420-卢旺达法郎，8430-罗马尼亚列伊，8440-马达加斯加阿里亚里，8450-马尔代夫卢比，8460-马耳他镑，8470-毛里求斯卢比，8480-毛里塔尼亚乌吉亚，8490-秘鲁新索尔，8500-缅甸元，8510-也门第纳尔，8520-南斯拉夫新第纳尔，8530-尼加拉瓜科多巴，8540-埃斯库多，8550-萨尔瓦多科朗，8560-塞拉里昂利昂，8570-塞浦路斯镑，8580-塞舌尔卢比，8590-沙特阿拉伯亚尔(废弃)，8600-苏里南元，8610-所罗门元，8620-索马里先令，8630-特立尼达多巴哥元，8640-突尼斯第纳尔，8650-土耳其里拉，8660-危地马拉格查尔，8670-委内瑞拉玻利瓦尔，8680-乌干达先令，8690-乌拉圭新比索，8700-希腊德拉马克，8710-匈牙利福林(废弃)，8720-叙利亚镑，8730-牙买加元，8740-伊拉克第纳尔，8750-赞比亚克瓦查，8760-扎伊尔，8770-智利比索，8780-玻利维亚Mvdol基金，8790-智利CUF基金，8800-哥伦比亚实际价值单位，8810-古巴可兑换比索，8820-墨西哥UDI基金，8830-莫桑比克梅蒂卡尔(废弃)，8840-东帝汶埃斯库多，9000-本币(废弃)，9900-其他货币，9901-本地货币，9990-特别提款权，9999-各币种折合美元。"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少。因此，我们需要找到中信证券股份有限公司作为股东的公司列表，然后筛选出这些公司的借贷金额信息。
+
+【信息所在字段】
+- astockshareholderdb.lc_mainshlistnew.CompanyCode: 这个字段包含公司代码信息，可以用来确定中信证券股份有限公司作为股东的公司。
+- astockshareholderdb.lc_mainshlistnew.SHList: 这个字段包含股东名称信息，可以用来确认中信证券股份有限公司作为股东的公司。
+- astockfinancedb.lc_balancesheetall.CompanyCode: 这个字段包含公司代码信息，可以用来关联借贷金额信息。
+- astockfinancedb.lc_balancesheetall.ShortTermLoan: 这个字段包含短期借款信息，是借贷金额的一部分。
+- astockfinancedb.lc_balancesheetall.LongtermLoan: 这个字段包含长期借款信息，是借贷金额的一部分。
+
+【筛选条件所在字段】
+- astockshareholderdb.lc_mainshlistnew.EndDate: 这个字段包含日期信息，可以用来筛选出2020年的数据。
+- astockshareholderdb.lc_mainshlistnew.SHList: 这个字段包含股东名称信息，可以用来筛选出中信证券股份有限公司作为股东的公司。
+- astockfinancedb.lc_balancesheetall.EndDate: 这个字段包含日期信息，可以用来筛选出2020年的数据。
+
+【选中的字段的清单】
+```json
+{
+  "astockshareholderdb.lc_mainshlistnew": ["CompanyCode", "SHList", "EndDate"],
+  "astockfinancedb.lc_balancesheetall": ["CompanyCode", "ShortTermLoan", "LongtermLoan", "EndDate"]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在creditdb数据库的lc_violatiparty表中，没有找到起始日期为2020年10月27日且当事人性质为证券公司的当事人记录。
+---
+查询结果表明: 在creditdb数据库的lc_violatiparty表中，起始日期为2020年10月27日的记录中，当事人性质（PartyType）的唯一值为2，且查询结果仅返回了这一种当事人性质的前10条记录。
+---
+查询结果表明: 在creditdb数据库的lc_violatiparty表中，起始日期为2020年10月27日且当事人性质为2的记录中，第一条记录的当事人名称为中信证券股份有限公司。
+---
+查询结果表明: 在股东名称为“中信证券股份有限公司”的记录中，涉及到的不同公司代码数量为31个。这意味着有31家不同的上市公司在中信证券股份有限公司的股东名单中。
+
+请问:2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 中信证券股份有限公司在2020年是31家公司的股东。
+- 需要查询这些公司在2020年的借贷金额，找出借贷金额最多的公司及其金额。
+
+【当前阶段要获取的信息】
+- 31家公司的公司代码。
+
+【信息所在字段】
+- `CompanyCode` 在 `astockshareholderdb.lc_mainshlistnew` 表中。
+
+【筛选条件所在字段】
+- `SHList`（股东名称）为中信证券股份有限公司
+- `EndDate` 在2020年内
+
+【SQL语句的思路】
+- 从 `astockshareholderdb.lc_mainshlistnew` 表中筛选出2020年中信证券股份有限公司作为股东的公司代码。
+
+【执行SQL语句】
+```exec_sql
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_mainshlistnew
+WHERE SHList = '中信证券股份有限公司'
+AND YEAR(EndDate) = 2020;
+```
+
+【上述SQL语句的含义】
+- 从 `astockshareholderdb.lc_mainshlistnew` 表中选取所有不同的 `CompanyCode`，条件是股东名称为中信证券股份有限公司且结束日期在2020年。这样可以获取到2020年中信证券股份有限公司作为股东的31家公司的公司代码。
+
+>>>>> 查询sql:
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_mainshlistnew
+WHERE SHList = '中信证券股份有限公司'
+AND YEAR(EndDate) = 2020;
+查询结果:
+[{"CompanyCode": 268}, {"CompanyCode": 41736}, {"CompanyCode": 74626}, {"CompanyCode": 226856}, {"CompanyCode": 231147}, {"CompanyCode": 41155}, {"CompanyCode": 25}, {"CompanyCode": 50025}, {"CompanyCode": 542782}, {"CompanyCode": 178300}, {"CompanyCode": 1148}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_mainshlistnew
+WHERE SHList = '中信证券股份有限公司'
+AND YEAR(EndDate) = 2020;
+查询结果:
+[{"CompanyCode": 268}, {"CompanyCode": 41736}, {"CompanyCode": 74626}, {"CompanyCode": 226856}, {"CompanyCode": 231147}, {"CompanyCode": 41155}, {"CompanyCode": 25}, {"CompanyCode": 50025}, {"CompanyCode": 542782}, {"CompanyCode": 178300}, {"CompanyCode": 1148}]
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明:
+在2020年，股东名称为“中信证券股份有限公司”的公司代码（CompanyCode）有11个，分别为268、41736、74626、226856、231147、41155、25、50025、542782、178300和1148。这些公司代码可以用于进一步关联查询，以获取相关上市公司的交易代码、简称等信息。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DISTINCT CompanyCode
+FROM astockshareholderdb.lc_mainshlistnew
+WHERE SHList = '中信证券股份有限公司'
+AND YEAR(EndDate) = 2020;
+查询结果:
+[{"CompanyCode": 268}, {"CompanyCode": 41736}, {"CompanyCode": 74626}, {"CompanyCode": 226856}, {"CompanyCode": 231147}, {"CompanyCode": 41155}, {"CompanyCode": 25}, {"CompanyCode": 50025}, {"CompanyCode": 542782}, {"CompanyCode": 178300}, {"CompanyCode": 1148}]
+查询结果表明:
+在2020年，股东名称为“中信证券股份有限公司”的公司代码（CompanyCode）有11个，分别为268、41736、74626、226856、231147、41155、25、50025、542782、178300和1148。这些公司代码可以用于进一步关联查询，以获取相关上市公司的交易代码、简称等信息。
+
+当前掌握的信息是否能够回答"2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 2020年，中信证券股份有限公司作为股东的11家公司代码分别为：268、41736、74626、226856、231147、41155、25、50025、542782、178300和1148。
+
+【当前阶段要获取的信息】
+- 这11家公司在2020年的借贷金额（短期借款和长期借款之和）。
+
+【信息所在字段】
+- `ShortTermLoan`（短期借款）和 `LongtermLoan`（长期借款）在 `astockfinancedb.lc_balancesheetall` 表中。
+
+【筛选条件所在字段】
+- `CompanyCode` 在 `astockfinancedb.lc_balancesheetall` 表中。
+- `EndDate` 在2020年内。
+
+【SQL语句的思路】
+- 从 `astockfinancedb.lc_balancesheetall` 表中筛选出这11家公司在2020年的短期借款和长期借款金额，并计算总和，找出借贷金额最多的公司及其金额。
+
+【执行SQL语句】
+```exec_sql
+SELECT CompanyCode, 
+       SUM(ShortTermLoan + LongtermLoan) AS TotalLoan
+FROM astockfinancedb.lc_balancesheetall
+WHERE CompanyCode IN (268, 41736, 74626, 226856, 231147, 41155, 25, 50025, 542782, 178300, 1148)
+AND YEAR(EndDate) = 2020
+GROUP BY CompanyCode
+ORDER BY TotalLoan DESC
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+- 从 `astockfinancedb.lc_balancesheetall` 表中选取 `CompanyCode` 和短期借款与长期借款之和（命名为 `TotalLoan`）。
+- 条件是 `CompanyCode` 在已知的11家公司代码中，且 `EndDate` 在2020年内。
+- 按 `CompanyCode` 分组并按 `TotalLoan` 降序排列，取借贷金额最多的公司及其金额。
+
+>>>>> 查询sql:
+SELECT CompanyCode, 
+       SUM(ShortTermLoan + LongtermLoan) AS TotalLoan
+FROM astockfinancedb.lc_balancesheetall
+WHERE CompanyCode IN (268, 41736, 74626, 226856, 231147, 41155, 25, 50025, 542782, 178300, 1148)
+AND YEAR(EndDate) = 2020
+GROUP BY CompanyCode
+ORDER BY TotalLoan DESC
+LIMIT 1;
+查询结果:
+[{"CompanyCode": 268, "TotalLoan": 188680141197.37}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT CompanyCode, 
+       SUM(ShortTermLoan + LongtermLoan) AS TotalLoan
+FROM astockfinancedb.lc_balancesheetall
+WHERE CompanyCode IN (268, 41736, 74626, 226856, 231147, 41155, 25, 50025, 542782, 178300, 1148)
+AND YEAR(EndDate) = 2020
+GROUP BY CompanyCode
+ORDER BY TotalLoan DESC
+LIMIT 1;
+查询结果:
+[{"CompanyCode": 268, "TotalLoan": 188680141197.37}]
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 公司代码为268的上市公司在2020年的短期借款和长期借款总和为188680141197.37元，这是在所查询的公司代码列表（268, 41736, 74626, 226856, 231147, 41155, 25, 50025, 542782, 178300, 1148）中，2020年借款总额最高的公司。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT CompanyCode, 
+       SUM(ShortTermLoan + LongtermLoan) AS TotalLoan
+FROM astockfinancedb.lc_balancesheetall
+WHERE CompanyCode IN (268, 41736, 74626, 226856, 231147, 41155, 25, 50025, 542782, 178300, 1148)
+AND YEAR(EndDate) = 2020
+GROUP BY CompanyCode
+ORDER BY TotalLoan DESC
+LIMIT 1;
+查询结果:
+[{"CompanyCode": 268, "TotalLoan": 188680141197.37}]
+查询结果表明: 公司代码为268的上市公司在2020年的短期借款和长期借款总和为188680141197.37元，这是在所查询的公司代码列表（268, 41736, 74626, 226856, 231147, 41155, 25, 50025, 542782, 178300, 1148）中，2020年借款总额最高的公司。
+
+当前掌握的信息是否能够回答"2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 公司代码为268的上市公司在2020年的短期借款和长期借款总和为188680141197.37元，这是在所查询的公司代码列表中，2020年借款总额最高的公司。
+
+【当前阶段要获取的信息】
+- 无需继续执行SQL查询，当前信息已足够回答问题。
+
+【信息所在字段】
+- 无
+
+【筛选条件所在字段】
+- 无
+
+【SQL语句的思路】
+- 无
+
+【执行SQL语句】
+```exec_sql
+无
+```
+
+【上述SQL语句的含义】
+- 无
+
+### 结论
+当前掌握的信息已经能够回答“2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少？”的问题。
+
+**回答：**
+2020年，中信证券股份有限公司作为股东的31家公司中，公司代码为268的上市公司借贷金额最多，共计188680141197.37元。
+
+
+>>>>> 【user】 Said:
+请回答问题:"2020年，中信证券股份有限公司作为股东的31家公司中，哪家公司的借贷金额最多，共计多少？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+公司代码为268的上市公司，借贷金额: 188680141197.37元

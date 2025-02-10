@@ -1,0 +1,272 @@
+
+>>>>> Original Question: 最新更新的2020半年报中，机构持有无限售流通A股数量合计最多的公司简称是？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."最新更新的2020半年报中，机构持有无限售流通A股数量合计最多的公司简称是？"
+
+>>>>> Agent【extract_company】 Said:
+No Entities.
+
+
+>>>>> 【user】 Said:
+已知事实:无。
+历史问答:无。
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：最新更新的2020半年报中，机构持有无限售流通A股数量合计最多的公司简称是？
+
+>>>>> Agent【rewrite_question】 Said:
+在最新更新的2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称是什么？
+
+>>>>> 已知事实:
+
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+要找到在2020年半年报中机构持有无限售流通A股数量合计最多的公司简称，我们需要以下信息：
+1. 2020年半年报的数据。
+2. 机构持有的无限售流通A股数量。
+3. 公司简称。
+
+根据知识库，以下数据库可能包含所需信息：
+- `astockfinancedb`：记录了上市公司的财务数据，可能包含半年报信息。
+- `astockshareholderdb`：记录了上市公司股东及股本信息，可能包含机构持股数据。
+- `astockbasicinfodb`：记录了上市公司基本资料，可能包含公司简称。
+
+【选中的数据库】
+- `astockfinancedb`：可能包含2020年半年报的财务数据。
+- `astockshareholderdb`：可能包含机构持有的无限售流通A股数量。
+- `astockbasicinfodb`：可能包含公司简称。
+
+【选中的数据库的清单】
+```json
+["astockfinancedb", "astockshareholderdb", "astockbasicinfodb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockfinancedb.lc_ashareseasonednewissue", "说明": "该数据表主要记录证券发行及相关信息，涵盖以下几大类内容：**基本信息**包括证券内部编码、发行股票类型、发行目的等；**时间信息**如首次信息发布日期、预案发布日期、股东大会决议公告日期、发行日期上下限、承销期上下限、募集资金到帐时间等；**价格信息**包括发行价区间（上限、下限）、实际发行价、承销商指导价格、市盈率（加权平均、全面摊薄等）、价格调整相关字段等；**发行量信息**如发行量上下限、超额配售权、网上网下发行股数、原股东优先配售股数、法人网下配售股数等；**申购及配售信息**包括网上申购代码、申购简称、申购单位、有效申购总量与户数、中签率、配售比例等；**费用信息**如发行费用总额、承销费用、律师费用、资产评估费用、每股发行费用等；**资金信息**如募集资金总额、净额、到帐金额及相关分项（货币、非货币、资产、债权等）；**股东及控股股东信息**如优先配售比例、认购方式、认购数量与比例等；**预测与变动**包括盈利预测、方案变动说明、变动原因、预案价格与基准价格比例等；**公告及审批信息**如证监会批准公告日、方案变动公告日、最新预案公布日期等；**其他信息**如面值、零股处理方法、认购邀请书发送日、是否简易程序等。该表全面涵盖了证券发行的各个环节及相关信息。"}, {"表名": "astockfinancedb.lc_ashareplacement", "说明": "该数据表涉及证券配股的各个方面，涵盖了从初始信息发布到配股完成的整个过程。字段包括基本信息如证券内部编码、首次信息发布日期、配股年度和发行股票类型；时间节点信息如预案发布日期、股东大会决议公告日期、决案公布日、配股说明书刊登日期、配股上市日及相关公告日期；定价和比例信息如定价方式、配股价格确定方式说明、计划和实际配股比例及数量、配股价格上下限和每股配股价格；费用和资金信息如发行费用、承销费用、各类中介机构费用、实际募集资金、募集资金净额及到帐金额；股东和配股对象信息如配股对象、配股对象类别、大股东认配说明及持股5%以上大股东的持股和认配情况；其他重要信息如转配比、转配股、零股处理方法、方案变动说明、承销方式、余股包销数量、公众股东认配情况、计划和实际募集资金总额、配股基准日及配股完成后的每股净资产和收益。该表还记录了各类审批通过日期及事件进程等信息。"}, {"表名": "astockfinancedb.lc_dividend", "说明": "该数据表主要记录证券分红相关信息，涵盖了基本标识信息如证券内部编码和日期；分红方案的详细内容，包括是否分红、每股收益、送股比例、转增股比例、派现金额（含税和税后，人民币和外币）、分红股本基数及送转后总股本等；分红实施的关键时间节点，如预案发布日期、股东大会决议公告日期、股权登记日、除权除息日、红利到账日、分红发放起止日等；分红的对象和金额分布，包括A股和B股的派现金额（人民币和外币），以及公司合计派现金额；方案变更相关信息，如变更前后的分红方案、变更原因及说明；分红执行的其他信息，如利润分配次数、主要分配形式、上下限金额、事件进程及描述等；计算除权价用的调整比例和金额；以及其他辅助信息如方案类型、分红意向公布日、议案编号、最新信息发布日期和备注说明等，全面反映了证券分红的各个方面。"}, {"表名": "astockfinancedb.lc_capitalinvest", "说明": "该数据表包含多方面的信息，涉及公司基础信息如公司代码，以及与募资相关的详细内容，包括募资方式、募资投向项目名称、项目内容、计划和实际投入金额以及截至日期。它还涵盖了项目进展和收益的说明，投向行业和领域等信息。表中记录了改投相关的内容，如是否改投、改投项目及金额。此外，关于收购兼并的细节也被详细描述，包括收购类型、资产的账面价值、评估价值、价格、权益比例，以及项目出让方的相关信息如与出让方的关系、相关股票、企业性质等。收购标的的名称和企业性质也在其中列出。信息的来源和发布时间则通过首次信息发布日期和信息发布日期进行记录。"}, {"表名": "astockfinancedb.lc_balancesheetall", "说明": "该数据表主要涵盖了企业财务及业务信息，分为多个类别：基础信息如信息发布日期、信息来源、公告类别等；时间与调整信息如日期、是否调整、是否合并等；会计与企业属性信息如会计准则、工业企业类型等；资产类信息包括流动资产（如货币资金、应收账款、存货等）、非流动资产（如固定资产、无形资产、长期投资等），以及特殊项目和调整项目；负债类信息包含流动负债（如短期借款、应付账款、预收款项等）、非流动负债（如长期借款、递延所得税负债等），以及负债特殊项目和调整项目；权益类信息包括股东权益（如实收资本、资本公积、盈余公积等）、少数股东权益，以及所有者权益特殊项目和调整项目；金融及投资信息如交易性金融资产、债权投资、权益工具投资等；其他信息包括合同资产与负债、保险合同准备金、租赁资产与负债等；综合类信息如总资产、总负债及股东权益合计等。此外，还包含一些字段的特殊说明、分类汇总及调整字段。"}, {"表名": "astockfinancedb.lc_incomestatementall", "说明": "该数据表涵盖了全面的企业财务和经营信息，主要分为以下几类：基本信息如信息发布日期、信息来源、公司代码等；会计和企业分类信息如会计准则、工业企业类型等；收入和成本信息，包括营业收入、营业总成本、营业利润、非经营性净收益等具体细分项，如利息收入、手续费收入、保费收入、营业税金、管理费用等；利润相关信息，如净利润、归属于母公司和少数股东的净利润、综合收益总额等；资产和负债信息，如资产减值损失、信用减值损失、保险责任准备金等；股东权益类信息，如每股收益、其他综合收益等；特殊项目调整信息，用于反映各类收入、成本、利润和综合收益的特殊或调整项；其他专项收入与支出，如基金管理业务收入、担保业务收入、勘探费用等；此外，还包含一些未分类字段和特殊说明字段，全面支持企业财务分析和信息披露需求。"}, {"表名": "astockfinancedb.lc_cashflowstatementall", "说明": "该数据表主要记录企业财务及运营相关信息，涵盖多个维度的字段。基础信息包括信息发布日期、信息来源、公告类别等；企业属性如公司代码、会计准则、工业企业类型等。财务数据方面，详细记录了现金流相关信息，包括经营活动、投资活动、筹资活动的现金流入、流出及净额，以及特殊项目和调整项目；还包括现金及现金等价物的期初、期末余额及变动情况。收入与支出部分，涉及销售商品、提供劳务、税费返还、利息收入与支出、投资收益、资产处置收益等；成本费用方面，记录了税费支付、职工薪酬、资产折旧与摊销、财务费用等。投资与融资活动中，涵盖了投资支付、借款、债券发行、股利分配等数据。其他补充信息包括净利润及其归属、资产减值准备、递延所得税、存货变化、应收应付款变化、信用减值损失等。此外，还有与金融资产、金融负债、代理业务、回购业务等相关的明细字段，以及一些特殊项目和调整项目，用于对现金流和财务数据进行补充说明，反映企业的全面财务状况。"}, {"表名": "astockfinancedb.lc_intassetsdetail", "说明": "该数据表包含多个字段，涵盖基础信息、研发投入、人员构成及核心技术相关数据。基础信息包括内部编码、公司代码、信息发布日期、信息来源编码及截止日期；状态标识类字段包括是否合并及是否调整；研发投入相关字段包括费用化研发投入、资本化研发投入、研发投入合计及其占营业收入比例，同时还包括资本化研发投入占比；人员构成方面有研发人员数量及占比、核心技术人员数量及占比；核心技术相关数据则包括核心技术营业收入及其占比。这些字段全面记录了企业在研发投入及核心技术方面的资源配置和产出情况。"}, {"表名": "astockfinancedb.lc_mainoperincome", "说明": "该数据表主要用于记录和分析公司在特定日期的经营项目财务信息。字段包括公司标识信息如公司代码；时间信息如日期、日期类型、信息发布日期；数据来源信息如信息来源、信息来源编码；合并与调整状态如合并标志、是否调整；分类与显示信息如分类方式、显示序号、所属层级、上级科目名称；经营项目相关信息如经营项目名称、所属行业、地区与业务性质；财务数据包括主营业务收入、主营业务成本、主营业务利润及其同比变化、毛利率及其同比变化和上年同期数据；其他信息如货币单位。通过这些字段，用户可以分析公司的主营业务表现及其变化趋势。"}, {"表名": "astockfinancedb.lc_operatingstatus", "说明": "该数据表记录了与企业经营相关的关键信息，包含公司代码、日期等基础信息，用于标识企业和时间节点；信息来源与信息发布日期字段记录了数据的出处及发布时间，以确保信息的可靠性和时效性；经营述评字段则提供了对企业经营情况的详细描述，为分析和决策提供支持。"}, {"表名": "astockfinancedb.lc_auditopinion", "说明": "该数据表主要记录与公司审计相关的信息，包含公司标识如公司代码、所属机构等，时间信息如日期、信息发布日期，审计相关内容如会计师事务所、注册会计师、审计意见类型及其全文、审计报告类型，以及信息来源等字段。"}, {"表名": "astockshareholderdb.lc_shtypeclassifi", "说明": "该数据表主要用于记录股东及其分类信息，包含股东的唯一标识信息如股东代码和股东编码，股东名称及其所属性质等基本信息，同时提供多级分类结构，涵盖分类标准及一级至四级分类代码，便于对股东进行分层管理和分析。"}, {"表名": "astockshareholderdb.lc_mainshlistnew", "说明": "该数据表主要记录了股东及其持股情况的详细信息，包括公司代码、日期、信息发布日期和来源等基本信息。股东相关信息涵盖股东排名、序号、名称、性质、类别及其编码等。持股信息详细列出了持股总数、持股比例、持股增减情况，以及持有不同类型股票（如A股、B股、H股、普通股及其他类别）的数量和比例。此外，还包括股东性质描述、股权质押和冻结情况及其说明，股东之间的关联关系和一致行动人说明等。证券相关信息有证券代码、简称、所属券商编号及归属机构名称等。备注说明和其他字段提供了进一步的补充信息。"}, {"表名": "astockshareholderdb.lc_shnumber", "说明": "该数据表主要涵盖了公司股东信息的各类数据，包括公司代码、信息发布日期和信息来源等基本信息。股东数据详细记录了股东总户数及各类股东（如A股、B股、H股、CDR股东）的户数和户均持股数，提供了户均持股比例及其相对变化，季度和半年增长率等动态指标。此外，表中还细分了无限售条件股东的数据，包括无限售A股和CDR的户均持股数及比例变化等。通过这些数据，能够分析不同类型股东的持股分布及其变化趋势。"}, {"表名": "astockshareholderdb.lc_mshareholder", "说明": "该数据表主要用于记录公司股东相关信息及公司基本情况，包含以下几类字段信息：公司基本信息如公司代码、信息发布日期、信息来源等；股东相关信息如股东名称、股东地位、持股比例、股东性质、股东ID、国籍描述、永久境外居留权等；公司运营及财务信息如法人代表、注册资本、主要业务、经济性质、背景介绍等；其他信息如股权获取方式、实际控制人结构图、公告类别、报告原文文件格式、日期以及货币单位等，并提供是否存在的标识字段以便于数据筛选和分析。"}, {"表名": "astockshareholderdb.lc_actualcontroller", "说明": "该数据表主要用于记录公司实际控制人的相关信息，包括公司代码、信息发布日期和日期等基本信息；实际控制人的详细信息如代码、姓名、经济性质、国籍代码及描述、永久境外居留权状态，以及实际控制人所属性质等。"}, {"表名": "astockshareholderdb.lc_sharestru", "说明": "该数据表主要记录了公司股本结构及相关信息，包含以下几类字段：公司基本信息如公司代码(CompanyCode)、信息来源(InfoSource)、信息发布日期(InfoPublDate)；时间相关字段如日期(EndDate)；股本总量及变动情况如总股本(股)(TotalShares)、股本变动原因类别(ChangeType)、简称变更原因(ChangeReason)；股权分类及持股情况包括未流通股(NonListedShares)、流通股本(FloatShare)、有限售条件流通股(RestrictedShares)、无限售条件流通股(NonRestrictedShares)、A股(Ashares)、B股(Bshares)、H股(Hshares)、GDR代表基础股票(GDRshares)、外资持股(ForeignHolding)等，进一步细分为发起人股(PromoterShares)、国家股(StateShares)、法人股(DLegalPersonShares、FLegalPersonShares)、自然人股(NaturalPersonHoldLPShares)、职工股(StaffShares)、战略投资者配售持股(StategicInvestorShares)、基金配售持股(MutualFundShares)等；股本流通状态如已上市流通股(AFloatListed)、未上市增发股(AdditionIssueUnlisted)、配股未上市(RightsIssueUnlisted)等；其他股本信息如优先股(PreferredShares)、有限售H股(RestrictedHShares)、无限售H股(NonRestrictedHShares)、其他未流通股(OUnListedShares)；股本面值及货币单位如每股面值(PerValue)、每股面值货币单位(ParValueCurrencyUnit)。通过这些字段，能够全面反映公司股本的构成、流通及变动情况。"}, {"表名": "astockshareholderdb.lc_stockholdingst", "说明": "该数据表主要用于记录各类机构及股东对A股的持股情况及相关统计信息，包含以下几类字段：基础信息如证券内部编码、公司代码、统计日期等；持股数量信息，包括机构、公募基金、券商、私募基金、银行、外资等不同主体持有的无限售流通A股、总A股及其他类型A股的数量；持股比例信息，涵盖上述主体对不同类型A股的持股比例；持股户数信息，记录各类机构及股东的持股户数，包括流通A股户数、无限售流通A股户数等；前十大股东信息，如前十大股东持股数量及比例、无限售股东持股数据等；信息来源及日期字段，用于标注数据出处和时间。"}, {"表名": "astockshareholderdb.lc_sharetransfer", "说明": "该数据表主要记录股权转让的详细信息，涵盖了公司基本信息如公司代码、信息发布日期、信息来源等；股权转让的关键时间点如协议签署日、批准日期、正式变动日期等；转让方和受让方的相关信息，包括名称、经济性质、属性、编码等；股权转让前后的持股情况，如持股数量、持股比例、有限售股数、无限售股数等；交易相关信息如转让方式、涉及股数、交易价格、交易金额等；其他补充信息如生效条件、事项描述与进展、是否终止实施及公告日期等；以及序号、证券内部编码等标识信息。"}, {"表名": "astockshareholderdb.lc_sharefp", "说明": "该数据表记录了公司股权冻结质押的详细信息，包含公司代码、信息发布日期和来源等基本信息，以及涉及的股东和接受方的详细信息，如股东名称和ID、接受方名称和ID、股东和接受方的属性等。表中还包括冻结质押的具体细节，如涉及股数、占持股比例、占总股本比例、起始和结束日期、原因及事项编码和日期。此外，表格记录了无限售股数、有限售股数，以及初始信息发布日期、初始质押股数和预计解除日期等信息。"}, {"表名": "astockshareholderdb.lc_sharefpsta", "说明": "该数据表主要用于记录股权冻结质押的相关信息，包含以下字段：标识信息如冻结质押编号(FPCode)、公司代码(CompanyCode)和股东ID(SHID)；时间信息如截止日期(EndDate)；信息来源(InfoSource)；类别选择(Category)；股东信息如股权被冻结质押股东名称(FPSHName)及其属性(SHAttribute)；冻结质押相关统计数据如累计冻结质押股数(AccuFPShares)、累计占冻结质押方持股数比例(AccuPCTOfPled)、累计占总股本比例(AccuProportion)及其计算值(AccuProportionCalc)；其他辅助字段如AccuFPSharesCalc。"}, {"表名": "astockshareholderdb.lc_buyback", "说明": "该数据表记录了公司股份回购的详细信息，包括公司基本信息如公司代码，以及重要日期信息如首次信息发布日期、预案发布日期、股东大会通过日期、回购协议签署日、回购并注销股份公告书发布日、起始日期、结束日期、全称更改日期、回购资金划出日、工商变更登记日等。股份回购的具体情况涵盖股份类别、股份被回购方、回购股数及占总股本比例、回购定价方式说明、回购价格及回购总金额、回购数量及价格上下限、拟回购资金总额上下限等。支付方式、资金来源及用途说明、回购目的、事件进程及描述、回购方式代码及描述等信息也被详细记录。此外，还包括待偿期限指数、未描述的字段如回购目的、货币单位及被否决日期等。"}, {"表名": "astockshareholderdb.lc_buybackattach", "说明": "该数据表记录了有关股份回购的信息，包含回购的唯一标识（股份回购ID）及其相关的日期信息，如信息发布日期和生效日期。涉及财务数据的字段包括货币单位、最高价、最低价、本次回购资金及累计回购资金总额。此外，表中还记录了与回购数量相关的数据，如回购股数、累计回购数量及其占总股本的比例。通过这些字段，能够全面了解某次股份回购的基本信息和财务影响。"}, {"表名": "astockshareholderdb.lc_legaldistribution", "说明": "该数据表记录了证券配售的详细信息，涵盖了多方面的内容：基础信息如证券内部编码、证券代码、信息发布日期及首次发布日期等；配售相关信息包括配售总股数、配售原因、配售性质、获配股数（有锁定期和无锁定期分别记录）、获配金额、实际发行价、有效申购股数、退款金额、补款金额等；投资者信息包括投资者名称（标准化和原始）、投资者编号、投资者类型、投资者分类等，以及获配企业的名称、性质和所属券商的编号及名称；战略配售的详细记录如高管、员工、保荐机构及其他参与战略配售的股份数量、金额和占比等；此外，还包括流通日期、持股时间等时间维度信息，以及备注说明和配售对象代码等辅助字段。整体涵盖了证券配售的全流程信息，便于分析和统计。"}, {"表名": "astockshareholderdb.lc_nationalstockholdst", "说明": "该数据表主要用于记录股东持股相关信息，包含以下字段类别：基础信息如内部编码、公司代码、股东ID、股东名称；时间信息如截止日期；持股数据如持有A股总数、有限售A股数、无限售A股数；比例数据如占总股本比例、占流通A股比例；变动信息如持有A股数量增减及其增减幅度。"}, {"表名": "astockshareholderdb.cs_foreignholdingst", "说明": "该数据表记录了证券相关的交易信息，包括证券内部编码用于标识证券，交易日期表示具体的交易时间，外资持股总数（单位为万股）和外资持股比例（百分比）则反映了外资在该证券中的持股情况。"}, {"表名": "astockshareholderdb.lc_esop", "说明": "该数据表主要用于记录资产管理计划相关信息，涵盖了基础标识信息如“内部编码、公司代码”等，公告日期信息如“首次信息发布日期、董事会公告日期、股东大会公告日期”等，计划进程与实施信息如“事件进程、是否分期实施、数据统计区间、首次实施公告日”等，股票与资金规模信息如“股票来源方式、股票规模上限与下限、资金总额上限与下限”等，计划细节信息如“麦考利久期、锁定期、释放期、资金来源、参与单位及人员、管理模式、管理机构、资产管理计划全称、分期情况、杠杆比例”等，价格与参与情况信息如“购买股票价格、参与人数、高管及员工的参与人数、认购份额与比例”等，时间节点信息如“持股的完成日、锁定的起始日”等，以及其他补充说明如“计划情况说明”等，全面涵盖计划的各个维度。"}, {"表名": "astockshareholderdb.lc_esopsummary", "说明": "该数据表主要用于记录证券相关事件的信息，包括证券内部编码和公司代码等基础标识信息；首次信息发布日期、董事会公告日期、股东大会公告日期等时间信息；事件进程和序号等事件状态信息；是否分期实施及分期情况等分期相关信息；股票规模和资金总额的上下限等规模和资金范围信息；以及备注说明等补充描述信息。"}, {"表名": "astockshareholderdb.lc_transferplan", "说明": "该数据表主要记录了公司股东承诺及增减持计划的相关信息，涵盖多个方面的字段：公司基本信息如“公司代码”；信息披露相关字段如“首次信息发布日期”“信息发布日期”“信息来源”；承诺主体与事项类型信息如“承诺主体类型”“承诺事项类型”；承诺时间范围及内容描述如“承诺起始日期”“承诺截止日期”“承诺说明”；股东信息如“股东序号”“股东名称”；增持计划相关字段包括“增持时间描述”“增持实施期限”“增持价格描述”“增持股票触发价格上下限”“增持股份数量上下限”“增持比例上下限”“增持投入资金上下限”等；减持计划相关字段包括“减持时间描述”“减持实施期限”“减持价格描述”“减持股票触发价格上下限”“减持股份数量上下限”“减持比例上下限”等；承诺有效性及不减持承诺期限如“承诺是否有效”“不减持承诺期限”；交易方式及相关描述如“交易方式”“交易方式描述”；事件进程信息如“事件进程”。这些字段全面记录了公司股东承诺及增减持行为的各类细节。"}, {"表名": "astockshareholderdb.lc_smattendinfo", "说明": "该数据表记录了公司股东大会相关的综合信息，涵盖多个维度。包括公司基本信息如公司代码；股东大会的时间安排，如首次信息发布日期、最新信息发布日期、公告日期、股东大会召开日及时间、股权登记日、会议登记起止日期、网络投票起止日期等；股东大会的地点和形式信息，如召开地址、会议类别、投票表决方式、网络投票通道及代码等；股东大会的参与情况统计，包括出席总体股东及代表人数、各类股东人数（如A股、H股、中小股东、优先股股东等）、出席股东代表股份及其占比（按不同股东类别区分）；股东大会的主持及法律见证信息，包括大会主持人及其职务、见证律师事务所及其编号、经办律师等；其他相关信息如议案内容、是否有效、股东大会取消日期、年度及届次等。通过这些字段，全面反映了股东大会的组织、参与及法律合规情况。"}, {"表名": "astockbasicinfodb.lc_stockarchives", "说明": "该数据表主要记录了公司的基本信息、联系方式、经营信息及证券信息等内容。其中，公司基本信息包括公司代码、国别、中文名称、法人代表、总经理、法律顾问、会计师事务所、公司成立日期、首次注册登记地点、企业法人营业执照注册号、所属区县及地区代码；联系方式涵盖联系人电话、传真、电子邮箱，公司注册地址、办公地址、联系地址及其对应的邮编，董秘及证券事务代表的电话、传真、电子邮件，以及公司邮箱和网址；经营信息涉及公司所属证监会行业、主营及兼营范围；证券信息包括A股、B股、H股及CDR证券的简称和代码，扩位简称，以及尚未盈利标识、特殊表决权标识、协议控制架构标识、红筹企业标识；此外，还包括信息披露相关内容如披露网址、披露报纸，以及公司简介等。"}, {"表名": "astockbasicinfodb.lc_namechange", "说明": "该数据表主要记录公司基本信息及相关公告，包括公司代码、中文及英文名称（全称与缩写）、信息来源和发布日期等基本信息；还涵盖重要事件如股东大会决议公告日期、是否否决决议、全称更改日期等关键时间节点，便于追踪企业动态与重要决策信息。"}, {"表名": "astockbasicinfodb.lc_business", "说明": "该数据表主要用于记录公司基本信息及相关业务情况，包括公司代码、信息发布日期和来源等基础信息；股东大会决议公告日期及是否否决的决议结果等决策信息；经营范围及主要业务、产品名称等经营信息；涉及行业的分类信息，如行业代码、行业类别及涉足行业等；此外，还包括简称变更原因等补充说明字段。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要找出在2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称，我们需要关注以下几个关键点：
+1. 时间范围：2020年半年报。
+2. 持股类型：无限售流通A股。
+3. 持股主体：机构。
+4. 持股数量：合计最多的公司。
+
+基于这些需求，我们需要选择记录股东持股情况的表，特别是关注机构持股和无限售流通A股的相关数据。
+
+【选中的数据表】
+- astockshareholderdb.lc_stockholdingst: 这个数据表包含各类机构及股东对A股的持股情况及相关统计信息，包括机构持有的无限售流通A股数量。
+
+【选中的数据库表的清单】
+```json
+["astockshareholderdb.lc_stockholdingst"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockshareholderdb.lc_stockholdingst", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；证券内部编码（InnerCode）：与“证券主表（SecuMain）”中的“证券内部编码（InnerCode）”关联，得到证券的交易代码、简称等。"}, {"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "EndDate", "desc": "日期"}, {"column": "InfoSource", "desc": "信息来源；信息来源(InfoSource)：当InfoSource为“基金定报”时，数据源仅为基金定报；当InfoSource非“基金定报”时，数据源为上市公司定报及基金定报。"}, {"column": "InstitutionsHoldings", "desc": "机构持有无限售流通A股数量合计(股)"}, {"column": "FundsHoldings", "desc": "公募基金持有无限售流通A股数量(股)；由于基金披露的持股数中，没有明确给出无限售部分是多少，故该“基金持有无限售流通A股数量”及“基金持有无限售流通A股比例”的值暂时不计算，为空值"}, {"column": "SecuritiesCorpsHoldings", "desc": "券商持有无限售流通A股数量(股)"}, {"column": "FinancingProductsHoldings", "desc": "券商理财产品持有无限售流通A股数量(股)"}, {"column": "QFIIHoldings", "desc": "QFII持有无限售流通A股数量(股)"}, {"column": "InsuranceCorpsHoldings", "desc": "保险公司持有无限售流通A股数量(股)"}, {"column": "SocialSecurityFundHold", "desc": "社保基金持有无限售流通A股数量(股)"}, {"column": "EnterpriseAnnuitiesHold", "desc": "企业年金持有无限售流通A股数量(股)"}, {"column": "TrustCompaniesHoldings", "desc": "信托公司持有无限售流通A股数量(股)"}, {"column": "FinanceCompaniesHoldings", "desc": "财务公司持有无限售流通A股数量(股)"}, {"column": "OtherInstitutionHoldings", "desc": "其它机构持有无限售流通A股数量(股)"}, {"column": "InstitutionsHoldProp", "desc": "机构持有无限售流通A股比例合计(%)"}, {"column": "FundsHoldProp", "desc": "基金持有无限售流通A股比例(%)"}, {"column": "SecuritiesCorpsHoldProp", "desc": "券商持有无限售流通A股比例(%)"}, {"column": "FinancingProductsHoldProp", "desc": "券商理财产品持有无限售流通A股比例(%)"}, {"column": "QFIIHoldProp", "desc": "QFII持有无限售流通A股比例(%)"}, {"column": "InsuranceCorpsHoldProp", "desc": "保险公司持有无限售流通A股比例(%)"}, {"column": "SocialSecuFundHoldProp", "desc": "社保基金持有无限售流通A股比例(%)"}, {"column": "CorpAnnuitiesHoldProp", "desc": "企业年金持有无限售流通A股比例(%)"}, {"column": "TrustCompaniesHoldProp", "desc": "信托公司持有无限售流通A股比例(%)"}, {"column": "FinanceCompaniesHoldProp", "desc": "财务公司持有无限售流通A股比例(%)"}, {"column": "OtherInstitutionHoldProp", "desc": "其它机构持有无限售流通A股比例(%)"}, {"column": "InstitutionsHoldingsA", "desc": "机构持有A股数量合计(股)"}, {"column": "FundsHoldingsA", "desc": "基金持有A股数量(股)"}, {"column": "SecuritiesCorpsHoldingsA", "desc": "券商持有A股数量(股)"}, {"column": "FinanceProductsHoldingsA", "desc": "券商理财产品持有A股数量(股)"}, {"column": "QFIIHoldingsA", "desc": "QFII持有A股数量(股)"}, {"column": "InsuranceCorpsHoldingsA", "desc": "保险公司持有A股数量(股)"}, {"column": "SocialSecurityFundHoldA", "desc": "社保基金持有A股数量(股)"}, {"column": "EnterpriseAnnuitiesHoldA", "desc": "企业年金持有A股数量(股)"}, {"column": "TrustCompaniesHoldingsA", "desc": "信托公司持有A股数量(股)"}, {"column": "FinanceCompHoldingsA", "desc": "财务公司持有A股数量(股)"}, {"column": "OtherInstiHoldingsA", "desc": "其它机构持有A股数量(股)"}, {"column": "InstitutionsHoldPropA", "desc": "机构持有A股比例合计(%)"}, {"column": "FundsHoldPropA", "desc": "基金持有A股比例(%)"}, {"column": "SecuritiesCorpsHoldPropA", "desc": "券商持有A股比例(%)"}, {"column": "FinanceProductsHoldPropA", "desc": "券商理财产品持有A股比例(%)"}, {"column": "QFIIHoldPropA", "desc": "QFII持有A股比例(%)"}, {"column": "InsuranceCorpsHoldPropA", "desc": "保险公司持有A股比例(%)"}, {"column": "SocialSecuFundHoldPropA", "desc": "社保基金持有A股比例(%)"}, {"column": "CorpAnnuitiesHoldPropA", "desc": "企业年金持有A股比例(%)"}, {"column": "TrustCompaniesHoldPropA", "desc": "信托公司持有A股比例(%)"}, {"column": "FinanceCompHoldPropA", "desc": "财务公司持有A股比例(%)"}, {"column": "OtherInstiHoldPropA", "desc": "其它机构持有A股比例(%)"}, {"column": "InstitutionsHoldingsT", "desc": "机构持股数量合计(股)"}, {"column": "FundsHoldingsT", "desc": "基金持股数量(股)"}, {"column": "SecuritiesCorpsHoldingsT", "desc": "券商持股数量(股)"}, {"column": "FinanceProductsHoldingsT", "desc": "券商理财产品持股数量(股)"}, {"column": "QFIIHoldingsT", "desc": "QFII持股数量(股)"}, {"column": "InsuranceCorpsHoldingsT", "desc": "保险公司持股数量(股)"}, {"column": "SocialSecurityFundHoldT", "desc": "社保基金持股数量(股)"}, {"column": "EnterpriseAnnuitiesHoldT", "desc": "企业年金持股数量(股)"}, {"column": "TrustCompaniesHoldingsT", "desc": "信托公司持股数量(股)"}, {"column": "FinanceCompHoldingsT", "desc": "财务公司持股数量(股)"}, {"column": "OtherInstiHoldingsT", "desc": "其它机构持股数量(股)"}, {"column": "InstitutionsHoldPropT", "desc": "机构持股比例合计(%)"}, {"column": "FundsHoldPropT", "desc": "基金持股比例(%)"}, {"column": "SecuritiesCorpsHoldPropT", "desc": "券商持股比例(%)"}, {"column": "FinanceProductsHoldPropT", "desc": "券商理财产品持股比例(%)"}, {"column": "QFIIHoldPropT", "desc": "QFII持股比例(%)"}, {"column": "InsuranceCorpsHoldPropT", "desc": "保险公司持股比例(%)"}, {"column": "SocialSecuFundHoldPropT", "desc": "社保基金持股比例(%)"}, {"column": "CorpAnnuitiesHoldPropT", "desc": "企业年金持股比例(%)"}, {"column": "TrustCompaniesHoldPropT", "desc": "信托公司持股比例(%)"}, {"column": "FinanceCompHoldPropT", "desc": "财务公司持股比例(%)"}, {"column": "OtherInstiHoldPropT", "desc": "其它机构持股比例(%)"}, {"column": "Top10StockholdersAmount", "desc": "前十大股东持股数量合计(股)"}, {"column": "Top10StockholdersProp", "desc": "前十大股东持股比例合计(%)"}, {"column": "Top10NRStockholdersAmount", "desc": "前十大无限售股东持股数量合计(股)"}, {"column": "Top10NRHoldersAmountToNRS", "desc": "前十大无限售股东持股数占无限售股本比例(%)"}, {"column": "Top10NRHoldersAmountToTS", "desc": "前十大无限售股东持股数占总股本的比例(%)"}, {"column": "NRAFromTop10NRHolders", "desc": "前十大无限售股东持有无限售A股数量合计(股)"}, {"column": "NRAFromTop10ToNRA", "desc": "前十大无限售股东持有无限售A股数占无限售A股比例(%)"}, {"column": "InstiHoldTNum", "desc": "机构持股户数"}, {"column": "InstiHoldANum", "desc": "机构持有流通A股户数"}, {"column": "InstiHoldNum", "desc": "机构持有无限售流通A股户数"}, {"column": "FundsHoldingsTNum", "desc": "基金持股户数"}, {"column": "SecuCorpsHoldTNum", "desc": "券商持股户数"}, {"column": "SecuCorpsHoldANum", "desc": "券商持有流通A股户数"}, {"column": "SecuCorpsHoldNum", "desc": "券商持有无限售流通A股户数"}, {"column": "FinProductsHoldTNum", "desc": "券商理财产品持股户数"}, {"column": "FinProductsHoldANum", "desc": "券商理财产品持有流通A股户数"}, {"column": "FinProductsHoldNum", "desc": "券商理财产品持有无限售流通A股户数"}, {"column": "QFIIHoldTNumber", "desc": "QFII持股户数"}, {"column": "QFIIHoldANum", "desc": "QFII持有流通A股户数"}, {"column": "QFIIHoldingsNum", "desc": "QFII持有无限售流通A股户数"}, {"column": "InsurCorpsHoldTNum", "desc": "保险公司持股户数"}, {"column": "InsurCorpsHoldANum", "desc": "保险公司持有流通A股户数"}, {"column": "InsurCorpsHoldNum", "desc": "保险公司持有无限售流通A股户数"}, {"column": "SocialSecuFundHoldTN", "desc": "社保基金持股户数"}, {"column": "SocialSecuFundHoldAN", "desc": "社保基金持有流通A股户数"}, {"column": "SocialSecuFundHoldN", "desc": "社保基金持有无限售流通A股户数"}, {"column": "EntAnnuitiesHoldTNum", "desc": "企业年金持股户数"}, {"column": "EntAnnuitiesHoldANum", "desc": "企业年金持有流通A股户数"}, {"column": "EntAnnuitiesHoldNum", "desc": "企业年金持有无限售流通A股户数"}, {"column": "TrustCoHoldTNum", "desc": "信托公司持股户数"}, {"column": "TrustCoHoldANum", "desc": "信托公司持有流通A股户数"}, {"column": "TrustCoHoldNum", "desc": "信托公司持有无限售流通A股户数"}, {"column": "FinanceCoHoldTNum", "desc": "财务公司持股户数"}, {"column": "FinanceCoHoldANum", "desc": "财务公司持有流通A股户数"}, {"column": "FinanceCoHoldNum", "desc": "财务公司持有无限售流通A股户数"}, {"column": "OtherInstiHoldTNum", "desc": "其他机构持股户数"}, {"column": "OtherInstiHoldANum", "desc": "其他机构持有流通A股户数"}, {"column": "OtherInstiHoldNum", "desc": "其他机构持有无限售流通A股户数"}, {"column": "StatDate", "desc": "统计日期"}, {"column": "PrivFundHoldings", "desc": "私募基金持有无限售流通A股数量(股)"}, {"column": "BankHoldings", "desc": "银行持有无限售流通A股数量(股)"}, {"column": "ForeignInstHoldings", "desc": "外资机构持有无限售流通A股数量(股)"}, {"column": "PrivFundHoldProp", "desc": "私募基金持有无限售流通A股比例(%)"}, {"column": "BankHoldProp", "desc": "银行持有无限售流通A股比例(%)"}, {"column": "ForeignInstHoldProp", "desc": "外资机构持有无限售流通A股比例(%)"}, {"column": "PrivFundHoldNum", "desc": "私募基金持有无限售流通A股户数"}, {"column": "BankHoldNum", "desc": "银行持有无限售流通A股户数"}, {"column": "ForeignInstHoldNum", "desc": "外资持有无限售流通A股户数"}, {"column": "PrivFundHoldingsA", "desc": "私募基金持A股数量(股)"}, {"column": "BankHoldingsA", "desc": "银行持有A股数量(股)"}, {"column": "ForeignInstHoldingsA", "desc": "外资机构持A股数量(股)"}, {"column": "PrivFundHoldPropA", "desc": "私募基金持有A股比例(%)"}, {"column": "BankHoldPropA", "desc": "银行持有A股比例(%)"}, {"column": "ForeignInstHoldPropA", "desc": "外资机构持有A股比例(%)"}, {"column": "FundsHoldingsANum", "desc": "公募基金持有流通A股户数"}, {"column": "PrivFundHoldANum", "desc": "私募基金持有流通A股户数"}, {"column": "BankHoldANum", "desc": "银行持有流通A股户数"}, {"column": "ForeignInstHoldANum", "desc": "外资持有流通A股户数"}, {"column": "PrivFundHoldingsT", "desc": "私募基金持股数量(股)"}, {"column": "BankHoldingsT", "desc": "银行持股数量(股)"}, {"column": "ForeignInstHoldingsT", "desc": "外资机构持股数量(股)"}, {"column": "PrivFundHoldPropT", "desc": "私募基金持股比例(%)"}, {"column": "BankHoldPropT", "desc": "银行持股比例(%)"}, {"column": "ForeignInstHoldPropT", "desc": "外资机构持股比例(%)"}, {"column": "PrivFundHoldTNum", "desc": "私募基金持股户数"}, {"column": "BankHoldTNum", "desc": "银行持股户数"}, {"column": "ForeignInstHoldTNum", "desc": "外资持股户数"}]}, {"表名": "constantdb.secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码；公司代码(CompanyCode)：当本表SecuCategory IN (8,13)即基金相关时，对应的基金管理人代码可通过本表InnerCode关联MF_FundArchives.InnerCode，取MF_FundArchives.InvestAdvisorCode"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}]}, {"表名": "constantdb.hk_secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "FormerName", "desc": "曾用名"}, {"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "FormerName", "desc": "曾用名"}]}, {"表名": "constantdb.us_secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "EngName", "desc": "英文名称"}, {"column": "ChiName", "desc": "中文名称"}]}, {"表名": "constantdb.ct_systemconst", "表字段": [{"column": "LB", "desc": "常量分类编码"}, {"column": "LBMC", "desc": "常量分类名称"}, {"column": "MS", "desc": "常量描述"}, {"column": "DM", "desc": "常量代码"}, {"column": "LB", "desc": "常量分类编码"}, {"column": "LBMC", "desc": "常量分类名称"}, {"column": "MS", "desc": "常量描述"}, {"column": "DM", "desc": "常量代码"}]}, {"表名": "constantdb.lc_areacode", "表字段": [{"column": "AreaInnerCode", "desc": "地区内部编码；地区内部编码（AreaInnerCode）：聚源内部设置的地区代码，共9位数。"}, {"column": "FirstLevelCode", "desc": "一级区划代码；一级区划代码(FirstLevelCode)：与(CT_SystemConst)表中的DM字段关联，令LB = 1961 and DM LIKE '%000'，得到一级区划代码的具体描述：1000-中国省级行政区划，2000-中国地级行政区划，3000-中国县级行政区划，4000-其他，5000-中国乡镇级行政区划，9000-国家，10000-大洲与海洋，11000-美国州级行政区划，12000-海外国家城市，100000000-国家级经济区域，200000000-中国海关，300000000-海关经济区划。"}, {"column": "SecondLevelCode", "desc": "二级区划代码；二级区划代码(SecondLevelCode)：与(CT_SystemConst)表中的DM字段关联，令LB = 1961，得到二级区划代码的具体描述：1000-中国省级行政区划，1001-直辖市，1002-省，1003-自治区，1004-特别行政区，2000-中国地级行政区划，2001-省会，2002-地级市，2003-盟，2004-自治州，2005-地区，2006-直辖市市辖区，2007-直辖市市辖县，3000-中国县级行政区划，3001-市辖区，3002-县，3003-县级市，3004-自治县，3005-旗，3006-自治旗，3007-林区，3008-特区，3009-县级乡镇，3010-县级街道，3011-县级经济开发区，3012-县级其他，4000-其他，4001-中国地理划分(按自然地理)，4002-中国地理划分(按经济区域)，4010-中国国家级城市群，4011-中国经济合作城市群，4100-欧洲地理划分(按自然地理)，4150-非洲地理划分(按自然地理)，4800-非标准地区，4900-其他地区划分(按自然地理)，4950-政治类联合体、联盟或组织，4951-经济类联合体、联盟或组织，4999-其他划分，5000-中国乡镇级行政区划，5001-乡镇，5002-街道，5003-乡镇级经济开发区，5004-乡镇其他，9000-国家，10000-大洲与海洋，10001-大洲，10002-海洋，11000-美国州级行政区划，11001-特区，11002-州，12000-海外国家城市，100000000-国家级经济区域，100000001-国家级经济特区，100000002-国家级新区，100000003-国家综合配套改革试验区，100000004-高新技术产业开发区，100000005-经济技术开发区，100000006-海关特殊监管区域，100000007-边境/跨境经济合作区，100000008-其他类型开发区，200000000-中国海关，200000001-海关总署，200000002-直属海关，200000003-隶属海关，300000000-海关经济区划，300000001-保税港区/综合保税区，300000002-保税区，300000003-保税物流园区，300000004-保税物流中心，300000005-出口加工区/珠澳跨境工业园区，300000006-高新技术产业开发区，300000007-国际边境合作中心，300000008-经济技术开发区，300000009-经济特区，300000010-一般经济区域，300000011-综合实验区，300000099-其他经济区划。"}, {"column": "AreaChiName", "desc": "地区中文名称"}, {"column": "AreaEngName", "desc": "地区英文名称"}, {"column": "AreaEngNameAbbr", "desc": "地区英文名称缩写"}, {"column": "ParentNode", "desc": "父节点代码"}, {"column": "ParentName", "desc": "父节点名称"}, {"column": "IfEffected", "desc": "是否有效；是否有效（IfEffected）：该字段固定以下常量：1-是 2-否。"}]}, {"表名": "astockindustrydb.lc_conceptlist", "表字段": [{"column": "ClassCode", "desc": "所属1级概念代码"}, {"column": "ClassName", "desc": "所属1级概念名称"}, {"column": "SubclassCode", "desc": "所属2级概念代码"}, {"column": "SubclassName", "desc": "所属2级概念名称"}, {"column": "ConceptCode", "desc": "所属概念板块编码"}, {"column": "ConceptName", "desc": "概念名称"}, {"column": "ConceptEngName", "desc": "概念英文名称"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户提问要求找出在2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称。这需要我们从相关数据表中筛选出2020年半年报的数据，并计算每个公司机构持有的无限售流通A股数量，最后找出数量最多的公司简称。
+
+【信息所在字段】
+- astockshareholderdb.lc_stockholdingst.InstitutionsHoldings: 这个字段可能包含机构持有无限售流通A股数量合计信息，对应用户提问中的“机构持有无限售流通A股数量合计”。
+- astockshareholderdb.lc_stockholdingst.EndDate: 这个字段可能包含报告日期信息，对应用户提问中的“2020年半年报”。
+- constantdb.secumain.ChiNameAbbr: 这个字段可能包含公司简称信息，对应用户提问中的“公司简称”。
+
+【筛选条件所在字段】
+- astockshareholderdb.lc_stockholdingst.EndDate: 这个字段用于筛选2020年半年报的数据。
+- astockshareholderdb.lc_stockholdingst.InnerCode: 这个字段用于与证券主表关联，获取公司简称。
+- constantdb.secumain.InnerCode: 这个字段用于与持股表关联，获取公司简称。
+
+【选中的字段的清单】
+```json
+{
+  "astockshareholderdb.lc_stockholdingst": ["InstitutionsHoldings", "EndDate", "InnerCode"],
+  "constantdb.secumain": ["ChiNameAbbr", "InnerCode"]
+}
+```
+
+
+>>>>> 【user】 Said:
+在最新更新的2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称是什么？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 需要查询的是2020年半年报的数据。
+- 关注的是机构持有无限售流通A股数量合计最多的公司。
+- 需要获取公司的简称。
+
+【当前阶段要获取的信息】
+- 2020年半年报中机构持有无限售流通A股数量合计最多的公司的InnerCode。
+
+【信息所在字段】
+- `InstitutionsHoldings`（机构持有无限售流通A股数量合计）
+- `InnerCode`（证券内部编码）
+
+【筛选条件所在字段】
+- `EndDate`（日期）
+
+【SQL语句的思路】
+1. 从`astockshareholderdb.lc_stockholdingst`表中筛选出2020年半年报的数据。
+2. 按照机构持有无限售流通A股数量合计进行降序排列。
+3. 取数量最多的那条记录的`InnerCode`。
+
+【执行SQL语句】
+```exec_sql
+SELECT InnerCode
+FROM astockshareholderdb.lc_stockholdingst
+WHERE DATE(EndDate) = '2020-06-30'
+ORDER BY InstitutionsHoldings DESC
+LIMIT 1
+```
+
+【上述SQL语句的含义】
+- 从`astockshareholderdb.lc_stockholdingst`表中选择`InnerCode`字段。
+- 筛选条件是`EndDate`字段的日期为2020年6月30日。
+- 按照机构持有无限售流通A股数量合计（`InstitutionsHoldings`）进行降序排列。
+- 取数量最多的那条记录的`InnerCode`。
+
+>>>>> 查询sql:
+SELECT InnerCode
+FROM astockshareholderdb.lc_stockholdingst
+WHERE DATE(EndDate) = '2020-06-30'
+ORDER BY InstitutionsHoldings DESC
+LIMIT 1;
+查询结果:
+[{"InnerCode": 2118}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT InnerCode
+FROM astockshareholderdb.lc_stockholdingst
+WHERE DATE(EndDate) = '2020-06-30'
+ORDER BY InstitutionsHoldings DESC
+LIMIT 1;
+查询结果:
+[{"InnerCode": 2118}]
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 在2020年6月30日的数据中，机构持有无限售流通A股数量最多的证券内部编码为2118。该查询通过筛选EndDate为2020-06-30的记录，并按照InstitutionsHoldings字段降序排列，取排名第一的记录的InnerCode字段值。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT InnerCode
+FROM astockshareholderdb.lc_stockholdingst
+WHERE DATE(EndDate) = '2020-06-30'
+ORDER BY InstitutionsHoldings DESC
+LIMIT 1;
+查询结果:
+[{"InnerCode": 2118}]
+查询结果表明: 在2020年6月30日的数据中，机构持有无限售流通A股数量最多的证券内部编码为2118。该查询通过筛选EndDate为2020-06-30的记录，并按照InstitutionsHoldings字段降序排列，取排名第一的记录的InnerCode字段值。
+
+当前掌握的信息是否能够回答"在最新更新的2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称是什么？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 在2020年6月30日的数据中，机构持有无限售流通A股数量最多的证券内部编码为2118。
+
+【当前阶段要获取的信息】
+- 对应于InnerCode为2118的公司的简称。
+
+【信息所在字段】
+- `ChiNameAbbr`（中文名称缩写）
+
+【筛选条件所在字段】
+- `InnerCode`（证券内部编码）
+
+【SQL语句的思路】
+1. 使用上一步获取的`InnerCode`（2118）。
+2. 从`constantdb.secumain`表中查询对应的`ChiNameAbbr`。
+
+【执行SQL语句】
+```exec_sql
+SELECT ChiNameAbbr
+FROM constantdb.secumain
+WHERE InnerCode = 2118
+```
+
+【上述SQL语句的含义】
+- 从`constantdb.secumain`表中选择`ChiNameAbbr`字段。
+- 筛选条件是`InnerCode`等于2118。
+- 这样可以获取到对应公司的简称。
+
+>>>>> 查询sql:
+SELECT ChiNameAbbr
+FROM constantdb.secumain
+WHERE InnerCode = 2118;
+查询结果:
+[{"ChiNameAbbr": "石化油服"}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT ChiNameAbbr
+FROM constantdb.secumain
+WHERE InnerCode = 2118;
+查询结果:
+[{"ChiNameAbbr": "石化油服"}]
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 证券内部编码为2118的证券中文名称缩写为“石化油服”。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT ChiNameAbbr
+FROM constantdb.secumain
+WHERE InnerCode = 2118;
+查询结果:
+[{"ChiNameAbbr": "石化油服"}]
+查询结果表明: 证券内部编码为2118的证券中文名称缩写为“石化油服”。
+
+当前掌握的信息是否能够回答"在最新更新的2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称是什么？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 在2020年6月30日的数据中，机构持有无限售流通A股数量最多的证券内部编码为2118。
+- 证券内部编码为2118的证券中文名称缩写为“石化油服”。
+
+【当前阶段要获取的信息】
+- 无
+
+【信息所在字段】
+- 无
+
+【筛选条件所在字段】
+- 无
+
+【SQL语句的思路】
+- 无
+
+【执行SQL语句】
+- 无
+
+【上述SQL语句的含义】
+- 无
+
+**结论**：
+当前掌握的信息已经能够回答“在最新更新的2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称是什么？”这一问题。答案是“石化油服”。无需继续执行下一阶段SQL查询。
+
+
+>>>>> 【user】 Said:
+请回答问题:"在最新更新的2020年半年报中，机构持有无限售流通A股数量合计最多的公司简称是什么？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+石化油服

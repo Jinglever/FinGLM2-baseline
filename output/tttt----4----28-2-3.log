@@ -1,0 +1,362 @@
+
+>>>>> Original Question: 这支基金20年最后一次分红派现比例多少钱？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."这支基金20年最后一次分红派现比例多少钱？"
+
+>>>>> Agent【extract_company】 Said:
+No Entities.
+
+
+>>>>> 【user】 Said:
+已知事实:无。
+下面是顺序的历史问答:
+'''
+Question: 华夏基金管理有限公司在19年成立了多少支基金？
+Answer: 华夏基金管理有限公司在2019年成立了13支基金。
+Question: 哪支基金的规模最大？
+Answer: 华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金代码为008349。
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：这支基金20年最后一次分红派现比例多少钱？
+
+>>>>> Agent【rewrite_question】 Said:
+华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金（代码008349）在2020年最后一次分红派现的比例是多少？
+
+>>>>> 已知事实:
+
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金（代码008349）在2020年最后一次分红派现的比例。这涉及到基金的基本信息、成立时间、规模以及分红派现记录。根据知识库，公募基金数据库（publicfunddb）记录了公募基金的基本信息、产品名称、管理人概况及分红数据，能够提供所需的信息。
+
+【选中的数据库】
+- publicfunddb: 这个数据库包含公募基金的基本信息、产品名称、管理人概况及分红数据，可以查询到基金的成立时间、规模以及分红派现记录。
+
+【选中的数据库的清单】
+```json
+["publicfunddb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "publicfunddb.mf_fundarchives", "说明": "该数据表主要记录基金的基本信息、运作特性及相关规则。字段包括基金编码信息如基金内部编码、转型统一编码、基金代码及证券代码等；申购赎回相关信息如前后端申购代码、场内申购赎回场所及代码、最低认购申购金额及赎回份额限制等；基金特性描述如基金运作方式、性质、投资风格、类别及代码、投资方向、目标、范围等；收益与风险信息如业绩比较基准、风险收益特征、收益分配原则及场内外分配方式等；基金设立与存续信息如设立规模、设立日期、存续期起止、清算期等；货币基金特性如结转日及收益分配方式等；基金收益率表达及折算说明如A份额约定收益率表达式及备注、定期与不定期份额折算说明等；管理与托管信息如基金经理、管理人、托管人、保本担保机构及注册登记机构等；市场与类型特性如是否发起式基金、养老目标基金或FOF基金等；以及其他信息如最低持有份额及描述、巨额赎回认定比例、赎回款到账天数等。"}, {"表名": "publicfunddb.mf_fundprodname", "说明": "该数据表主要用于记录基金相关信息，包括基金的基础编码信息如基金内部编码和基金转型统一编码，信息属性如信息发布日期、信息来源、信息类别及披露名称，时间属性如生效日期和失效日期，以及状态标识如是否有效，辅助字段如拼音证券简称和备注，用于进一步描述或补充相关内容。"}, {"表名": "publicfunddb.mf_investadvisoroutline", "说明": "该数据表记录了基金管理公司相关信息，涵盖基本标识信息如基金公司代码、名称、简称等，法人信息如法人代表、总经理，以及公司成立日期、组织形式、注册资本等基本企业信息；地址信息包括注册地址、办公地址、联系地址及邮编；联系方式如电话、传真、邮箱、公司网址、客服热线等；还有联系人及其简历等人员信息；此外，还包括地域信息如所属地区，监管信息如注册登记代码、证监会标识码，以及存续截止日等内容。"}, {"表名": "publicfunddb.mf_dividend", "说明": "该数据表主要用于记录基金转型及分红相关信息，涵盖基金编码信息如基金转型统一编码和基金内部编码；日期信息如信息发布日期、分红实施公告日、截止日期、收益分配基准日、权益登记日、除息日、发放日、红利再投资日及其相关到账日和可赎回日；收益与分红信息如单位基金收益、单位基金未分配收益、派现比例（含税与税后）、派现金额合计、基准日基金可供分配利润、基准日应分配金额、本年单位累计分红、本年累计分红总额、本年累计分红次数、历史累计分红总额及次数；事件与方案信息如是否分红、方案变更说明、事件进程代码及事件进程；范围与来源信息如信息来源和发放范围，全面反映基金在分红及收益分配过程中的各类核心数据。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要回答这个问题，我们需要找到以下信息：
+1. 华夏基金管理有限公司在2019年成立的基金列表。
+2. 这些基金中规模最大的基金的代码。
+3. 该基金在2020年最后一次分红的派现比例。
+
+根据提供的表信息：
+- `publicfunddb.mf_fundarchives` 包含基金的设立日期和规模信息，可以用来找到2019年成立的基金及其规模。
+- `publicfunddb.mf_dividend` 包含基金的分红信息，可以用来找到特定基金在2020年的最后一次分红派现比例。
+
+【选中的数据表】
+- `publicfunddb.mf_fundarchives`: 这个数据表包含基金的设立日期和规模信息，可以用来确定2019年成立的基金及其规模。
+- `publicfunddb.mf_dividend`: 这个数据表包含基金的分红信息，可以用来确定特定基金在2020年的最后一次分红派现比例。
+
+【选中的数据库表的清单】
+```json
+["publicfunddb.mf_fundarchives", "publicfunddb.mf_dividend"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "publicfunddb.mf_fundarchives", "表字段": [{"column": "InnerCode", "desc": "基金内部编码；基金内部编码（InnerCode）：与“证券主表（SecuMain）”中的“证券内部编码（InnerCode）”关联，得到基金的交易代码、简称等。"}, {"column": "TransCode", "desc": "基金转型统一编码；基金转型统一编码(TransCode)是转型后的基金内码(InnerCode)，若发生多次转型，则为最新的基金内码。"}, {"column": "ApplyingCodeFront", "desc": "前端申购代码；前端申购代码（ApplyingCodeFront）：取值为场外前端申购代码>场内申赎代码（场内基金）。"}, {"column": "ApplyingCodeBack", "desc": "后端申购代码"}, {"column": "SecurityCode", "desc": "基金代码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "MainCode", "desc": "基金主代码；基金主代码（MainCode）：该字段记录基金季报中公布的基金主代码信息，当基金为非分级基金或分级基金主代码时，该字段与基金代码（SecurityCode）一致。"}, {"column": "ExApplyingMarket", "desc": "场内申购赎回场所；场内申购赎回场所(ExApplyingMarket)与(CT_SystemConst)表中的DM字段关联，令LB = 201 AND DM IN (90,83)，得到场内申购赎回场所的具体描述：83-上海证券交易所，90-深圳证券交易所。"}, {"column": "ExApplyingCode", "desc": "场内申购赎回代码"}, {"column": "ExApplyingAbbr", "desc": "场内申购赎回简称"}, {"column": "Type", "desc": "基金运作方式；基金运作方式(Type)与(CT_SystemConst)表中的DM字段关联，令LB = 1210 AND DM IN(1,2,3,4,6,7,8)，得到基金运作方式的具体描述：1-契约型封闭式，2-开放式，3-LOF，4-ETF，6-创新型封闭式，7-开放式(带固定封闭期)，8-ETF联接基金。"}, {"column": "FundNature", "desc": "基金性质；基金性质(FundNature)与(CT_SystemConst)表中的DM字段关联，令LB = 1485，得到基金性质的具体描述：1-常规基金，2-QDII基金，3-互认基金。"}, {"column": "InvestmentType", "desc": "是否指数型；是否指数型(InvestmentType)与(CT_SystemConst)表中的DM字段关联，令LB = 1094 AND DM IN (7,8,16)，得到是否指数型的具体描述：7-指数型，8-优化指数型，16-非指数型。"}, {"column": "InvestStyle", "desc": "基金投资风格；基金投资风格(InvestStyle)与(CT_SystemConst)表中的DM字段关联，令LB = 1093，得到基金投资风格的具体描述：1-普通股票型，2-指数型，3-配置型，4-货币市场，5-积极债券型，6-债券型，7-普通债券型，8-短债型，9-保本型，10-积极配置型，11-保守混合型，12-偏股型，13-偏债型，14-中短债型，15-特殊策略型，16-标准混合型，17-QDII，20-封闭式基金，21-大规模封闭式基金，22-小规模封闭式基金，23-普通股票型(封闭)，24-标准混合型基金(封闭)，25-积极债券型(封闭)，26-普通债券型基金(封闭)，27-积极配置型(封闭)，29-其它(封闭)，30-亚太区不包括日本股票，31-大中华区股票，32-新兴市场股票，33-环球股票，34-行业股票，35-美国股票，36-环球股债混合，37-环球债券，38-商品(QDII)，39-可转债型，40-纯债型，41-纯债型(封闭)，42-混合型，43-混合型(封闭)，44-可转债型(封闭)，45-债券型(封闭)，46-股票型(QDII)，47-混合型(QDII)，48-债券型(QDII)，49-保守混合型(封闭)，50-商品基金(QDII)，51-货币型，52-短债型(封闭)，53-市场中性策略，54-市场中性策略(封闭)，55-商品，56-另类，57-另类(封闭)，58-其它(QDII)，59-灵活配置型，60-灵活配置型(封闭)，61-亚洲股债混合，62-大中华区股债混合，63-全球新兴市场股债混合，64-行业股票-医药，65-行业股票-科技、传媒及通讯，66-沪港深股票型，67-沪港深混合型，68-沪港深混合型(封闭)，69-债券型QDII(封闭)，70-FOF，71-其他债券，72-亚洲不包括日本股票-货币对冲，73-中国股票，74-亚太区股票，75-环球债券(封闭)，76-亚洲债券，77-股票型基金，78-可转债基金，79-保本基金，80-商品基金，81-其它，82-其它基金(QDII)，83-债券型基金，84-香港股票型基金，85-行业股票-消费，86-行业股票-金融地产，87-行业混合-消费，88-行业混合-医药，89-行业混合-科技、传媒及通讯，90-沪港深积极配置型，91-沪港深保守混合型，92-沪港深灵活配置型，93-目标日期，94-商品-贵金属，95-商品-其它，96-沪港深积极配置型(封闭)，97-沪港深保守混合型(封闭)，98-沪港深灵活配置型(封闭)，99-其他型，100-环球债券 - 美元对冲，101-行业混合 - 科技、传媒及通讯（封闭式），102-美元积极型股债混合，103-科技股票，104-新兴市场债券，105-大中华股票，106-亚洲高收益债券，107-其他行业股票，108-大中华高收益债券，109-亚洲不包括日本股票，110-其他股债混合，111-美元灵活配置型，112-信用债(封闭)，113-信用债，114-行业股票-其它，115-行业混合-医药(封闭)，116-利率债，117-利率债(封闭)，118-香港股票型基金(封闭式)，119-大盘成长股票，120-大盘平衡股票，121-大盘价值股票，122-中盘成长股票，123-中盘平衡股票，124-积极配置-大盘成长，125-积极配置-大盘平衡，126-积极配置-中小盘，127-沪港深积极配置，128-港股积极配置，129-基础设施REITs（废弃），130-积极配置-大盘平衡(封闭式)，131-大盘平衡股票(封闭式)，132-大盘成长股票(封闭式)，133-积极配置-大盘成长(封闭式)，134-积极配置-中小盘(封闭式)，135-QDII环球股票，136-QDII环球债券，137-QDII行业股票，138-QDII美国股票，139-QDII大中华区股票，140-QDII全球新兴市场股债混合，141-QDII亚洲股债混合，142-QDII新兴市场股票，143-环球新兴市场债券，144-美元激进配置型，145-QDII环球股债混合，146-QDII大中华区股债混合，147-QDII亚太区不包括日本股票，148-QDII环球债券(封闭式)，149-QDII其它，150-QDII商品，151-沪港深股票(封闭)，152-基础设施REITs(封闭)，155-行业混合-消费(封闭式)。"}, {"column": "FundType", "desc": "基金类别"}, {"column": "FundTypeCode", "desc": "基金类别代码；基金类别代码(FundTypeCode)与(CT_SystemConst)表中的DM字段关联，令LB = 1249 AND DM NOT IN (1110,1111,1112)，得到基金类别代码的具体描述：1101-股票型，1103-混合型，1105-债券型，1107-保本型，1109-货币型，1199-其他型，1200-基础设施证券投资基金。"}, {"column": "InvestOrientation", "desc": "基金投资方向"}, {"column": "InvestTarget", "desc": "基金投资目标"}, {"column": "InvestField", "desc": "基金投资范围"}, {"column": "PerformanceBenchMark", "desc": "业绩比较基准"}, {"column": "RiskReturncharacter", "desc": "风险收益特征"}, {"column": "ProfitDistributionRule", "desc": "收益分配原则"}, {"column": "ExProfitDistri", "desc": "场内收益分配方式；场内收益分配方式(ExProfitDistri)与(CT_SystemConst)表中的DM字段关联，令LB = 1989，得到场内收益分配方式的具体描述：1-现金分红，2-红利再投资，3-现金分红或红利再投资，4-不分配。"}, {"column": "OTCProfitDistri", "desc": "场外收益分配方式；场外收益分配方式(OTCProfitDistri)与(CT_SystemConst)表中的DM字段关联，令LB = 1989，得到场外收益分配方式的具体描述：1-现金分红，2-红利再投资，3-现金分红或红利再投资，4-不分配。"}, {"column": "BriefIntro", "desc": "基金简介"}, {"column": "FloatType", "desc": "发售方式；发售方式(FloatType)与(CT_SystemConst)表中的DM字段关联，令LB = 1652，得到发售方式的具体描述：1-场内，2-场外，3-场内和场外。"}, {"column": "FoundedSize", "desc": "基金设立规模(份)"}, {"column": "EstablishmentDate", "desc": "设立日期"}, {"column": "EstablishmentDateII", "desc": "转型前设立日期"}, {"column": "ListedDate", "desc": "上市日期"}, {"column": "Duration", "desc": "存续年限(年)"}, {"column": "StartDate", "desc": "存续期起始日"}, {"column": "ExpireDate", "desc": "存续期截止日；存续期截止日（ExpireDate）：优先取契约型封闭式基金的存续期截止日，其次取基金的清算日>合同失效日。"}, {"column": "LastOperationDate", "desc": "最后运作日；最后运作日（LastOperationDate）：指基金的最后运作日，一般是净值的最后披露日，是清算日的前一个工作日。"}, {"column": "StClearingDate", "desc": "清算起始日"}, {"column": "EnClearingDate", "desc": "清算截止日"}, {"column": "GuaranteedPeriod", "desc": "保本型基金保本期(月)"}, {"column": "CarryOverDate", "desc": "货币基金结转日；货币基金结转日(CarryOverDate)与(CT_SystemConst)表中的DM字段关联，令LB = 1250，得到货币基金结转日的具体描述：1-每月1日，2-每月2日，3-每月3日，4-每月4日，5-每月5日，6-每月6日，7-每月7日，8-每月8日，9-每月9日，10-每月10日，11-每月11日，12-每月12日，13-每月13日，14-每月14日，15-每月15日，16-每月16日，17-每月17日，18-每月18日，19-每月19日，20-每月20日，21-每月21日，22-每月22日，23-每月23日，24-每月24日，25-每月25日，26-每月26日，27-每月27日，28-每月28日，29-每月29日，30-每月30日，31-每月31日，400-每月，401-每月第一个工作日，402-每月初，429-每月倒数第二个工作日，430-每月最后一个工作日，431-每月末，441-运作期到期日（遇节假日顺延），442-运作期最后一个工作日，443-运作期满下一个工作日，500-运作期内每7个自然日，600-每季，601-每季度末月21号，999-每日。"}, {"column": "CarryOverDateRemark", "desc": "货币基金结转日说明"}, {"column": "CarryOverType", "desc": "货币基金收益分配方式(份额结转方式)；货币基金收益分配方式(份额结转方式)(CarryOverType)与(CT_SystemConst)表中的DM字段关联，令LB = 1273，得到货币基金收益分配方式(份额结转方式)的具体描述：1-按日结转，30-按月结转，99-按期结转。"}, {"column": "AgrBenchmkRateOfShareA", "desc": "A份额约定年基准收益率表达式；A份额约定年基准收益率表达式（AgrBenchmkRateOfShareA）：本表该字段已停止维护，此信息在分级基金主表（MF_GradedFund）中“A份额约定年基准收益表达式（AnnualEarningExp）”字段维护。"}, {"column": "AgrBenchmkRateOfShareANotes", "desc": "A份额约定年基准收益率表达式备注；A份额约定年基准收益率表达式备注（AgrBenchmkRateOfShareANotes）：本表该字段已停止维护，此信息在分级基金主表（MF_GradedFund）中“A份额约定年基准收益表达式备注（AnnualEarningRemark）”字段维护。"}, {"column": "ShareProperties", "desc": "份额属性；份额属性(ShareProperties)与(CT_SystemConst)表中的DM字段关联，令LB = 1651，得到份额属性的具体描述：1-稳健型，2-进取型。"}, {"column": "RegularShareConversionNotes", "desc": "定期份额折算说明；定期份额折算说明（RegularShareConversionNotes）：本表该字段已停止维护，此信息在分级基金主表（MF_GradedFund）中“定期份额折算说明（RegularShareCon）”字段维护。"}, {"column": "NonRegularShareConversionNotes", "desc": "不定期份额折算说明；不定期份额折算说明（NonRegularShareConversionNotes）：本表该字段已停止维护，此信息在分级基金主表（MF_GradedFund）中“不定份额折算说明（TrampShareCon）”字段维护。"}, {"column": "Manager", "desc": "基金经理"}, {"column": "InvestAdvisorCode", "desc": "基金管理人；基金管理人代码（InvestAdvisorCode）：与“基金管理人概况表（MF_InvestAdvisorOutline）”中的“基金管理人名称编号（InvestAdvisorCode）”关联，得到基金管理人的具体名称。"}, {"column": "TrusteeCode", "desc": "基金托管人；基金托管人代码（TrusteeCode）：与“基金托管人概况表（MF_TrusteeOutline）”中的“基金托管人名称编号（TrusteeCode）”关联，得到基金托管人的具体名称。"}, {"column": "Warrantor", "desc": "保本担保机构"}, {"column": "RegInstCode", "desc": "注册登记机构；注册登记机构（RegInstCode）：与“机构基本资料（LC_InstiArchive）”中“企业编号（CompanyCode）”关联，得到注册登记机构基本信息。"}, {"column": "LowestSumSubscribing", "desc": "最低认购申购金额描述"}, {"column": "LowestSumSubLL", "desc": "最低认购金额下限(元)；最低认购金额下限（元）（LowestSumSubLL）：取值为不同认购平台最低认购金额的最小值。"}, {"column": "LowestSumPurLL", "desc": "最低申购金额下限(元)；申赎确认日(PRconfirmationdate)：该字段的数值含义指的是T+n，1代表T+1,2代表T+2，以此类推。针对ETF基金，维护现金差额清算或者现金替代日。"}, {"column": "LowestSumRedemption", "desc": "最低赎回份额(份)"}, {"column": "LSFRDescription", "desc": "最低赎回份额描述"}, {"column": "LowestSumForHolding", "desc": "最低持有份额(份)"}, {"column": "LSFHDescription", "desc": "最低持有份额描述"}, {"column": "LargeRedemptionRatio", "desc": "巨额赎回认定比例"}, {"column": "PRconfirmationdate", "desc": "申赎确认日；赎回款到账天数(DeliveryDays)：指一般基金的赎回款到账日。针对ETF基金，维护现金差额交收日。"}, {"column": "DeliveryDays", "desc": "赎回款到账天数；风险收益特征代码(RiskReturnCode)与(CT_SystemConst)表中的DM字段关联，令LB = 1651，得到风险收益特征代码的具体描述：1-稳健型，2-进取型。"}, {"column": "CustodyMarket", "desc": "转托管市场；转托管市场(CustodyMarket)与(CT_SystemConst)表中的DM字段关联，令LB = 201 AND DM IN (83, 90)，得到转托管市场的具体描述：83-上海证券交易所，90-深圳证券交易所。"}, {"column": "IfInitiatingFund", "desc": "是否发起式基金；是否发起式基金(IfInitiatingFund)：1-否，2-是。"}, {"column": "IfPensionTarget", "desc": "是否养老目标基金；是否养老目标基金(IfPensionTarget)与(CT_SystemConst)表中的DM字段关联，令LB = 999 AND DM IN (1,2)，得到是否养老目标基金的具体描述：1-是，2-否。"}, {"column": "IfFOF", "desc": "是否FOF；是否FOF(IfFOF)与(CT_SystemConst)表中的DM字段关联，令LB = 999 AND DM IN(1,2)，得到是否FOF的具体描述：1-是，2-否。"}]}, {"表名": "publicfunddb.mf_dividend", "表字段": [{"column": "TransCode", "desc": "基金转型统一编码"}, {"column": "InnerCode", "desc": "基金内部编码；基金内部编码（InnerCode）：与“证券主表（SecuMain）”中的“证券内部编码（InnerCode）”关联，得到基金的交易代码、简称等。"}, {"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "DividendImplementDate", "desc": "分红实施公告日"}, {"column": "EndDate", "desc": "截止日期；截止日期（EndDate）：基金收益分配基准日，同收益分配基准日[ProfitDistDate]字段一致。"}, {"column": "ProfitDistDate", "desc": "收益分配基准日；收益分配基准日(ProfitDistDate)：基金本次分红依据的可分配利润的截止日期。即，以截止该日期的本基金的可分配利润为准，向基金份额持有人按一定的分红比例实施分红。"}, {"column": "UnitProfit", "desc": "单位基金收益(元)"}, {"column": "UnitRetainedProfit", "desc": "单位基金未分配收益(元)"}, {"column": "IfDistributed", "desc": "是否分红；是否分红（IfDistributed）：该字段固定以下常量：1-是；0-否。"}, {"column": "DividendRatioBeforeTax", "desc": "派现比例(含税10派X元)"}, {"column": "ActualRatioAfterTax", "desc": "实派比例(税后10派X元)"}, {"column": "Dividendsum", "desc": "派现金额合计(元)"}, {"column": "ReDate", "desc": "权益登记日"}, {"column": "ExRightDate", "desc": "除息日"}, {"column": "ExRightDateEX", "desc": "场内除息日"}, {"column": "ExecuteDate", "desc": "发放日"}, {"column": "ExecuteDateEX", "desc": "场内发放日"}, {"column": "ReinvestDay", "desc": "红利再投资日"}, {"column": "AccountDay", "desc": "红利再投资份额到帐日"}, {"column": "RedemptionDay", "desc": "红利再投资份额可赎回日"}, {"column": "DistributableProfits", "desc": "基准日基金可供分配利润(元)"}, {"column": "AllocationValue", "desc": "基准日应分配金额(元)"}, {"column": "SchemeModification", "desc": "方案变更说明"}, {"column": "EventProcedureCode", "desc": "事件进程代码；事件进程代码(EventProcedureCode)：与(CT_SystemConst)表中的DM字段关联，令LB = 1059 AND DM IN (1001,1004,3131)，得到事件进程代码的具体描述：1001-预案，1004-决案，3131-方案实施。"}, {"column": "EventProcedure", "desc": "事件进程"}, {"column": "DistributedRange", "desc": "发放范围"}, {"column": "UnitProfitYTD", "desc": "本年单位累计分红(元)；本年单位累计分红（UnitProfitYTD）：计算公式：∑（Di），其中：Di为年初至今的第i次分红的单位分红金额。"}, {"column": "DividendSumYTD", "desc": "本年累计分红总额(元)"}, {"column": "DividendTimesYTD", "desc": "本年累计分红次数(次)"}, {"column": "DiviSumSinceInception", "desc": "历史累计分红总额(元)"}, {"column": "DiviTimesSinceIncepion", "desc": "历史累计分红次数(次)"}]}, {"表名": "constantdb.secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码；公司代码(CompanyCode)：当本表SecuCategory IN (8,13)即基金相关时，对应的基金管理人代码可通过本表InnerCode关联MF_FundArchives.InnerCode，取MF_FundArchives.InvestAdvisorCode"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}]}, {"表名": "constantdb.hk_secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "FormerName", "desc": "曾用名"}, {"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "FormerName", "desc": "曾用名"}]}, {"表名": "constantdb.us_secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "CompanyCode", "desc": "公司代码"}, {"column": "EngName", "desc": "英文名称"}, {"column": "ChiName", "desc": "中文名称"}]}, {"表名": "constantdb.ct_systemconst", "表字段": [{"column": "LB", "desc": "常量分类编码"}, {"column": "LBMC", "desc": "常量分类名称"}, {"column": "MS", "desc": "常量描述"}, {"column": "DM", "desc": "常量代码"}, {"column": "LB", "desc": "常量分类编码"}, {"column": "LBMC", "desc": "常量分类名称"}, {"column": "MS", "desc": "常量描述"}, {"column": "DM", "desc": "常量代码"}]}, {"表名": "astockindustrydb.lc_conceptlist", "表字段": [{"column": "ClassCode", "desc": "所属1级概念代码"}, {"column": "ClassName", "desc": "所属1级概念名称"}, {"column": "SubclassCode", "desc": "所属2级概念代码"}, {"column": "SubclassName", "desc": "所属2级概念名称"}, {"column": "ConceptCode", "desc": "所属概念板块编码"}, {"column": "ConceptName", "desc": "概念名称"}, {"column": "ConceptEngName", "desc": "概念英文名称"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户提问涉及以下几个方面：
+1. 华夏基金管理有限公司在2019年成立的基金。
+2. 这些基金中规模最大的基金。
+3. 该基金在2020年最后一次分红派现的比例。
+
+【信息所在字段】
+- publicfunddb.mf_fundarchives.InnerCode: 基金内部编码，用于关联其他表。
+- publicfunddb.mf_fundarchives.SecurityCode: 基金代码，用于识别特定基金。
+- publicfunddb.mf_fundarchives.FoundedSize: 基金设立规模，用于确定规模最大的基金。
+- publicfunddb.mf_fundarchives.EstablishmentDate: 设立日期，用于筛选2019年成立的基金。
+- publicfunddb.mf_dividend.DividendRatioBeforeTax: 派现比例(含税10派X元)，用于确定分红派现比例。
+- publicfunddb.mf_dividend.EndDate: 截止日期，用于确定2020年最后一次分红。
+- publicfunddb.mf_dividend.IfDistributed: 是否分红，用于确认是否进行了分红。
+
+【筛选条件所在字段】
+- publicfunddb.mf_fundarchives.Manager: 基金经理，用于筛选华夏基金管理有限公司的基金。
+- publicfunddb.mf_fundarchives.EstablishmentDate: 设立日期，用于筛选2019年成立的基金。
+- publicfunddb.mf_dividend.EndDate: 截止日期，用于筛选2020年的分红记录。
+
+【选中的字段的清单】
+```json
+{
+  "publicfunddb.mf_fundarchives": ["InnerCode", "SecurityCode", "FoundedSize", "EstablishmentDate", "Manager"],
+  "publicfunddb.mf_dividend": ["DividendRatioBeforeTax", "EndDate", "IfDistributed"]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 查询到的基金管理人名称为“华夏基金管理有限公司”的基金公司代码（InvestAdvisorCode）为41511。
+---
+查询结果表明: 在publicfunddb.mf_fundarchives表中，基金管理人代码（InvestAdvisorCode）为41511的基金中，设立日期（EstablishmentDate）在2019年的基金共有13个。
+---
+查询结果表明: 在2019年设立的、由基金管理人代码为'41511'的基金管理人所管理的基金中，基金设立规模(份)的最大值为7100879338.64份。
+---
+查询结果表明:
+该查询返回了一只基金的相关信息，该基金由基金管理人代码为41511的管理公司在2019年设立，设立规模为7100879338.64份。具体信息包括：基金设立日期为2019年12月20日，基金管理人为张海静，基金类型为债券型，投资目标是在力求安全性的前提下追求稳定的绝对回报，业绩比较基准为同期三年期银行定期存款利率（税后）+1.8%，投资范围为具有良好流动性的金融工具，主要包括债券、资产支持证券、债券回购、银行存款等，不投资于股票。基金收益分配方式为现金分红，基金份额净值分配后不能低于面值。此外，该基金的风险收益特征为预期风险和预期收益低于股票基金和混合型基金，高于货币市场基金。基金代码为008349，最低认购、申购、赎回和持有份额均为1元或1份。
+
+请问:华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金（代码008349）在2020年最后一次分红派现的比例是多少？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 华夏基金管理有限公司的基金公司代码（InvestAdvisorCode）为41511。
+- 2019年成立的13支基金中，规模最大的基金代码为008349。
+- 需要查询该基金在2020年最后一次分红的派现比例。
+
+【当前阶段要获取的信息】
+- 基金代码为008349的基金在2020年最后一次分红的派现比例（DividendRatioBeforeTax）。
+
+【信息所在字段】
+- `DividendRatioBeforeTax`（派现比例(含税10派X元)）
+
+【筛选条件所在字段】
+- `SecurityCode`（基金代码）
+- `EndDate`（截止日期）
+
+【SQL语句的思路】
+1. 从`publicfunddb.mf_dividend`表中查询基金代码为008349的记录。
+2. 筛选截止日期（EndDate）在2020年的记录。
+3. 按截止日期降序排列，取第一条记录，即最后一次分红的派现比例。
+
+【执行SQL语句】
+```exec_sql
+SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE SecurityCode = '008349' AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1
+```
+
+【上述SQL语句的含义】
+- 该SQL语句从`publicfunddb.mf_dividend`表中选择基金代码为008349且截止日期在2020年的记录。
+- 通过按截止日期降序排列并限制返回一条记录，获取该基金在2020年最后一次分红的派现比例。
+
+>>>>> 查询sql:
+SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE SecurityCode = '008349' AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'SecurityCode' in 'where clause'
+[SQL: SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE SecurityCode = '008349' AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE SecurityCode = '008349' AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'SecurityCode' in 'where clause'
+[SQL: SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE SecurityCode = '008349' AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 华夏基金管理有限公司的基金公司代码（InvestAdvisorCode）为41511。
+- 2019年成立的13支基金中，规模最大的基金代码为008349。
+- 需要查询该基金在2020年最后一次分红的派现比例。
+
+【当前阶段要获取的信息】
+- 基金代码为008349的基金在2020年最后一次分红的派现比例（DividendRatioBeforeTax）。
+
+【信息所在字段】
+- `DividendRatioBeforeTax`（派现比例(含税10派X元)）
+
+【筛选条件所在字段】
+- `EndDate`（截止日期）
+
+【SQL语句的思路】
+1. 由于`SecurityCode`字段在`publicfunddb.mf_dividend`表中不存在，需要先从`publicfunddb.mf_fundarchives`表中获取基金代码为008349的基金的内部编码（InnerCode）。
+2. 使用获取到的内部编码（InnerCode）在`publicfunddb.mf_dividend`表中查询2020年的分红记录。
+3. 按截止日期降序排列，取第一条记录，即最后一次分红的派现比例。
+
+【执行SQL语句】
+```exec_sql
+SELECT InnerCode
+FROM publicfunddb.mf_fundarchives
+WHERE SecurityCode = '008349'
+LIMIT 1
+```
+
+【上述SQL语句的含义】
+- 该SQL语句从`publicfunddb.mf_fundarchives`表中选择基金代码为008349的基金的内部编码（InnerCode），为后续查询分红记录做准备。
+
+>>>>> 查询sql:
+SELECT InnerCode
+FROM publicfunddb.mf_fundarchives
+WHERE SecurityCode = '008349'
+LIMIT 1;
+查询结果:
+[{"InnerCode": 264422}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT InnerCode
+FROM publicfunddb.mf_fundarchives
+WHERE SecurityCode = '008349'
+LIMIT 1;
+查询结果:
+[{"InnerCode": 264422}]
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 查询到的基金代码为'008349'的基金内部编码（InnerCode）为264422。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT InnerCode
+FROM publicfunddb.mf_fundarchives
+WHERE SecurityCode = '008349'
+LIMIT 1;
+查询结果:
+[{"InnerCode": 264422}]
+查询结果表明: 查询到的基金代码为'008349'的基金内部编码（InnerCode）为264422。
+
+当前掌握的信息是否能够回答"华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金（代码008349）在2020年最后一次分红派现的比例是多少？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 华夏基金管理有限公司的基金公司代码（InvestAdvisorCode）为41511。
+- 2019年成立的13支基金中，规模最大的基金代码为008349。
+- 该基金的内部编码（InnerCode）为264422。
+- 需要查询该基金在2020年最后一次分红的派现比例。
+
+【当前阶段要获取的信息】
+- 基金内部编码为264422的基金在2020年最后一次分红的派现比例（DividendRatioBeforeTax）。
+
+【信息所在字段】
+- `DividendRatioBeforeTax`（派现比例(含税10派X元)）
+
+【筛选条件所在字段】
+- `InnerCode`（基金内部编码）
+- `EndDate`（截止日期）
+
+【SQL语句的思路】
+1. 从`publicfunddb.mf_dividend`表中查询基金内部编码为264422的记录。
+2. 筛选截止日期（EndDate）在2020年的记录。
+3. 按截止日期降序排列，取第一条记录，即最后一次分红的派现比例。
+
+【执行SQL语句】
+```exec_sql
+SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE InnerCode = 264422 AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1
+```
+
+【上述SQL语句的含义】
+- 该SQL语句从`publicfunddb.mf_dividend`表中选择基金内部编码为264422且截止日期在2020年的记录。
+- 通过按截止日期降序排列并限制返回一条记录，获取该基金在2020年最后一次分红的派现比例。
+
+>>>>> 查询sql:
+SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE InnerCode = 264422 AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1;
+查询结果:
+[{"DividendRatioBeforeTax": 0.2}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE InnerCode = 264422 AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1;
+查询结果:
+[{"DividendRatioBeforeTax": 0.2}]
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 在基金内部编码为264422的基金中，2020年度最后一次分红（截止日期最晚）的派现比例（含税10派X元）为0.2元。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT DividendRatioBeforeTax
+FROM publicfunddb.mf_dividend
+WHERE InnerCode = 264422 AND YEAR(EndDate) = 2020
+ORDER BY EndDate DESC
+LIMIT 1;
+查询结果:
+[{"DividendRatioBeforeTax": 0.2}]
+查询结果表明: 在基金内部编码为264422的基金中，2020年度最后一次分红（截止日期最晚）的派现比例（含税10派X元）为0.2元。
+
+当前掌握的信息是否能够回答"华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金（代码008349）在2020年最后一次分红派现的比例是多少？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 华夏基金管理有限公司的基金公司代码（InvestAdvisorCode）为41511。
+- 2019年成立的13支基金中，规模最大的基金代码为008349。
+- 该基金的内部编码（InnerCode）为264422。
+- 该基金在2020年最后一次分红的派现比例（DividendRatioBeforeTax）为0.2元。
+
+【当前阶段要获取的信息】
+- 无
+
+【信息所在字段】
+- 无
+
+【筛选条件所在字段】
+- 无
+
+【SQL语句的思路】
+- 无
+
+【执行SQL语句】
+```exec_sql
+无
+```
+
+【上述SQL语句的含义】
+- 无
+
+**结论**：
+当前掌握的信息已经能够回答“华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金（代码008349）在2020年最后一次分红派现的比例是多少？”的问题。答案是0.2元。
+
+因此，无需继续执行下一阶段SQL查询。
+
+
+>>>>> 【user】 Said:
+请回答问题:"华夏基金管理有限公司在2019年成立的13支基金中，规模最大的基金（代码008349）在2020年最后一次分红派现的比例是多少？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+0.2元

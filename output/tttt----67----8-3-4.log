@@ -1,0 +1,223 @@
+
+>>>>> Original Question: 经营活动现金流入了多少？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字里的实体，如公司名、股票代码等，如果识别结果是空，那么就回复No Entities."经营活动现金流入了多少？"
+
+>>>>> Agent【extract_company】 Said:
+No Entities.
+
+
+>>>>> 【user】 Said:
+下面是顺序的历史问答:
+'''
+Question: 四川长虹电器股份有限公司的证券代码是多少？
+Answer: 四川长虹电器股份有限公司在证券交易所的证券代码是600839。
+Question: 该公司2019年母公司一季报中预付款项是多少？
+Answer: 四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中预付款项的金额是1581049933.89元。
+Question: 总营收呢？
+Answer: 四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的总营收为4636282380.69元。
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：经营活动现金流入了多少？
+
+>>>>> Agent【rewrite_question】 Said:
+四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入是多少？
+
+>>>>> 已知事实:
+四川长虹电器股份有限公司的关联信息有:[所在数据表是constantdb.secumain;InnerCode(证券内部编码)是2079;CompanyCode(公司代码)是1772;ChiName(中文名称)是四川长虹电器股份有限公司;EngName(英文名称)是Sichuan Changhong Electric Co.,Ltd.;SecuCode(证券代码)是600839;]
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户询问的是四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入金额。这涉及到上市公司的财务数据，特别是现金流量表中的相关信息。
+
+【选中的数据库】
+- astockfinancedb: 这个数据库记录了上市公司的财务指标、财务报表等详细数据，包括现金流量表，可以从中找到经营活动现金流入的具体数值。
+
+【选中的数据库的清单】
+```json
+["astockfinancedb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "astockfinancedb.lc_ashareseasonednewissue", "说明": "该数据表主要记录证券发行及相关信息，涵盖以下几大类内容：**基本信息**包括证券内部编码、发行股票类型、发行目的等；**时间信息**如首次信息发布日期、预案发布日期、股东大会决议公告日期、发行日期上下限、承销期上下限、募集资金到帐时间等；**价格信息**包括发行价区间（上限、下限）、实际发行价、承销商指导价格、市盈率（加权平均、全面摊薄等）、价格调整相关字段等；**发行量信息**如发行量上下限、超额配售权、网上网下发行股数、原股东优先配售股数、法人网下配售股数等；**申购及配售信息**包括网上申购代码、申购简称、申购单位、有效申购总量与户数、中签率、配售比例等；**费用信息**如发行费用总额、承销费用、律师费用、资产评估费用、每股发行费用等；**资金信息**如募集资金总额、净额、到帐金额及相关分项（货币、非货币、资产、债权等）；**股东及控股股东信息**如优先配售比例、认购方式、认购数量与比例等；**预测与变动**包括盈利预测、方案变动说明、变动原因、预案价格与基准价格比例等；**公告及审批信息**如证监会批准公告日、方案变动公告日、最新预案公布日期等；**其他信息**如面值、零股处理方法、认购邀请书发送日、是否简易程序等。该表全面涵盖了证券发行的各个环节及相关信息。"}, {"表名": "astockfinancedb.lc_ashareplacement", "说明": "该数据表涉及证券配股的各个方面，涵盖了从初始信息发布到配股完成的整个过程。字段包括基本信息如证券内部编码、首次信息发布日期、配股年度和发行股票类型；时间节点信息如预案发布日期、股东大会决议公告日期、决案公布日、配股说明书刊登日期、配股上市日及相关公告日期；定价和比例信息如定价方式、配股价格确定方式说明、计划和实际配股比例及数量、配股价格上下限和每股配股价格；费用和资金信息如发行费用、承销费用、各类中介机构费用、实际募集资金、募集资金净额及到帐金额；股东和配股对象信息如配股对象、配股对象类别、大股东认配说明及持股5%以上大股东的持股和认配情况；其他重要信息如转配比、转配股、零股处理方法、方案变动说明、承销方式、余股包销数量、公众股东认配情况、计划和实际募集资金总额、配股基准日及配股完成后的每股净资产和收益。该表还记录了各类审批通过日期及事件进程等信息。"}, {"表名": "astockfinancedb.lc_dividend", "说明": "该数据表主要记录证券分红相关信息，涵盖了基本标识信息如证券内部编码和日期；分红方案的详细内容，包括是否分红、每股收益、送股比例、转增股比例、派现金额（含税和税后，人民币和外币）、分红股本基数及送转后总股本等；分红实施的关键时间节点，如预案发布日期、股东大会决议公告日期、股权登记日、除权除息日、红利到账日、分红发放起止日等；分红的对象和金额分布，包括A股和B股的派现金额（人民币和外币），以及公司合计派现金额；方案变更相关信息，如变更前后的分红方案、变更原因及说明；分红执行的其他信息，如利润分配次数、主要分配形式、上下限金额、事件进程及描述等；计算除权价用的调整比例和金额；以及其他辅助信息如方案类型、分红意向公布日、议案编号、最新信息发布日期和备注说明等，全面反映了证券分红的各个方面。"}, {"表名": "astockfinancedb.lc_capitalinvest", "说明": "该数据表包含多方面的信息，涉及公司基础信息如公司代码，以及与募资相关的详细内容，包括募资方式、募资投向项目名称、项目内容、计划和实际投入金额以及截至日期。它还涵盖了项目进展和收益的说明，投向行业和领域等信息。表中记录了改投相关的内容，如是否改投、改投项目及金额。此外，关于收购兼并的细节也被详细描述，包括收购类型、资产的账面价值、评估价值、价格、权益比例，以及项目出让方的相关信息如与出让方的关系、相关股票、企业性质等。收购标的的名称和企业性质也在其中列出。信息的来源和发布时间则通过首次信息发布日期和信息发布日期进行记录。"}, {"表名": "astockfinancedb.lc_balancesheetall", "说明": "该数据表主要涵盖了企业财务及业务信息，分为多个类别：基础信息如信息发布日期、信息来源、公告类别等；时间与调整信息如日期、是否调整、是否合并等；会计与企业属性信息如会计准则、工业企业类型等；资产类信息包括流动资产（如货币资金、应收账款、存货等）、非流动资产（如固定资产、无形资产、长期投资等），以及特殊项目和调整项目；负债类信息包含流动负债（如短期借款、应付账款、预收款项等）、非流动负债（如长期借款、递延所得税负债等），以及负债特殊项目和调整项目；权益类信息包括股东权益（如实收资本、资本公积、盈余公积等）、少数股东权益，以及所有者权益特殊项目和调整项目；金融及投资信息如交易性金融资产、债权投资、权益工具投资等；其他信息包括合同资产与负债、保险合同准备金、租赁资产与负债等；综合类信息如总资产、总负债及股东权益合计等。此外，还包含一些字段的特殊说明、分类汇总及调整字段。"}, {"表名": "astockfinancedb.lc_incomestatementall", "说明": "该数据表涵盖了全面的企业财务和经营信息，主要分为以下几类：基本信息如信息发布日期、信息来源、公司代码等；会计和企业分类信息如会计准则、工业企业类型等；收入和成本信息，包括营业收入、营业总成本、营业利润、非经营性净收益等具体细分项，如利息收入、手续费收入、保费收入、营业税金、管理费用等；利润相关信息，如净利润、归属于母公司和少数股东的净利润、综合收益总额等；资产和负债信息，如资产减值损失、信用减值损失、保险责任准备金等；股东权益类信息，如每股收益、其他综合收益等；特殊项目调整信息，用于反映各类收入、成本、利润和综合收益的特殊或调整项；其他专项收入与支出，如基金管理业务收入、担保业务收入、勘探费用等；此外，还包含一些未分类字段和特殊说明字段，全面支持企业财务分析和信息披露需求。"}, {"表名": "astockfinancedb.lc_cashflowstatementall", "说明": "该数据表主要记录企业财务及运营相关信息，涵盖多个维度的字段。基础信息包括信息发布日期、信息来源、公告类别等；企业属性如公司代码、会计准则、工业企业类型等。财务数据方面，详细记录了现金流相关信息，包括经营活动、投资活动、筹资活动的现金流入、流出及净额，以及特殊项目和调整项目；还包括现金及现金等价物的期初、期末余额及变动情况。收入与支出部分，涉及销售商品、提供劳务、税费返还、利息收入与支出、投资收益、资产处置收益等；成本费用方面，记录了税费支付、职工薪酬、资产折旧与摊销、财务费用等。投资与融资活动中，涵盖了投资支付、借款、债券发行、股利分配等数据。其他补充信息包括净利润及其归属、资产减值准备、递延所得税、存货变化、应收应付款变化、信用减值损失等。此外，还有与金融资产、金融负债、代理业务、回购业务等相关的明细字段，以及一些特殊项目和调整项目，用于对现金流和财务数据进行补充说明，反映企业的全面财务状况。"}, {"表名": "astockfinancedb.lc_intassetsdetail", "说明": "该数据表包含多个字段，涵盖基础信息、研发投入、人员构成及核心技术相关数据。基础信息包括内部编码、公司代码、信息发布日期、信息来源编码及截止日期；状态标识类字段包括是否合并及是否调整；研发投入相关字段包括费用化研发投入、资本化研发投入、研发投入合计及其占营业收入比例，同时还包括资本化研发投入占比；人员构成方面有研发人员数量及占比、核心技术人员数量及占比；核心技术相关数据则包括核心技术营业收入及其占比。这些字段全面记录了企业在研发投入及核心技术方面的资源配置和产出情况。"}, {"表名": "astockfinancedb.lc_mainoperincome", "说明": "该数据表主要用于记录和分析公司在特定日期的经营项目财务信息。字段包括公司标识信息如公司代码；时间信息如日期、日期类型、信息发布日期；数据来源信息如信息来源、信息来源编码；合并与调整状态如合并标志、是否调整；分类与显示信息如分类方式、显示序号、所属层级、上级科目名称；经营项目相关信息如经营项目名称、所属行业、地区与业务性质；财务数据包括主营业务收入、主营业务成本、主营业务利润及其同比变化、毛利率及其同比变化和上年同期数据；其他信息如货币单位。通过这些字段，用户可以分析公司的主营业务表现及其变化趋势。"}, {"表名": "astockfinancedb.lc_operatingstatus", "说明": "该数据表记录了与企业经营相关的关键信息，包含公司代码、日期等基础信息，用于标识企业和时间节点；信息来源与信息发布日期字段记录了数据的出处及发布时间，以确保信息的可靠性和时效性；经营述评字段则提供了对企业经营情况的详细描述，为分析和决策提供支持。"}, {"表名": "astockfinancedb.lc_auditopinion", "说明": "该数据表主要记录与公司审计相关的信息，包含公司标识如公司代码、所属机构等，时间信息如日期、信息发布日期，审计相关内容如会计师事务所、注册会计师、审计意见类型及其全文、审计报告类型，以及信息来源等字段。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要查询四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入，我们需要找到包含该公司财务报表数据的表，并且该表需要包含现金流量相关的信息。具体来说，我们需要找到包含2019年一季度报数据的表，并且该表中有经营活动现金流入的相关字段。
+
+【选中的数据表】
+- astockfinancedb.lc_cashflowstatementall: 该数据表主要记录企业财务及运营相关信息，涵盖多个维度的字段，包括经营活动、投资活动、筹资活动的现金流入、流出及净额等。该表中的`InfoPublDate`字段可以用来确认报表的发布时间，从而确定是否为2019年一季度报。
+
+【选中的数据库表的清单】
+```json
+["astockfinancedb.lc_cashflowstatementall"]
+```
+
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "astockfinancedb.lc_cashflowstatementall", "表字段": [{"column": "InfoPublDate", "desc": "信息发布日期"}, {"column": "InfoSource", "desc": "信息来源"}, {"column": "BulletinType", "desc": "公告类别；，令LB = 1311 and DM IN (10,20,30,70)，得到公告类别的具体描述：10-发行上市书，20-定期报告，30-业绩快报，70-临时公告。"}, {"column": "CompanyCode", "desc": "公司代码；，得到上市公司的交易代码、简称等。"}, {"column": "EndDate", "desc": "日期"}, {"column": "IfAdjusted", "desc": "是否调整；，令LB = 1188 AND DM IN (1,2,4,5)，得到是否调整的具体描述：1-是，2-否，4-否(7-9月)，5-是(7-9月)。"}, {"column": "IfMerged", "desc": "合并标志；，令LB = 1189 AND DM IN (1,2)，得到是否合并的具体描述：1-合并，2-母公司。"}, {"column": "AccountingStandards", "desc": "会计准则；，令LB = 1455，得到会计准则的具体描述：1-新会计准则(2007)，9-旧会计准则。"}, {"column": "EnterpriseType", "desc": "工业企业类型；报表格式类型(EnterpriseType)：关联系统常量表，LB=1414，DM IN (13-商业银行，31-证券公司，33-信托公司，35-保险公司，39-其他非银行金融机构，99-一般企业)。 本表报表格式类型(EnterpriseType)字段是参照公告原文财务报表披露形式判断得出，并不准确代表企业的实际性质，如需获取企业性质，可通过公司代码（CompanyCode）关联“机构基本资料（LC_InstiArchive）”的公司代码（CompanyCode）获取对应的企业性质(CompanyType)。 本表企业性质(EnterpriseType)字段是参照公告原文财务报表披露形式判断得出，并不准确代表企业的实际性质，如需获取企业性质，可通过公司代码（CompanyCode）关联“机构基本资料（LC_InstiArchive）”的公司代码（CompanyCode）获取对应的企业类别(CompanyType)。"}, {"column": "GoodsSaleServiceRenderCash", "desc": "销售商品、提供劳务收到的现金(元)"}, {"column": "TaxLevyRefund", "desc": "收到的税费返还(元)"}, {"column": "NetDepositIncrease", "desc": "存款增加净额(元)；客户存款和同业存放款项净增加额（NetDepositIncrease） — 一般为金融类：银行企业披露科目。"}, {"column": "NetBorrowingFromCentralBank", "desc": "向中央银行借款净增加额；向中央银行借款净增加额（NetBorrowingFromCentralBank） — 一般为金融类：银行企业披露科目。"}, {"column": "NetBorrowingFromFinanceCo", "desc": "向其他金融企业拆借的资金净额(元)；向其他金融机构拆入资金净增加额（NetBorrowingFromFinanceCo） — 一般为金融类：银行企业披露科目。"}, {"column": "DrawBackLoansCanceled", "desc": "收回已核销贷款"}, {"column": "InterestAndCommissionCashIn", "desc": "收取利息、手续费及佣金的现金"}, {"column": "NetDealTradingAssets", "desc": "处置交易性金融资产净增加额"}, {"column": "NetBuyBack", "desc": "回购业务资金净增加额(元)"}, {"column": "NetOriginalInsuranceCash", "desc": "收到原保险合同保费取得的现金；收到原保险合同保费取得的现金（NetOriginalInsuranceCash） — 一般为金融类：保险公司披露科目。"}, {"column": "NetReinsuranceCash", "desc": "收到再保业务现金净额；收到再保业务现金净额（NetReinsuranceCash） — 一般为金融类：保险公司披露科目。"}, {"column": "NetInsurerDepositInvestment", "desc": "保户储金及投资款净增加额；保户储金及投资款净增加额（NetInsurerDepositInvestment） — 一般为金融类：保险公司披露科目。"}, {"column": "OtherCashInRelatedOperate", "desc": "收到的其他与经营活动有关的现金(元)"}, {"column": "SpecialItemsOCIF", "desc": "##经营活动现金流入特殊项目"}, {"column": "AdjustmentItemsOCIF", "desc": "##经营活动现金流入调整项目"}, {"column": "SubtotalOperateCashInflow", "desc": "经营活动现金流入小计(元)"}, {"column": "GoodsServicesCashPaid", "desc": "购买商品和劳务所支付的现金(元)"}, {"column": "StaffBehalfPaid", "desc": "支付给职工以及为职工支付的现金(元)"}, {"column": "AllTaxesPaid", "desc": "支付的各项税费(元)"}, {"column": "NetLoanAndAdvanceIncrease", "desc": "客户贷款及垫款净增加额；客户贷款及垫款净增加额（NetLoanAndAdvanceIncrease）：一般为金融类:银行企业披露科目"}, {"column": "NetDepositInCBAndIB", "desc": "存放中央银行和同业款项净增加额；存放中央银行和同业款项净增加额（NetDepositInCBAndIB）：一般为金融类:银行企业披露科目"}, {"column": "NetLendCapital", "desc": "拆出资金净增加额(元)"}, {"column": "CommissionCashPaid", "desc": "支付手续费及佣金的现金"}, {"column": "OriginalCompensationPaid", "desc": "支付原保险合同赔付款项的现金；支付原保险合同赔付款项的现金（OriginalCompensationPaid）：一般为金融类:保险公司披露科目"}, {"column": "NetCashForReinsurance", "desc": "支付再保业务现金净额；支付再保业务现金净额（NetCashForReinsurance）：一般为金融类:保险公司披露科目"}, {"column": "PolicyDividendCashPaid", "desc": "支付保单红利的现金；支付保单红利的现金（PolicyDividendCashPaid）：一般为金融类:保险公司披露科目"}, {"column": "OtherOperateCashPaid", "desc": "支付的其他与经营活动有关的现金(元)"}, {"column": "SpecialItemsOCOF", "desc": "##经营活动现金流出特殊项目"}, {"column": "AdjustmentItemsOCOF", "desc": "##经营活动现金流出调整项目"}, {"column": "SubtotalOperateCashOutflow", "desc": "经营活动现金流出小计(元)"}, {"column": "AdjustmentItemsNOCF", "desc": "##经营活动现金流量净额调整项目"}, {"column": "NetOperateCashFlow", "desc": "经营活动产生的现金流量净额(元)"}, {"column": "InvestWithdrawalCash", "desc": "收回投资所收到的现金(元)"}, {"column": "Investproceeds", "desc": "取得投资收益收到的现金(元)"}, {"column": "FixIntanOtherAssetDispoCash", "desc": "处置固定资产、无形资产和其他长期资产而收回的现金净额(元)"}, {"column": "NetCashDealSubCompany", "desc": "处置子公司及其他营业单位收到的现金净额"}, {"column": "OtherCashFromInvestAct", "desc": "收到的其他与投资活动有关的现金(元)"}, {"column": "SpecialItemsICIF", "desc": "##投资活动现金流入特殊项目"}, {"column": "AdjustmentItemsICIF", "desc": "##投资活动现金流入调整项目"}, {"column": "SubtotalInvestCashInflow", "desc": "投资活动现金流入小计(元)"}, {"column": "FixIntanOtherAssetAcquiCash", "desc": "购建固定资产、无形资产和其他长期资产所支付的现金(元)"}, {"column": "InvestCashPaid", "desc": "投资支付的现金(元)"}, {"column": "NetCashFromSubCompany", "desc": "取得子公司及其他营业单位支付的现金净额"}, {"column": "ImpawnedLoanNetIncrease", "desc": "质押贷款净增加额"}, {"column": "OtherCashToInvestAct", "desc": "支付的其他与投资活动有关的现金(元)"}, {"column": "SpecialItemsICOF", "desc": "##投资活动现金流出特殊项目"}, {"column": "AdjustmentItemsICOF", "desc": "##投资活动现金流出调整项目"}, {"column": "SubtotalInvestCashOutflow", "desc": "投资活动现金流出小计(元)"}, {"column": "AdjustmentItemsNICF", "desc": "##投资活动现金流量净额调整项目"}, {"column": "NetInvestCashFlow", "desc": "投资活动产生的现金流量净额(元)"}, {"column": "CashFromInvest", "desc": "吸收投资收到的现金(元)"}, {"column": "CashFromMinoSInvestSub", "desc": "其中:子公司吸收少数股东投资收到的现金"}, {"column": "CashFromBondsIssue", "desc": "发行债券收到的现金"}, {"column": "CashFromBorrowing", "desc": "取得借款收到的现金"}, {"column": "OtherFinanceActCash", "desc": "收到其他与筹资活动有关的现金"}, {"column": "SpecialItemsFCIF", "desc": "##筹资活动现金流入特殊项目"}, {"column": "AdjustmentItemsFCIF", "desc": "##筹资活动现金流入调整项目"}, {"column": "SubtotalFinanceCashInflow", "desc": "筹资活动现金流入小计(元)"}, {"column": "BorrowingRepayment", "desc": "偿还债务所支付的现金(元)"}, {"column": "DividendInterestPayment", "desc": "分配股利、利润或偿付利息支付的现金"}, {"column": "ProceedsFromSubToMinoS", "desc": "其中:子公司支付给少数股东的股利、利润或偿付的利息"}, {"column": "OtherFinanceActPayment", "desc": "支付的其他与筹资活动有关的现金(元)"}, {"column": "SpecialItemsFCOF", "desc": "##筹资活动现金流出特殊项目"}, {"column": "AdjustmentItemsFCOF", "desc": "##筹资活动现金流出调整项目"}, {"column": "SubtotalFinanceCashOutflow", "desc": "筹资活动现金流出小计(元)"}, {"column": "AdjustmentItemsNFCF", "desc": "##筹资活动流量现金净额调整项目"}, {"column": "NetFinanceCashFlow", "desc": "筹资活动产生的现金流量净额(元)"}, {"column": "ExchanRateChangeEffect", "desc": "汇率变动对现金的影响额(元)"}, {"column": "OtherItemsEffectingCE", "desc": "##影响现金及现金等价物的其他科目"}, {"column": "AdjustmentItemsCE", "desc": "##影响现金及现金等价物的调整项目"}, {"column": "CashEquivalentIncrease", "desc": "现金及现金等价物净增加额(元)"}, {"column": "BeginPeriodCash", "desc": "期初现金及现金等价物余额(元)"}, {"column": "OtherItemsEffectingCEI", "desc": "##现金及现金等价物净增加额的特殊项目"}, {"column": "AdjustmentItemsCEI", "desc": "##现金及现金等价物净增加额的调整项目"}, {"column": "EndPeriodCashEquivalent", "desc": "现金及现金等价物的期末余额(元)"}, {"column": "NetProfit", "desc": "四、净利润(元)"}, {"column": "MinorityProfit", "desc": "少数股东损益(元)"}, {"column": "AssetsDepreciationReserves", "desc": "加:资产减值准备"}, {"column": "FixedAssetDepreciation", "desc": "固定资产折旧(元)"}, {"column": "IntangibleAssetAmortization", "desc": "无形资产摊销(元)"}, {"column": "DeferredExpenseAmort", "desc": "长期待摊费用的摊销(元)"}, {"column": "DeferredExpenseDecreased", "desc": "待摊费用的减少(减:增加)(元)"}, {"column": "AccruedExpenseAdded", "desc": "预提费用的增加(减:减少)(元)"}, {"column": "FixIntanOtherAssetDispoLoss", "desc": "处理固定资产、无形资产和其他长期资产的损失(减:收益)(元)"}, {"column": "FixedAssetScrapLoss", "desc": "固定资产报废损失(减:收益)(元)"}, {"column": "LossFromFairValueChanges", "desc": "公允价值变动损失"}, {"column": "FinancialExpense", "desc": "财务费用(元)"}, {"column": "InvestLoss", "desc": "投资损失(元)"}, {"column": "DeferedTaxAssetDecrease", "desc": "递延所得税资产减少"}, {"column": "DeferedTaxLiabilityIncrease", "desc": "递延所得税负债增加"}, {"column": "InventoryDecrease", "desc": "存货的减少(减:增加)(元)"}, {"column": "OperateReceivableDecrease", "desc": "经营性应收项目的减少(减：增加)(元)"}, {"column": "OperatePayableIncrease", "desc": "经营性应付项目的增加"}, {"column": "Others", "desc": "其他(元)"}, {"column": "SpecialItemsNOCF1", "desc": "##(附注)经营活动现金流量净额特殊项目"}, {"column": "AdjustmentItemsNOCF1", "desc": "##(附注)经营活动现金流量净额调整项目"}, {"column": "NetOperateCashFlowNotes", "desc": "(附注)经营活动产生的现金流量净额(元)"}, {"column": "ContrastAdjutmentNOCF", "desc": "##加:经营流量净额前后对比调整项目"}, {"column": "DebtToCaptical", "desc": "债务转为资本(元)"}, {"column": "CBsExpiringWithin1Y", "desc": "一年内到期的可转换公司债券"}, {"column": "FixedAssetsFinanceLeases", "desc": "融资租入固定资产"}, {"column": "CashAtEndOfYear", "desc": "现金的期末余额(元)"}, {"column": "CashAtBeginningOfYear", "desc": "减:现金的期初余额"}, {"column": "CashEquivalentsAtEndOfYear", "desc": "加:现金等价物的期末余额"}, {"column": "CashEquivalentsAtBeginning", "desc": "减:现金等价物的期初余额"}, {"column": "SpecialItemsC", "desc": "##(附注)现金特殊项目(元)"}, {"column": "AdjustmentItemsC", "desc": "##(附注)现金调整项目"}, {"column": "NetIncrInCashAndEquivalents", "desc": "(附注)现金及现金等价物净增加额"}, {"column": "ContrastAdjutmentNC", "desc": "##加:现金净额前后对比调整项目"}, {"column": "SpecialFieldRemark", "desc": "特殊字段说明"}, {"column": "IfComplete", "desc": "完整标志"}, {"column": "NetIncBorFunds", "desc": "拆入资金净增加额；拆入资金净增加额（NetIncBorFunds）：一般为金融类企业披露科目"}, {"column": "NetCashRecInVTS", "desc": "代理买卖证券收到的现金净额；代理买卖证券收到的现金净额（NetCashRecInVTS）：一般为金融类:证券公司披露科目"}, {"column": "NetCashRecAgeUTS", "desc": "代理承销证券收到的现金净额；代理承销证券收到的现金净额（NetCashRecAgeUTS）：一般为金融类:证券公司披露科目"}, {"column": "NetIncFinAssTraPurp", "desc": "为交易目的而持有的金融资产净增加额"}, {"column": "NetIncCapResBusOper", "desc": "返售业务资金净增加额(经营)"}, {"column": "NetIncCapResBusInv", "desc": "返售业务资金净增加额(投资)"}, {"column": "CashRecIssOthEquIns", "desc": "发行其他权益工具收到的现金"}, {"column": "NetBuyBackFin", "desc": "回购业务资金净增加额(筹资)；回购业务资金净增加额（NetBuyBack）：一般为金融类企业披露科目"}, {"column": "InterestExpense", "desc": "利息支出1"}, {"column": "IncResFunding", "desc": "受限资金的增加"}, {"column": "IncSpeReserves", "desc": "专项储备增加"}, {"column": "CreditImpairmentL", "desc": "信用减值损失"}, {"column": "DefProceedsAmo", "desc": "递延收益摊销"}, {"column": "IncEstLiability", "desc": "预计负债的增加(减:减少)"}, {"column": "NetDecFinancialAsset", "desc": "融出资金净减少额；融出资金净减少额（NetDecFinancialAsset）：一般为金融类企业披露科目"}, {"column": "NetCashPaidInVTS", "desc": "代理买卖证券支付的现金净额"}, {"column": "UsufructAssetsDA", "desc": "使用权资产摊销/折旧"}, {"column": "InfoSourceCode", "desc": "信息来源编码"}, {"column": "NetDecLoanAndAdvance", "desc": "客户贷款及垫款净减少额"}, {"column": "NetDecreaseInCBAndIB", "desc": "存放中央银行和同业款项净减少额；拆出资金净减少额（NetDecFundLending）：一般为金融类企业披露科目"}, {"column": "NetDecFundLending", "desc": "拆出资金净减少额"}, {"column": "NetDecCapResBusOper", "desc": "返售业务资金净减少额(经营)；返售业务资金净减少额(经营)（NetDecCapResBusOper）：一般为金融类企业披露科目"}, {"column": "NetDecFinAssTraPurp", "desc": "为交易目的而持有的金融资产净减少额"}, {"column": "NetIncFinLiaTraPurp", "desc": "为交易目的而持有的金融负债净增加额"}, {"column": "BFLAFValOnPLChange", "desc": "客户存款和同业存放款项净减少额"}, {"column": "NetDecBorrowFromCB", "desc": "向中央银行借款净减少额；向中央银行借款净减少额（NetDecBorrowFromCB）：一般为金融类:银行企业披露科目"}, {"column": "NetDecBorFromFinanceCo", "desc": "向其他金融机构拆入资金净减少额；向其他金融机构拆入资金净减少额（NetDecBorFromFinanceCo）：一般为金融类:银行企业披露科目"}, {"column": "NetDecInsurDPSTInvest", "desc": "保户储金及投资款净减少额；保户储金及投资款净减少额（NetDecInsurDPSTInvest）：一般为金融类:保险公司披露科目"}, {"column": "NetDecBorrowingCapital", "desc": "拆入资金净减少额；拆入资金净减少额（NetDecBorrowingCapital）：一般为金融类企业披露科目"}, {"column": "NetDecOfBuyBack", "desc": "回购业务资金净减少额"}, {"column": "NetCashPayAgeUTS", "desc": "代理承销证券支付的现金净额；代理承销证券支付的现金净额（NetCashPayAgeUTS）：一般为金融类:证券公司披露科目"}, {"column": "NetDecDealTradeAssets", "desc": "处置交易性金融资产净减少额"}, {"column": "NetDecFinLiaTraPurp", "desc": "为交易目的而持有的金融负债净减少额"}, {"column": "OpeAndAdmExpForCash", "desc": "以现金支付的业务及管理费"}, {"column": "NetIncFinancialAsset", "desc": "融出资金净增加额；融出资金净增加额（NetIncFinancialAsset）：一般为金融类企业披露科目"}, {"column": "NetDecBuyBackFin", "desc": "回购业务资金净减少额(筹资)"}, {"column": "NPParentCompanyOwners", "desc": "其中:归属于母公司所有者的净利润"}, {"column": "ProductBioAssetsDep", "desc": "其中:生产性生物资产折旧"}, {"column": "InterestIncome", "desc": "利息收入"}, {"column": "LeaseLiaIntExp", "desc": "其中:租赁负债利息支出"}, {"column": "BondIssueExpense", "desc": "其中:发行债券利息支出"}, {"column": "ExchangeLoss", "desc": "汇兑损失(收益以\"-\"号填列)"}, {"column": "DeferredTaxCredit", "desc": "递延税款贷项(减:借项)1"}, {"column": "SharePayment", "desc": "股份支付费用"}, {"column": "DecreaseTradeAssets", "desc": "交易性金融资产的减少"}, {"column": "DecAvailableSaleAssets", "desc": "可供出售金融资产的减少"}, {"column": "DecreaseLoan", "desc": "贷款的减少"}, {"column": "InvestPropertyDA", "desc": "No description available"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是四川长虹电器股份有限公司在2019年母公司一季报中的经营活动现金流入金额。需要找到与该公司、2019年一季度以及经营活动现金流入相关的字段。
+
+【信息所在字段】
+- astockfinancedb.lc_cashflowstatementall.CompanyCode: 这个字段可能包含公司代码信息，对应用户提问中的四川长虹电器股份有限公司。
+- astockfinancedb.lc_cashflowstatementall.EndDate: 这个字段可能包含报告期末日期信息，对应用户提问中的2019年一季度。
+- astockfinancedb.lc_cashflowstatementall.IfMerged: 这个字段可能包含合并标志信息，对应用户提问中的母公司。
+- astockfinancedb.lc_cashflowstatementall.SubtotalOperateCashInflow: 这个字段可能包含经营活动现金流入小计信息，对应用户提问中的经营活动现金流入。
+
+【筛选条件所在字段】
+- astockfinancedb.lc_cashflowstatementall.CompanyCode: 用于筛选四川长虹电器股份有限公司的数据。
+- astockfinancedb.lc_cashflowstatementall.EndDate: 用于筛选2019年一季度的数据。
+- astockfinancedb.lc_cashflowstatementall.IfMerged: 用于筛选母公司的数据。
+
+【选中的字段的清单】
+```json
+{
+  "astockfinancedb.lc_cashflowstatementall": [
+    "CompanyCode",
+    "EndDate",
+    "IfMerged",
+    "SubtotalOperateCashInflow"
+  ]
+}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 查询到的四川长虹电器股份有限公司的证券代码为600839。
+---
+查询结果表明: 该查询从`astockfinancedb.lc_balancesheetall`表中获取了公司代码为1772的母公司（IfMerged = 2）在2019年4月1日至2019年6月30日期间发布的财务报表中的预付款项（AdvancePayment）字段值，结果显示该期间内该公司的预付款项为1581049933.89元。由于使用了LIMIT 1，只返回了该时间段内的第一条记录。
+---
+查询结果表明: 该查询从`astockfinancedb.lc_incomestatementall`表中获取了公司代码为1772的母公司报表（IfMerged=2）在2019年第一季度（即2019年1月1日至2019年3月31日之间）的营业总收入（TotalOperatingRevenue），结果显示该期间内的营业总收入为4636282380.69元。由于使用了LIMIT 1，只返回了第一条符合条件的记录。
+
+请问:四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入是多少？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 四川长虹电器股份有限公司的关联信息有：所在数据表是constantdb.secumain; InnerCode(证券内部编码)是2079; CompanyCode(公司代码)是1772; ChiName(中文名称)是四川长虹电器股份有限公司; EngName(英文名称)是Sichuan Changhong Electric Co.,Ltd.; SecuCode(证券代码)是600839。
+- 已知2019年母公司一季报的时间范围为2019年1月1日至2019年3月31日。
+
+【当前阶段要获取的信息】
+- 四川长虹电器股份有限公司在2019年母公司一季报中的经营活动现金流入小计。
+
+【信息所在字段】
+- 经营活动现金流入小计字段为`SubtotalOperateCashInflow`，位于`astockfinancedb.lc_cashflowstatementall`表。
+
+【筛选条件所在字段】
+- 公司代码：`CompanyCode`
+- 报表类型（母公司）：`IfMerged`
+- 日期：`EndDate`
+
+【SQL语句的思路】
+- 从`astockfinancedb.lc_cashflowstatementall`表中选择`SubtotalOperateCashInflow`字段。
+- 使用`CompanyCode`字段筛选四川长虹电器股份有限公司（CompanyCode = 1772）。
+- 使用`IfMerged`字段筛选母公司报表（IfMerged = 2）。
+- 使用`EndDate`字段筛选2019年第一季度（DATE(EndDate) BETWEEN '2019-01-01' AND '2019-03-31'）。
+- 由于只需要一条记录，使用LIMIT 1。
+
+【执行SQL语句】
+```exec_sql
+SELECT SubtotalOperateCashInflow 
+FROM astockfinancedb.lc_cashflowstatementall 
+WHERE CompanyCode = 1772 
+  AND IfMerged = 2 
+  AND DATE(EndDate) BETWEEN '2019-01-01' AND '2019-03-31' 
+LIMIT 1;
+```
+
+【上述SQL语句的含义】
+- 该SQL语句用于查询四川长虹电器股份有限公司在2019年母公司一季报中的经营活动现金流入小计金额。通过筛选公司代码、报表类型和日期范围，确保获取到正确的财务数据。使用LIMIT 1确保只返回一条记录。
+
+>>>>> 查询sql:
+SELECT SubtotalOperateCashInflow 
+FROM astockfinancedb.lc_cashflowstatementall 
+WHERE CompanyCode = 1772 
+  AND IfMerged = 2 
+  AND DATE(EndDate) BETWEEN '2019-01-01' AND '2019-03-31' 
+LIMIT 1;
+查询结果:
+[{"SubtotalOperateCashInflow": 5787763615.41}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT SubtotalOperateCashInflow 
+FROM astockfinancedb.lc_cashflowstatementall 
+WHERE CompanyCode = 1772 
+  AND IfMerged = 2 
+  AND DATE(EndDate) BETWEEN '2019-01-01' AND '2019-03-31' 
+LIMIT 1;
+查询结果:
+[{"SubtotalOperateCashInflow": 5787763615.41}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 该查询从astockfinancedb.lc_cashflowstatementall表中获取了公司代码为1772的母公司（IfMerged = 2）在2019年第一季度（即2019年1月1日至2019年3月31日之间）的经营活动现金流入小计（SubtotalOperateCashInflow），结果显示该期间内的经营活动现金流入小计为5787763615.41元。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT SubtotalOperateCashInflow 
+FROM astockfinancedb.lc_cashflowstatementall 
+WHERE CompanyCode = 1772 
+  AND IfMerged = 2 
+  AND DATE(EndDate) BETWEEN '2019-01-01' AND '2019-03-31' 
+LIMIT 1;
+查询结果:
+[{"SubtotalOperateCashInflow": 5787763615.41}]
+
+查询结果表明: 该查询从astockfinancedb.lc_cashflowstatementall表中获取了公司代码为1772的母公司（IfMerged = 2）在2019年第一季度（即2019年1月1日至2019年3月31日之间）的经营活动现金流入小计（SubtotalOperateCashInflow），结果显示该期间内的经营活动现金流入小计为5787763615.41元。
+
+当前掌握的信息是否能够回答"四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入是多少？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 四川长虹电器股份有限公司的关联信息有：所在数据表是constantdb.secumain; InnerCode(证券内部编码)是2079; CompanyCode(公司代码)是1772; ChiName(中文名称)是四川长虹电器股份有限公司; EngName(英文名称)是Sichuan Changhong Electric Co.,Ltd.; SecuCode(证券代码)是600839。
+- 已查询到四川长虹电器股份有限公司在2019年母公司一季报中的经营活动现金流入小计为5787763615.41元。
+
+【当前阶段要获取的信息】
+- 无需继续执行SQL查询，当前掌握的信息已能够回答用户的问题。
+
+【信息所在字段】
+- 无
+
+【筛选条件所在字段】
+- 无
+
+【SQL语句的思路】
+- 无
+
+【执行SQL语句】
+```exec_sql
+无
+```
+
+【上述SQL语句的含义】
+- 无
+
+当前掌握的信息已能够回答"四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入是多少？"，无需继续执行下一阶段SQL查询。
+
+**回答**：
+四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入小计为5787763615.41元。
+
+
+>>>>> 【user】 Said:
+充分尊重前面给出的结论，回答问题:"四川长虹电器股份有限公司（证券代码600839）在2019年母公司一季报中的经营活动现金流入是多少？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+5787763615.41元

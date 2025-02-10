@@ -1,0 +1,643 @@
+
+>>>>> Original Question: 其中，2020年总市值超过百亿的有多少？
+
+
+>>>>> 【user】 Said:
+提取下面这段文字中的实体（如公司名、股票代码、拼音缩写等），如果识别结果是空，那么就回复No Entities."其中，2020年总市值超过百亿的有多少？"
+
+>>>>> Agent【extract_company】 Said:
+No Entities.
+
+
+>>>>> 【user】 Said:
+下面是顺序的历史问答:
+'''
+Question: 截止到目前，陕西省共有多少家上市公司？
+Answer: 截止到2023年10月，陕西省共有12家上市公司。
+'''
+现在用户继续提问，请根据已知信息，理解当前这个问题的完整含义，并重写这个问题使得单独拿出来看仍然能够正确理解：其中，2020年总市值超过百亿的有多少？
+
+>>>>> Agent【rewrite_question】 Said:
+截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家？
+
+>>>>> 已知事实:
+
+
+>>>>> 【user】 Said:
+请选择db，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.db_selector】 Said:
+【分析】
+用户需要查询的是截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家。这需要以下几个步骤：
+1. 确定陕西省的上市公司列表。
+2. 查询这些公司在2020年的总市值。
+3. 统计总市值超过百亿的公司数量。
+
+【选中的数据库】
+- constantdb: 包含行政区划信息，用于筛选陕西省的公司。
+- astockmarketquotesdb: 包含股票行情数据，可以查询到公司的市值信息。
+
+【选中的数据库的清单】
+```json
+["constantdb", "astockmarketquotesdb"]
+```
+
+
+>>>>> 【user】 Said:
+数据库表信息如下:
+[{"表名": "constantdb.secumain", "说明": "该数据表主要用于描述证券的基本信息，包括标识信息如证券内部编码、公司代码、证券代码，名称信息如中文名称、中文名称缩写、英文名称、英文名称缩写、证券简称及其拼音和扩位形式，市场和类别信息如证券市场、证券类别，上市相关信息如上市日期、上市板块、上市状态，以及国际标准化标识如ISIN代码等，全面覆盖了证券的核心属性及其分类与标识信息。"}, {"表名": "constantdb.hk_secumain", "说明": "该数据表包含证券的基本信息和交易相关数据，包括唯一标识的内部编码、公司代码和证券代码，以及中文和英文的名称及其缩写和拼音简称。证券的市场、类别、上市日期、板块、状态、曾用名和退市日期等信息描述了证券的上市情况。交易相关的信息包括买卖单位、交易货币类别和国际通用的ISIN代码。"}, {"表名": "constantdb.ct_systemconst", "说明": "该数据表主要用于存储与常量相关的信息，包括分类和具体值。字段涵盖常量分类的编码和名称（如常量分类编码LB、常量分类名称LBMC）、常量的描述信息（如常量描述MS）、常量的具体标识代码（如常量代码DM），以及不同类型的常量值（如浮点值FVALUE、整型值IVALUE、日期值DVALUE、字符值CVALUE），以便对常量进行分类管理和多维度存储。"}, {"表名": "constantdb.qt_tradingdaynew", "说明": "该数据表记录了与交易日期相关的多维信息，包括日期（TradingDate）、证券市场（SecuMarket）等基础字段，同时标注了日期属性，如是否为交易日（IfTradingDay）、是否为周、月、季、年最后一个交易日（IfWeekEnd、IfMonthEnd、IfQuarterEnd、IfYearEnd），全面反映了日期在不同周期维度下的交易属性。"}, {"表名": "constantdb.lc_areacode", "说明": "该数据表主要用于记录地区相关信息，包含地区编码信息如地区内部编码、地区行政编码、一级和二级区划代码，地区名称信息如中文名称、英文名称及其缩写，层级结构信息如父节点代码和名称，状态信息如是否有效及取消日期，变更记录如变更内容，以及备注等辅助信息。"}, {"表名": "constantdb.us_secumain", "说明": "该数据表主要用于记录证券的基本信息，包括标识信息如证券内部编码、证券代码、ISIN代码等，名称信息如证券简称、拼音简称、中文名称、英文名称等，分类信息如证券类别、证券市场、上市板块等，状态信息如上市日期、退市日期、上市状态等，以及关联信息如公司代码等。"}, {"表名": "astockmarketquotesdb.cs_stockcapflowindex", "说明": "该数据表记录了证券交易相关的详细数据，涵盖交易日期、时间区间等基本信息，以及按小单、中单、大单、超大单、主力单和全单分类的交易统计数据，包括流入流出金额、流入流出量、流入流出笔数、净流入流出额与量、买入卖出率（按金额和数量计算）、净买入率及其与流通市值或流通股本的比值等。此外，还细分了主动买入卖出相关的金额、数量、笔数及其比率等指标，全面反映了不同交易规模下的资金流向和市场行为特征。"}, {"表名": "astockmarketquotesdb.cs_turnovervoltecindex", "说明": "该数据表记录了证券交易的相关数据，包含多个类别的字段信息。基本信息包括证券内部编码、聚源代码、交易日期、证券市场等；时间维度涵盖指标周期；成交额和成交量的统计指标包括简单移动平均值（如5日、10日、20日、30日、60日、120日、250日等周期的AMA和VMA）、指数平滑异同平均（如VMACD_EMA12、VMACD_EMA26、VMACD_DIFF、VMACD_DEA、VMACD_MACD）等；成交量的波动性与强弱分析指标包括量比、成交量震荡指标(VOSC)、加权指数成交量(TAPI及其均值TAPIMA)、成交量标准差(VSTD)、量变动速率(VROC)、成交量比率(VR)、量相对强弱(VRSI)等，全面反映证券交易的量价变化及趋势特征。"}, {"表名": "astockmarketquotesdb.cs_stockpatterns", "说明": "该数据表主要用于记录证券交易的多维度表现与趋势分析，涵盖基础信息如证券内部编码、交易日、聚源代码、证券市场等；高点与低点分析，包括价格、收盘价、成交量、成交金额在近一周、一个月、一季度、半年、一年及上市以来的创高或创低情况；历史新高新低统计，记录不同时间区间内创历史新高或新低的次数；趋势与形态分析，如连涨天数、连跌天数、连续放量或缩量天数，以及对5日、10日、20日、60日均线的有效突破情况；其他指标如N天M板表现和均线多空头排列的看涨看跌信号，为证券的短期与长期走势提供综合性参考。"}, {"表名": "astockmarketquotesdb.qt_dailyquote", "说明": "该数据表记录了证券交易的核心信息，包括证券的唯一标识\"证券内部编码\"，交易日期\"交易日\"，以及价格相关数据如\"昨收盘价\"、\"今开盘价\"、\"最高价\"、\"最低价\"和\"收盘价\"（单位均为元）；还包含交易活动指标，如\"成交量\"（股）、\"成交金额\"（元）和\"成交笔数\"（笔），全面反映了每日交易的市场表现。"}, {"表名": "astockmarketquotesdb.qt_stockperformance", "说明": "该数据表涵盖了证券交易的多维度信息，包括基本标识字段如证券内部编码和交易日；价格相关信息如开盘价、收盘价、最高价、最低价、均价以及涨跌幅、振幅等；成交数据如成交量、成交金额、换手率及其日均值；时间维度统计如周、月、三个月、六个月、十二个月及今年以来的价格、成交量、成交金额、涨跌幅、振幅、换手率等汇总指标；自由流通股本相关的换手率及其日均值；市场表现指标如Beta值（相对于不同基准指数）、阿尔法值、波动率、夏普比率、市场收益率等；市值信息包括总市值和流通市值；特殊价格指标如上市以来后复权的最高价、最低价及对应时间。该表全面整合了短期和长期的交易数据、市场表现以及统计汇总，为证券分析提供了丰富的基础数据支持。"}, {"表名": "astockmarketquotesdb.lc_suspendresumption", "说明": "该数据表主要记录证券停复牌相关信息，包括证券标识字段如证券内部编码，时间相关字段如信息发布日期、停牌日期、停牌时间、复牌日期、复牌时间，信息来源字段如信息来源，停复牌详情字段如停牌原因、停牌事项说明、停牌期限、停牌期限类型及复牌事项说明等，全面描述了证券停复牌的时间、原因及相关说明。"}]
+
+请选择table，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.table_selector】 Said:
+【分析】
+要回答“截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家？”这个问题，我们需要以下信息：
+1. 陕西省的上市公司列表。
+2. 这些公司在2020年的总市值数据。
+
+首先，我们需要从`constantdb.lc_areacode`表中获取陕西省的行政区划代码，然后从`constantdb.secumain`或`constantdb.hk_secumain`表中筛选出陕西省的上市公司。接着，我们需要从`astockmarketquotesdb.qt_stockperformance`表中获取这些公司在2020年的总市值数据。
+
+【选中的数据表】
+- constantdb.lc_areacode: 这个数据表包含地区相关信息，用于获取陕西省的行政区划代码。
+- constantdb.secumain: 这个数据表包含证券的基本信息，用于筛选陕西省的上市公司。
+- astockmarketquotesdb.qt_stockperformance: 这个数据表包含证券交易的多维度信息，包括总市值，用于获取2020年这些公司的总市值数据。
+
+【选中的数据库表的清单】
+```json
+["constantdb.lc_areacode", "constantdb.secumain", "astockmarketquotesdb.qt_stockperformance"]
+```
+
+补充选择table: ["astockbasicinfodb.lc_stockarchives", "usstockdb.us_companyinfo", "hkstockdb.hk_stockarchives"]
+补充选择table: ["hkstockdb.cs_hkstockperformance"]
+
+>>>>> 【user】 Said:
+已取得可用的数据表的字段信息如下:
+[{"表名": "constantdb.lc_areacode", "表字段": [{"column": "AreaInnerCode", "desc": "地区内部编码；地区内部编码（AreaInnerCode）：聚源内部设置的地区代码，共9位数。"}, {"column": "AreaCode", "desc": "地区行政编码；地区行政编码（AreaCode）：国家层级代码来自ISO全球国家代码标准；我国代码来自于国家行政区划网。"}, {"column": "FirstLevelCode", "desc": "一级区划代码；一级区划代码(FirstLevelCode)：与(CT_SystemConst)表中的DM字段关联，令LB = 1961 and DM LIKE '%000'，得到一级区划代码的具体描述：1000-中国省级行政区划，2000-中国地级行政区划，3000-中国县级行政区划，4000-其他，5000-中国乡镇级行政区划，9000-国家，10000-大洲与海洋，11000-美国州级行政区划，12000-海外国家城市，100000000-国家级经济区域，200000000-中国海关，300000000-海关经济区划。"}, {"column": "SecondLevelCode", "desc": "二级区划代码；二级区划代码(SecondLevelCode)：与(CT_SystemConst)表中的DM字段关联，令LB = 1961，得到二级区划代码的具体描述：1000-中国省级行政区划，1001-直辖市，1002-省，1003-自治区，1004-特别行政区，2000-中国地级行政区划，2001-省会，2002-地级市，2003-盟，2004-自治州，2005-地区，2006-直辖市市辖区，2007-直辖市市辖县，3000-中国县级行政区划，3001-市辖区，3002-县，3003-县级市，3004-自治县，3005-旗，3006-自治旗，3007-林区，3008-特区，3009-县级乡镇，3010-县级街道，3011-县级经济开发区，3012-县级其他，4000-其他，4001-中国地理划分(按自然地理)，4002-中国地理划分(按经济区域)，4010-中国国家级城市群，4011-中国经济合作城市群，4100-欧洲地理划分(按自然地理)，4150-非洲地理划分(按自然地理)，4800-非标准地区，4900-其他地区划分(按自然地理)，4950-政治类联合体、联盟或组织，4951-经济类联合体、联盟或组织，4999-其他划分，5000-中国乡镇级行政区划，5001-乡镇，5002-街道，5003-乡镇级经济开发区，5004-乡镇其他，9000-国家，10000-大洲与海洋，10001-大洲，10002-海洋，11000-美国州级行政区划，11001-特区，11002-州，12000-海外国家城市，100000000-国家级经济区域，100000001-国家级经济特区，100000002-国家级新区，100000003-国家综合配套改革试验区，100000004-高新技术产业开发区，100000005-经济技术开发区，100000006-海关特殊监管区域，100000007-边境/跨境经济合作区，100000008-其他类型开发区，200000000-中国海关，200000001-海关总署，200000002-直属海关，200000003-隶属海关，300000000-海关经济区划，300000001-保税港区/综合保税区，300000002-保税区，300000003-保税物流园区，300000004-保税物流中心，300000005-出口加工区/珠澳跨境工业园区，300000006-高新技术产业开发区，300000007-国际边境合作中心，300000008-经济技术开发区，300000009-经济特区，300000010-一般经济区域，300000011-综合实验区，300000099-其他经济区划。"}, {"column": "AreaChiName", "desc": "地区中文名称"}, {"column": "AreaEngName", "desc": "地区英文名称"}, {"column": "AreaEngNameAbbr", "desc": "地区英文名称缩写"}, {"column": "ParentNode", "desc": "父节点代码"}, {"column": "ParentName", "desc": "父节点名称"}, {"column": "IfEffected", "desc": "是否有效；是否有效（IfEffected）：该字段固定以下常量：1-是 2-否。"}, {"column": "CancelDate", "desc": "取消日期"}, {"column": "ChangeNote", "desc": "变更内容"}, {"column": "Remark", "desc": "备注"}]}, {"表名": "constantdb.secumain", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "CompanyCode", "desc": "公司代码；公司代码(CompanyCode)：当本表SecuCategory IN (8,13)即基金相关时，对应的基金管理人代码可通过本表InnerCode关联MF_FundArchives.InnerCode，取MF_FundArchives.InvestAdvisorCode"}, {"column": "SecuCode", "desc": "证券代码"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "ChiNameAbbr", "desc": "中文名称缩写"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "SecuAbbr", "desc": "证券简称"}, {"column": "ChiSpelling", "desc": "拼音证券简称"}, {"column": "ExtendedAbbr", "desc": "扩位简称"}, {"column": "ExtendedSpelling", "desc": "拼音扩位简称"}, {"column": "SecuMarket", "desc": "证券市场；证券市场(SecuMarket)与(CT_SystemConst)表中的DM字段关联，令LB = 201 AND DM IN (10,12,13,14,15,16,18,40,49,50,52,54,55,56,65,66,67,68,69,70,71,72,73,75,76,77,78,79,80,81,83,84,85,86,87,88,89,90,93,94,95,96,99,100,101,102,103,104,105,106,107,110,161,162,180,200,202,210,230,240,260,280,310,320,390,400,620,630,631,640,641,650,653,654,655,657,658,659,660,661,662,663,664,666,667,66302,66303,66305)，得到证券市场的具体描述：10-上海期货交易所，12-中国银行间外汇市场，13-大连商品交易所，14-上海黄金交易所，15-郑州商品交易所，16-上海票据交易所，18-北京证券交易所，40-芝加哥商业交易所，49-澳大利亚证券交易所，50-新西兰证券交易所，52-埃及开罗及亚历山大证券交易所，54-阿根廷布宜诺斯艾利斯证券交易所，55-巴西圣保罗证券交易所，56-墨西哥证券交易所，65-印度尼西亚证券交易所，66-泰国证券交易所，67-韩国首尔证券交易所，68-东京证券交易所，69-新加坡证券交易所，70-台湾证券交易所，71-柜台交易市场，72-香港联交所，73-一级市场，75-亚洲其他交易所，76-美国证券交易所，77-美国纳斯达克证券交易所，78-纽约证券交易所，79-美国其他交易市场，80-加拿大多伦多证券交易所，81-三板市场，83-上海证券交易所，84-其他市场，85-伦敦证券交易所，86-法国巴黎证券交易所，87-德国法兰克福证券交易所，88-欧洲其他交易所，89-银行间债券市场，90-深圳证券交易所，93-上海银行间同业拆借市场，94-瑞士证券交易所，95-荷兰阿姆斯特丹证券交易所，96-约翰内斯堡证券交易所，99-东京同业拆借市场，100-美国国债回购市场，101-伦敦银行同业拆借市场，102-香港银行同业拆借市场，103-新加坡银行同业拆借市场，104-中国银行同业拆借市场，105-欧元银行同业拆借市场，106-布鲁塞尔证券交易所，107-雅加达证券交易所，110-以色列特拉维夫证券交易所，161-意大利证券交易所，162-哥本哈根证券交易所，180-挪威奥斯陆证券交易所，200-斯德哥尔摩证券交易所，202-伊斯坦布尔证券交易所，210-印度国家证券交易所，230-奥地利维也纳证券交易所，240-西班牙马德里证券交易所，260-爱尔兰证券交易所，280-菲律宾证券交易所，310-机构间私募产品报价与服务系统，320-俄罗斯莫斯科证券交易所，390-里斯本证券交易所，400-芝加哥期权交易所，620-胡志明市证券交易所，630-沪市代理深市市场，631-沪市代理港交所市场，640-深市代理沪市市场，641-深市代理港交所市场，650-国际外汇市场(晨星)，653-上海环境能源交易所，654-北京绿色交易所，655-天津碳排放权交易中心，657-湖北碳排放权交易中心，658-重庆碳排放权交易中心，659-四川联合环境交易所，660-广州碳排放权交易所，661-海峡股权交易中心，662-深圳排放权交易所，663-欧洲能源交易所，664-全国碳排放权交易，666-布达佩斯证券交易所，667-全国温室气体自愿减排交易市场，66302-韩国ETS，66303-加拿大魁北克Cap-and-Trade(CaT)，66305-美国区域温室气体倡议（RGGI）。"}, {"column": "SecuCategory", "desc": "证券类别；证券类别(SecuCategory)与(CT_SystemConst)表中的DM字段关联，令LB = 1177 AND DM IN (1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,26,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,43,44,45,46,47,55,79,80,211)，得到证券类别的具体描述：1-A股，2-B股，4-大盘，5-国债回购，6-国债现货，7-金融债券，8-开放式基金，9-可转换债券，10-其他，11-企业债券，12-企业债券回购，13-投资基金，14-央行票据，15-深市代理沪市股票，16-沪市代理深市股票，17-资产支持证券，18-资产证券化产品，19-买断式回购，20-衍生权证，21-股本权证，23-商业银行定期存款，26-收益增长线，27-新质押式回购，28-地方政府债，29-可交换公司债，30-拆借，31-信用风险缓释工具，32-浮息债计息基准利率，33-定期存款凭证，35-大额存款凭证，36-债券借贷，37-存款类机构质押式回购，38-存款类机构信用拆借，39-现货，40-货币对，41-中国存托凭证，42-协议回购，43-三方回购，44-利率互换品种，45-标准利率互换合约，46-报价回购，47-标准化票据，55-优先股，79-深市代理港交所股票，80-沪市代理港交所股票，211-自贸区债。"}, {"column": "ListedDate", "desc": "上市日期"}, {"column": "ListedSector", "desc": "上市板块；上市板块(ListedSector)与(CT_SystemConst)表中的DM字段关联，令LB = 207 AND DM IN (1,2,3,4,5,6,7,8)，得到上市板块的具体描述：1-主板，2-中小企业板，3-三板，4-其他，5-大宗交易系统，6-创业板，7-科创板，8-北交所股票。"}, {"column": "ListedState", "desc": "上市状态；上市状态(ListedState)与(CT_SystemConst)表中的DM字段关联，令LB = 1176 AND DM IN (1,3,5,9)，得到上市状态的具体描述：1-上市，3-暂停，5-终止，9-其他。"}, {"column": "ISIN", "desc": "ISIN代码"}]}, {"表名": "astockmarketquotesdb.qt_stockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码；证券内部编码（InnerCode）：与“证券主表（SecuMain）”中的“证券内部编码（InnerCode）”关联，得到证券的交易代码、简称等。"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "TurnoverVolume", "desc": "成交量1"}, {"column": "TurnoverValue", "desc": "成交金额(元)1"}, {"column": "ChangePCT", "desc": "涨跌幅(%)1"}, {"column": "RangePCT", "desc": "振幅(%)1"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "Ifsuspend", "desc": "是否停牌；1：当日停牌；0：当日非停牌"}, {"column": "TurnoverValueRW", "desc": "周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "周成交量(股)"}, {"column": "ChangePCTRW", "desc": "周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "周换手率(%)"}, {"column": "AvgPriceRW", "desc": "周成交均价(元)"}, {"column": "HighPriceRW", "desc": "周最高价(元)"}, {"column": "LowPriceRW", "desc": "周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "周日均换手率(%)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnoverValueRM", "desc": "月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "月成交量(股)"}, {"column": "ChangePCTRM", "desc": "月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "月换手率(%)"}, {"column": "AvgPriceRM", "desc": "月成交均价(元)"}, {"column": "HighPriceRM", "desc": "月最高价(元)"}, {"column": "LowPriceRM", "desc": "月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "月日均换手率(%)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnoverValueRMThree", "desc": "三个月成交金额(元)1"}, {"column": "TurnoverVolumeRMThree", "desc": "三个月成交量(股)1"}, {"column": "ChangePCTRMThree", "desc": "三个月涨跌幅(%)1"}, {"column": "RangePCTRMThree", "desc": "三个月振幅(%)1"}, {"column": "TurnoverRateRMThree", "desc": "三个月换手率(%)1"}, {"column": "TurnoverValueRMSix", "desc": "六个月成交金额(元)1"}, {"column": "TurnoverVolumeRMSix", "desc": "六个月成交量(股)1"}, {"column": "ChangePCTRMSix", "desc": "六个月涨跌幅(%)1"}, {"column": "RangePCTRMSix", "desc": "六个月振幅(%)1"}, {"column": "TurnoverRateRMSix", "desc": "六个月换手率(%)1"}, {"column": "TurnoverValueRY", "desc": "十二个月成交金额(元)1"}, {"column": "TurnoverVolumeRY", "desc": "十二个月成交量(股)1"}, {"column": "ChangePCTRY", "desc": "十二个月涨跌幅(%)1"}, {"column": "RangePCTRY", "desc": "十二个月振幅(%)1"}, {"column": "TurnoverRateRY", "desc": "十二个月换手率(%)1"}, {"column": "AvgPriceRY", "desc": "十二个月成交均价(元)1"}, {"column": "HighPriceRY", "desc": "十二个月最高价(元)1"}, {"column": "LowPriceRY", "desc": "十二个月最低价(元)1"}, {"column": "HighestClosePriceRY", "desc": "十二个月收盘最高价(元)1"}, {"column": "LowestClosePriceRY", "desc": "十二个月收盘最低价(元)1"}, {"column": "TurnoverValuePDayRY", "desc": "十二个月日均成交金额(元)1"}, {"column": "TurnoverRatePDayRY", "desc": "十二个月日均换手率(%)1"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)1"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)1"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)1"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)1"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)1"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)1"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)1"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)1"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)1"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)1"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)1"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)1"}, {"column": "HighAdjustedPrice", "desc": "上市以来后复权最高价(元)1"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来后复权最高价时间1"}, {"column": "LowAdjustedPrice", "desc": "上市以来后复权最低价(元)1"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来后复权最低价时间"}, {"column": "BetaLargeCapIndex", "desc": "Beta值(相对沪深300,一年)"}, {"column": "BetaCompositeIndex", "desc": "Beta值(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "BetaSYWGIndustryIndex", "desc": "Beta值(相对申万行业,一年)；取该股票所属的申万行业指数"}, {"column": "BetaMidCapIndex", "desc": "Beta值(相对中证500,一年)"}, {"column": "BetaWeekly", "desc": "Beta值(两年,周步长)；Beta值（两年,周步长）（BetaWeekly）：Beta=[n∑RXiRi-(∑RXi)*(∑Ri)]／[n∑（RXi^2）-(∑RXi)^2]Ri为步长区间股票增长率Rxi为步长区间基准增长率"}, {"column": "AdjustBetaWeekly", "desc": "调整Beta值(两年,周步长)；调整Beta值（两年,周步长）（AdjustBetaWeekly）：BETA值（两年,周步长）*0.67+0.33"}, {"column": "AlphaLargeCapIndex", "desc": "阿尔法(相对沪深300,一年)"}, {"column": "AlphaCompositeIndex", "desc": "阿尔法(相对综合指数,一年)；在上海交易所上市，则取沪综指；在深圳交易所上市，则取深综指。"}, {"column": "AlphaSYWGIndustryIndex", "desc": "阿尔法(相对申万行业,一年)；取该股票所属的申万行业指数。"}, {"column": "AlphMidCapIndex", "desc": "阿尔法(相对中证500,一年)"}, {"column": "YearVolatilityByDay", "desc": "波动率(日步长)；波动率(日步长)(YearVolatilityByDay):计算中为日步长数据，时间跨度为1年"}, {"column": "YearVolatilityByWeek", "desc": "波动率(周步长)1"}, {"column": "YearSharpeRatio", "desc": "夏普比率(年化)1"}, {"column": "MarketIndexRORArithAvg", "desc": "市场收益率(算术平均)；市场收益率（算术平均）（MarketIndexRORArithAvg）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（算术平均）Rm2为深证综指年收益率（算术平均）指数年平均收益率Rxi=(∑（Ri）/10)*100%"}, {"column": "MarketIndexRORGeomMean", "desc": "市场收益率(几何平均)；市场收益率（几何平均）（MarketIndexRORGeomMean）：Rm=（Rm1+Rm2）/2Rm1为上证综指年收益率（几何平均）Rm2为深证综指年收益率（几何平均）"}, {"column": "TotalMV", "desc": "总市值(元)1"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)1"}, {"column": "TurnoverRateFreeFloat", "desc": "换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRW", "desc": "周换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRW", "desc": "周日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTW", "desc": "本周以来换手率_自由流通股本(%)"}, {"column": "TurnoverRatePDFFTTW", "desc": "本周以来日均换手率_自由流通股本(%)"}, {"column": "TurnoverRateFFTRM", "desc": "月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRM", "desc": "月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTTM", "desc": "本月以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTTM", "desc": "本月以来日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMThree", "desc": "三个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRMSix", "desc": "六个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTRY", "desc": "十二个月换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTRY", "desc": "十二个月日均换手率_自由流通股本(%)1"}, {"column": "TurnoverRateFFTYTD", "desc": "今年以来换手率_自由流通股本(%)1"}, {"column": "TurnoverRatePDFFTYTD", "desc": "今年以来日均换手率_自由流通股本(%)1"}]}, {"表名": "astockbasicinfodb.lc_stockarchives", "表字段": [{"column": "CompanyCode", "desc": "公司代码；公司代码（CompanyCode）：与“证券主表（SecuMain）”中的“公司代码（CompanyCode）”关联，得到上市公司的交易代码、简称等。"}, {"column": "State", "desc": "国别；省份（State）：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到省份具体信息。"}, {"column": "SecretaryBD", "desc": "董事会秘书"}, {"column": "SecuAffairsRepr", "desc": "证券/股证事务代表"}, {"column": "AuthReprSBD", "desc": "董秘授权代表"}, {"column": "ContactTel", "desc": "联系人电话"}, {"column": "ContactFax", "desc": "联系人传真"}, {"column": "ContactEmail", "desc": "联系人电子邮箱"}, {"column": "RegAddr", "desc": "公司注册地址"}, {"column": "RegZipCode", "desc": "公司注册地址邮编"}, {"column": "OfficeAddr", "desc": "公司办公地址"}, {"column": "OfficeZipCode", "desc": "公司办公地址邮编"}, {"column": "ContactAddr", "desc": "公司联系地址"}, {"column": "ConatactZipCode", "desc": "公司联系地址邮编"}, {"column": "Email", "desc": "邮箱"}, {"column": "Website", "desc": "公司网址"}, {"column": "DisclosureWebsites", "desc": "信息披露网址"}, {"column": "DisclosurePapers", "desc": "信息披露报纸"}, {"column": "EstablishmentDate", "desc": "公司成立日期"}, {"column": "IRegPlace", "desc": "首次注册登记地点"}, {"column": "LegalRepr", "desc": "法人代表"}, {"column": "GeneralManager", "desc": "总经理"}, {"column": "LegalConsultant", "desc": "法律顾问"}, {"column": "AccountingFirm", "desc": "会计师事务所"}, {"column": "InduCSRC", "desc": "公司所属证监会行业(聚源)；与(CT_IndustryType)表中的\"行业内部编码(IndustryNum)\"字段关联,当Standard=1时,LB=1；当Standard=22时,LB=22；当Standard=25时,LB=25；当Standard=26时,LB=26。"}, {"column": "BusinessMajor", "desc": "经营范围-主营"}, {"column": "BusinessMinor", "desc": "经营范围-兼营"}, {"column": "AShareAbbr", "desc": "A股证券简称"}, {"column": "AStockCode", "desc": "A股证券代码"}, {"column": "BShareAbbr", "desc": "B股证券简称"}, {"column": "BStockCode", "desc": "B股证券代码"}, {"column": "HShareAbbr", "desc": "H股证券简称"}, {"column": "HStockCode", "desc": "H股证券代码"}, {"column": "BriefIntroText", "desc": "公司简介"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "BusinessRegNumber", "desc": "企业法人营业执照注册号"}, {"column": "SecretaryBDTel", "desc": "董秘电话"}, {"column": "SecretaryBDFax", "desc": "董秘传真"}, {"column": "SecretaryBDEmail", "desc": "董秘电子邮件"}, {"column": "SecuAffairsReprTel", "desc": "证券事务代表电话"}, {"column": "SecuAffairsReprFax", "desc": "证券事务代表传真"}, {"column": "SecuAffairsReprEmail", "desc": "证券事务代表电子邮件"}, {"column": "CityCode", "desc": "地区代码；地区代码(CityCode)：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到城市具体信息。"}, {"column": "CDRShareAbbr", "desc": "CDR证券简称"}, {"column": "CDRStockCode", "desc": "CDR证券代码"}, {"column": "ExtendedAbbr", "desc": "扩位简称"}, {"column": "UnprofitableMark", "desc": "尚未盈利标识；尚未盈利标识（UnprofitableMark）：在上市时发行人尚未盈利的，其股票或存托凭证的特别标识为“U”；发行人首次实现盈利的，该特别标识取消，数据值为空。"}, {"column": "SpecialVoteMark", "desc": "特殊表决权标识；特殊表决权标识（SpecialVoteMark）：在上市时发行人具有表决权差异安排的，其股票或存托凭证的特别标识为“W”；上市后不再具有表决权差异安排的，该特别标识取消，数据值为空。"}, {"column": "VIEMark", "desc": "协议控制架构标识；协议控制架构标识（VIEMark）：在上市时发行人具有协议控制架构或者类似特殊安排的，其股票或存托凭证的特别标识为“V”；上市后不再具有相关安排的，该特别标识取消，数据值为空。"}, {"column": "RedChipMark", "desc": "红筹企业标识；红筹企业标识（RedChipMark）：发行人属于红筹企业，则数据值=”是“；空值则指无此标识。"}, {"column": "RegArea", "desc": "所属区县；所属区县（RegArea）：与“国家城市代码表（LC_AreaCode）”中的“地区内部编码（AreaInnerCode）”关联，得到所属区县具体信息。"}]}, {"表名": "usstockdb.us_companyinfo", "表字段": [{"column": "CompanyCode", "desc": "公司代码"}, {"column": "EngName", "desc": "英文名称"}, {"column": "EngNameAbbr", "desc": "英文名称缩写"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "PEOAddress", "desc": "公司地址"}, {"column": "PEOCity", "desc": "城市"}, {"column": "PEOState", "desc": "省份"}, {"column": "PEOZip", "desc": "邮编"}, {"column": "PEOStatus", "desc": "国家"}, {"column": "PEOTel", "desc": "电话"}, {"column": "BusinessDcrp", "desc": "公司简介"}, {"column": "BriefIntroText", "desc": "公司简介"}, {"column": "EstablishmentDate", "desc": "成立日期"}, {"column": "CompanyType", "desc": "公司类型；公司类型(CompanyType)与(CT_SystemConst)表中的DM字段关联，令LB = 2261，得到公司类型的具体描述：1-美国联邦存款保险公司(FDIC)的银行分支，2-高等院校，3-融资子公司，4-政府，5-控股公司，6-合营企业，7-非盈利性组织，8-上市公司，9-非上市公司，10-子公司，11-已停止经营解散的实体。"}, {"column": "BriefIntroTextEng", "desc": "英文公司简介"}, {"column": "Fax", "desc": "传真"}, {"column": "RegCountry", "desc": "注册地国家；注册地国家（RegCountry）：与“国家城市代码表(LC_AreaCode)”中的“地区内部编码(AreaInnerCode)”关联，得到注册地国家的相关信息。"}, {"column": "RegState", "desc": "注册地省份/州"}, {"column": "BusinessDcrpEng", "desc": "英文业务简介"}, {"column": "IfHeadOffice", "desc": "是否公司总部；是否公司总部(IfHeadOffice)与(CT_SystemConst)表中的DM字段关联，令LB=999 AND DM IN (1,2)，得到是否公司总部的具体描述：1-是，2-否。"}, {"column": "LinkAddress", "desc": "链接地址"}, {"column": "CountryCode", "desc": "国家代码；与“国家城市代码表(LC_AreaCode)”中的“地区内部编码(AreaInnerCode)”关联，得到国家的相关信息。"}, {"column": "EstablishmentDatePreci", "desc": "成立日期精度；成立日期精度(EstablishmentDatePreci)与(CT_SystemConst)表中的DM字段关联，令LB=102 AND DM in (27,28,29)，得到成立日期精度的具体描述：27-年，28-月，29-日。"}]}, {"表名": "hkstockdb.hk_stockarchives", "表字段": [{"column": "CompanyCode", "desc": "公司代码"}, {"column": "EstablishmentDate", "desc": "公司成立日期"}, {"column": "RegAbbr", "desc": "注册地；注册地点(RegAbbr)与(CT_SystemConst)表中的DM字段关联，令LB = 1023，得到注册地点的具体描述：3-中国港澳台，4-中东地区，7-国际，100-亚洲，101-阿富汗，102-巴林，103-孟加拉国，104-不丹，105-文莱，106-缅甸，107-柬埔寨，108-塞浦路斯，109-朝鲜，110-中国香港，111-印度，112-印度尼西亚，113-伊朗，114-伊拉克，115-以色列，116-日本，117-约旦，118-科威特，119-老挝，120-黎巴嫩，121-中国澳门，122-马来西亚，123-马尔代夫，124-蒙古，125-尼泊尔，126-阿曼，127-巴基斯坦，128-巴勒斯坦，129-菲律宾，130-卡塔尔，131-沙特阿拉伯，132-新加坡，133-韩国，134-斯里兰卡，135-叙利亚，136-泰国，137-土耳其，138-阿拉伯联合酋长国，139-也门共和国，141-越南，142-中国，143-中国台湾，144-东帝汶，199-亚洲其他，200-非洲，201-阿尔及利亚，202-安哥拉，203-贝宁，204-博茨瓦那，205-布隆迪，206-喀麦隆，207-加那利群岛，208-佛得角，209-中非，210-塞卜泰(休达)，211-乍得，212-科摩罗，213-刚果，214-吉布提，215-埃及，216-赤道几内亚，217-埃塞俄比亚，218-加蓬，219-冈比亚，220-加纳，221-几内亚，222-几内亚(比绍)，223-科特迪瓦，224-肯尼亚，225-利比里亚，226-利比亚，227-马达加斯加，228-马拉维，229-马里，230-毛里塔尼亚，231-毛里求斯，232-摩洛哥，233-莫桑比克，234-纳米比亚，235-尼日尔，236-尼日利亚，237-留尼汪，238-卢旺达，239-圣多美和普林西比，240-塞内加尔，241-塞舌尔，242-塞拉利昂，243-索马里，244-南非，245-西撒哈拉，246-苏丹，247-坦桑尼亚，248-多哥，249-突尼斯，250-乌干达，251-布基纳法索，252-扎伊尔，253-赞比亚，254-津巴布韦，255-莱索托，256-梅利利亚，257-斯威士兰，258-厄立特里亚，259-马约特岛，260-刚果民主共和国，299-非洲其他，300-欧洲，301-比利时，302-丹麦，303-英国，304-德国，305-法国，306-爱尔兰，307-意大利，308-卢森堡，309-荷兰，310-希腊，311-葡萄牙，312-西班牙，313-阿尔巴尼亚，314-安道尔，315-奥地利，316-保加利亚，318-芬兰，320-直布罗陀，321-匈牙利，322-冰岛，323-列支敦士登，324-马耳他，325-摩纳哥，326-挪威，327-波兰，328-罗马尼亚，329-圣马力诺，330-瑞典，331-瑞士，334-爱沙尼亚，335-拉脱维亚，336-立陶宛，337-格鲁吉亚，338-亚美尼亚，339-阿塞拜疆，340-白俄罗斯，341-哈萨克斯坦，342-吉尔吉斯，343-摩尔多瓦，344-俄罗斯，345-塔吉克斯坦，346-土库曼斯坦，347-乌克兰，348-乌兹别克斯坦，349-南斯拉夫联盟共和国，350-斯洛文尼亚共和国，351-克罗地亚共和国，352-捷克共和国，353-斯洛伐克共和国，354-前南斯拉夫马其顿共和国，355-波斯尼亚-黑塞哥维那共和国，356-法罗群岛，357-梵蒂冈城国，358-塞尔维亚和黑山，359-塞尔维亚共和国，360-黑山共和国，361-苏联，399-欧洲其他，400-拉丁美洲，401-安提瓜和巴布达，402-阿根廷，403-阿鲁巴岛，404-巴哈马，405-巴巴多斯，406-伯利兹，408-玻利维亚，409-博内尔，410-巴西，411-开曼群岛，412-智利，413-哥伦比亚，414-多米尼克，415-哥斯达黎加，416-古巴，417-库腊索岛，418-多米尼加共和国，419-厄瓜多尔，420-法属圭亚那，421-格林纳达，422-瓜德罗普，423-危地马拉，424-圭亚那，425-海地，426-洪都拉斯，427-牙买加，428-马提尼克，429-墨西哥，430-蒙特塞拉特，431-尼加拉瓜，432-巴拿马，433-巴拉圭，434-秘鲁，435-波多黎各，436-萨巴，437-圣卢西亚，438-圣马丁岛，439-圣文森特和格林纳丁斯，440-萨尔瓦多，441-苏里南，442-特立尼达和多巴哥，443-特克斯和凯科斯群岛，444-乌拉圭，445-委内瑞拉，446-英属维尔京群岛，447-圣其茨--尼维斯，448-荷属安地列斯群岛，499-拉丁美洲其他，500-北美洲，501-加拿大，502-美国，503-格陵兰，504-百慕大，505-泽西岛，599-北美洲其他，600-大洋洲，601-澳大利亚，602-库克群岛，603-斐济，604-盖比群岛，605-马克萨斯群岛，606-瑙鲁，607-新喀里多尼亚，608-瓦努阿图，609-新西兰，610-诺福克岛，611-巴布亚新几内亚，612-社会群岛，613-所罗门群岛，614-汤加，615-土阿莫土群岛，616-土布艾群岛，617-萨摩亚，618-基里巴斯，619-图瓦卢，620-密克罗尼西亚联邦，621-马绍尔群岛共和国，622-贝劳共和国，623-帕劳共和国，624-瓦利斯和浮图纳，625-法属波利尼西亚，626-圣皮埃尔和密克隆，699-大洋洲其他，701-国(地)别不详的，702-联合国和其他国际组织，703-亚太经济合作组织，704-东南亚国家联盟，705-欧洲联盟，706-独立国家联合体，707-经济合作与发展组织(OECD)，708-经合组织北美，709-经合组织亚洲大洋洲，710-经合组织欧洲，711-欧英EFTA，901-欧元区，903-欧盟15国，905-欧盟25国，906-欧盟27国，907-欧盟其他，909-全球。"}, {"column": "Business", "desc": "公司业务"}, {"column": "InduCHKE", "desc": "所属行业-港交所；所属行业-港交所（InduCHKE）:目前字段在该表已经不维护。"}, {"column": "InduCHS", "desc": "所属行业-恒生；所属行业-恒生（InduCHS）：目前字段在该表已经不维护，可以在 港股公司行业划分表HK_ExgIndustry获取到对应的行业分类。"}, {"column": "Chairman", "desc": "主席"}, {"column": "CompanySecretary", "desc": "公司秘书"}, {"column": "CertifiedAccountant", "desc": "合资格会计师"}, {"column": "RegisteredOffice", "desc": "注册办事处"}, {"column": "GeneralOffice", "desc": "总办事处及主要营业地点"}, {"column": "Registrars", "desc": "股份过户处(香港)"}, {"column": "Tel", "desc": "电话"}, {"column": "Fax", "desc": "传真"}, {"column": "Eail", "desc": "邮箱"}, {"column": "Website", "desc": "公司网址"}, {"column": "BriefIntroduction", "desc": "公司简介"}, {"column": "CompanyType", "desc": "企业类别；公司类别(CompanyType)与(CT_SystemConst)表中的DM字段关联，令LB = 1501，得到公司类别的具体描述：1-境内注册内地国资控制，2-境内注册内地个人控制，5-境外注册内地国资控制，6-境外注册内地个人控制，9-其他。"}, {"column": "CompanyTypeDesc", "desc": "公司类别描述"}, {"column": "ChiName", "desc": "中文名称"}, {"column": "AuditInstitution", "desc": "审计机构"}, {"column": "RegCapital", "desc": "注册资本(元)"}, {"column": "RegCapitalCurrency", "desc": "注册资本货币单位；注册资本货币单位(RegCapitalCurrency)与(CT_SystemConst)表中的DM字段关联，令LB = 1548，得到注册资本货币单位的具体描述：1000-美元，1100-港元，1110-印度卢比，1120-印度尼西亚卢比，1130-伊朗里亚尔，1140-波兰兹罗提，1150-匈牙利福林，1160-日本元，1161-欧洲日元(离岸)，1170-约旦第纳尔，1180-科威特第纳尔，1190-阿联酋迪拉姆，1200-亚美尼亚德拉姆，1210-澳门元，1220-马来西亚林吉特，1230-安第列斯群岛盾，1240-安哥拉宽扎，1250-尼泊尔卢比，1260-哈萨克斯坦坚戈，1270-巴基斯坦卢比，1280-阿鲁巴岛弗罗林，1290-菲律宾比索，1300-阿塞拜疆马纳特，1310-波斯尼亚马克，1320-新加坡元，1330-韩国元，1340-孟加拉塔卡，1350-百慕大元，1360-泰国铢，1370-沙特里亚尔，1380-文莱林吉特，1390-不丹努尔特鲁姆，1400-博茨瓦纳普拉，1410-白俄罗斯卢布，1420-人民币元，1430-台湾元，1440-伯利兹元，1450-南苏丹镑，1460-世界投资报告法郎，1470-佛得角埃斯库多，1480-厄立特里亚纳克法，1490-埃塞俄比亚比尔，1500-福克兰群岛镑，1510-格鲁吉亚拉里，1520-直布罗陀镑，1530-克罗地亚库纳，1540-以色列新谢克尔，1550-吉尔吉斯斯坦索姆，1560-开曼群岛元，1570-莱索托马洛蒂，1580-摩尔多瓦列伊，1590-马其顿第纳尔，1600-蒙古图格里克，1610-马拉维克瓦查，1620-梅蒂卡尔，1630-纳米比亚元，1640-巴布亚新几内亚基那，1650-塞尔维亚第纳尔，1660-圣赫勒拿群岛磅，1670-圣多美和普林西比多布拉，1680-太平洋法郎，1690-非共体法郎，1700-斯威士兰里兰吉尼，1710-塔吉克斯坦索莫尼，1720-土库曼斯坦马纳特，1730-汤加潘加，1740-乌克兰格里夫纳，1750-乌兹别克斯坦苏姆，1760-瓦努阿图瓦图，1770-萨摩亚塔拉，1780-中非金融合作法郎，1790-东加勒比元，1800-哈萨克斯坦腾格(废弃)，1810-人民币(离岸)，2470-坦桑尼亚先令，3000-欧元，3010-比利时法郎，3020-丹麦克朗，3030-英镑，3040-德国马克，3050-法国法郎，3070-意大利里拉，3090-荷兰盾，3120-西班牙比塞塔，3150-奥地利先令，3180-芬兰马克，3260-挪威克朗，3300-瑞典克朗，3310-瑞士法郎，3311-记帐瑞士法郎，3313-清算瑞士法郎，3440-俄罗斯卢布，4100-巴西雷亚尔，4290-墨西哥比索，5010-加拿大元，6010-澳大利亚元，6090-新西兰元，7101-刚果法郎，7103-尼日利亚奈拉，7105-越南盾，7107-肯尼亚先令，7109-卢森堡法郎，7111-摩洛哥迪拉姆，7113-南非兰特，7115-斯里兰卡卢比，7117-新苏丹磅，7119-也门里亚尔(废弃)，7121-爱尔兰镑，8000-阿尔巴尼亚列克，8010-阿尔及利亚第纳尔，8020-阿富汗尼，8030-阿根廷比索，8040-也门里亚尔，8050-阿曼里亚尔，8060-埃及镑，8070-巴巴多斯元，8080-巴哈马元，8090-巴拉圭瓜拉尼，8100-巴林第纳尔，8110-巴拿马巴波亚，8120-保加利亚列弗，8130-冰岛克朗，8140-波兰兹罗提(废弃)，8150-玻利维亚诺，8160-布隆迪法郎，8170-朝鲜圆，8180-赤道几内亚埃奎勒，8190-多米尼加比索，8200-厄瓜多尔苏克雷，8210-斐济元，8220-冈比亚法拉西，8230-哥伦比亚比索，8240-哥斯达黎加科朗，8250-古巴比索，8260-圭亚那元，8270-海地古德，8280-洪都拉斯伦皮拉，8290-吉布提法郎，8300-几内亚法郎，8310-几内亚比索，8320-加纳塞地，8330-柬埔寨瑞尔，8340-捷克克朗，8350-津巴布韦元，8360-卡塔尔里亚尔，8370-科摩罗法郎，8380-老挝基普，8390-黎巴嫩镑，8400-利比里亚元，8410-利比亚第纳尔，8420-卢旺达法郎，8430-罗马尼亚列伊，8440-马达加斯加阿里亚里，8450-马尔代夫卢比，8460-马耳他镑，8470-毛里求斯卢比，8480-毛里塔尼亚乌吉亚，8490-秘鲁新索尔，8500-缅甸元，8510-也门第纳尔，8520-南斯拉夫新第纳尔，8530-尼加拉瓜科多巴，8540-埃斯库多，8550-萨尔瓦多科朗，8560-塞拉里昂利昂，8570-塞浦路斯镑，8580-塞舌尔卢比，8590-沙特阿拉伯亚尔(废弃)，8600-苏里南元，8610-所罗门元，8620-索马里先令，8630-特立尼达多巴哥元，8640-突尼斯第纳尔，8650-土耳其里拉，8660-危地马拉格查尔，8670-委内瑞拉玻利瓦尔，8680-乌干达先令，8690-乌拉圭新比索，8700-希腊德拉马克，8710-匈牙利福林(废弃)，8720-叙利亚镑，8730-牙买加元，8740-伊拉克第纳尔，8750-赞比亚克瓦查，8760-扎伊尔，8770-智利比索，8780-玻利维亚Mvdol基金，8790-智利CUF基金，8800-哥伦比亚实际价值单位，8810-古巴可兑换比索，8820-墨西哥UDI基金，8830-莫桑比克梅蒂卡尔(废弃)，8840-东帝汶埃斯库多，9000-本币(废弃)，9900-其他货币，9901-本地货币，9990-特别提款权，9999-各币种折合美元。"}]}, {"表名": "hkstockdb.cs_hkstockperformance", "表字段": [{"column": "InnerCode", "desc": "证券内部编码"}, {"column": "TradingDay", "desc": "交易日"}, {"column": "PrevClosePrice", "desc": "昨收盘"}, {"column": "OpenPrice", "desc": "今开盘"}, {"column": "HighPrice", "desc": "最高价"}, {"column": "LowPrice", "desc": "最低价"}, {"column": "ClosePrice", "desc": "收盘价"}, {"column": "CurrencyUnitCode", "desc": "货币代码；货币代码(CurrencyUnitCode)与(CT_SystemConst)表中的DM字段关联，令LB=1068 AND DM IN (1000,1100,1420)，得到货币代码的具体描述：1000-美元，1100-港元，1420-人民币元。"}, {"column": "TurnoverVolume", "desc": "成交量"}, {"column": "TurnoverValue", "desc": "成交金额(元)"}, {"column": "ChangeOF", "desc": "涨跌"}, {"column": "ChangePCT", "desc": "涨跌幅(%)"}, {"column": "RangePCT", "desc": "振幅(%)"}, {"column": "TurnoverRate", "desc": "换手率(%)"}, {"column": "AvgPrice", "desc": "均价"}, {"column": "TotalMV", "desc": "总市值(元)"}, {"column": "NegotiableMV", "desc": "流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRW", "desc": "近一周成交金额(元)"}, {"column": "TurnoverVolumeRW", "desc": "近一周成交量(股)"}, {"column": "ChangeOFRW", "desc": "近一周涨跌(元)"}, {"column": "ChangePCTRW", "desc": "近一周涨跌幅(%)"}, {"column": "RangePCTRW", "desc": "近一周振幅(%)"}, {"column": "TurnoverRateRW", "desc": "近一周换手率(%)"}, {"column": "AvgPriceRW", "desc": "近一周成交均价(元)"}, {"column": "HighPriceRW", "desc": "近一周最高价(元)"}, {"column": "LowPriceRW", "desc": "近一周最低价(元)"}, {"column": "HighestClosePriceRW", "desc": "近一周收盘最高价(元)"}, {"column": "LowestClosePriceRW", "desc": "近一周收盘最低价(元)"}, {"column": "TurnoverValuePerDayRW", "desc": "近一周日均成交金额(元)"}, {"column": "TurnoverRatePerDayRW", "desc": "近一周日均换手率(%)"}, {"column": "TurnVolumePerDayRW", "desc": "近一周日均成交量(股)"}, {"column": "ChangePCTPerDayRW", "desc": "近一周日均涨跌幅(%)"}, {"column": "RangePCTPerDayRW", "desc": "近一周日均振幅(%)"}, {"column": "TotalMVPerDayRW", "desc": "近一周日均总市值(元)"}, {"column": "NegotiableMVPerDayRW", "desc": "近一周日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTW", "desc": "本周以来成交金额(元)"}, {"column": "TurnoverVolumeTW", "desc": "本周以来成交量(股)"}, {"column": "ChangeOFTW", "desc": "本周以来涨跌(元)"}, {"column": "ChangePCTTW", "desc": "本周以来涨跌幅(%)"}, {"column": "RangePCTTW", "desc": "本周以来振幅(%)"}, {"column": "TurnoverRateTW", "desc": "本周以来换手率(%)"}, {"column": "AvgPriceTW", "desc": "本周以来成交均价(元)"}, {"column": "HighPriceTW", "desc": "本周以来最高价(元)"}, {"column": "LowPriceTW", "desc": "本周以来最低价(元)"}, {"column": "HighestClosePriceTW", "desc": "本周以来收盘最高价(元)"}, {"column": "LowestClosePriceTW", "desc": "本周以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTW", "desc": "本周以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTW", "desc": "本周以来日均换手率(%)"}, {"column": "TurnVolumePerDayTW", "desc": "本周以来日均成交量(股)"}, {"column": "ChangePCTPerDayTW", "desc": "本周以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTW", "desc": "本周以来日均振幅(%)"}, {"column": "TotalMVPerDayTW", "desc": "本周以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTW", "desc": "本周以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRM", "desc": "近一月成交金额(元)"}, {"column": "TurnoverVolumeRM", "desc": "近一月成交量(股)"}, {"column": "ChangeOFRM", "desc": "近一月涨跌(元)"}, {"column": "ChangePCTRM", "desc": "近一月涨跌幅(%)"}, {"column": "RangePCTRM", "desc": "近一月月振幅(%)"}, {"column": "TurnoverRateRM", "desc": "近一月月换手率(%)"}, {"column": "AvgPriceRM", "desc": "近一月成交均价(元)"}, {"column": "HighPriceRM", "desc": "近一月最高价(元)"}, {"column": "LowPriceRM", "desc": "近一月最低价(元)"}, {"column": "HighestClosePriceRM", "desc": "近一月收盘最高价(元)"}, {"column": "LowestClosePriceRM", "desc": "近一月收盘最低价(元)"}, {"column": "TurnoverValuePerDayRM", "desc": "近一月日均成交金额(元)"}, {"column": "TurnoverRatePerDayRM", "desc": "近一月日均换手率(%)"}, {"column": "TurnVolumePerDayRM", "desc": "近一月日均成交量(股)"}, {"column": "ChangePCTPerDayRM", "desc": "近一月日均涨跌幅(%)"}, {"column": "RangePCTPerDayRM", "desc": "近一月日均振幅(%)"}, {"column": "TotalMVPerDayRM", "desc": "近一月日均总市值(元)"}, {"column": "NegotiableMVPerDayRM", "desc": "近一月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueTM", "desc": "本月以来成交金额(元)"}, {"column": "TurnoverVolumeTM", "desc": "本月以来成交量(股)"}, {"column": "ChangeOFTM", "desc": "本月以来涨跌(元)"}, {"column": "ChangePCTTM", "desc": "本月以来涨跌幅(%)"}, {"column": "RangePCTTM", "desc": "本月以来振幅(%)"}, {"column": "TurnoverRateTM", "desc": "本月以来换手率(%)"}, {"column": "AvgPriceTM", "desc": "本月以来成交均价(元)"}, {"column": "HighPriceTM", "desc": "本月以来最高价(元)"}, {"column": "LowPriceTM", "desc": "本月以来最低价(元)"}, {"column": "HighestClosePriceTM", "desc": "本月以来收盘最高价(元)"}, {"column": "LowestClosePriceTM", "desc": "本月以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayTM", "desc": "本月以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayTM", "desc": "本月以来日均换手率(%)"}, {"column": "TurnVolumePerDayTM", "desc": "本月以来日均成交量(股)"}, {"column": "ChangePCTPerDayTM", "desc": "本月以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayTM", "desc": "本月以来日均振幅(%)"}, {"column": "TotalMVPerDayTM", "desc": "本月以来日均总市值(元)"}, {"column": "NegotiableMVPerDayTM", "desc": "本月以来日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMThree", "desc": "近三个月成交金额(元)"}, {"column": "TurnoverVolumeRMThree", "desc": "近三个月成交量(股)"}, {"column": "ChangeOFRMThree", "desc": "近三个月涨跌(元)"}, {"column": "ChangePCTRMThree", "desc": "近三个月涨跌幅(%)"}, {"column": "RangePCTRMThree", "desc": "近三个月振幅(%)"}, {"column": "TurnoverRateRMThree", "desc": "近三个月换手率(%)"}, {"column": "AvgPriceRMThree", "desc": "近三个月成交均价(元)"}, {"column": "HighPriceRMThree", "desc": "近三个月以来最高价(元)"}, {"column": "LowPriceRMThree", "desc": "近三个月以来最低价(元)"}, {"column": "HighestClosePRMThree", "desc": "近三个月以来收盘最高价(元)"}, {"column": "LowestClosePRMThree", "desc": "近三个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMThree", "desc": "近三个月日均成交金额(元)"}, {"column": "TurnRatePDayRMThree", "desc": "近三个月日均换手率(%)"}, {"column": "TurnVolumePDayRMThree", "desc": "近三个月日均成交量(股)"}, {"column": "ChangePCTPDayRMThree", "desc": "近三个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMThree", "desc": "近三个月日均振幅(%)"}, {"column": "TotalMVPerDayRMThree", "desc": "近三个月日均总市值(元)"}, {"column": "NegotiableMVPRMThree", "desc": "近三个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRMSix", "desc": "近六个月成交金额(元)"}, {"column": "TurnoverVolumeRMSix", "desc": "近六个月成交量(股)"}, {"column": "ChangeOFRMSix", "desc": "近六个月涨跌(元)"}, {"column": "ChangePCTRMSix", "desc": "近六个月涨跌幅(%)"}, {"column": "RangePCTRMSix", "desc": "近六个月振幅(%)"}, {"column": "TurnoverRateRMSix", "desc": "近六个月换手率(%)"}, {"column": "AvgPriceRMSix", "desc": "近六个月成交均价(元)"}, {"column": "HighPriceRMSix", "desc": "近六个月以来最高价(元)"}, {"column": "LowPriceRMSix", "desc": "近六个月以来最低价(元)"}, {"column": "HighestClosePRMSix", "desc": "近六个月以来收盘最高价(元)"}, {"column": "LowestClosePRMSix", "desc": "近六个月以来收盘最低价(元)"}, {"column": "TurnValuePDayRMSix", "desc": "近六个月日均成交金额(元)"}, {"column": "TurnRatePDayRMSix", "desc": "近六个月日均换手率(%)"}, {"column": "TurnVolumePDayRMSix", "desc": "近六个月日均成交量(股)"}, {"column": "ChangePCTPDayRMSix", "desc": "近六个月日均涨跌幅(%)"}, {"column": "RangePCTPDayRMSix", "desc": "近六个月日均振幅(%)"}, {"column": "TotalMVPerDayRMSix", "desc": "近六个月日均总市值(元)"}, {"column": "NegotiableMVPRMSix", "desc": "近六个月日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueRY", "desc": "近一年成交金额(元)"}, {"column": "TurnoverVolumeRY", "desc": "近一年成交量(股)"}, {"column": "ChangeOFRY", "desc": "近一年涨跌(元)"}, {"column": "ChangePCTRY", "desc": "近一年涨跌幅(%)"}, {"column": "RangePCTRY", "desc": "近一年振幅(%)"}, {"column": "TurnoverRateRY", "desc": "近一年换手率(%)"}, {"column": "AvgPriceRY", "desc": "近一年成交均价(元)"}, {"column": "HighPriceRY", "desc": "近一年最高价(元)"}, {"column": "LowPriceRY", "desc": "近一年最低价(元)"}, {"column": "HighestClosePRY", "desc": "近一年收盘价最高(元)"}, {"column": "LowestClosePRY", "desc": "近一年收盘价最低(元)"}, {"column": "TurnoverValuePDayRY", "desc": "近一年日均成交金额(元)"}, {"column": "TurnoverRatePDayRY", "desc": "近一年日均换手率(%)"}, {"column": "TurnVolumePDayRY", "desc": "近一年日均成交量(股)"}, {"column": "ChangePCTPDayRY", "desc": "近一年日均涨跌幅(%)"}, {"column": "RangePCTPDayRY", "desc": "近一年日均振幅(%)"}, {"column": "TotalMVPerDayRY", "desc": "近一年日均总市值(元)"}, {"column": "NegotiableMVPRY", "desc": "近一年日均流通市值(不含限售股)(元)"}, {"column": "TurnoverValueYTD", "desc": "今年以来成交金额(元)"}, {"column": "TurnoverVolumeYTD", "desc": "今年以来成交量(股)"}, {"column": "ChangeOFYTD", "desc": "今年以来涨跌(元)"}, {"column": "ChangePCTYTD", "desc": "今年以来涨跌幅(%)"}, {"column": "RangePCTYTD", "desc": "今年以来振幅(%)"}, {"column": "TurnoverRateYTD", "desc": "今年以来换手率(%)"}, {"column": "AvgPriceYTD", "desc": "今年以来成交均价(元)"}, {"column": "HighPriceYTD", "desc": "今年以来最高价(元)"}, {"column": "LowPriceYTD", "desc": "今年以来最低价(元)"}, {"column": "HighestClosePriceYTD", "desc": "今年以来收盘最高价(元)"}, {"column": "LowestClosePriceYTD", "desc": "今年以来收盘最低价(元)"}, {"column": "TurnoverValuePerDayYTD", "desc": "今年以来日均成交金额(元)"}, {"column": "TurnoverRatePerDayYTD", "desc": "今年以来日均换手率(%)"}, {"column": "TurnVolumePDayYTD", "desc": "今年以来日均成交量(股)"}, {"column": "ChangePCTPerDayYTD", "desc": "今年以来日均涨跌幅(%)"}, {"column": "RangePCTPerDayYTD", "desc": "今年以来日均振幅(%)"}, {"column": "TotalMVPerDayYTD", "desc": "今年以来日均总市值(元)"}, {"column": "NegotiableMVPYTD", "desc": "今年以来日均流通市值(不含限售股)(元)"}, {"column": "HighAdjustedPrice", "desc": "上市以来复权最高价(元)"}, {"column": "HighAdjustedPriceDate", "desc": "上市以来复权最高价日期"}, {"column": "LowAdjustedPrice", "desc": "上市以来复权最低价(元)"}, {"column": "LowAdjustedPriceDate", "desc": "上市以来复权最低价日期"}]}]
+
+请选择column，务必遵循输出的格式要求。
+
+>>>>> Agent【Check_db_structure.columns_selector】 Said:
+【分析】
+用户询问的是截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家。
+
+【当前的表之间相互关联的字段】
+表constantdb.lc_areacode和表astockbasicinfodb.lc_stockarchives之间通过AreaInnerCode关联。
+表astockbasicinfodb.lc_stockarchives和表astockmarketquotesdb.qt_stockperformance之间通过CompanyCode关联。
+
+【信息所在字段】
+- constantdb.lc_areacode.AreaChiName: 这个字段可能包含地区中文名称信息，对应用户提问中的“陕西省”。
+- astockbasicinfodb.lc_stockarchives.State: 这个字段可能包含公司所在省份信息，对应用户提问中的“陕西省”。
+- astockmarketquotesdb.qt_stockperformance.TotalMV: 这个字段可能包含公司总市值信息，对应用户提问中的“2020年总市值超过百亿”。
+
+【筛选条件所在字段】
+- constantdb.lc_areacode.AreaChiName: 这个字段可能包含地区中文名称信息，对应用户提问中的“陕西省”。
+- astockbasicinfodb.lc_stockarchives.State: 这个字段可能包含公司所在省份信息，对应用户提问中的“陕西省”。
+- astockmarketquotesdb.qt_stockperformance.TotalMV: 这个字段可能包含公司总市值信息，对应用户提问中的“2020年总市值超过百亿”。
+
+【选中的字段的清单】
+```json
+{"constantdb.lc_areacode": ["AreaChiName"], "astockbasicinfodb.lc_stockarchives": ["State"], "astockmarketquotesdb.qt_stockperformance": ["TotalMV"]}
+```
+
+
+>>>>> 【user】 Said:
+之前已查询到信息如下:
+查询结果表明: 在constantdb数据库的lc_areacode表中，地区中文名称（AreaChiName）为“陕西省”的记录对应的地区内部编码（AreaInnerCode）为144370000。
+---
+查询结果表明: 在constantdb.secumain表和astockbasicinfodb.lc_stockarchives表中进行关联查询，筛选出astockbasicinfodb.lc_stockarchives表中State字段值为144370000的记录，并且constantdb.secumain表中的ListedDate字段日期不晚于2023年10月31日的证券数量共有12条。
+
+请问:截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 陕西省的地区内部编码（AreaInnerCode）为144370000。
+- 截止到2023年10月，陕西省共有12家上市公司。
+
+【当前阶段要获取的信息】
+- 2020年总市值超过百亿的陕西省上市公司数量。
+
+【信息所在字段】
+- 总市值信息在`astockmarketquotesdb.qt_stockperformance`表的`TotalMV`字段。
+- 上市公司的证券内部编码（InnerCode）在`constantdb.secumain`表。
+
+【筛选条件所在字段】
+- 地区筛选条件在`astockbasicinfodb.lc_stockarchives`表的`State`字段。
+- 时间筛选条件在`astockmarketquotesdb.qt_stockperformance`表的日期字段（需确认具体字段名）。
+
+【SQL语句的思路】
+1. 从`astockbasicinfodb.lc_stockarchives`表中筛选出陕西省的上市公司（`State` = 144370000）。
+2. 关联`constantdb.secumain`表获取这些公司的`InnerCode`。
+3. 使用这些`InnerCode`在`astockmarketquotesdb.qt_stockperformance`表中筛选出2020年的总市值数据。
+4. 统计总市值超过百亿的公司数量。
+
+【执行SQL语句】
+```exec_sql
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.Date) = 2020
+AND c.TotalMV > 10000000000;
+```
+
+【上述SQL语句的含义】
+- `SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies`：统计不同公司的数量。
+- `FROM astockbasicinfodb.lc_stockarchives AS b`：从上市公司档案表获取数据。
+- `JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode`：关联证券主表获取证券内部编码。
+- `JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode`：关联股票表现表获取总市值数据。
+- `WHERE b.State = 144370000`：筛选陕西省的公司。
+- `AND YEAR(c.Date) = 2020`：筛选2020年的数据。
+- `AND c.TotalMV > 10000000000`：筛选总市值超过百亿的公司。
+
+>>>>> 查询sql:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.Date) = 2020
+AND c.TotalMV > 10000000000;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.Date' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.Date) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.Date) = 2020
+AND c.TotalMV > 10000000000;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.Date' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.Date) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 陕西省的地区内部编码（AreaInnerCode）为144370000。
+- 截止到2023年10月，陕西省共有12家上市公司。
+- `astockmarketquotesdb.qt_stockperformance`表中没有`Date`字段。
+
+【当前阶段要获取的信息】
+- 2020年总市值超过百亿的陕西省上市公司数量。
+
+【信息所在字段】
+- 总市值信息在`astockmarketquotesdb.qt_stockperformance`表的`TotalMV`字段。
+- 上市公司的证券内部编码（InnerCode）在`constantdb.secumain`表。
+
+【筛选条件所在字段】
+- 地区筛选条件在`astockbasicinfodb.lc_stockarchives`表的`State`字段。
+- 时间筛选条件需要确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段。
+
+【SQL语句的思路】
+1. 从`astockbasicinfodb.lc_stockarchives`表中筛选出陕西省的上市公司（`State` = 144370000）。
+2. 关联`constantdb.secumain`表获取这些公司的`InnerCode`。
+3. 使用这些`InnerCode`在`astockmarketquotesdb.qt_stockperformance`表中筛选出2020年的总市值数据（需确认具体日期字段）。
+4. 统计总市值超过百亿的公司数量。
+
+【执行SQL语句】
+首先，我们需要确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段。假设该表中的日期字段为`TradingDate`，则修正后的SQL语句如下：
+
+```exec_sql
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDate) = 2020
+AND c.TotalMV > 10000000000;
+```
+
+【上述SQL语句的含义】
+- `SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies`：统计不同公司的数量。
+- `FROM astockbasicinfodb.lc_stockarchives AS b`：从上市公司档案表获取数据。
+- `JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode`：关联证券主表获取证券内部编码。
+- `JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode`：关联股票表现表获取总市值数据。
+- `WHERE b.State = 144370000`：筛选陕西省的公司。
+- `AND YEAR(c.TradingDate) = 2020`：筛选2020年的数据（假设日期字段为`TradingDate`）。
+- `AND c.TotalMV > 10000000000`：筛选总市值超过百亿的公司。
+
+请确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段名称，如果不同，请替换`TradingDate`为实际字段名称。
+
+>>>>> 查询sql:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDate) = 2020
+AND c.TotalMV > 10000000000;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.TradingDate' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDate) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDate) = 2020
+AND c.TotalMV > 10000000000;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.TradingDate' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDate) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 陕西省的地区内部编码（AreaInnerCode）为144370000。
+- 截止到2023年10月，陕西省共有12家上市公司。
+- `astockmarketquotesdb.qt_stockperformance`表中没有`Date`和`TradingDate`字段。
+
+【当前阶段要获取的信息】
+- 2020年总市值超过百亿的陕西省上市公司数量。
+
+【信息所在字段】
+- 总市值信息在`astockmarketquotesdb.qt_stockperformance`表的`TotalMV`字段。
+- 上市公司的证券内部编码（InnerCode）在`constantdb.secumain`表。
+
+【筛选条件所在字段】
+- 地区筛选条件在`astockbasicinfodb.lc_stockarchives`表的`State`字段。
+- 时间筛选条件需要确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段。
+
+【SQL语句的思路】
+1. 从`astockbasicinfodb.lc_stockarchives`表中筛选出陕西省的上市公司（`State` = 144370000）。
+2. 关联`constantdb.secumain`表获取这些公司的`InnerCode`。
+3. 使用这些`InnerCode`在`astockmarketquotesdb.qt_stockperformance`表中筛选出2020年的总市值数据（需确认具体日期字段）。
+4. 统计总市值超过百亿的公司数量。
+
+【执行SQL语句】
+由于`astockmarketquotesdb.qt_stockperformance`表中没有`Date`和`TradingDate`字段，我们需要确认该表中的具体日期字段。假设该表中的日期字段为`EndDate`，则修正后的SQL语句如下：
+
+```exec_sql
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.EndDate) = 2020
+AND c.TotalMV > 10000000000;
+```
+
+【上述SQL语句的含义】
+- `SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies`：统计不同公司的数量。
+- `FROM astockbasicinfodb.lc_stockarchives AS b`：从上市公司档案表获取数据。
+- `JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode`：关联证券主表获取证券内部编码。
+- `JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode`：关联股票表现表获取总市值数据。
+- `WHERE b.State = 144370000`：筛选陕西省的公司。
+- `AND YEAR(c.EndDate) = 2020`：筛选2020年的数据（假设日期字段为`EndDate`）。
+- `AND c.TotalMV > 10000000000`：筛选总市值超过百亿的公司。
+
+请确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段名称，如果不同，请替换`EndDate`为实际字段名称。
+
+>>>>> 查询sql:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.EndDate) = 2020
+AND c.TotalMV > 10000000000;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.EndDate' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.EndDate) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.EndDate) = 2020
+AND c.TotalMV > 10000000000;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.EndDate' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.EndDate) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 陕西省的地区内部编码（AreaInnerCode）为144370000。
+- 截止到2023年10月，陕西省共有12家上市公司。
+- `astockmarketquotesdb.qt_stockperformance`表中没有`Date`、`TradingDate`和`EndDate`字段。
+
+【当前阶段要获取的信息】
+- 2020年总市值超过百亿的陕西省上市公司数量。
+
+【信息所在字段】
+- 总市值信息在`astockmarketquotesdb.qt_stockperformance`表的`TotalMV`字段。
+- 上市公司的证券内部编码（InnerCode）在`constantdb.secumain`表。
+
+【筛选条件所在字段】
+- 地区筛选条件在`astockbasicinfodb.lc_stockarchives`表的`State`字段。
+- 时间筛选条件需要确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段。
+
+【SQL语句的思路】
+1. 从`astockbasicinfodb.lc_stockarchives`表中筛选出陕西省的上市公司（`State` = 144370000）。
+2. 关联`constantdb.secumain`表获取这些公司的`InnerCode`。
+3. 使用这些`InnerCode`在`astockmarketquotesdb.qt_stockperformance`表中筛选出2020年的总市值数据（需确认具体日期字段）。
+4. 统计总市值超过百亿的公司数量。
+
+【执行SQL语句】
+由于`astockmarketquotesdb.qt_stockperformance`表中没有`Date`、`TradingDate`和`EndDate`字段，我们需要确认该表中的具体日期字段。假设该表中的日期字段为`ReportDate`，则修正后的SQL语句如下：
+
+```exec_sql
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.ReportDate) = 2020
+AND c.TotalMV > 10000000000;
+```
+
+【上述SQL语句的含义】
+- `SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies`：统计不同公司的数量。
+- `FROM astockbasicinfodb.lc_stockarchives AS b`：从上市公司档案表获取数据。
+- `JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode`：关联证券主表获取证券内部编码。
+- `JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode`：关联股票表现表获取总市值数据。
+- `WHERE b.State = 144370000`：筛选陕西省的公司。
+- `AND YEAR(c.ReportDate) = 2020`：筛选2020年的数据（假设日期字段为`ReportDate`）。
+- `AND c.TotalMV > 10000000000`：筛选总市值超过百亿的公司。
+
+请确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段名称，如果不同，请替换`ReportDate`为实际字段名称。
+
+>>>>> 查询sql:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.ReportDate) = 2020
+AND c.TotalMV > 10000000000;
+查询失败: 查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.ReportDate' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.ReportDate) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.ReportDate) = 2020
+AND c.TotalMV > 10000000000;
+查询发生异常：查询执行失败: (mysql.connector.errors.ProgrammingError) 1054 (42S22): Unknown column 'c.ReportDate' in 'where clause'
+[SQL: SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.ReportDate) = 2020
+AND c.TotalMV > 10000000000;]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+请修正
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 陕西省的地区内部编码（AreaInnerCode）为144370000。
+- 截止到2023年10月，陕西省共有12家上市公司。
+- `astockmarketquotesdb.qt_stockperformance`表中没有`Date`、`TradingDate`、`EndDate`和`ReportDate`字段。
+
+【当前阶段要获取的信息】
+- 2020年总市值超过百亿的陕西省上市公司数量。
+
+【信息所在字段】
+- 总市值信息在`astockmarketquotesdb.qt_stockperformance`表的`TotalMV`字段。
+- 上市公司的证券内部编码（InnerCode）在`constantdb.secumain`表。
+
+【筛选条件所在字段】
+- 地区筛选条件在`astockbasicinfodb.lc_stockarchives`表的`State`字段。
+- 时间筛选条件需要确认`astockmarketquotesdb.qt_stockperformance`表中的具体日期字段。
+
+【SQL语句的思路】
+1. 从`astockbasicinfodb.lc_stockarchives`表中筛选出陕西省的上市公司（`State` = 144370000）。
+2. 关联`constantdb.secumain`表获取这些公司的`InnerCode`。
+3. 使用这些`InnerCode`在`astockmarketquotesdb.qt_stockperformance`表中筛选出2020年的总市值数据（需确认具体日期字段）。
+4. 统计总市值超过百亿的公司数量。
+
+【执行SQL语句】
+由于`astockmarketquotesdb.qt_stockperformance`表中没有已知的日期字段，我们需要先查询该表的结构以确认具体的日期字段名称。执行以下SQL语句以获取表结构：
+
+```exec_sql
+SELECT * FROM astockmarketquotesdb.qt_stockperformance LIMIT 1;
+```
+
+【上述SQL语句的含义】
+- `SELECT * FROM astockmarketquotesdb.qt_stockperformance LIMIT 1`：查询`astockmarketquotesdb.qt_stockperformance`表的第一条记录，以便了解表的结构和字段名称。
+
+请执行上述SQL语句，获取表结构信息，然后根据实际的日期字段名称修正原SQL语句。
+
+>>>>> 查询sql:
+SELECT * FROM astockmarketquotesdb.qt_stockperformance LIMIT 1;
+查询结果:
+[{"ID": 618420259843, "InnerCode": 1676, "TradingDay": "2019-06-24 12:00:00.000", "PrevClosePrice": 7.76, "OpenPrice": 7.76, "HighPrice": 7.77, "LowPrice": 7.57, "ClosePrice": 7.61, "TurnoverVolume": 19765166.0, "TurnoverValue": 151310100.0, "ChangePCT": -1.933, "RangePCT": 2.5773, "TurnoverRate": 1.4574, "AvgPrice": 7.6554, "Ifsuspend": 0, "TurnoverValueRW": 1305078710.0, "TurnoverVolumeRW": 170548621.0, "ChangePCTRW": 5.8414, "RangePCTRW": 12.1001, "TurnoverRateRW": 13.5732, "AvgPriceRW": 7.6522, "HighPriceRW": 8.01, "LowPriceRW": 7.14, "HighestClosePriceRW": 7.77, "LowestClosePriceRW": 7.24, "TurnoverValuePerDayRW": 261015742.0, "TurnoverRatePerDayRW": 2.7146, "TurnoverValueTW": 151310100.0, "TurnoverVolumeTW": 19765166.0, "ChangePCTTW": -1.933, "RangePCTTW": 2.5773, "TurnoverRateTW": 1.4574, "AvgPriceTW": 7.6554, "HighPriceTW": 7.77, "LowPriceTW": 7.57, "HighestClosePriceTW": 7.61, "LowestClosePriceTW": 7.61, "TurnoverValuePerDayTW": 151310100.0, "TurnoverRatePerDayTW": 1.4574, "TurnoverValueRM": 4262406267.0, "TurnoverVolumeRM": 563766769.0, "ChangePCTRM": 0.0, "RangePCTRM": 15.7687, "TurnoverRateRM": 45.1691, "AvgPriceRM": 7.5606, "HighPriceRM": 8.08, "LowPriceRM": 6.88, "HighestClosePriceRM": 7.9, "LowestClosePriceRM": 6.93, "TurnoverValuePerDayRM": 213120313.35, "TurnoverRatePerDayRM": 2.2585, "TurnoverValueTM": 3186263648.0, "TurnoverVolumeTM": 426142867.0, "ChangePCTTM": -1.5524, "RangePCTTM": 14.6183, "TurnoverRateTM": 34.1107, "AvgPriceTM": 7.477, "HighPriceTM": 8.01, "LowPriceTM": 6.88, "HighestClosePriceTM": 7.77, "LowestClosePriceTM": 6.93, "TurnoverValuePerDayTM": 212417576.5333, "TurnoverRatePerDayTM": 2.274, "TurnoverValueRMThree": 25531569563.0, "TurnoverVolumeRMThree": 2674450996.0, "ChangePCTRMThree": 58.212, "RangePCTRMThree": 159.0436, "TurnoverRateRMThree": 214.767, "TurnoverValueRMSix": 30483389118.0, "TurnoverVolumeRMSix": 3847621899.0, "ChangePCTRMSix": 132.0121, "RangePCTRMSix": 285.6707, "TurnoverRateRMSix": 309.0338, "TurnoverValueRY": 33472529489.0, "TurnoverVolumeRY": 4658329616.0, "ChangePCTRY": 113.5735, "RangePCTRY": 265.4935, "TurnoverRateRY": 374.1758, "AvgPriceRY": 7.1852, "HighPriceRY": 12.46, "LowPriceRY": 3.0, "HighestClosePriceRY": 11.91, "LowestClosePriceRY": 3.04, "TurnoverValuePDayRY": 137747034.9341, "TurnoverRatePDayRY": 1.6059, "TurnoverValueYTD": 30389158516.0, "TurnoverVolumeYTD": 3818238271.0, "ChangePCTYTD": 139.3081, "RangePCTYTD": 292.4528, "TurnoverRateYTD": 306.6727, "AvgPriceYTD": 7.9589, "HighPriceYTD": 12.46, "LowPriceYTD": 3.16, "HighestClosePriceYTD": 11.91, "LowestClosePriceYTD": 3.18, "TurnoverValuePerDayYTD": 266571565.9298, "TurnoverRatePerDayYTD": 2.9488, "HighAdjustedPrice": 443.4058, "HighAdjustedPriceDate": "2015-06-12 12:00:00.000", "LowAdjustedPrice": 5.9134, "LowAdjustedPriceDate": "2005-07-18 12:00:00.000", "BetaLargeCapIndex": 1.03033, "BetaCompositeIndex": 1.290358, "BetaSYWGIndustryIndex": 1.333669, "BetaMidCapIndex": 1.226699, "BetaWeekly": 0.967382, "AdjustBetaWeekly": 0.978146, "AlphaLargeCapIndex": 0.003313, "AlphaCompositeIndex": 0.007265, "AlphaSYWGIndustryIndex": 0.007934, "AlphMidCapIndex": 0.006658, "YearVolatilityByDay": 0.03746, "YearVolatilityByWeek": 0.105703, "YearSharpeRatio": 2.097483, "MarketIndexRORArithAvg": 0.115611, "MarketIndexRORGeomMean": 0.059205, "TotalMV": 10320437133.03, "NegotiableMV": 10320437133.03, "UpdateTime": "2023-10-08 03:45:34.710", "InsertTime": "2019-08-06 01:54:29.147", "JSID": 750095151861, "TurnoverRateFreeFloat": 3.1936, "TurnoverRateFFTRW": 27.5571, "TurnoverRatePDFFTRW": 5.5114, "TurnoverRateFFTTW": 3.1936, "TurnoverRatePDFFTTW": 3.1936, "TurnoverRateFFTRM": 91.093, "TurnoverRatePDFFTRM": 4.5546, "TurnoverRateFFTTM": 68.8558, "TurnoverRatePDFFTTM": 4.5904, "TurnoverRateFFTRMThree": 431.1119, "TurnoverRateFFTRMSix": 619.3912, "TurnoverRateFFTRY": 749.4996, "TurnoverRatePDFFTRY": 3.2167, "TurnoverRateFFTYTD": 614.6755, "TurnoverRatePDFFTYTD": 5.9103}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT * FROM astockmarketquotesdb.qt_stockperformance LIMIT 1;
+查询结果:
+[{"ID": 618420259843, "InnerCode": 1676, "TradingDay": "2019-06-24 12:00:00.000", "PrevClosePrice": 7.76, "OpenPrice": 7.76, "HighPrice": 7.77, "LowPrice": 7.57, "ClosePrice": 7.61, "TurnoverVolume": 19765166.0, "TurnoverValue": 151310100.0, "ChangePCT": -1.933, "RangePCT": 2.5773, "TurnoverRate": 1.4574, "AvgPrice": 7.6554, "Ifsuspend": 0, "TurnoverValueRW": 1305078710.0, "TurnoverVolumeRW": 170548621.0, "ChangePCTRW": 5.8414, "RangePCTRW": 12.1001, "TurnoverRateRW": 13.5732, "AvgPriceRW": 7.6522, "HighPriceRW": 8.01, "LowPriceRW": 7.14, "HighestClosePriceRW": 7.77, "LowestClosePriceRW": 7.24, "TurnoverValuePerDayRW": 261015742.0, "TurnoverRatePerDayRW": 2.7146, "TurnoverValueTW": 151310100.0, "TurnoverVolumeTW": 19765166.0, "ChangePCTTW": -1.933, "RangePCTTW": 2.5773, "TurnoverRateTW": 1.4574, "AvgPriceTW": 7.6554, "HighPriceTW": 7.77, "LowPriceTW": 7.57, "HighestClosePriceTW": 7.61, "LowestClosePriceTW": 7.61, "TurnoverValuePerDayTW": 151310100.0, "TurnoverRatePerDayTW": 1.4574, "TurnoverValueRM": 4262406267.0, "TurnoverVolumeRM": 563766769.0, "ChangePCTRM": 0.0, "RangePCTRM": 15.7687, "TurnoverRateRM": 45.1691, "AvgPriceRM": 7.5606, "HighPriceRM": 8.08, "LowPriceRM": 6.88, "HighestClosePriceRM": 7.9, "LowestClosePriceRM": 6.93, "TurnoverValuePerDayRM": 213120313.35, "TurnoverRatePerDayRM": 2.2585, "TurnoverValueTM": 3186263648.0, "TurnoverVolumeTM": 426142867.0, "ChangePCTTM": -1.5524, "RangePCTTM": 14.6183, "TurnoverRateTM": 34.1107, "AvgPriceTM": 7.477, "HighPriceTM": 8.01, "LowPriceTM": 6.88, "HighestClosePriceTM": 7.77, "LowestClosePriceTM": 6.93, "TurnoverValuePerDayTM": 212417576.5333, "TurnoverRatePerDayTM": 2.274, "TurnoverValueRMThree": 25531569563.0, "TurnoverVolumeRMThree": 2674450996.0, "ChangePCTRMThree": 58.212, "RangePCTRMThree": 159.0436, "TurnoverRateRMThree": 214.767, "TurnoverValueRMSix": 30483389118.0, "TurnoverVolumeRMSix": 3847621899.0, "ChangePCTRMSix": 132.0121, "RangePCTRMSix": 285.6707, "TurnoverRateRMSix": 309.0338, "TurnoverValueRY": 33472529489.0, "TurnoverVolumeRY": 4658329616.0, "ChangePCTRY": 113.5735, "RangePCTRY": 265.4935, "TurnoverRateRY": 374.1758, "AvgPriceRY": 7.1852, "HighPriceRY": 12.46, "LowPriceRY": 3.0, "HighestClosePriceRY": 11.91, "LowestClosePriceRY": 3.04, "TurnoverValuePDayRY": 137747034.9341, "TurnoverRatePDayRY": 1.6059, "TurnoverValueYTD": 30389158516.0, "TurnoverVolumeYTD": 3818238271.0, "ChangePCTYTD": 139.3081, "RangePCTYTD": 292.4528, "TurnoverRateYTD": 306.6727, "AvgPriceYTD": 7.9589, "HighPriceYTD": 12.46, "LowPriceYTD": 3.16, "HighestClosePriceYTD": 11.91, "LowestClosePriceYTD": 3.18, "TurnoverValuePerDayYTD": 266571565.9298, "TurnoverRatePerDayYTD": 2.9488, "HighAdjustedPrice": 443.4058, "HighAdjustedPriceDate": "2015-06-12 12:00:00.000", "LowAdjustedPrice": 5.9134, "LowAdjustedPriceDate": "2005-07-18 12:00:00.000", "BetaLargeCapIndex": 1.03033, "BetaCompositeIndex": 1.290358, "BetaSYWGIndustryIndex": 1.333669, "BetaMidCapIndex": 1.226699, "BetaWeekly": 0.967382, "AdjustBetaWeekly": 0.978146, "AlphaLargeCapIndex": 0.003313, "AlphaCompositeIndex": 0.007265, "AlphaSYWGIndustryIndex": 0.007934, "AlphMidCapIndex": 0.006658, "YearVolatilityByDay": 0.03746, "YearVolatilityByWeek": 0.105703, "YearSharpeRatio": 2.097483, "MarketIndexRORArithAvg": 0.115611, "MarketIndexRORGeomMean": 0.059205, "TotalMV": 10320437133.03, "NegotiableMV": 10320437133.03, "UpdateTime": "2023-10-08 03:45:34.710", "InsertTime": "2019-08-06 01:54:29.147", "JSID": 750095151861, "TurnoverRateFreeFloat": 3.1936, "TurnoverRateFFTRW": 27.5571, "TurnoverRatePDFFTRW": 5.5114, "TurnoverRateFFTTW": 3.1936, "TurnoverRatePDFFTTW": 3.1936, "TurnoverRateFFTRM": 91.093, "TurnoverRatePDFFTRM": 4.5546, "TurnoverRateFFTTM": 68.8558, "TurnoverRatePDFFTTM": 4.5904, "TurnoverRateFFTRMThree": 431.1119, "TurnoverRateFFTRMSix": 619.3912, "TurnoverRateFFTRY": 749.4996, "TurnoverRatePDFFTRY": 3.2167, "TurnoverRateFFTYTD": 614.6755, "TurnoverRatePDFFTYTD": 5.9103}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明:
+该查询从股票市场表现表（astockmarketquotesdb.qt_stockperformance）中返回了第一条记录。记录包含以下信息：证券内部编码（InnerCode）为1676，交易日期（TradingDay）为2019年6月24日，前收盘价（PrevClosePrice）为7.76元，开盘价（OpenPrice）为7.76元，最高价（HighPrice）为7.77元，最低价（LowPrice）为7.57元，收盘价（ClosePrice）为7.61元，成交量为19765166股，成交额为151310100元，涨跌幅（ChangePCT）为-1.933%，振幅（RangePCT）为2.5773%，换手率（TurnoverRate）为1.4574%，平均价（AvgPrice）为7.6554元，总市值（TotalMV）为10320437133.03元等。此外，还包含了多个不同时间窗口（如日、周、月、年）的成交额、成交量、涨跌幅、振幅、换手率等统计数据，以及历史最高最低调整价格、Beta系数、Alpha系数、年化波动率、夏普比率等金融指标。最后更新时间为2023年10月8日。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT * FROM astockmarketquotesdb.qt_stockperformance LIMIT 1;
+查询结果:
+[{"ID": 618420259843, "InnerCode": 1676, "TradingDay": "2019-06-24 12:00:00.000", "PrevClosePrice": 7.76, "OpenPrice": 7.76, "HighPrice": 7.77, "LowPrice": 7.57, "ClosePrice": 7.61, "TurnoverVolume": 19765166.0, "TurnoverValue": 151310100.0, "ChangePCT": -1.933, "RangePCT": 2.5773, "TurnoverRate": 1.4574, "AvgPrice": 7.6554, "Ifsuspend": 0, "TurnoverValueRW": 1305078710.0, "TurnoverVolumeRW": 170548621.0, "ChangePCTRW": 5.8414, "RangePCTRW": 12.1001, "TurnoverRateRW": 13.5732, "AvgPriceRW": 7.6522, "HighPriceRW": 8.01, "LowPriceRW": 7.14, "HighestClosePriceRW": 7.77, "LowestClosePriceRW": 7.24, "TurnoverValuePerDayRW": 261015742.0, "TurnoverRatePerDayRW": 2.7146, "TurnoverValueTW": 151310100.0, "TurnoverVolumeTW": 19765166.0, "ChangePCTTW": -1.933, "RangePCTTW": 2.5773, "TurnoverRateTW": 1.4574, "AvgPriceTW": 7.6554, "HighPriceTW": 7.77, "LowPriceTW": 7.57, "HighestClosePriceTW": 7.61, "LowestClosePriceTW": 7.61, "TurnoverValuePerDayTW": 151310100.0, "TurnoverRatePerDayTW": 1.4574, "TurnoverValueRM": 4262406267.0, "TurnoverVolumeRM": 563766769.0, "ChangePCTRM": 0.0, "RangePCTRM": 15.7687, "TurnoverRateRM": 45.1691, "AvgPriceRM": 7.5606, "HighPriceRM": 8.08, "LowPriceRM": 6.88, "HighestClosePriceRM": 7.9, "LowestClosePriceRM": 6.93, "TurnoverValuePerDayRM": 213120313.35, "TurnoverRatePerDayRM": 2.2585, "TurnoverValueTM": 3186263648.0, "TurnoverVolumeTM": 426142867.0, "ChangePCTTM": -1.5524, "RangePCTTM": 14.6183, "TurnoverRateTM": 34.1107, "AvgPriceTM": 7.477, "HighPriceTM": 8.01, "LowPriceTM": 6.88, "HighestClosePriceTM": 7.77, "LowestClosePriceTM": 6.93, "TurnoverValuePerDayTM": 212417576.5333, "TurnoverRatePerDayTM": 2.274, "TurnoverValueRMThree": 25531569563.0, "TurnoverVolumeRMThree": 2674450996.0, "ChangePCTRMThree": 58.212, "RangePCTRMThree": 159.0436, "TurnoverRateRMThree": 214.767, "TurnoverValueRMSix": 30483389118.0, "TurnoverVolumeRMSix": 3847621899.0, "ChangePCTRMSix": 132.0121, "RangePCTRMSix": 285.6707, "TurnoverRateRMSix": 309.0338, "TurnoverValueRY": 33472529489.0, "TurnoverVolumeRY": 4658329616.0, "ChangePCTRY": 113.5735, "RangePCTRY": 265.4935, "TurnoverRateRY": 374.1758, "AvgPriceRY": 7.1852, "HighPriceRY": 12.46, "LowPriceRY": 3.0, "HighestClosePriceRY": 11.91, "LowestClosePriceRY": 3.04, "TurnoverValuePDayRY": 137747034.9341, "TurnoverRatePDayRY": 1.6059, "TurnoverValueYTD": 30389158516.0, "TurnoverVolumeYTD": 3818238271.0, "ChangePCTYTD": 139.3081, "RangePCTYTD": 292.4528, "TurnoverRateYTD": 306.6727, "AvgPriceYTD": 7.9589, "HighPriceYTD": 12.46, "LowPriceYTD": 3.16, "HighestClosePriceYTD": 11.91, "LowestClosePriceYTD": 3.18, "TurnoverValuePerDayYTD": 266571565.9298, "TurnoverRatePerDayYTD": 2.9488, "HighAdjustedPrice": 443.4058, "HighAdjustedPriceDate": "2015-06-12 12:00:00.000", "LowAdjustedPrice": 5.9134, "LowAdjustedPriceDate": "2005-07-18 12:00:00.000", "BetaLargeCapIndex": 1.03033, "BetaCompositeIndex": 1.290358, "BetaSYWGIndustryIndex": 1.333669, "BetaMidCapIndex": 1.226699, "BetaWeekly": 0.967382, "AdjustBetaWeekly": 0.978146, "AlphaLargeCapIndex": 0.003313, "AlphaCompositeIndex": 0.007265, "AlphaSYWGIndustryIndex": 0.007934, "AlphMidCapIndex": 0.006658, "YearVolatilityByDay": 0.03746, "YearVolatilityByWeek": 0.105703, "YearSharpeRatio": 2.097483, "MarketIndexRORArithAvg": 0.115611, "MarketIndexRORGeomMean": 0.059205, "TotalMV": 10320437133.03, "NegotiableMV": 10320437133.03, "UpdateTime": "2023-10-08 03:45:34.710", "InsertTime": "2019-08-06 01:54:29.147", "JSID": 750095151861, "TurnoverRateFreeFloat": 3.1936, "TurnoverRateFFTRW": 27.5571, "TurnoverRatePDFFTRW": 5.5114, "TurnoverRateFFTTW": 3.1936, "TurnoverRatePDFFTTW": 3.1936, "TurnoverRateFFTRM": 91.093, "TurnoverRatePDFFTRM": 4.5546, "TurnoverRateFFTTM": 68.8558, "TurnoverRatePDFFTTM": 4.5904, "TurnoverRateFFTRMThree": 431.1119, "TurnoverRateFFTRMSix": 619.3912, "TurnoverRateFFTRY": 749.4996, "TurnoverRatePDFFTRY": 3.2167, "TurnoverRateFFTYTD": 614.6755, "TurnoverRatePDFFTYTD": 5.9103}]
+
+查询结果表明:
+该查询从股票市场表现表（astockmarketquotesdb.qt_stockperformance）中返回了第一条记录。记录包含以下信息：证券内部编码（InnerCode）为1676，交易日期（TradingDay）为2019年6月24日，前收盘价（PrevClosePrice）为7.76元，开盘价（OpenPrice）为7.76元，最高价（HighPrice）为7.77元，最低价（LowPrice）为7.57元，收盘价（ClosePrice）为7.61元，成交量为19765166股，成交额为151310100元，涨跌幅（ChangePCT）为-1.933%，振幅（RangePCT）为2.5773%，换手率（TurnoverRate）为1.4574%，平均价（AvgPrice）为7.6554元，总市值（TotalMV）为10320437133.03元等。此外，还包含了多个不同时间窗口（如日、周、月、年）的成交额、成交量、涨跌幅、振幅、换手率等统计数据，以及历史最高最低调整价格、Beta系数、Alpha系数、年化波动率、夏普比率等金融指标。最后更新时间为2023年10月8日。
+
+请检查筛选条件是否存在问题，比如时间日期字段没有用DATE()或YEAR()格式化？当然，如果没问题，那么就根据结果考虑下一步；那么当前掌握的信息是否能够回答"截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 陕西省的地区内部编码（AreaInnerCode）为144370000。
+- 截止到2023年10月，陕西省共有12家上市公司。
+- `astockmarketquotesdb.qt_stockperformance`表中的日期字段为`TradingDay`。
+
+【当前阶段要获取的信息】
+- 2020年总市值超过百亿的陕西省上市公司数量。
+
+【信息所在字段】
+- 总市值信息在`astockmarketquotesdb.qt_stockperformance`表的`TotalMV`字段。
+- 上市公司的证券内部编码（InnerCode）在`constantdb.secumain`表。
+
+【筛选条件所在字段】
+- 地区筛选条件在`astockbasicinfodb.lc_stockarchives`表的`State`字段。
+- 时间筛选条件在`astockmarketquotesdb.qt_stockperformance`表的`TradingDay`字段。
+
+【SQL语句的思路】
+1. 从`astockbasicinfodb.lc_stockarchives`表中筛选出陕西省的上市公司（`State` = 144370000）。
+2. 关联`constantdb.secumain`表获取这些公司的`InnerCode`。
+3. 使用这些`InnerCode`在`astockmarketquotesdb.qt_stockperformance`表中筛选出2020年的总市值数据。
+4. 统计总市值超过百亿的公司数量。
+
+【执行SQL语句】
+根据已知的日期字段`TradingDay`，修正后的SQL语句如下：
+
+```exec_sql
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDay) = 2020
+AND c.TotalMV > 10000000000;
+```
+
+【上述SQL语句的含义】
+- `SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies`：统计不同公司的数量。
+- `FROM astockbasicinfodb.lc_stockarchives AS b`：从上市公司档案表获取数据。
+- `JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode`：关联证券主表获取证券内部编码。
+- `JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode`：关联股票表现表获取总市值数据。
+- `WHERE b.State = 144370000`：筛选陕西省的公司。
+- `AND YEAR(c.TradingDay) = 2020`：筛选2020年的数据。
+- `AND c.TotalMV > 10000000000`：筛选总市值超过百亿的公司。
+
+请执行上述SQL语句以获取2020年总市值超过百亿的陕西省上市公司数量。
+
+>>>>> 查询sql:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDay) = 2020
+AND c.TotalMV > 10000000000;
+查询结果:
+[{"NumOfCompanies": 10}]
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDay) = 2020
+AND c.TotalMV > 10000000000;
+查询结果:
+[{"NumOfCompanies": 10}]
+
+请理解查询结果
+
+>>>>> Agent【Sql_query.understand_query_result】 Said:
+查询结果表明: 在2020年，国别为144370000的上市公司中，总市值超过10亿元的公司共有10家。这里的“NumOfCompanies”字段表示满足条件的公司数量。
+
+
+>>>>> 【user】 Said:
+查询SQL:
+SELECT COUNT(DISTINCT a.InnerCode) AS NumOfCompanies
+FROM astockbasicinfodb.lc_stockarchives AS b
+JOIN constantdb.secumain AS a ON b.CompanyCode = a.CompanyCode
+JOIN astockmarketquotesdb.qt_stockperformance AS c ON a.InnerCode = c.InnerCode
+WHERE b.State = 144370000
+AND YEAR(c.TradingDay) = 2020
+AND c.TotalMV > 10000000000;
+查询结果:
+[{"NumOfCompanies": 10}]
+
+查询结果表明: 在2020年，国别为144370000的上市公司中，总市值超过10亿元的公司共有10家。这里的“NumOfCompanies”字段表示满足条件的公司数量。
+
+请检查筛选条件是否存在问题，比如时间日期字段没有用DATE()或YEAR()格式化？当然，如果没问题，那么就根据结果考虑下一步；那么当前掌握的信息是否能够回答"截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家？"？还是要继续执行下一阶段SQL查询？
+
+>>>>> Agent【Sql_query.master】 Said:
+【已知信息】
+- 陕西省的地区内部编码（AreaInnerCode）为144370000。
+- 截止到2023年10月，陕西省共有12家上市公司。
+- 2020年总市值超过百亿的陕西省上市公司数量为10家。
+
+【当前阶段要获取的信息】
+- 无需进一步获取信息，已回答问题。
+
+【信息所在字段】
+- 无需进一步查询字段。
+
+【筛选条件所在字段】
+- 无需进一步筛选条件。
+
+【SQL语句的思路】
+- 无需进一步执行SQL语句。
+
+【执行SQL语句】
+- 无需执行SQL语句。
+
+【上述SQL语句的含义】
+- 无需进一步解释SQL语句。
+
+根据查询结果，截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有10家。
+
+
+>>>>> 【user】 Said:
+充分尊重前面给出的结论，回答问题:"截止到2023年10月，陕西省的12家上市公司中，2020年总市值超过百亿的有多少家？"
+
+>>>>> Agent【Sql_query.summary】 Said:
+10家

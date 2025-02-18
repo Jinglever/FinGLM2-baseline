@@ -2069,6 +2069,82 @@
     {
       "column": "ISIN",
       "desc": "ISIN代码"
+    },
+    {
+      "column": "InnerCode",
+      "desc": "证券内部编码"
+    },
+    {
+      "column": "CompanyCode",
+      "desc": "公司代码"
+    },
+    {
+      "column": "SecuCode",
+      "desc": "证券代码"
+    },
+    {
+      "column": "ChiName",
+      "desc": "中文名称"
+    },
+    {
+      "column": "ChiNameAbbr",
+      "desc": "中文名称缩写"
+    },
+    {
+      "column": "EngName",
+      "desc": "英文名称"
+    },
+    {
+      "column": "EngNameAbbr",
+      "desc": "英文名称缩写"
+    },
+    {
+      "column": "SecuAbbr",
+      "desc": "证券简称"
+    },
+    {
+      "column": "ChiSpelling",
+      "desc": "拼音证券简称"
+    },
+    {
+      "column": "SecuMarket",
+      "desc": "证券市场；证券市场(SecuMarket)：与(CT_SystemConst)表中的DM字段关联，令LB = 201 AND DM IN (72)，得到证券市场的具体描述：72-香港联交所。"
+    },
+    {
+      "column": "SecuCategory",
+      "desc": "证券类别；证券类别(SecuCategory)：与(CT_SystemConst)表中的DM字段关联，令LB = 1177 and DM in (3,4,10,20,21,25,51,52,53,55,60,61,62,63,64,65,68,69,71,72,78,81,82)，得到证券类别的具体描述：3-H股，4-大盘，10-其他，20-衍生权证，21-股本权证，25-牛熊证，51-港股，52-合订证券，53-红筹股，55-优先股，60-基金，61-信托基金，62-ETF基金，63-参与证书，64-杠杆及反向产品，65-债务证券，68-界内证，69-美国证券(交易试验计划)，71-普通预托证券，72-优先预托证券，78-临时证券(Temporary)，81-SPAC股份，82-SPAC权证。"
+    },
+    {
+      "column": "ListedDate",
+      "desc": "上市日期"
+    },
+    {
+      "column": "ListedSector",
+      "desc": "上市板块；上市板块(ListedSector)：与(CT_SystemConst)表中的DM字段关联，令LB = 207 AND DM IN (1,4,6)，得到上市板块的具体描述：1-主板，4-其他，6-创业板。"
+    },
+    {
+      "column": "ListedState",
+      "desc": "上市状态；上市状态(ListedState)：与(CT_SystemConst)表中的DM字段关联，令LB = 1176 AND DM IN (1,5,9)，得到上市状态的具体描述：1-上市，5-终止，9-其他。"
+    },
+    {
+      "column": "FormerName",
+      "desc": "曾用名"
+    },
+    {
+      "column": "DelistingDate",
+      "desc": "退市日期"
+    },
+    {
+      "column": "TradingUnit",
+      "desc": "买卖单位(股/手)"
+    },
+    {
+      "column": "TraCurrUnit",
+      "desc": "交易货币类别；交易货币类别（TraCurrUnit）：与“系统常量表（CT_SystemConst）”中的“代码（DM）”关联，令LB=“1068”，得到“交易货币”描述：1000-美元，1100-港元，1160-日本元，1320-新加坡元，1420-人民币元，3000-欧元，3030-英镑，5010-加拿大元，6010-澳大利亚元。"
+    },
+    {
+      "column": "ISIN",
+      "desc": "ISIN代码"
     }
   ],
   "hk_stockarchives": [

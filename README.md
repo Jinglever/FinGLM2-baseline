@@ -2,6 +2,11 @@
 这个是由清华大学基础模型研究中心主办的《2024金融行业·大模型挑战赛》
 https://competitions.zhipuai.cn/matchDetail?id=120241202000000003
 
+### Python版本
+```
+Python 3.12.2
+```
+
 ### 准备环境变量
 ```
 cp .env-template .env
